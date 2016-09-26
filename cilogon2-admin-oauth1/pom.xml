@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>cilogon2</artifactId>
+        <groupId>edu.uiuc.ncsa.security</groupId>
+        <version>3.4-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <!--
+      Note: This will let you build more than one jar. Do them sequentially, i.e.,
+
+         mvn clean install -P copy
+
+      Then put the result (in the target directory) where you want it, then run it again for
+
+         mvn clean install -P approver
+
+      You should run clean in between or you may get one jar embedded in the other (and the result won't
+       work!) Run the results from the command line as e.g.
+
+       java -jar cilogon2-cp.jar
+
+       with the appropriate flags.
+    -->
+    <artifactId>cilogon2-admin-oauth1</artifactId>
+    <name>Cilogon OAuth 1.0a administrative tools</name>
+    <packaging>jar</packaging>
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>9.1-901-1.jdbc4</version>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.38</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>cilogon2-server</artifactId>
+            <groupId>edu.uiuc.ncsa.security</groupId>
+            <version>3.4-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <artifactId>cilogon2-server-loader-oauth1</artifactId>
+            <groupId>edu.uiuc.ncsa.security</groupId>
+            <version>3.4-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <artifactId>cilogon2-admin</artifactId>
+            <groupId>edu.uiuc.ncsa.security</groupId>
+            <version>3.4-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>edu.uiuc.ncsa.myproxy</groupId>
+            <artifactId>oa4mp-server-admin-oauth1</artifactId>
+            <version>3.4-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>edu.uiuc.ncsa.security</groupId>
+            <artifactId>cilogon2-server-loader-oauth1</artifactId>
+            <version>3.4-SNAPSHOT</version>
+        </dependency>
+
+    </dependencies>
+    <profiles>
+        <profile>
+            <id>cli</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <configuration>
+                            <archive>
+                                <manifest>
+                                    <addClasspath>true</addClasspath>
+                                    <mainClass>org.cilogon.oauth1.admin.CILogonCommands</mainClass>
+                                </manifest>
+                            </archive>
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
+                            <finalName>cilogon2-cli</finalName>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>make-my-jar-with-dependencies</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>single</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+
+            </build>
+        </profile>
+
+        <profile>
+            <id>copy</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <configuration>
+                            <archive>
+                                <manifest>
+                                    <addClasspath>true</addClasspath>
+                                    <mainClass>org.cilogon.oauth1.admin.CILogonCopyTool</mainClass>
+                                </manifest>
+                            </archive>
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
+                            <finalName>cilogon2-cp</finalName>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>make-my-jar-with-dependencies</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>single</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+
+            </build>
+        </profile>
+
+        <profile>
+            <id>verifier</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <configuration>
+                            <archive>
+                                <manifest>
+                                    <addClasspath>true</addClasspath>
+                                    <mainClass>org.cilogon.oauth1.admin.CILogonCopyToolVerifier</mainClass>
+                                </manifest>
+                            </archive>
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
+                            <finalName>cilogon2-cp-verifier</finalName>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>make-my-jar-with-dependencies</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>single</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+
+            </build>
+        </profile>
+
+        <profile>
+            <id>monitor</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <configuration>
+                            <archive>
+                                <manifest>
+                                    <addClasspath>true</addClasspath>
+                                    <mainClass>edu.uiuc.ncsa.myproxy.oa4mp.server.Monitor</mainClass>
+                                </manifest>
+                            </archive>
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
+                            <finalName>cilogon2-monitor</finalName>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>make-my-jar-with-dependencies</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>single</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+
+            </build>
+        </profile>
+
+    </profiles>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.14.1</version>
+                <configuration>
+                    <excludes>
+                        <exclude>**/*Test.java</exclude>
+                    </excludes>
+                    <includes>
+                        <include>**/*Suite.java</include>
+                    </includes>
+                    <forkMode>perTest</forkMode>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

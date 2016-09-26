@@ -1,0 +1,48 @@
+/**
+Really basic CSS for demo
+*/
+div#topimgfill {
+    background: transparent url('images/cilogon-gradient.jpg') repeat-y top right;
+    height: 80px;
+    width: 60%;
+    padding-bottom:  10px;
+}
+
+div#topimgfill div#topimg {
+    background: transparent url('images/cilogonLogo.png') no-repeat top left;
+    width: 273px;
+    height: 64px;
+    float: left;
+}
+/*
+div.main {
+    border: 1px solid #888;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    padding-left: 2px;
+    padding-right: 2px;
+}*/
+
+div.footer {
+    border: 1px solid #888;
+    color: #888;
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+div.footer p {
+    text-align: center;
+    font-size: x-small;
+    margin: 0px;
+}
+
+div.footer a:link {
+    color: #696;
+    text-decoration: none;
+}
+
+div.footer a:visited {
+    color: #696;
+    text-decoration: none;
+}
+

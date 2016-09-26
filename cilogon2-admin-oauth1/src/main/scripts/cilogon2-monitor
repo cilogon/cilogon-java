@@ -1,0 +1,22 @@
+# Invoke the monitor program exactly once to ping the server.
+# Fix for CIL-134, CIL-135 in place.
+
+CILOGON_ROOT=/opt/cilogon
+monitorJar=$CILOGON_ROOT/lib/cilogon2-monitor.jar
+adminCfg=$CILOGON_ROOT/etc/admin-cfg.xml
+logFile=$CILOGON_ROOT/var/log/cilogon-monitor.log
+
+DEFAULT_TARGET="monitor"
+target=${1:-$DEFAULT_TARGET}
+
+# pipe the loader message to /dev/null. Since this script eats the return code,
+# check what was returned and return the right one after touching the file
+
+java -jar $monitorJar -cfg $adminCfg -name $target &> /dev/null
+
+if [ $? -eq 0 ] ; then
+    touch /var/run/LOCALHOSTNOAUTH2
+    exit 0
+fi
+
+exit 0

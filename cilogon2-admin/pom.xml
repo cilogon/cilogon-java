@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>cilogon2</artifactId>
+        <groupId>edu.uiuc.ncsa.security</groupId>
+        <version>3.4-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <!--
+      Note: This will let you build more than one jar. Do them sequentially, i.e.,
+
+         mvn clean install -P copy
+
+      Then put the result (in the target directory) where you want it, then run it again for
+
+         mvn clean install -P approver
+
+      You should run clean in between or you may get one jar embedded in the other (and the result won't
+       work!) Run the results from the command line as e.g.
+
+       java -jar cilogon2-cp.jar
+
+       with the appropriate flags.
+    -->
+    <artifactId>cilogon2-admin</artifactId>
+    <name>Cilogon version 2 administrative tools</name>
+    <packaging>jar</packaging>
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>9.1-901-1.jdbc4</version>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.38</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>cilogon2-server</artifactId>
+            <groupId>edu.uiuc.ncsa.security</groupId>
+            <version>3.4-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <artifactId>cilogon2-server</artifactId>
+            <groupId>edu.uiuc.ncsa.security</groupId>
+            <version>3.4-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>edu.uiuc.ncsa.myproxy</groupId>
+            <artifactId>oa4mp-server-admin</artifactId>
+            <version>3.4-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.14.1</version>
+                <configuration>
+                    <excludes>
+                        <exclude>**/*Test.java</exclude>
+                    </excludes>
+                    <includes>
+                        <include>**/*Suite.java</include>
+                    </includes>
+                    <forkMode>perTest</forkMode>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>onejar-maven-plugin.googlecode.com</id>
+            <url>http://onejar-maven-plugin.googlecode.com/svn/mavenrepo</url>
+        </pluginRepository>
+    </pluginRepositories>
+
+
+</project>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>cilogon2</artifactId>
+        <groupId>edu.uiuc.ncsa.security</groupId>
+        <version>3.4-SNAPSHOT</version>
+    </parent>
+    <version>3.4-SNAPSHOT</version>
+    <name>CILogon OAuth 2 demonstration portal</name>
+    <artifactId>cilogon2-client-oauth2</artifactId>
+
+    <packaging>war</packaging>
+    <url>http://maven.apache.org</url>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>9.1-901-1.jdbc4</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.38</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>edu.uiuc.ncsa.myproxy</groupId>
+            <artifactId>oa4mp-client-api</artifactId>
+            <version>3.4-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>edu.uiuc.ncsa.myproxy</groupId>
+            <artifactId>oa4mp-client-oauth2</artifactId>
+            <version>3.4-SNAPSHOT</version>
+            <type>war</type>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.5</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>edu.uiuc.ncsa.myproxy</groupId>
+            <artifactId>oa4mp-client-loader-oauth2</artifactId>
+            <version>3.4-SNAPSHOT</version>
+        </dependency>
+<!--        <dependency>
+            <groupId>edu.uiuc.ncsa.security.delegation</groupId>
+            <artifactId>ncsa-security-oauth-1.0a</artifactId>
+            <version>3.4-SNAPSHOT</version>
+        </dependency>-->
+
+        <dependency>
+            <groupId>edu.uiuc.ncsa.security.delegation</groupId>
+            <artifactId>ncsa-security-delegation-common</artifactId>
+            <version>3.4-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <artifactId>ncsa-security-util</artifactId>
+            <groupId>edu.uiuc.ncsa.security</groupId>
+            <version>3.4-SNAPSHOT</version>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <artifactId>ncsa-security-delegation-common</artifactId>
+            <groupId>edu.uiuc.ncsa.security.delegation</groupId>
+            <version>3.4-SNAPSHOT</version>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+                <version>2.5</version>
+            </plugin>
+            <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>2.10</version>
+                </plugin>
+        </plugins>
+        <finalName>cil-oa2-client</finalName>
+    </build>
+</project>

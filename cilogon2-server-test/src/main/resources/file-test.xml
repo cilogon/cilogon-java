@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!--
+     CILogon 2 configuration. 3/21/2012.
+-->
+<config>
+    <service name="test"
+             version="1.0"
+             address="https://cilogon.org/oauth"
+             debug="true">
+        <logging
+             logFileName="/tmp/logfile.xml"
+             logName="cilogon2"
+             logSize="1000"
+             logFileCount="2"
+             debug="true"/>
+        <myproxy host="myproxy.cilogon.org" port="7512">
+            <loa name="openid" port="7516"/>
+            <loa name="http://incommonfederation.org/assurance/silver" port="7514"/>
+        </myproxy>
+        <fileStore path="/tmp/cilogon2-test">
+            <users/>
+            <archivedUsers/>
+            <identityProviders/>
+            <clients/>
+            <clientApprovals/>
+            <sequence/>
+            <transactions/>
+        </fileStore>
+        <serialStrings>
+            <token ns="http://cilogon.org/serverA/users" prefix="A"/>
+            <token ns="http://cilogon.org/serverB/users" prefix="B"/>
+            <token ns="http://cilogon.org/serverT/users" prefix="T"/>
+        </serialStrings>
+        <tokenPrefix>http://cilogon.org/serverA</tokenPrefix>
+    </service>
+</config>

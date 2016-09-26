@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>cilogon2</artifactId>
+        <groupId>edu.uiuc.ncsa.security</groupId>
+        <version>3.4-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>cilogon2-server</artifactId>
+    <name>Cilogon version 2 server</name>
+    <packaging>jar</packaging>
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <artifactId>oa4mp-server-api</artifactId>
+            <groupId>edu.uiuc.ncsa.myproxy</groupId>
+            <version>3.4-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>edu.uiuc.ncsa.myproxy</groupId>
+            <artifactId>myproxy-logon</artifactId>
+            <version>3.4-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.10</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-transaction</groupId>
+            <artifactId>commons-transaction</artifactId>
+            <version>1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.5</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>edu.uiuc.ncsa.security.delegation</groupId>
+            <artifactId>ncsa-security-delegation-common</artifactId>
+            <version>3.4-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <artifactId>ncsa-security-util</artifactId>
+            <groupId>edu.uiuc.ncsa.security</groupId>
+            <version>3.4-SNAPSHOT</version>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <artifactId>ncsa-security-delegation-common</artifactId>
+            <groupId>edu.uiuc.ncsa.security.delegation</groupId>
+            <version>3.4-SNAPSHOT</version>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.14.1</version>
+                <configuration>
+                    <excludes>
+                        <exclude>**/*Test.java</exclude>
+                        <exclude>**/*Suite.java</exclude>
+                    </excludes>
+                    <forkMode>perTest</forkMode>
+                </configuration>
+            </plugin>
+        </plugins>
+        <finalName>oauth</finalName>
+    </build>
+
+</project>

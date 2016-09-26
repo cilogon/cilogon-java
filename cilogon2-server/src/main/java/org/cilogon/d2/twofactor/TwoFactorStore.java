@@ -1,0 +1,11 @@
+package org.cilogon.d2.twofactor;
+
+import edu.uiuc.ncsa.security.core.Store;
+
+/**
+ * Marker interface required by storage API.
+ * <p>Created by Jeff Gaynor<br>
+ * on 10/18/12 at  11:05 AM
+ */
+public interface TwoFactorStore extends Store<TwoFactorInfo> {
+}

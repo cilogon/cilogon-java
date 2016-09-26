@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>7</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>cilogon2</artifactId>
+    <name>Cilogon version 2 parent module</name>
+    <version>3.4-SNAPSHOT</version>
+    <description>CILogon server code</description>
+    <groupId>edu.uiuc.ncsa.security</groupId>
+
+    <packaging>pom</packaging>
+    <modules>
+        <module>cilogon2-server</module>
+        <module>cilogon2-admin</module>
+        <module>cilogon2-server-oauth1</module>
+        <module>cilogon2-server-oauth2</module>
+        <module>cilogon2-server-test</module>
+        <module>cilogon2-server-webapp</module>
+        <module>cilogon2-admin-oauth1</module>
+        <module>cilogon2-admin-oauth2</module>
+        <module>cilogon2-server-loader-oauth2</module>
+        <module>cilogon2-server-loader-oauth1</module>
+        <module>cilogon2-client-oauth1</module>
+        <module>cilogon2-client-oauth2</module>
+    </modules>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+                <version>2.3.2</version>
+            </plugin>
+            <plugin>
+                <groupId>org.mortbay.jetty</groupId>
+                <artifactId>maven-jetty-plugin</artifactId>
+                <version>6.1.26</version>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

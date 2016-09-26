@@ -1,0 +1,57 @@
+package org.cilogon.d2.storage.impl.filestore;
+
+import edu.uiuc.ncsa.security.core.IdentifiableProvider;
+import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
+import edu.uiuc.ncsa.security.storage.FileStore;
+import edu.uiuc.ncsa.security.storage.data.MapConverter;
+import org.cilogon.d2.storage.IdentityProvider;
+import org.cilogon.d2.storage.IdentityProviderStore;
+import org.cilogon.d2.util.IDPConverter;
+
+import java.io.File;
+import java.util.Collection;
+
+/**
+ * <p>Created by Jeff Gaynor<br>
+ * on 3/8/12 at  5:17 PM
+ */
+public class IDPFileStore extends FileStore<IdentityProvider> implements IdentityProviderStore {
+    public IDPFileStore(File file, IdentifiableProvider<IdentityProvider> idpp, IDPConverter converter) {
+        super(file, idpp, converter);
+    }
+
+    public IDPFileStore(File storeDirectory, File indexDirectory, IdentifiableProvider<IdentityProvider> idpp, MapConverter converter) {
+        super(storeDirectory, indexDirectory, idpp, converter);
+    }
+
+    @Override
+    public void add(IdentityProvider idp) {
+        super.put(idp.getIdentifier(), idp);
+    }
+
+    @Override
+    public void replaceAll(Collection<IdentityProvider> idps) {
+        clear();
+        for (IdentityProvider x : idps) {
+            add(x);
+        }
+    }
+
+    @Override
+    public void add(Collection<? extends IdentityProvider> idps) {
+        for (IdentityProvider idp : idps) {
+            if (!containsKey(idp)) {
+                add(idp);
+            }
+        }
+    }
+
+    @Override
+    public boolean hasIdp(String idp) {
+        IdentityProvider x = get(BasicIdentifier.newID(idp));
+        if (x == null) {
+            return false;
+        }
+        return x.getIdentifierString().equals(idp);
+    }
+}
