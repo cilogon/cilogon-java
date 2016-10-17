@@ -5,7 +5,7 @@
     <parent>
         <artifactId>cilogon2</artifactId>
         <groupId>edu.uiuc.ncsa.security</groupId>
-        <version>3.4-SNAPSHOT</version>
+        <version>3.3.0.2</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <!--
@@ -48,23 +48,23 @@
         <dependency>
             <artifactId>cilogon2-server</artifactId>
             <groupId>edu.uiuc.ncsa.security</groupId>
-            <version>3.4-SNAPSHOT</version>
+            <version>3.3.0.2</version>
         </dependency>
 
         <dependency>
               <artifactId>cilogon2-server-loader-oauth2</artifactId>
               <groupId>edu.uiuc.ncsa.security</groupId>
-              <version>3.4-SNAPSHOT</version>
+              <version>3.3.0.2</version>
           </dependency>
         <dependency>
             <artifactId>cilogon2-admin</artifactId>
             <groupId>edu.uiuc.ncsa.security</groupId>
-            <version>3.4-SNAPSHOT</version>
+            <version>3.3.0.2</version>
         </dependency>
         <dependency>
             <groupId>edu.uiuc.ncsa.myproxy</groupId>
             <artifactId>oa4mp-server-admin-oauth2</artifactId>
-            <version>3.4-SNAPSHOT</version>
+            <version>3.3.0.2</version>
         </dependency>
     </dependencies>
     <profiles>
