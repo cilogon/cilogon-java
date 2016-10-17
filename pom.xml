@@ -8,7 +8,7 @@
         <version>7</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
+     <!-- ohai version test -->
     <artifactId>cilogon2</artifactId>
     <name>Cilogon version 2 parent module</name>
     <version>3.4-SNAPSHOT</version>
