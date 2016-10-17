@@ -57,8 +57,7 @@ public class DBServiceSerializer2 extends DBServiceSerializer {
     @Override
     protected void doUserSerialization(PrintWriter w, User user) throws IOException {
         super.doUserSerialization(w, user);
-        //User user1 = user;
-        OA2UserKeys uk = (OA2UserKeys) userKeys;
+        UserKeys uk =  userKeys;
         print(w, uk.affiliation(), user.getAffiliation());
         print(w, uk.displayName(), user.getDisplayName());
         print(w, uk.organizationalUnit(), user.getOrganizationalUnit());

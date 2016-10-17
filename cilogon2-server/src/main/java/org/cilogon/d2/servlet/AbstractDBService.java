@@ -322,9 +322,12 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
         String organizationalUnit = request.getParameter(OU);
 
         String useUSinDNString = getParam(request, userKeys.useUSinDN(), true);
-        boolean skipUseUSinDN = useUSinDNString == null;
-        Boolean useUSinDN = parseUseUSinDNString(useUSinDNString);
-        DebugUtil.dbg(this, "getUser: skip use US in DN= " + skipUseUSinDN);
+        Boolean useUSinDN = true; //default
+        /*if(useUSinDNString == null) {
+            getMyLogger().warn("No us_idp flag set for this request, assuming IDP is US");
+        }else{*/
+            useUSinDN = parseUseUSinDNString(useUSinDNString);
+        //}
         DebugUtil.dbg(this, "getUser: use US in DN String= " + useUSinDNString);
         if (isEmpty(idpDisplayName) && isEmpty(firstName) && isEmpty(lastName) && isEmpty(email)) {
             DebugUtil.dbg(this, "getUser:Empty information means to find user");
@@ -607,7 +610,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
        }
        if(useUSinDN.equals("0")) return false;
        if(useUSinDN.equals("1")) return true;
-       return true; // default
+      throw new IllegalArgumentException("Error: illegal value for us_idp parameter: \"" + useUSinDN + "\"");
    }
     protected void hasUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
         // this parameter might be missing, so we have to allow for that. If present, it has priority over other parameters
@@ -757,7 +760,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
                                        String affiliation,
                                        String displayName,
                                        String organizationalUnit,
-                                       boolean useUSinDN) throws IOException {
+                                       Boolean useUSinDN) throws IOException {
 
         User oldUser = findUser(userMultiKey, idp);
         DebugUtil.dbg(this, "checkAndArchiveUser: start. User=" + oldUser);
@@ -783,7 +786,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
                 oldUser.setDisplayName(displayName);
                 saveUser = true;
             }
-            if (oldUser.isUseUSinDN() != useUSinDN) {
+            if (useUSinDN!=null && oldUser.isUseUSinDN() != useUSinDN) {
                 oldUser.setUseUSinDN(useUSinDN);
                 saveUser = true;
             }
@@ -806,7 +809,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
         oldUser.setAffiliation(affiliation);
         oldUser.setDisplayName(displayName);
         oldUser.setOrganizationalUnit(organizationalUnit);
-        oldUser.setUseUSinDN(useUSinDN);
+        if(useUSinDN!=null){oldUser.setUseUSinDN(useUSinDN);}
         getUserStore().update(oldUser);
 
         writeUser(oldUser, tfi, STATUS_USER_UPDATED, response);

@@ -39,7 +39,6 @@ public class TokenTest extends TestBase {
         assert sharedSecret.startsWith(testServer);
         DateUtils.getDate(sharedSecret);
         assert sharedSecret.substring(testServer.length() + 1).startsWith(ssComponent);
-
     }
 
 

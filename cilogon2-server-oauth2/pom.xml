@@ -126,6 +126,7 @@
                     <forkMode>perTest</forkMode>
                 </configuration>
             </plugin>
+
         </plugins>
         <finalName>oauth2</finalName>
     </build>

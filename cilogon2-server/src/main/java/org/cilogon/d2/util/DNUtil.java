@@ -35,7 +35,8 @@ public class DNUtil {
 
         // Fix for CIL-172. Supports multiple LIGO IDPs.
         if (user.getIdP() != null && user.getIdP().matches(LIGO_IDP)) return LIGO_CASE;
-        if (user.getEmail().toLowerCase().endsWith("fnal.gov")) return FNL_CASE;
+        // Fix for CIL-234
+        if (user.getePPN()!= null && user.getePPN().getName().toLowerCase().endsWith("fnal.gov")) return FNL_CASE;
         return DEFAULT_CASE;
     }
 
@@ -51,7 +52,7 @@ public class DNUtil {
             case OPENID_CASE:
             case DEFAULT_CASE:
             default:
-                return getDefaultDN(user, transaction);
+                return getDefaultDN(user);
         }
     }
 
@@ -64,18 +65,9 @@ public class DNUtil {
                 user.getEmail());
     }
 
-    protected static String getDefaultDN(User user, CILServiceTransactionInterface transaction) {
-        String c_us = "/C=US"; // country string
-        boolean useCUS = true;
-        if (transaction != null) {
-            DebugUtil.dbg(DNUtil.class,"getDefaultDN:LOA=" + transaction.getLoa());
-            DebugUtil.dbg(DNUtil.class,"getDefaultDN:user is Use US in DN?=" + user.isUseUSinDN());
-            // Command line utilities will send along a null transaction since there is
-            // no pending request. Best we can do is assume they are in the US for now.
-            useCUS = user.isUseUSinDN();
-        }
-        DebugUtil.dbg(DNUtil.class, "getDefaultDN:Final useCUS = " + useCUS);
-        String baseString = "/DC=org/DC=cilogon" + (useCUS ? "/C=US" : "") + "/O=%s/CN=%s %s %s email=%s";
+    // Fix for CIL-320: getting DN should not depend on transaction state.
+    protected static String getDefaultDN(User user) {
+        String baseString = "/DC=org/DC=cilogon" + (user.isUseUSinDN() ? "/C=US" : "") + "/O=%s/CN=%s %s %s email=%s";
         return String.format(baseString,
                 user.getIDPName(),
                 user.getFirstName(),
