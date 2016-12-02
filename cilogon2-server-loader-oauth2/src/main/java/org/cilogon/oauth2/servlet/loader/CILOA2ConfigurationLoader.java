@@ -3,9 +3,9 @@ package org.cilogon.oauth2.servlet.loader;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.OA2ServiceTransaction;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.loader.OA2ConfigurationLoader;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.OA2SQLTransactionStoreProvider;
-import edu.uiuc.ncsa.myproxy.oa4mp.server.DSTransactionProvider;
+import edu.uiuc.ncsa.myproxy.oa4mp.server.admin.transactions.DSTransactionProvider;
+import edu.uiuc.ncsa.myproxy.oa4mp.server.admin.transactions.OA4MPIdentifierProvider;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.storage.MultiDSClientStoreProvider;
-import edu.uiuc.ncsa.myproxy.oa4mp.server.util.OA4MPIdentifierProvider;
 import edu.uiuc.ncsa.security.core.IdentifiableProvider;
 import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.configuration.Configurations;
@@ -33,7 +33,7 @@ import org.cilogon.oauth2.servlet.impl.*;
 
 import javax.inject.Provider;
 
-import static edu.uiuc.ncsa.myproxy.oa4mp.server.util.OA4MPIdentifierProvider.TRANSACTION_ID;
+import static edu.uiuc.ncsa.myproxy.oa4mp.server.admin.transactions.OA4MPIdentifierProvider.TRANSACTION_ID;
 import static edu.uiuc.ncsa.security.core.util.IdentifierProvider.SCHEME;
 import static edu.uiuc.ncsa.security.core.util.IdentifierProvider.SCHEME_SPECIFIC_PART;
 
@@ -170,7 +170,9 @@ public class CILOA2ConfigurationLoader<T extends CILogonOA2ServiceEnvironment> e
                     isRefreshTokenEnabled(),
                     isTwoFactorSupportEnabled(),
                     getMaxClientRefreshTokenLifetime(),
-                    isComputeFNAL());
+                    isComputeFNAL(),
+                    getMpp(),
+                    getMacp());
             return (T) se;
         } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
             throw new GeneralException("Error: Could not create the runtime environment", e);

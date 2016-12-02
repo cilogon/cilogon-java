@@ -3,6 +3,7 @@ package org.cilogon.oauth2.servlet.impl;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.OA2ServiceTransaction;
 import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.exceptions.NFWException;
+import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
 import edu.uiuc.ncsa.security.core.util.DebugUtil;
 import edu.uiuc.ncsa.security.delegation.token.impl.AuthorizationGrantImpl;
 import edu.uiuc.ncsa.security.oauth_2_0.OA2Client;
@@ -87,9 +88,24 @@ public class DBService2 extends AbstractDBService {
     // Fixes CIL-101
     protected void setTransactionState(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         //System.err.println(getClass().getSimpleName() + ".setTransactionState: starting");
-        DebugUtil.dbg(this,"setTransactionState: ******** NEW CALL ******** ");
+        DebugUtil.dbg(this, "setTransactionState: ******** NEW CALL ******** ");
+        String ag = req.getParameter(AUTHORIZATION_CODE);
+        DebugUtil.dbg(this, "code=" + ag);
 
-        AuthorizationGrantImpl authGrant = new AuthorizationGrantImpl(URI.create(req.getParameter(AUTHORIZATION_CODE)));
+        if (ag == null || ag.trim().length() == 0) {
+            getMyLogger().error("Warning. No auth code. Cannot complete call.");
+            writeMessage(resp, STATUS_MISSING_ARGUMENT);
+            return;
+        }
+        Identifier identifier = BasicIdentifier.newID(ag);
+        AuthorizationGrantImpl authGrant = new AuthorizationGrantImpl(URI.create(ag));
+        DebugUtil.dbg(this,"AuthGrant= " + authGrant.toString());
+        if (!getTransactionStore().containsKey(identifier)) {
+            DebugUtil.dbg(this,"Failed to get transaction for key " + identifier);
+            getMyLogger().error("The auth grant \"" + authGrant + "\" is not a key for this transaction. No transaction found.");
+            writeTransaction(null, STATUS_TRANSACTION_NOT_FOUND, resp);
+            return;
+        }
         Identifier userUID = newID(req.getParameter(userKeys.identifier()));
         if (userUID == null) {
             throw new NFWException("Missing or null user id. Cannot complete call.");
@@ -112,13 +128,21 @@ public class DBService2 extends AbstractDBService {
         // is unhandled. In particular, if a user waits a very long time before trying to get an access token,
         // their transaction may have expired and been garbage collected. Fail gracefully.
         try {
+            DebugUtil.dbg(this, "Attempting to get transaction for key=" + authGrant);
             t = (CILOA2ServiceTransaction) getTransaction(authGrant);
+            DebugUtil.dbg(this, "   Success");
         } catch (Throwable throwable) {
+            DebugUtil.dbg(this, "Failed to get transaction for key=" + authGrant + ". Reason=" + throwable.getMessage());
+
+            getMyLogger().error("Getting the transaction for auth grant \"" + authGrant + "\" failed.", throwable);
             writeTransaction(t, STATUS_TRANSACTION_NOT_FOUND, resp);
             return;
         }
         if (t == null) {
             // no transaction means there is nothing that can be done.
+            DebugUtil.dbg(this, "Got null transaction for key=" + authGrant );
+
+            getMyLogger().error("Getting the transaction for auth grant \"" + authGrant + "\" failed. No transaction found.");
             writeTransaction(t, STATUS_TRANSACTION_NOT_FOUND, resp);
             return;
         }

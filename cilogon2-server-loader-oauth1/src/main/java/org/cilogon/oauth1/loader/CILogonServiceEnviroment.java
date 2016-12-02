@@ -2,6 +2,8 @@ package org.cilogon.oauth1.loader;
 
 import edu.uiuc.ncsa.myproxy.oa4mp.server.MyProxyFacadeProvider;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.ServiceEnvironmentImpl;
+import edu.uiuc.ncsa.myproxy.oa4mp.server.admin.adminClient.AdminClientStore;
+import edu.uiuc.ncsa.myproxy.oa4mp.server.admin.permissions.PermissionsStore;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.servlet.AuthorizationServletConfig;
 import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
 import edu.uiuc.ncsa.security.delegation.server.issuers.AGIssuer;
@@ -51,7 +53,9 @@ public class CILogonServiceEnviroment extends ServiceEnvironmentImpl implements 
                                     Provider<IdentityProviderStore> idpsp,
                                     Provider<Incrementable> incp,
                                     Provider<TwoFactorStore> tfsp,
-                                    boolean computeFNAL) {
+                                    boolean computeFNAL,
+                                    Provider<PermissionsStore> permissionStoreProvider,
+                                    Provider<AdminClientStore> adminClientStoreProvider) {
         super(logger,
                 mfp,
                 tsp,
@@ -67,7 +71,9 @@ public class CILogonServiceEnviroment extends ServiceEnvironmentImpl implements 
                 constants,
                 ac,
                 usernameTransformer,
-                isPingable);
+                isPingable,
+                permissionStoreProvider,
+                adminClientStoreProvider);
         ciLogonSE = new CILogonSEImpl(ups, ausp, idpsp, incp, tfsp, computeFNAL);
     }
 

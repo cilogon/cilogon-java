@@ -1,6 +1,6 @@
 package org.cilogon.d2.util;
 
-import edu.uiuc.ncsa.myproxy.oa4mp.server.storage.keys.DSTransactionKeys;
+import edu.uiuc.ncsa.myproxy.oa4mp.server.admin.transactions.DSTransactionKeys;
 
 import static org.cilogon.d2.util.CILogonConstants.CILOGON_INFO;
 

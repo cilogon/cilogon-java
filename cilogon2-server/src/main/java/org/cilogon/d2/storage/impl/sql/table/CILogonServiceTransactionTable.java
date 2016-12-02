@@ -1,6 +1,6 @@
 package org.cilogon.d2.storage.impl.sql.table;
 
-import edu.uiuc.ncsa.myproxy.oa4mp.server.storage.sql.table.DSTransactionTable;
+import edu.uiuc.ncsa.myproxy.oa4mp.server.admin.transactions.DSTransactionTable;
 import edu.uiuc.ncsa.security.storage.sql.internals.ColumnDescriptorEntry;
 import org.cilogon.d2.util.CILTransactionKeys;
 

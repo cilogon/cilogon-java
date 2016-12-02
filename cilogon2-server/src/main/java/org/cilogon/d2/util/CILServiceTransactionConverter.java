@@ -1,6 +1,6 @@
 package org.cilogon.d2.util;
 
-import edu.uiuc.ncsa.myproxy.oa4mp.server.util.TransactionConverter;
+import edu.uiuc.ncsa.myproxy.oa4mp.server.admin.transactions.TransactionConverter;
 import edu.uiuc.ncsa.security.core.IdentifiableProvider;
 import edu.uiuc.ncsa.security.core.util.IdentifiableProviderImpl;
 import edu.uiuc.ncsa.security.delegation.server.storage.ClientStore;

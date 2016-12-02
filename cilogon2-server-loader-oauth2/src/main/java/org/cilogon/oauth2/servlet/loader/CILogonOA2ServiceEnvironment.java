@@ -1,8 +1,9 @@
 package org.cilogon.oauth2.servlet.loader;
 
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.OA2SE;
-import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.loader.LDAPConfiguration;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.MyProxyFacadeProvider;
+import edu.uiuc.ncsa.myproxy.oa4mp.server.admin.adminClient.AdminClientStore;
+import edu.uiuc.ncsa.myproxy.oa4mp.server.admin.permissions.PermissionsStore;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.servlet.AuthorizationServletConfig;
 import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
 import edu.uiuc.ncsa.security.delegation.server.issuers.AGIssuer;
@@ -12,6 +13,7 @@ import edu.uiuc.ncsa.security.delegation.server.storage.ClientApprovalStore;
 import edu.uiuc.ncsa.security.delegation.server.storage.ClientStore;
 import edu.uiuc.ncsa.security.delegation.storage.TransactionStore;
 import edu.uiuc.ncsa.security.delegation.token.TokenForge;
+import edu.uiuc.ncsa.security.oauth_2_0.server.LDAPConfiguration;
 import edu.uiuc.ncsa.security.oauth_2_0.server.ScopeHandler;
 import edu.uiuc.ncsa.security.servlet.UsernameTransformer;
 import edu.uiuc.ncsa.security.util.mail.MailUtilProvider;
@@ -63,7 +65,9 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
                                         boolean isRefreshtokenEnabled,
                                         boolean isTwoFactorSupportEnabled,
                                         long maxClientRefreshTokenLifetime,
-                                        boolean isComputeFNAL) {
+                                        boolean isComputeFNAL,
+                                        Provider<PermissionsStore> permissionsStoreProvider,
+                                        Provider<AdminClientStore> adminClientStoreProvider) {
         super(logger,
                 tsp,
                 csp,
@@ -81,6 +85,8 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
                 ac,
                 usernameTransformer,
                 isPingable,
+                permissionsStoreProvider,
+                adminClientStoreProvider,
                 clientSecretLength,
                 scopes,
                 scopeHandler,

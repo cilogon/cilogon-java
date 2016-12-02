@@ -1,6 +1,7 @@
 package org.cilogon.oauth2.servlet.impl;
 
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.servlet.LDAPScopeHandler;
+import edu.uiuc.ncsa.security.core.util.DebugUtil;
 import edu.uiuc.ncsa.security.delegation.server.ServiceTransaction;
 import edu.uiuc.ncsa.security.oauth_2_0.UserInfo;
 
@@ -17,9 +18,10 @@ public class CILOA2LDAPScopeHandler extends LDAPScopeHandler {
     @Override
     public String getSearchName(UserInfo userInfo, HttpServletRequest request, ServiceTransaction transaction) {
         String eppn = (String) userInfo.getMap().get(EPPN);
+        DebugUtil.dbg(this, "getSearchName, eppn = " + eppn);
         // This is to look in the NCSA's LDAP handler
         String username = eppn.substring(0, eppn.indexOf("@")); // take the name from the email
+ //       return eppn;
         return username;
-
     }
 }

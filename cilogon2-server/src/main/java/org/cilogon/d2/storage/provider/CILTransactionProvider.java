@@ -1,6 +1,7 @@
 package org.cilogon.d2.storage.provider;
 
-import edu.uiuc.ncsa.myproxy.oa4mp.server.DSTransactionProvider;
+
+import edu.uiuc.ncsa.myproxy.oa4mp.server.admin.transactions.DSTransactionProvider;
 import org.cilogon.d2.util.CILogonServiceTransaction;
 
 /**

@@ -2,8 +2,8 @@ package org.cilogon.oauth1.loader;
 
 import edu.uiuc.ncsa.myproxy.oa4mp.loader.OA4MPConfigurationLoader;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.ServiceEnvironmentImpl;
-import edu.uiuc.ncsa.myproxy.oa4mp.server.storage.MultiDSTransactionStoreProvider;
-import edu.uiuc.ncsa.myproxy.oa4mp.server.storage.filestore.DSFSTransactionStoreProvider;
+import edu.uiuc.ncsa.myproxy.oa4mp.server.admin.transactions.DSFSTransactionStoreProvider;
+import edu.uiuc.ncsa.myproxy.oa4mp.server.admin.transactions.MultiDSTransactionStoreProvider;
 import edu.uiuc.ncsa.security.core.configuration.Configurations;
 import edu.uiuc.ncsa.security.core.configuration.provider.MultiTypeProvider;
 import edu.uiuc.ncsa.security.core.util.IdentifiableProviderImpl;
@@ -152,7 +152,9 @@ public class CILogonConfigurationLoader<T extends ServiceEnvironmentImpl> extend
                 getMidp(),
                 getIp(),
                 getM2P(),
-                isComputeFNAL());
+                isComputeFNAL(),
+                getMpp(),
+                getMacp());
         return (T) se;
     }
 

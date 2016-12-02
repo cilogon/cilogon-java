@@ -10,7 +10,6 @@ import edu.uiuc.ncsa.security.oauth_2_0.UserInfo;
 import edu.uiuc.ncsa.security.oauth_2_0.server.OA2Claims;
 import edu.uiuc.ncsa.security.oauth_2_0.server.UnsupportedScopeException;
 import net.freeutils.charset.UTF7Charset;
-import org.cilogon.d2.storage.EduPersonPrincipleName;
 import org.cilogon.d2.storage.User;
 import org.cilogon.d2.storage.UserNotFoundException;
 import org.cilogon.oauth2.servlet.loader.CILogonOA2ServiceEnvironment;
@@ -37,6 +36,7 @@ public class CILogonScopeHandler extends BasicScopeHandler implements OA2Scopes 
     public LDAPScopeHandler getLdapScopeHandler() {
         if (ldapScopeHandler == null) {
             ldapScopeHandler = new CILOA2LDAPScopeHandler();
+            //ldapScopeHandler = new LDAPScopeHandler();
             ldapScopeHandler.setOa2SE(getOa2SE());
         }
         return ldapScopeHandler;
@@ -80,7 +80,6 @@ public class CILogonScopeHandler extends BasicScopeHandler implements OA2Scopes 
         }
         OA2ServiceTransaction t = (OA2ServiceTransaction) transaction;
 
-        //  CILOA2User user = (CILOA2User) serviceEnvironment.getUserStore().get(BasicIdentifier.newID(t.getUsername()));
         User user = getServiceEnvironment().getUserStore().get(BasicIdentifier.newID(t.getUsername()));
         if (user == null) {
             throw new UserNotFoundException("No user was found with identifier \"" + t.getUsername() + "\"");
@@ -118,7 +117,7 @@ public class CILogonScopeHandler extends BasicScopeHandler implements OA2Scopes 
             }
 
         }
-        if (getOa2SE().getLdapConfiguration().isEnabled()) {
+    /*    if (getOa2SE().getLdapConfiguration().isEnabled()) {
             // Fixes CIL-303: Invoke the NCSA LDAP handler if the user is affiliated with NCSA.
             EduPersonPrincipleName eppn = user.getePPN();
             if (eppn.getName() == null || eppn.getName().length() == 0) {
@@ -127,7 +126,9 @@ public class CILogonScopeHandler extends BasicScopeHandler implements OA2Scopes 
             if (eppn.getName().contains("ncsa.illinois.edu")) {
                 getLdapScopeHandler().process(userInfo, transaction);
             }
-        }
+        }*/
+        getLdapScopeHandler().process(userInfo, transaction);
+
         return userInfo;
     }
 
