@@ -2,6 +2,8 @@ package org.cilogon.d2.storage;
 
 import edu.uiuc.ncsa.security.storage.data.SerializationKeys;
 
+import java.util.List;
+
 /**  This is always used in conjunction with {@link org.cilogon.d2.util.UserKeys}
  *  This supplies the keys specific to archived users only -- a unique key and timestamp.
 * <p>Created by Jeff Gaynor<br>
@@ -27,4 +29,11 @@ public class ArchivedUserKeys extends SerializationKeys {
         return archivedTimestampColumn;
     }
 
+    @Override
+    public List<String> allKeys() {
+        List<String> allKeys = super.allKeys();
+        allKeys.add(archivedTimestampColumn());
+        allKeys.add(archivedUserIDColumn());
+        return allKeys;
+    }
 }

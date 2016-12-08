@@ -2,6 +2,8 @@ package org.cilogon.oauth2.servlet.impl;
 
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.OA2TransactionKeys;
 
+import java.util.List;
+
 /**
  * <p>Created by Jeff Gaynor<br>
  * on 10/8/15 at  8:30 AM
@@ -31,6 +33,13 @@ public class CILOA2TransactionKeys extends OA2TransactionKeys {
         if (0 < x.length) displayName = x[0];
         return displayName;
     }
-
-
+     @Override
+    public List<String> allKeys(){
+         List<String> allKeys = super.allKeys();
+        allKeys.add(LOA());
+        allKeys.add(affiliation());
+        allKeys.add(organizationalUnit());
+        allKeys.add(displayName());
+        return allKeys;
+    }
 }

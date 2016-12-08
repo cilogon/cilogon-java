@@ -2,6 +2,8 @@ package org.cilogon.d2.twofactor;
 
 import edu.uiuc.ncsa.security.storage.data.SerializationKeys;
 
+import java.util.List;
+
 /**
  * <p>Created by Jeff Gaynor<br>
  * on 10/18/12 at  9:25 AM
@@ -16,5 +18,11 @@ public class TwoFactorSerializationKeys extends SerializationKeys {
      public String info(String... x) {
         if (0 < x.length) info = x[0];
         return info;
+    }
+    @Override
+    public List<String> allKeys(){
+        List<String> allKeys = super.allKeys();
+        allKeys.add(info());
+        return allKeys;
     }
 }

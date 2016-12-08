@@ -2,6 +2,8 @@ package org.cilogon.d2.util;
 
 import edu.uiuc.ncsa.security.storage.data.SerializationKeys;
 
+import java.util.List;
+
 /**
  * <p>Created by Jeff Gaynor<br>
  * on 4/26/12 at  10:03 AM
@@ -46,17 +48,19 @@ public class UserKeys extends SerializationKeys {
         if (0 < x.length) eppn = x[0];
         return eppn;
     }
+
     public String eptid(String... x) {
         if (0 < x.length) eptid = x[0];
         return eptid;
     }
+
     public String openID(String... x) {
-        if (0 < x.length) openID= x[0];
+        if (0 < x.length) openID = x[0];
         return openID;
     }
 
     public String oidc(String... x) {
-        if (0 < x.length) oidc= x[0];
+        if (0 < x.length) oidc = x[0];
         return oidc;
     }
 
@@ -69,6 +73,7 @@ public class UserKeys extends SerializationKeys {
         if (0 < x.length) idp = x[0];
         return idp;
     }
+
     String affiliation = "affiliation";
 
     public String affiliation(String... x) {
@@ -112,5 +117,24 @@ public class UserKeys extends SerializationKeys {
     public String userID(String... x) {
         if (0 < x.length) userID = x[0];
         return userID;
+    }
+
+    @Override
+    public List<String> allKeys() {
+        List<String> allKeys = super.allKeys();
+        allKeys.add(email());
+        allKeys.add(firstName());
+        allKeys.add(idp());
+        allKeys.add(lastName());
+        allKeys.add(idpDisplayName());
+        allKeys.add(remoteUser());
+        allKeys.add(serialString());
+        allKeys.add(userID());
+        allKeys.add(eppn());
+        allKeys.add(eptid());
+        allKeys.add(openID());
+        allKeys.add(oidc());
+        allKeys.add(useUSinDN());
+        return allKeys;
     }
 }

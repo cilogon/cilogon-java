@@ -2,6 +2,8 @@ package org.cilogon.d2.util;
 
 import edu.uiuc.ncsa.myproxy.oa4mp.server.admin.transactions.DSTransactionKeys;
 
+import java.util.List;
+
 import static org.cilogon.d2.util.CILogonConstants.CILOGON_INFO;
 
 /**
@@ -60,5 +62,16 @@ public class CILTransactionKeys extends DSTransactionKeys {
         return complete;
     }
 
-
+    @Override
+    public List<String> allKeys(){
+        List<String> allKeys = super.allKeys();
+        allKeys.add(affiliation());
+        allKeys.add(organizationalUnit());
+        allKeys.add(LOA());
+        allKeys.add(tempCredSS());
+        allKeys.add(accessTokenSS());
+        allKeys.add(complete());
+        allKeys.add(displayName());
+        return allKeys;
+    }
 }
