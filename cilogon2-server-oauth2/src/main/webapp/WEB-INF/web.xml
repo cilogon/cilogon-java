@@ -29,6 +29,16 @@
         </web-resource-collection>
         <auth-constraint/>
     </security-constraint>-->
+
+    <servlet>
+          <servlet-name>clientServlet</servlet-name>
+          <servlet-class>edu.uiuc.ncsa.co.servlet.ClientServlet</servlet-class>
+      </servlet>
+      <servlet-mapping>
+          <servlet-name>clientServlet</servlet-name>
+          <url-pattern>/clients</url-pattern>
+      </servlet-mapping>
+
     <servlet>
         <servlet-name>initiate</servlet-name>
         <servlet-class>org.cilogon.oauth2.servlet.impl.CILOA2AuthorizedServlet</servlet-class>

@@ -1,6 +1,7 @@
 package org.cilogon.oauth2.servlet.loader;
 
-import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.OA2SE;
+import edu.uiuc.ncsa.co.ldap.LDAPStore;
+import edu.uiuc.ncsa.co.loader.COSE;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.MyProxyFacadeProvider;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.admin.adminClient.AdminClientStore;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.admin.permissions.PermissionsStore;
@@ -35,7 +36,7 @@ import java.util.List;
  * <p>Created by Jeff Gaynor<br>
  * on 3/30/15 at  12:00 PM
  */
-public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
+public class CILogonOA2ServiceEnvironment extends COSE implements CILogonSE {
     public CILogonOA2ServiceEnvironment(MyLoggingFacade logger,
                                         Provider<TransactionStore> tsp,
                                         Provider<ClientStore> csp,
@@ -67,7 +68,8 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
                                         long maxClientRefreshTokenLifetime,
                                         boolean isComputeFNAL,
                                         Provider<PermissionsStore> permissionsStoreProvider,
-                                        Provider<AdminClientStore> adminClientStoreProvider) {
+                                        Provider<AdminClientStore> adminClientStoreProvider,
+                                        Provider<LDAPStore> mldap) {
         super(logger,
                 tsp,
                 csp,
@@ -93,12 +95,7 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
                 ldapConfiguration,
                 isRefreshtokenEnabled,
                 isTwoFactorSupportEnabled,
-                maxClientRefreshTokenLifetime);
-        /*
-                       boolean twoFactorSupportEnabled,
-                 long maxClientRefreshTokenLifetime) {
-
-         */
+                maxClientRefreshTokenLifetime, mldap);
         ciLogonSE = new CILogonSEImpl(usp, ausp, idpsp, incp, tfsp, isComputeFNAL);
         if(scopeHandler instanceof CILogonScopeHandler){
             ((CILogonScopeHandler)scopeHandler).setOa2SE(this);

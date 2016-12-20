@@ -40,8 +40,9 @@
         </dependency>
         <dependency>
             <groupId>edu.uiuc.ncsa.myproxy</groupId>
-            <artifactId>oa4mp-server-loader-oauth2</artifactId>
+            <artifactId>oa4mp-co-oidc</artifactId>
             <version>3.4-SNAPSHOT</version>
+            <type>jar</type>
         </dependency>
         <dependency>
             <groupId>postgresql</groupId>

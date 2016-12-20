@@ -4,9 +4,11 @@ import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.OA2ServiceTransaction;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.servlet.BasicScopeHandler;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.servlet.LDAPScopeHandler;
 import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
+import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
 import edu.uiuc.ncsa.security.delegation.server.ServiceTransaction;
 import edu.uiuc.ncsa.security.oauth_2_0.OA2Scopes;
 import edu.uiuc.ncsa.security.oauth_2_0.UserInfo;
+import edu.uiuc.ncsa.security.oauth_2_0.server.LDAPConfiguration;
 import edu.uiuc.ncsa.security.oauth_2_0.server.OA2Claims;
 import edu.uiuc.ncsa.security.oauth_2_0.server.UnsupportedScopeException;
 import net.freeutils.charset.UTF7Charset;
@@ -21,6 +23,13 @@ import static org.cilogon.oauth2.servlet.impl.CILogonScopeHandler.CILogonClaims.
  * on 8/20/15 at  1:37 PM
  */
 public class CILogonScopeHandler extends BasicScopeHandler implements OA2Scopes {
+    LDAPConfiguration configuration;
+    MyLoggingFacade logger;
+
+    public CILogonScopeHandler(LDAPConfiguration configuration, MyLoggingFacade logger) {
+        this.configuration = configuration;
+        this.logger = logger;
+    }
 
     public interface CILogonClaims extends OA2Claims {
         String IDP = "idp";
@@ -35,9 +44,14 @@ public class CILogonScopeHandler extends BasicScopeHandler implements OA2Scopes 
 
     public LDAPScopeHandler getLdapScopeHandler() {
         if (ldapScopeHandler == null) {
-            ldapScopeHandler = new CILOA2LDAPScopeHandler();
-            //ldapScopeHandler = new LDAPScopeHandler();
-            ldapScopeHandler.setOa2SE(getOa2SE());
+            // *if* there is a global (i.e. default) server ldap configuration, create the handler.
+            if (getOa2SE().getLdapConfiguration() == null) {
+                LDAPConfiguration cfg = new LDAPConfiguration();
+                cfg.setEnabled(false);
+                ldapScopeHandler = new CILOA2LDAPScopeHandler(cfg, getOa2SE().getMyLogger());
+            }else{
+                ldapScopeHandler = new CILOA2LDAPScopeHandler(getOa2SE().getLdapConfiguration(), getOa2SE().getMyLogger());
+            }
         }
         return ldapScopeHandler;
     }
@@ -127,7 +141,9 @@ public class CILogonScopeHandler extends BasicScopeHandler implements OA2Scopes 
                 getLdapScopeHandler().process(userInfo, transaction);
             }
         }*/
-        getLdapScopeHandler().process(userInfo, transaction);
+        if (getLdapScopeHandler() != null) {
+            getLdapScopeHandler().process(userInfo, transaction);
+        }
 
         return userInfo;
     }

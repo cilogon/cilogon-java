@@ -5,6 +5,7 @@ import edu.uiuc.ncsa.myproxy.oa4mp.server.servlet.AbstractBootstrapper;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.servlet.MyProxyDelegationServlet;
 import edu.uiuc.ncsa.security.core.exceptions.MyConfigurationException;
 import edu.uiuc.ncsa.security.core.util.ConfigurationLoader;
+import edu.uiuc.ncsa.security.oauth_2_0.server.ScopeHandlerFactory;
 import edu.uiuc.ncsa.security.servlet.Initialization;
 import org.apache.commons.configuration.tree.ConfigurationNode;
 
@@ -51,6 +52,8 @@ public class CILOA2Bootstrapper extends AbstractBootstrapper {
                 e.printStackTrace();
                 throw new ServletException("Could not update table", e);
             }
+            ScopeHandlerFactory.setFactory(new CILOA2ScopeHandlerFactory());
+
             super.init();
         }
     }

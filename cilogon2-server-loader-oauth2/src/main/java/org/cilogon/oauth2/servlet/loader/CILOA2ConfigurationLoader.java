@@ -1,7 +1,7 @@
 package org.cilogon.oauth2.servlet.loader;
 
+import edu.uiuc.ncsa.co.loader.COLoader;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.OA2ServiceTransaction;
-import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.loader.OA2ConfigurationLoader;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.OA2SQLTransactionStoreProvider;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.admin.transactions.DSTransactionProvider;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.admin.transactions.OA4MPIdentifierProvider;
@@ -14,11 +14,12 @@ import edu.uiuc.ncsa.security.core.exceptions.GeneralException;
 import edu.uiuc.ncsa.security.core.util.IdentifiableProviderImpl;
 import edu.uiuc.ncsa.security.core.util.IdentifierProvider;
 import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
+import edu.uiuc.ncsa.security.delegation.server.storage.ClientStore;
+import edu.uiuc.ncsa.security.delegation.storage.Client;
 import edu.uiuc.ncsa.security.delegation.storage.TransactionStore;
 import edu.uiuc.ncsa.security.delegation.token.TokenForge;
 import edu.uiuc.ncsa.security.oauth_2_0.server.ScopeHandler;
 import edu.uiuc.ncsa.security.storage.data.MapConverter;
-import edu.uiuc.ncsa.security.storage.sql.ConnectionPool;
 import edu.uiuc.ncsa.security.storage.sql.ConnectionPoolProvider;
 import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.cilogon.d2.storage.ArchivedUser;
@@ -42,7 +43,8 @@ import static edu.uiuc.ncsa.security.core.util.IdentifierProvider.SCHEME_SPECIFI
  * <p>Created by Jeff Gaynor<br>
  * on 3/26/15 at  1:52 PM
  */
-public class CILOA2ConfigurationLoader<T extends CILogonOA2ServiceEnvironment> extends OA2ConfigurationLoader<T> implements CILogonConfiguration {
+public class CILOA2ConfigurationLoader extends COLoader implements CILogonConfiguration {
+
     CILogonConfiguration ciLogonConfiguration;
 
     public CILOA2ConfigurationLoader(ConfigurationNode node) {
@@ -128,20 +130,25 @@ public class CILOA2ConfigurationLoader<T extends CILogonOA2ServiceEnvironment> e
     protected Provider<TransactionStore> getTSP() {
         IdentifiableProvider tp = new CILST2Provider(new OA4MPIdentifierProvider(SCHEME, SCHEME_SPECIFIC_PART, TRANSACTION_ID, false));
         CILOA2TransactionKeys keys = new CILOA2TransactionKeys();
-        CILOA2TransactionConverter<CILOA2ServiceTransaction> tc = new CILOA2TransactionConverter<>(keys, tp, getTokenForgeProvider().get(), getClientStoreProvider().get());
+        CILOA2TransactionConverter<CILOA2ServiceTransaction> tc = new CILOA2TransactionConverter<>(keys,
+                tp,
+                (TokenForge)getTokenForgeProvider().get(),
+                (ClientStore<? extends Client >)getClientStoreProvider().get());
         return getTSP(tp, tc);
     }
 
     @Override
-    protected OA2SQLTransactionStoreProvider createSQLTSP(ConfigurationNode config, ConnectionPoolProvider<? extends ConnectionPool> cpp, String type, MultiDSClientStoreProvider clientStoreProvider, Provider<? extends OA2ServiceTransaction> tp, Provider<TokenForge> tfp, MapConverter converter) {
+    protected OA2SQLTransactionStoreProvider createSQLTSP(ConfigurationNode config, ConnectionPoolProvider cpp, String type, MultiDSClientStoreProvider clientStoreProvider, Provider tp, Provider tfp, MapConverter converter) {
         return new CILOA2TransactionstoreProvider(config, cpp, type, clientStoreProvider, tp, tfp, converter);
     }
 
+
+
     @Override
-    public T createInstance() {
+    public CILogonOA2ServiceEnvironment createInstance() {
         try {
             CILogonOA2ServiceEnvironment se = new CILogonOA2ServiceEnvironment(
-                    loggerProvider.get(),
+                    (MyLoggingFacade) loggerProvider.get(),
                     getTransactionStoreProvider(),
                     getClientStoreProvider(),
                     getMaxAllowedNewClientRequests(),
@@ -173,7 +180,7 @@ public class CILOA2ConfigurationLoader<T extends CILogonOA2ServiceEnvironment> e
                     isComputeFNAL(),
                     getMpp(),
                     getMacp());
-            return (T) se;
+            return  se;
         } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
             throw new GeneralException("Error: Could not create the runtime environment", e);
         }
@@ -182,8 +189,9 @@ public class CILOA2ConfigurationLoader<T extends CILogonOA2ServiceEnvironment> e
     @Override
     public ScopeHandler getScopeHandler() throws ClassNotFoundException, IllegalAccessException, InstantiationException {
         if (scopeHandler == null) {
-            CILogonScopeHandler ciLogonScopeHandler= new CILogonScopeHandler();
+            CILogonScopeHandler ciLogonScopeHandler= new CILogonScopeHandler(this.getLdapConfiguration(), (MyLoggingFacade) loggerProvider.get());
             ciLogonScopeHandler.setScopes(getScopes());
+
             scopeHandler = ciLogonScopeHandler;
         }
         return scopeHandler;

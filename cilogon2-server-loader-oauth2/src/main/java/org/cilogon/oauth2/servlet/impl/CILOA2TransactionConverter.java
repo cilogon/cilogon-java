@@ -2,7 +2,6 @@ package org.cilogon.oauth2.servlet.impl;
 
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.OA2TConverter;
 import edu.uiuc.ncsa.security.core.IdentifiableProvider;
-import edu.uiuc.ncsa.security.core.util.DebugUtil;
 import edu.uiuc.ncsa.security.delegation.server.storage.ClientStore;
 import edu.uiuc.ncsa.security.delegation.storage.Client;
 import edu.uiuc.ncsa.security.delegation.token.TokenForge;
@@ -13,7 +12,10 @@ import edu.uiuc.ncsa.security.storage.data.ConversionMap;
  * on 10/12/15 at  12:03 PM
  */
 public class CILOA2TransactionConverter<V extends CILOA2ServiceTransaction> extends OA2TConverter<V> {
-    public CILOA2TransactionConverter(CILOA2TransactionKeys keys, IdentifiableProvider<V> identifiableProvider, TokenForge tokenForge, ClientStore<? extends Client> cs) {
+    public CILOA2TransactionConverter(CILOA2TransactionKeys keys,
+                                      IdentifiableProvider<V> identifiableProvider,
+                                      TokenForge tokenForge,
+                                      ClientStore<? extends Client> cs) {
         super(keys, identifiableProvider, tokenForge, cs);
     }
     CILOA2TransactionKeys getTK(){
