@@ -17,7 +17,7 @@ import static org.cilogon.d2.servlet.AbstractDBService.*;
  * <p>Created by Jeff Gaynor<br>
  * on 2/9/15 at  9:55 AM
  */
-public class CILogonExceptionHander implements ExceptionHandler {
+public class CILogonExceptionHandler implements ExceptionHandler {
     MyLoggingFacade logger;
 
     @Override
@@ -27,7 +27,7 @@ public class CILogonExceptionHander implements ExceptionHandler {
 
     AbstractDBService dbServlet;
 
-    public CILogonExceptionHander(AbstractDBService dbServlet, MyLoggingFacade logger) {
+    public CILogonExceptionHandler(AbstractDBService dbServlet, MyLoggingFacade logger) {
         this.logger = logger;
         this.dbServlet = dbServlet;
     }
