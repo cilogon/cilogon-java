@@ -93,16 +93,21 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
     public static final int STATUS_USER_UPDATED = 0x4;
     public static final int STATUS_USER_NOT_FOUND = 0x6;
     public static final int STATUS_USER_EXISTS = 0x8;
+    /*
+     */
     public static final int STATUS_USER_EXISTS_ERROR = 0xFFFA1;
     public static final int STATUS_USER_NOT_FOUND_ERROR = 0xFFFA3;
     public static final int STATUS_TRANSACTION_NOT_FOUND = 0xFFFA5;
     public static final int STATUS_IDP_SAVE_FAILED = 0xFFFA7;
     public static final int STATUS_DUPLICATE_ARGUMENT = 0xFFFF1;
     public static final int STATUS_INTERNAL_ERROR = 0xFFFF3; // was "database failure"
+    public static final int STATUS_SAVE_IDP_FAILED = 0xFFFF5;
     public static final int STATUS_MALFORMED_INPUT = 0xFFFF7;
     public static final int STATUS_MISSING_ARGUMENT = 0xFFFF9;
     public static final int STATUS_NO_REMOTE_USER = 0xFFFFB;
     public static final int STATUS_NO_IDENTITY_PROVIDER = 0xFFFFD;
+    public static final int STATUS_CLIENT_NOT_FOUND = 0xFFFFF;
+    public static final int STATUS_EPTID_MISMATCH = 0x100001;
 
 
     /**
@@ -122,7 +127,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
     @Override
     public void init() throws ServletException {
         super.init();
-        setExceptionHandler(new CILogonExceptionHander(this, getMyLogger()));
+        setExceptionHandler(new CILogonExceptionHandler(this, getMyLogger()));
     }
 
     @Override
@@ -326,7 +331,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
         /*if(useUSinDNString == null) {
             getMyLogger().warn("No us_idp flag set for this request, assuming IDP is US");
         }else{*/
-            useUSinDN = parseUseUSinDNString(useUSinDNString);
+        useUSinDN = parseUseUSinDNString(useUSinDNString);
         //}
         DebugUtil.dbg(this, "getUser: use US in DN String= " + useUSinDNString);
         if (isEmpty(idpDisplayName) && isEmpty(firstName) && isEmpty(lastName) && isEmpty(email)) {
@@ -604,14 +609,15 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
         writeUser(user, STATUS_NEW_USER, response);
     }
 
-   protected Boolean parseUseUSinDNString(String useUSinDN){
-       if(useUSinDN == null){
-           return null;
-       }
-       if(useUSinDN.equals("0")) return false;
-       if(useUSinDN.equals("1")) return true;
-      throw new IllegalArgumentException("Error: illegal value for us_idp parameter: \"" + useUSinDN + "\"");
-   }
+    protected Boolean parseUseUSinDNString(String useUSinDN) {
+        if (useUSinDN == null) {
+            return null;
+        }
+        if (useUSinDN.equals("0")) return false;
+        if (useUSinDN.equals("1")) return true;
+        throw new IllegalArgumentException("Error: illegal value for us_idp parameter: \"" + useUSinDN + "\"");
+    }
+
     protected void hasUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
         // this parameter might be missing, so we have to allow for that. If present, it has priority over other parameters
         String useruidString = getParam(request, userKeys.identifier(), true);
@@ -713,7 +719,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
                 u.setePPN(k.getEppn());
                 if (u.hasEPTID()) {
                     if (!u.getePTID().equals(k.getEptid())) {
-                        throw new NFWException("Error: both the user and the requested key have different EPTIDs " +
+                        throw new EPTIDMismatchException("Error: both the user and the requested key have different EPTIDs " +
                                 "This indicates an internally inconsistent state in this user.");
                     }
                 }
@@ -786,7 +792,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
                 oldUser.setDisplayName(displayName);
                 saveUser = true;
             }
-            if (useUSinDN!=null && oldUser.isUseUSinDN() != useUSinDN) {
+            if (useUSinDN != null && oldUser.isUseUSinDN() != useUSinDN) {
                 oldUser.setUseUSinDN(useUSinDN);
                 saveUser = true;
             }
@@ -809,7 +815,9 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
         oldUser.setAffiliation(affiliation);
         oldUser.setDisplayName(displayName);
         oldUser.setOrganizationalUnit(organizationalUnit);
-        if(useUSinDN!=null){oldUser.setUseUSinDN(useUSinDN);}
+        if (useUSinDN != null) {
+            oldUser.setUseUSinDN(useUSinDN);
+        }
         getUserStore().update(oldUser);
 
         writeUser(oldUser, tfi, STATUS_USER_UPDATED, response);
@@ -872,6 +880,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
      * This would be better names as <code>addIdps</code> since it does not remove any IDPs. In point of
      * fact, it will make a diff of the argument and what is currently stored. Only new entries are stored.
      * This deletes nothing ever. The name is left from an earlier version
+     *
      * @param request
      * @param response
      * @throws IOException

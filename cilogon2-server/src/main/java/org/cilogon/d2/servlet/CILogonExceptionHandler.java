@@ -48,6 +48,9 @@ public class CILogonExceptionHandler implements ExceptionHandler {
             return;
         }
 
+        if(t instanceof EPTIDMismatchException){
+            dbServlet.writeMessage(response, STATUS_EPTID_MISMATCH);
+        }
         dbServlet.writeMessage(response, STATUS_INTERNAL_ERROR);
         dbServlet.error("There was an internal error: " + t.getMessage());
         if (dbServlet.isDebugOn()) {

@@ -17,6 +17,7 @@ import edu.uiuc.ncsa.security.delegation.token.TokenForge;
 import edu.uiuc.ncsa.security.oauth_2_0.server.LDAPConfiguration;
 import edu.uiuc.ncsa.security.oauth_2_0.server.ScopeHandler;
 import edu.uiuc.ncsa.security.servlet.UsernameTransformer;
+import edu.uiuc.ncsa.security.util.jwk.JSONWebKeys;
 import edu.uiuc.ncsa.security.util.mail.MailUtilProvider;
 import org.cilogon.d2.storage.IdentityProviderStore;
 import org.cilogon.d2.storage.UserStore;
@@ -69,7 +70,8 @@ public class CILogonOA2ServiceEnvironment extends COSE implements CILogonSE {
                                         boolean isComputeFNAL,
                                         Provider<PermissionsStore> permissionsStoreProvider,
                                         Provider<AdminClientStore> adminClientStoreProvider,
-                                        Provider<LDAPStore> mldap) {
+                                        Provider<LDAPStore> mldap,
+                                        JSONWebKeys jsonWebKeys) {
         super(logger,
                 tsp,
                 csp,
@@ -95,7 +97,8 @@ public class CILogonOA2ServiceEnvironment extends COSE implements CILogonSE {
                 ldapConfiguration,
                 isRefreshtokenEnabled,
                 isTwoFactorSupportEnabled,
-                maxClientRefreshTokenLifetime, mldap);
+                maxClientRefreshTokenLifetime, mldap,
+                jsonWebKeys);
         ciLogonSE = new CILogonSEImpl(usp, ausp, idpsp, incp, tfsp, isComputeFNAL);
         if(scopeHandler instanceof CILogonScopeHandler){
             ((CILogonScopeHandler)scopeHandler).setOa2SE(this);
