@@ -37,6 +37,7 @@ public class CILogonScopeHandler extends BasicScopeHandler implements OA2Scopes 
         String EPPN = "eppn";
         String EPTID = "eptid";
         String OPENID = "openid";
+        String OIDC = "oidc";
         String OU = "ou";
         String AFFILIATION = "affiliation";
 
@@ -49,7 +50,7 @@ public class CILogonScopeHandler extends BasicScopeHandler implements OA2Scopes 
                 LDAPConfiguration cfg = new LDAPConfiguration();
                 cfg.setEnabled(false);
                 ldapScopeHandler = new CILOA2LDAPScopeHandler(cfg, getOa2SE().getMyLogger());
-            }else{
+            } else {
                 ldapScopeHandler = new CILOA2LDAPScopeHandler(getOa2SE().getLdapConfiguration(), getOa2SE().getMyLogger());
             }
         }
@@ -118,6 +119,11 @@ public class CILogonScopeHandler extends BasicScopeHandler implements OA2Scopes 
             }
             if (user.hasOpenID()) {
                 userInfo.getMap().put(OPENID, user.getOpenID().getName());
+            }
+
+            if (user.hasOpenIDConnect()) {
+                // Fixes CIL-365
+                userInfo.getMap().put(OIDC, user.getOpenIDConnect().getName());
             }
 
             if (user.getOrganizationalUnit() != null) {

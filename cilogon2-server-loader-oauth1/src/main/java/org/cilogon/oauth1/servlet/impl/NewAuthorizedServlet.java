@@ -2,8 +2,10 @@ package org.cilogon.oauth1.servlet.impl;
 
 import edu.uiuc.ncsa.myproxy.oa4mp.server.ServiceConstantKeys;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.servlet.AuthorizedServlet;
+import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.exceptions.GeneralException;
 import edu.uiuc.ncsa.security.core.exceptions.NotImplementedException;
+import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
 import edu.uiuc.ncsa.security.delegation.server.ServiceTransaction;
 import edu.uiuc.ncsa.security.delegation.server.request.IssuerResponse;
 import edu.uiuc.ncsa.security.delegation.token.AccessToken;
@@ -145,7 +147,8 @@ public class NewAuthorizedServlet extends AuthorizedServlet {
         CILogonPP ciLogonPP = (CILogonPP) p;
         CILogonServiceTransaction trans = (CILogonServiceTransaction) super.getAndCheckTransaction(p);
         URI uid = URI.create(ciLogonPP.userId);
-        if (!getUserStore().containsKey(uid)) {
+        Identifier uid2 = BasicIdentifier.newID(uid);
+        if (!getUserStore().containsKey(uid2)) {
             throw new ServletException("Error: unknown user id \"" + uid + "\"");
         }
         if (trans.isComplete()) {
