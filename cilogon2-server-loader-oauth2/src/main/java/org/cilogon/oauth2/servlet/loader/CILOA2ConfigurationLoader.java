@@ -182,7 +182,6 @@ public class CILOA2ConfigurationLoader extends COLoader implements CILogonConfig
                     getMacp(),
                     getMLDAP(),
                     getJSONWebKeys());
-            System.err.println("***CILOA2ConfigurationLoader startup");
             return  se;
         } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
             throw new GeneralException("Error: Could not create the runtime environment", e);
