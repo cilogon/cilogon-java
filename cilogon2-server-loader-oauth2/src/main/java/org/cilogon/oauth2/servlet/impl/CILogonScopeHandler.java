@@ -14,6 +14,7 @@ import edu.uiuc.ncsa.security.oauth_2_0.server.UnsupportedScopeException;
 import net.freeutils.charset.UTF7Charset;
 import org.cilogon.d2.storage.User;
 import org.cilogon.d2.storage.UserNotFoundException;
+import org.cilogon.d2.util.CILServiceTransactionInterface;
 import org.cilogon.oauth2.servlet.loader.CILogonOA2ServiceEnvironment;
 
 import static org.cilogon.oauth2.servlet.impl.CILogonScopeHandler.CILogonClaims.*;
@@ -40,7 +41,7 @@ public class CILogonScopeHandler extends BasicScopeHandler implements OA2Scopes 
         String OIDC = "oidc";
         String OU = "ou";
         String AFFILIATION = "affiliation";
-
+        String CERT_SUBJECT_DN = "cert_subject_dn";
     }
 
     public LDAPScopeHandler getLdapScopeHandler() {
@@ -109,6 +110,13 @@ public class CILogonScopeHandler extends BasicScopeHandler implements OA2Scopes 
         // Fixes CIL-210
 
         if (t.getScopes().contains(SCOPE_CILOGON_INFO)) {
+            // CIL-371
+            try {
+                userInfo.getMap().put(CERT_SUBJECT_DN, user.getDN((CILServiceTransactionInterface) t));
+            } catch (Throwable ttt) {
+                // Should never happen, but just in case...
+                logger.warn("Unable to determine user's DN for user " + user.getIdentifierString() + ". Message is " + ttt.getMessage());
+            }
             userInfo.getMap().put(IDP, user.getIdP());
             userInfo.getMap().put(IDP_NAME, user.getIDPName());
             if (user.hasEPPN()) {

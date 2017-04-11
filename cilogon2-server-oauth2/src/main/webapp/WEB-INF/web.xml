@@ -106,6 +106,7 @@
     </servlet-mapping>
 
 
+
     <servlet>
         <servlet-name>userInfo</servlet-name>
         <servlet-class>edu.uiuc.ncsa.myproxy.oa4mp.oauth2.servlet.UserInfoServlet</servlet-class>
