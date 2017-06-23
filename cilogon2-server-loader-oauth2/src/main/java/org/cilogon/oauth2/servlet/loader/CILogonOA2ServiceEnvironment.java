@@ -1,7 +1,7 @@
 package org.cilogon.oauth2.servlet.loader;
 
-import edu.uiuc.ncsa.co.ldap.LDAPStore;
-import edu.uiuc.ncsa.co.loader.COSE;
+import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.cm.ldap.LDAPStore;
+import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.cm.loader.COSE;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.MyProxyFacadeProvider;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.admin.adminClient.AdminClientStore;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.admin.permissions.PermissionsStore;
@@ -71,7 +71,8 @@ public class CILogonOA2ServiceEnvironment extends COSE implements CILogonSE {
                                         Provider<PermissionsStore> permissionsStoreProvider,
                                         Provider<AdminClientStore> adminClientStoreProvider,
                                         Provider<LDAPStore> mldap,
-                                        JSONWebKeys jsonWebKeys) {
+                                        JSONWebKeys jsonWebKeys,
+                                        String issuer) {
         super(logger,
                 tsp,
                 csp,
@@ -98,7 +99,8 @@ public class CILogonOA2ServiceEnvironment extends COSE implements CILogonSE {
                 isRefreshtokenEnabled,
                 isTwoFactorSupportEnabled,
                 maxClientRefreshTokenLifetime, mldap,
-                jsonWebKeys);
+                jsonWebKeys,
+                issuer);
         ciLogonSE = new CILogonSEImpl(usp, ausp, idpsp, incp, tfsp, isComputeFNAL);
         if(scopeHandler instanceof CILogonScopeHandler){
             ((CILogonScopeHandler)scopeHandler).setOa2SE(this);

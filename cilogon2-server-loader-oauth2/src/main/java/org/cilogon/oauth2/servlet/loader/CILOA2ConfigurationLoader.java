@@ -1,7 +1,7 @@
 package org.cilogon.oauth2.servlet.loader;
 
-import edu.uiuc.ncsa.co.loader.COLoader;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.OA2ServiceTransaction;
+import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.cm.loader.COLoader;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.OA2SQLTransactionStoreProvider;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.admin.transactions.DSTransactionProvider;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.admin.transactions.OA4MPIdentifierProvider;
@@ -181,7 +181,8 @@ public class CILOA2ConfigurationLoader extends COLoader implements CILogonConfig
                     getMpp(),
                     getMacp(),
                     getMLDAP(),
-                    getJSONWebKeys());
+                    getJSONWebKeys(),
+                    getIssuer());
             System.err.println("***CILOA2ConfigurationLoader startup");
             return  se;
         } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
