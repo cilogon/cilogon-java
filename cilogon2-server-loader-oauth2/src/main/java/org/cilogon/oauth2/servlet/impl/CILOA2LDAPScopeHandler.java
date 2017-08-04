@@ -1,8 +1,14 @@
 package org.cilogon.oauth2.servlet.impl;
 
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.servlet.LDAPScopeHandler;
+import edu.uiuc.ncsa.security.core.util.DebugUtil;
 import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
+import edu.uiuc.ncsa.security.delegation.server.ServiceTransaction;
+import edu.uiuc.ncsa.security.oauth_2_0.UserInfo;
 import edu.uiuc.ncsa.security.oauth_2_0.server.LDAPConfiguration;
+import edu.uiuc.ncsa.security.oauth_2_0.server.UnsupportedScopeException;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * <p>Created by Jeff Gaynor<br>
@@ -13,13 +19,35 @@ public class CILOA2LDAPScopeHandler extends LDAPScopeHandler {
         super(ldapConfiguration, myLogger);
     }
 
-/*    @Override
+    @Override
     public String getSearchName(UserInfo userInfo, HttpServletRequest request, ServiceTransaction transaction) {
-        String searchName = (String) userInfo.getMap().get(getCfg().getSearchNameKey());
+        DebugUtil.dbg(this, "Getting search name");
 
-        // This is to look in the NCSA's LDAP handler
-        String username = searchName.substring(0, searchName.indexOf("@")); // take the name from the email
- //       return eppn;
-        return username;
-    }*/
+        String searchName = (String) userInfo.getMap().get(getCfg().getSearchNameKey());
+        // NOTE this is to check if the LDAP server is the NCSA server. In this case, the username is the
+        // email address and we peel off the kerberos name to use for the query.
+        // This will be fixed in a future release to make it configurable.
+        if (getCfg().getServer().equals("ldap.ncsa.illinois.edu")) {
+            DebugUtil.dbg(this, "Getting search name for NCSA LDAP");
+
+            //searchName = (String) userInfo.getMap().get(CILogonScopeHandler.CILogonClaims.EPPN);
+            searchName = (String) userInfo.getMap().get(getCfg().getSearchNameKey());
+            searchName = searchName.substring(0, searchName.indexOf("@")); // take the name from the email
+            // This is to look in the NCSA's LDAP handler
+        }
+        DebugUtil.dbg(this,"search name=" + searchName);
+        //       return eppn;
+        return searchName;
+    }
+
+    @Override
+    public synchronized UserInfo process(UserInfo userInfo, HttpServletRequest request, ServiceTransaction transaction) throws UnsupportedScopeException {
+        DebugUtil.dbg(this,"Starting in " + getClass().getSimpleName());
+        DebugUtil.dbg(this, "server=" + getCfg().getServer() + ", cfg=" + getCfg());
+        DebugUtil.dbg(this, "enabled? " + getCfg().isEnabled());
+        DebugUtil.dbg(this,"user info=" + userInfo.getMap());
+        DebugUtil.dbg(this,"starting to process...");
+
+        return super.process(userInfo, request, transaction);
+    }
 }

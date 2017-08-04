@@ -44,19 +44,23 @@ public class CILogonScopeHandler extends BasicScopeHandler implements OA2Scopes 
         String CERT_SUBJECT_DN = "cert_subject_dn";
     }
 
-    public LDAPScopeHandler getLdapScopeHandler() {
+  /*  public LDAPScopeHandler getLdapScopeHandler() {
         if (ldapScopeHandler == null) {
+            DebugUtil.dbg(this, "Setting up LDAP Scope handlers.");
             // *if* there is a global (i.e. default) server ldap configuration, create the handler.
             if (getOa2SE().getLdapConfiguration() == null) {
+                DebugUtil.dbg(this, "*** No global configuration, setting default disabled.");
+
                 LDAPConfiguration cfg = new LDAPConfiguration();
                 cfg.setEnabled(false);
                 ldapScopeHandler = new CILOA2LDAPScopeHandler(cfg, getOa2SE().getMyLogger());
             } else {
+                DebugUtil.dbg(this, "Global configuration found");
                 ldapScopeHandler = new CILOA2LDAPScopeHandler(getOa2SE().getLdapConfiguration(), getOa2SE().getMyLogger());
             }
         }
         return ldapScopeHandler;
-    }
+    }*/
 
     LDAPScopeHandler ldapScopeHandler = null;
 
@@ -155,9 +159,12 @@ public class CILogonScopeHandler extends BasicScopeHandler implements OA2Scopes 
                 getLdapScopeHandler().process(userInfo, transaction);
             }
         }*/
-        if (getLdapScopeHandler() != null) {
+/*        if (getLdapScopeHandler() != null) {
+            DebugUtil.dbg(this, "In " + getClass().getSimpleName() + ", LDAP scope handler =" + getLdapScopeHandler().getClass().getSimpleName());
             getLdapScopeHandler().process(userInfo, transaction);
-        }
+        }else{
+            DebugUtil.dbg(this, "In " + getClass().getSimpleName() + ", ** NO ** LDAP scope handler");
+        }*/
 
         return userInfo;
     }
