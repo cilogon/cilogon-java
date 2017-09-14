@@ -5,8 +5,8 @@ import edu.uiuc.ncsa.security.core.util.DebugUtil;
 import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
 import edu.uiuc.ncsa.security.delegation.server.ServiceTransaction;
 import edu.uiuc.ncsa.security.oauth_2_0.UserInfo;
-import edu.uiuc.ncsa.security.oauth_2_0.server.LDAPConfiguration;
 import edu.uiuc.ncsa.security.oauth_2_0.server.UnsupportedScopeException;
+import edu.uiuc.ncsa.security.oauth_2_0.server.config.LDAPConfiguration;
 
 import javax.servlet.http.HttpServletRequest;
 
