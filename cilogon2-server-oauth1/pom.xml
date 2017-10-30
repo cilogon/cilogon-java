@@ -5,7 +5,7 @@
     <parent>
         <artifactId>cilogon2</artifactId>
         <groupId>edu.uiuc.ncsa.security</groupId>
-        <version>3.5-SNAPSHOT</version>
+        <version>3.5</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -37,7 +37,7 @@
         <dependency>
             <groupId>edu.uiuc.ncsa.myproxy</groupId>
             <artifactId>oa4mp-webapp</artifactId>
-            <version>3.5-SNAPSHOT</version>
+            <version>3.5</version>
             <type>war</type>
             <scope>runtime</scope>
         </dependency>
@@ -51,56 +51,56 @@
         <dependency>
             <groupId>edu.uiuc.ncsa.security</groupId>
             <artifactId>cilogon2-server-loader-oauth1</artifactId>
-            <version>3.5-SNAPSHOT</version>
+            <version>3.5</version>
         </dependency>
 
 
         <dependency>
             <groupId>edu.uiuc.ncsa.security</groupId>
             <artifactId>cilogon2-server-test</artifactId>
-            <version>3.5-SNAPSHOT</version>
+            <version>3.5</version>
         </dependency>
 
         <dependency>
             <groupId>edu.uiuc.ncsa.security</groupId>
             <artifactId>cilogon2-server-test</artifactId>
-            <version>3.5-SNAPSHOT</version>
+            <version>3.5</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>edu.uiuc.ncsa.myproxy</groupId>
             <artifactId>oa4mp-server-test</artifactId>
-            <version>3.5-SNAPSHOT</version>
+            <version>3.5</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>edu.uiuc.ncsa.myproxy</groupId>
             <artifactId>oa4mp-server-loader-oauth1</artifactId>
-            <version>3.5-SNAPSHOT</version>
+            <version>3.5</version>
         </dependency>
         <dependency>
             <groupId>edu.uiuc.ncsa.security.delegation</groupId>
             <artifactId>ncsa-security-oauth-1.0a</artifactId>
-            <version>3.5-SNAPSHOT</version>
+            <version>3.5</version>
         </dependency>
         <dependency>
             <groupId>edu.uiuc.ncsa.security.delegation</groupId>
             <artifactId>ncsa-security-delegation-common</artifactId>
-            <version>3.5-SNAPSHOT</version>
+            <version>3.5</version>
         </dependency>
         <dependency>
             <artifactId>ncsa-security-util</artifactId>
             <groupId>edu.uiuc.ncsa.security</groupId>
-            <version>3.5-SNAPSHOT</version>
+            <version>3.5</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
         <dependency>
             <artifactId>ncsa-security-delegation-common</artifactId>
             <groupId>edu.uiuc.ncsa.security.delegation</groupId>
-            <version>3.5-SNAPSHOT</version>
+            <version>3.5</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
