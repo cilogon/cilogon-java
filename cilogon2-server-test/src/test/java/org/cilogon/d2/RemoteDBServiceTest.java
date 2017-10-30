@@ -106,9 +106,9 @@ public abstract class RemoteDBServiceTest extends TestBase {
      *
      * @return
      */
-    public static CILTestStoreProvider getTSProvider() {
+    public static CILTestStoreProviderI2 getTSProvider() {
       //  return (CILTestStoreProvider) ServiceTestUtils.getPgStoreProvider();
-        return (CILTestStoreProvider) ServiceTestUtils.getMySQLStoreProvider();
+        return (CILTestStoreProviderI2) ServiceTestUtils.getMySQLStoreProvider();
         //return (CILTestStoreProvider) ServiceTestUtils.getMySQLStoreProvider();
     }
 

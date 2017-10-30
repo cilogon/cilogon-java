@@ -4,8 +4,8 @@ import edu.uiuc.ncsa.security.core.util.DateUtils;
 import edu.uiuc.ncsa.security.core.util.DoubleHashMap;
 import edu.uiuc.ncsa.security.delegation.token.*;
 import edu.uiuc.ncsa.security.util.TestBase;
+import org.cilogon.d2.CILTestStoreProviderI2;
 import org.cilogon.d2.ServiceTestUtils;
-import org.cilogon.d2.CILTestStoreProvider;
 import org.junit.Test;
 
 import java.net.URI;
@@ -17,8 +17,8 @@ import java.net.URI;
 public class TokenTest extends TestBase {
 
 
-    public CILTestStoreProvider getTSProvider() {
-        return (CILTestStoreProvider) ServiceTestUtils.getMemoryStoreProvider();
+    public CILTestStoreProviderI2 getTSProvider() {
+        return (CILTestStoreProviderI2) ServiceTestUtils.getMemoryStoreProvider();
     }
 
 

@@ -5,23 +5,22 @@ package org.cilogon.d2;
  * on 3/13/12 at  3:10 PM
  */
 
-import edu.uiuc.ncsa.myproxy.oa4mp.file.FSCAStoreTest;
-import edu.uiuc.ncsa.myproxy.oa4mp.file.FSClientTest;
-import edu.uiuc.ncsa.myproxy.oa4mp.memory.MCAStoreTest;
-import edu.uiuc.ncsa.myproxy.oa4mp.memory.MClientStoreTest;
-import edu.uiuc.ncsa.myproxy.oa4mp.mysql.MySQLCAStoreTest;
-import edu.uiuc.ncsa.myproxy.oa4mp.mysql.MySQLClientStoreTest;
-import edu.uiuc.ncsa.myproxy.oa4mp.postgres.PGCAStoreTest;
-import edu.uiuc.ncsa.myproxy.oa4mp.postgres.PGClientStoreTest;
+import edu.uiuc.ncsa.myproxy.oa4mp.NewCAStoreTest;
+import edu.uiuc.ncsa.myproxy.oa4mp.NewClientStoreTest;
+import edu.uiuc.ncsa.myproxy.oa4mp.NewTransactionTest;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.servlet.AbstractConfigurationLoader;
 import junit.framework.TestSuite;
-import org.cilogon.d2.impl.filesystem.*;
+import org.cilogon.d2.impl.filesystem.FS2FStoreTest;
+import org.cilogon.d2.impl.filesystem.FSArchivedUserStoreTest;
+import org.cilogon.d2.impl.filesystem.FSIdentityProviderStoreTest;
+import org.cilogon.d2.impl.filesystem.FSUserStoreTest;
 import org.cilogon.d2.impl.memory.MemoryArchivedUserStoreTest;
 import org.cilogon.d2.impl.memory.MemoryIDPTest;
-import org.cilogon.d2.impl.memory.MemoryTransactionStoreTest;
 import org.cilogon.d2.impl.memory.MemoryUserStoreTest;
 import org.cilogon.d2.impl.mysql.*;
-import org.cilogon.d2.impl.postgres.*;
+import org.cilogon.d2.impl.postgres.PG2FStoreTest;
+import org.cilogon.d2.impl.postgres.PGIDPStoreTest;
+import org.cilogon.d2.impl.postgres.PGUserStoreTest;
 import org.cilogon.oauth1.loader.CILogonBootstrapper;
 import org.cilogon.oauth1.loader.CILogonConfigurationLoader;
 import org.junit.BeforeClass;
@@ -44,26 +43,29 @@ import static edu.uiuc.ncsa.myproxy.oa4mp.TestUtils.findConfigNode;
         MySQL2FStoreTest.class,
         PG2FStoreTest.class,
         CILTokenTest.class,
-        FSClientTest.class,
-        FSCAStoreTest.class,
-        FSTransactionStoreTest.class,
+        NewClientStoreTest.class,
+        NewCAStoreTest.class,
+        NewTransactionTest.class,
+        //FSClientTest.class,
+        //FSCAStoreTest.class,
+        //FSTransactionStoreTest.class,
         FSUserStoreTest.class,
         FSIdentityProviderStoreTest.class,
         FSArchivedUserStoreTest.class,
-        MClientStoreTest.class,
-        MCAStoreTest.class,
-        MemoryTransactionStoreTest.class,
+        //MClientStoreTest.class,
+        //MCAStoreTest.class,
+        //MemoryTransactionStoreTest.class,
         MemoryUserStoreTest.class,
         MemoryIDPTest.class,
         MemoryArchivedUserStoreTest.class,
-        PGClientStoreTest.class,
-        PGCAStoreTest.class,
-        PGTransactionStoreTest.class,
+        //PGClientStoreTest.class,
+        //PGCAStoreTest.class,
+        //PGTransactionStoreTest.class,
         PGUserStoreTest.class,
         PGIDPStoreTest.class,
-        MySQLClientStoreTest.class,
-        MySQLCAStoreTest.class,
-        PGArchivedUserStoreTest.class,
+        //MySQLClientStoreTest.class,
+        //MySQLCAStoreTest.class,
+        //PGArchivedUserStoreTest.class,
         MySQLTransactionStoreTest.class,
         MySQLArchivedUserStoreTest.class,
         MySQLUserStoreTest.class,

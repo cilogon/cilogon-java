@@ -2,7 +2,7 @@ package org.cilogon.d2.impl;
 
 import edu.uiuc.ncsa.myproxy.oa4mp.StoreProvidable;
 import edu.uiuc.ncsa.myproxy.oa4mp.TransactionStoreTest;
-import org.cilogon.d2.CILTestStoreProvider;
+import org.cilogon.d2.CILTestStoreProviderI2;
 import org.cilogon.d2.storage.User;
 import org.cilogon.d2.util.CILogonServiceTransaction;
 import org.junit.Test;
@@ -16,8 +16,8 @@ import static org.cilogon.d2.RemoteDBServiceTest.createRU;
  * on 3/17/12 at  11:54 AM
  */
 public abstract class ServiceTransactionStoreTest extends TransactionStoreTest implements StoreProvidable {
-      public CILTestStoreProvider getCILStoreTestProvider(){
-            return (CILTestStoreProvider) getTSProvider();
+      public CILTestStoreProviderI2 getCILStoreTestProvider(){
+            return (CILTestStoreProviderI2) getTSProvider();
         }
 
     @Test

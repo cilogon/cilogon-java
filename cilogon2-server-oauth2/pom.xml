@@ -82,6 +82,14 @@
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
+     <!--   <dependency>
+            <groupId>edu.uiuc.ncsa.myproxy</groupId>
+            <artifactId>oa4mp-server-oauth2</artifactId>
+            <version>3.5-SNAPSHOT</version>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+-->
         <dependency>
             <groupId>edu.uiuc.ncsa.security.delegation</groupId>
             <artifactId>ncsa-security-oauth-2.0</artifactId>

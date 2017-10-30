@@ -22,6 +22,7 @@
         <module>cilogon2-server-oauth1</module>
         <module>cilogon2-server-oauth2</module>
         <module>cilogon2-server-test</module>
+        <module>cilogon2-server-test-oauth2</module>
         <module>cilogon2-server-webapp</module>
         <module>cilogon2-admin-oauth1</module>
         <module>cilogon2-admin-oauth2</module>

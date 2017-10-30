@@ -1,11 +1,7 @@
-package org.cilogon.d2;
+package test;
 
-/**
- * <p>Created by Jeff Gaynor<br>
- * on 3/13/12 at  3:10 PM
- */
-
-import junit.framework.TestSuite;
+import org.cilogon.d2.RemoteDBServiceTest;
+import org.cilogon.d2.ServiceTestSuite;
 import org.cilogon.d2.impl.filesystem.*;
 import org.cilogon.d2.impl.memory.MemoryArchivedUserStoreTest;
 import org.cilogon.d2.impl.memory.MemoryIDPTest;
@@ -16,21 +12,16 @@ import org.cilogon.d2.impl.postgres.PGIDPStoreTest;
 import org.cilogon.d2.impl.postgres.PGTransactionStoreTest;
 import org.cilogon.d2.impl.postgres.PGUserStoreTest;
 import org.cilogon.d2.util.TokenTest;
+import org.cilogon.oauth2.servlet.loader.CILOA2Bootstrapper;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
-
 /**
- * Dummy template. You must setup your stores in the {@link #initialize()}
- * method and inject them into {@link ServiceTestUtils}. Note that
- * if you override and of the base test classes you should include
- * them in the list of classes to test. This suite by itself will not work
- * (because it sets up no stores).
- * It is just a template.
  * <p>Created by Jeff Gaynor<br>
- * on Nov 27, 2010 at  1:28:14 PM
+ * on 10/18/17 at  4:15 PM
  */
+
 @RunWith(Suite.class)
 @Suite.SuiteClasses(value = {
 
@@ -51,11 +42,11 @@ import org.junit.runners.Suite;
         PGIDPStoreTest.class,
         PGArchivedUserStoreTest.class
 })
-public class ServiceTestSuite extends TestSuite {
+public class CILServiceTestSuite extends ServiceTestSuite {
     @BeforeClass
     public static void initialize() {
-        // Fill in initializing stores (memory, file system, various DB stores) as needed.
-        // set the store in the corresponding static ServiceTestUtils method.
-
+        CILTestSuiteInitializer testSuiteInitializer;
+        testSuiteInitializer = new CILTestSuiteInitializer(new CILOA2Bootstrapper());
+        testSuiteInitializer.init();
     }
 }

@@ -19,37 +19,40 @@ import static org.cilogon.d2.RemoteDBServiceTest.createRU;
  * <p>Created by Jeff Gaynor<br>
  * on 3/13/12 at  4:00 PM
  */
-public abstract class CILTestStoreProvider extends TestStoreProvider{
+public abstract class CILTestStoreProvider extends TestStoreProvider implements  CILTestStoreProviderI2 {
 
     SerialStrings serialStrings;
 
     protected ConfigurationNode node;
     protected AbstractConfigurationLoader loader;
 
-    public abstract AbstractConfigurationLoader getConfigLoader() ;
-
     public CILogonSE getCILSE()  {
         return (CILogonSE) getSE();
     }
 
+    @Override
     public TwoFactorStore getTwoFactorStore() throws Exception{
         return getCILSE().getTwoFactorStore();
     }
 
+    @Override
     public UserStore getUserStore() throws Exception {
         return getCILSE().getUserStore();
     }
 
+    @Override
     public IdentityProviderStore getIDP() throws Exception {
         return getCILSE().getIDPStore();
     }
 
+    @Override
     public ArchivedUserStore getArchivedUserStore() throws Exception {
         return getCILSE().getArchivedUserStore();
     }
 
 
 
+    @Override
     public Incrementable getSequence() throws Exception {
         return getCILSE().getIncrementable();
     }
@@ -60,6 +63,7 @@ public abstract class CILTestStoreProvider extends TestStoreProvider{
    do it by hand. This call assumes that that is working.
     */
 
+    @Override
     public User newUser(String firstName, String lastName) throws Exception {
         String rString = TestBase.getRandomString();
         IdentityProvider idp = new IdentityProvider(newID("urn:test/identity/provider/" + rString));
@@ -73,11 +77,13 @@ public abstract class CILTestStoreProvider extends TestStoreProvider{
         return bob;
     }
 
+    @Override
     public User newUser() throws Exception {
         return newUser("Muhammad", "Chang"); // most common two names on earth. Almost nobody has this name though...
 
     }
 
+   @Override
    public TokenForge getTokenForge() {
         return getSE().getTokenForge();
     }
