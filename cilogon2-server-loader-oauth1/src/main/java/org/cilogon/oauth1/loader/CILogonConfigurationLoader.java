@@ -153,8 +153,7 @@ public class CILogonConfigurationLoader<T extends ServiceEnvironmentImpl> extend
                 getIp(),
                 getM2P(),
                 isComputeFNAL(),
-                getMpp(),
-                getMacp());
+                getMpp());
         return (T) se;
     }
 
