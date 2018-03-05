@@ -8,6 +8,7 @@ import edu.uiuc.ncsa.security.core.exceptions.GeneralException;
 import edu.uiuc.ncsa.security.core.exceptions.NFWException;
 import edu.uiuc.ncsa.security.core.exceptions.TransactionNotFoundException;
 import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
+import edu.uiuc.ncsa.security.core.util.DateUtils;
 import edu.uiuc.ncsa.security.core.util.DebugUtil;
 import edu.uiuc.ncsa.security.delegation.server.ServiceTransaction;
 import edu.uiuc.ncsa.security.delegation.server.request.IssuerResponse;
@@ -485,6 +486,16 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
      */
     public void getPortalParameter(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         AuthorizationGrant ag = getTokenForge().getAuthorizationGrant(getParam(request, getServiceEnvironment().getConstants().get(ServiceConstantKeys.TOKEN_KEY)), null);
+        if(ag == null){
+            getMyLogger().warn("No token found. Cannot retrieve transaction");
+            throw new DBServiceException(STATUS_TRANSACTION_NOT_FOUND);
+        }
+        try {
+            DateUtils.checkTimestamp(ag.getToken());
+        }catch(Throwable t){
+            getMyLogger().warn("Expired or bad token.");
+            throw new DBServiceException(STATUS_TRANSACTION_NOT_FOUND);
+        }
         CILogonServiceTransaction t = (CILogonServiceTransaction) getTransaction(ag);
         if (t == null) {
             getMyLogger().warn("Did not find portal parameters for transaction w/token =" + ag);

@@ -72,7 +72,8 @@ public class CILogonOA2ServiceEnvironment extends COSE implements CILogonSE {
                                         Provider<AdminClientStore> adminClientStoreProvider,
                                         Provider<LDAPStore> mldap,
                                         JSONWebKeys jsonWebKeys,
-                                        String issuer) {
+                                        String issuer,
+                                        boolean isUtilServletEnabled) {
         super(logger,
                 tsp,
                 csp,
@@ -100,7 +101,8 @@ public class CILogonOA2ServiceEnvironment extends COSE implements CILogonSE {
                 isTwoFactorSupportEnabled,
                 maxClientRefreshTokenLifetime, mldap,
                 jsonWebKeys,
-                issuer);
+                issuer,
+                isUtilServletEnabled);
         ciLogonSE = new CILogonSEImpl(usp, ausp, idpsp, incp, tfsp, isComputeFNAL);
         if(scopeHandler instanceof CILogonScopeHandler){
             ((CILogonScopeHandler)scopeHandler).setOa2SE(this);

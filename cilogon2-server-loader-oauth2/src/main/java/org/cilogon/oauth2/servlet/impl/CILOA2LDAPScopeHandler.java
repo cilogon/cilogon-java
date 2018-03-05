@@ -27,9 +27,8 @@ public class CILOA2LDAPScopeHandler extends LDAPScopeHandler {
         // NOTE this is to check if the LDAP server is the NCSA server. In this case, the username is the
         // email address and we peel off the kerberos name to use for the query.
         // This will be fixed in a future release to make it configurable.
-        if (getCfg().getServer().equals("ldap.ncsa.illinois.edu")) {
+        if (getCfg().getServer().equals("ldap.ncsa.illinois.edu") && "https://idp.ncsa.illinois.edu/idp/shibboleth".equals(userInfo.getMap().get(CILogonScopeHandler.CILogonClaims.IDP))) {
             DebugUtil.dbg(this, "Getting search name for NCSA LDAP");
-
             //searchName = (String) userInfo.getMap().get(CILogonScopeHandler.CILogonClaims.EPPN);
             searchName = (String) userInfo.getMap().get(getCfg().getSearchNameKey());
             searchName = searchName.substring(0, searchName.indexOf("@")); // take the name from the email
@@ -47,6 +46,12 @@ public class CILOA2LDAPScopeHandler extends LDAPScopeHandler {
         DebugUtil.dbg(this, "enabled? " + getCfg().isEnabled());
         DebugUtil.dbg(this,"user info=" + userInfo.getMap());
         DebugUtil.dbg(this,"starting to process...");
+        String idp = String.valueOf(userInfo.getMap().get(CILogonScopeHandler.CILogonClaims.IDP));
+        DebugUtil.dbg(this,"user " + CILogonScopeHandler.CILogonClaims.IDP + " = " + idp);
+
+        if (getCfg().getServer().equals("ldap.ncsa.illinois.edu") && !("https://idp.ncsa.illinois.edu/idp/shibboleth".equals(idp))) {
+            return userInfo;
+        }
 
         return super.process(userInfo, request, transaction);
     }
