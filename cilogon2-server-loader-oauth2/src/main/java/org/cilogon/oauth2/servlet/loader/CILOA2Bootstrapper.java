@@ -10,7 +10,7 @@ import edu.uiuc.ncsa.security.core.util.ConfigurationLoader;
 import edu.uiuc.ncsa.security.core.util.DebugUtil;
 import edu.uiuc.ncsa.security.delegation.storage.Client;
 import edu.uiuc.ncsa.security.delegation.storage.impl.ClientConverter;
-import edu.uiuc.ncsa.security.oauth_2_0.server.ScopeHandlerFactory;
+import edu.uiuc.ncsa.security.oauth_2_0.server.ClaimSourceFactory;
 import edu.uiuc.ncsa.security.servlet.Initialization;
 import org.apache.commons.configuration.tree.ConfigurationNode;
 
@@ -66,8 +66,8 @@ public class CILOA2Bootstrapper extends AbstractBootstrapper {
                 e.printStackTrace();
                 throw new ServletException("Could not update table", e);
             }
-            ScopeHandlerFactory.setFactory(new CILOA2ScopeHandlerFactory());
-            DebugUtil.dbg(this, "Set scope handler factory to " + ScopeHandlerFactory.getFactory().getClass().getSimpleName());
+            ClaimSourceFactory.setFactory(new CILOA2ClaimSourceFactory());
+            DebugUtil.dbg(this, "Set scope handler factory to " + ClaimSourceFactory.getFactory().getClass().getSimpleName());
             super.init();
         }
     }

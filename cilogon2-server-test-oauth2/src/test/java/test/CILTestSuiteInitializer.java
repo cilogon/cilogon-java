@@ -28,14 +28,11 @@ public class CILTestSuiteInitializer extends TestSuiteInitializer {
             @Override
             public AbstractConfigurationLoader getConfigLoader() {
                 if (loader == null) {
-                    //loader = new OA2ConfigurationLoader(findConfigNode(namedNode));
                     loader = new CILOA2ConfigurationLoader(findConfigNode(namedNode));
                 }
                 return loader;
             }
-
         };
-
     }
 
     public void init() {

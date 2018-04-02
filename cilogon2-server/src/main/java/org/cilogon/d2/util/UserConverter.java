@@ -47,6 +47,7 @@ public class UserConverter<T extends User> extends MapConverter<T> {
         user.setDisplayName(map.getString(uk().displayName()));
         user.setOrganizationalUnit(map.getString(uk().organizationalUnit()));
         user.setUseUSinDN(map.getBoolean(uk().useUSinDN()));
+        user.setAttr_json(map.getString(uk().attr_json()));
         return user;
     }
 
@@ -70,6 +71,7 @@ public class UserConverter<T extends User> extends MapConverter<T> {
         map.put(uk().displayName(), user.getDisplayName());
         map.put(uk().organizationalUnit(), user.getOrganizationalUnit());
         map.put(uk().useUSinDN(), user.isUseUSinDN());
+        map.put(uk().attr_json(), replaceNull(user.getAttr_json()));
     }
 
     protected String replaceNull(PersonName x) {

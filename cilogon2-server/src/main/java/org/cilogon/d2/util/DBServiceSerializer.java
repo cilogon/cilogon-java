@@ -97,6 +97,7 @@ public class DBServiceSerializer {
      * @throws IOException
      */
     protected void doUserSerialization(PrintWriter w, User user) throws IOException {
+        System.err.println(getClass().getSimpleName() + ".douserSer: user=" + user);
         if (user.hasRemoteUser()) {
             print(w, userKeys.remoteUser(), user.getRemoteUser());
         }
@@ -119,11 +120,14 @@ public class DBServiceSerializer {
         print(w, userKeys.userID(), user.getIdentifier());
         print(w, userKeys.email(), user.getEmail());
         print(w, userKeys.serialString(), user.getSerialString());
-        print(w, distinguishedNameField, user.getDN(null));
+        print(w, distinguishedNameField, user.getDN(null, false));
         print(w, userKeys.creationTimestamp(), user.getCreationTime());
         print(w, userKeys.affiliation(), user.getAffiliation());
         print(w, userKeys.displayName(), user.getDisplayName());
         print(w, userKeys.organizationalUnit(), user.getOrganizationalUnit());
+        if (user.getAttr_json() != null && !user.getAttr_json().isEmpty()) {
+            print(w, userKeys.attr_json(), user.getAttr_json());
+        }
     }
 
 
@@ -313,8 +317,8 @@ public class DBServiceSerializer {
         if (head.equals(userKeys.identifier())) user.setIdentifier(BasicIdentifier.newID(tail));
         if (head.equals(distinguishedNameField)) {
             // check that is returns the same thing or something got messed up in the serialization
-            if (!(user.getDN(null).toString().equals(tail)))
-                throw new CILogonException("Error: the DN's don't match. Returned=\"" + tail + "\", computed=\"" + user.getDN(null) + "\".");
+            if (!(user.getDN(null, true).toString().equals(tail)))
+                throw new CILogonException("Error: the DN's don't match. Returned=\"" + tail + "\", computed=\"" + user.getDN(null,true) + "\".");
         }
     }
 

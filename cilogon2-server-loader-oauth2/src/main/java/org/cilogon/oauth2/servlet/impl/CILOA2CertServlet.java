@@ -20,7 +20,7 @@ public class CILOA2CertServlet extends OA2CertServlet {
             CILOA2ServiceTransaction t = (CILOA2ServiceTransaction) st;
             User user = ((CILogonOA2ServiceEnvironment) getServiceEnvironment()).getUserStore().get(newID(t.getUsername()));
 
-            String dn = user.getDN(t);
+            String dn = user.getDN(t, true);
             if (t.getMyproxyUsername() != null && 0 < t.getMyproxyUsername().length()) {
                 // append extra information. Spec says *one* blank between DN and additional info
                 dn = dn.trim() + " " + t.getMyproxyUsername();

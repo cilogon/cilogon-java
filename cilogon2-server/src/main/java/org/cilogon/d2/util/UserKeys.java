@@ -27,10 +27,16 @@ public class UserKeys extends SerializationKeys {
     public String openID = "open_id";
     public String oidc = "oidc";
     public String useUSinDN = "us_idp";
+    public String attr_json = "attr_json";
 
     public String useUSinDN(String... x) {
         if (0 < x.length) useUSinDN = x[0];
         return useUSinDN;
+    }
+
+    public String attr_json(String... x) {
+        if (0 < x.length) attr_json = x[0];
+        return attr_json;
     }
 
 

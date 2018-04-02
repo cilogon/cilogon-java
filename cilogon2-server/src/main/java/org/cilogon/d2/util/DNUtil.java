@@ -36,50 +36,67 @@ public class DNUtil {
         // Fix for CIL-172. Supports multiple LIGO IDPs.
         if (user.getIdP() != null && user.getIdP().matches(LIGO_IDP)) return LIGO_CASE;
         // Fix for CIL-234
-        if (user.getePPN()!= null && user.getePPN().getName().toLowerCase().endsWith("fnal.gov")) return FNL_CASE;
+        if (user.getePPN() != null && user.getePPN().getName().toLowerCase().endsWith("fnal.gov")) return FNL_CASE;
         return DEFAULT_CASE;
     }
 
-    public static String getDN(User user, CILServiceTransactionInterface transaction) {
+    public static String getDN(User user, CILServiceTransactionInterface transaction, boolean returnEmail) {
         switch (getCase(user)) {
             case LIGO_CASE:
-                return getLIGODN(user);
+                return getLIGODN(user, returnEmail);
             case FNL_CASE:
                 if (isComputeFNAL()) {
-                    return getFNLDN(user);
+                    return getFNLDN(user, returnEmail);
                 }
                 // If not enabled, FNAL fall through to default case;
             case OPENID_CASE:
             case DEFAULT_CASE:
             default:
-                return getDefaultDN(user);
+                return getDefaultDN(user,returnEmail);
         }
     }
 
-    protected static String getLIGODN(User user) {
-        String baseString = "/DC=org/DC=cilogon/C=US/O=LIGO/CN=%s %s %s email=%s";
+    protected static String getLIGODN(User user, boolean returnEmail) {
+        String baseString = "/DC=org/DC=cilogon/C=US/O=LIGO/CN=%s %s %s";
+        if (returnEmail) {
+            baseString = baseString + " email=%s";
+            return String.format(baseString,
+                    user.getFirstName(),
+                    user.getLastName(),
+                    user.getRemoteUser().getName(),
+                    user.getEmail());
+        }
         return String.format(baseString,
                 user.getFirstName(),
                 user.getLastName(),
-                user.getRemoteUser().getName(),
-                user.getEmail());
+                user.getRemoteUser().getName());
     }
 
     // Fix for CIL-320: getting DN should not depend on transaction state.
-    protected static String getDefaultDN(User user) {
-        String baseString = "/DC=org/DC=cilogon" + (user.isUseUSinDN() ? "/C=US" : "") + "/O=%s/CN=%s %s %s email=%s";
+    protected static String getDefaultDN(User user, boolean returnEmail) {
+        String baseString = "/DC=org/DC=cilogon" + (user.isUseUSinDN() ? "/C=US" : "") + "/O=%s/CN=%s %s %s";
+
+        if (returnEmail) {
+            baseString = baseString + " email=%s";
+            return String.format(baseString,
+                    user.getIDPName(),
+                    user.getFirstName(),
+                    user.getLastName(),
+                    user.getSerialString(),
+                    user.getEmail());
+
+        }
         return String.format(baseString,
                 user.getIDPName(),
                 user.getFirstName(),
                 user.getLastName(),
-                user.getSerialString(),
-                user.getEmail());
+                user.getSerialString());
     }
 
     protected static final int FNL_CASE = 12;
 
 
-    protected static String getFNLDN(User user) {
+    protected static String getFNLDN(User user, boolean returnEmail) {
         DebugUtil.dbg(DNUtil.class, "OA2DNUtil.getFNLDN: user=" + user);
         if (user.getOrganizationalUnit() == null) {
             throw new GeneralException("Error: No organizational unit has been specified for this user. DN cannot be generated.");
@@ -98,25 +115,50 @@ public class DNUtil {
         String id = "UID:" + eppn.substring(0, eppn.indexOf("@"));
         String rc = null;
         if (cns[0].equals("People")) {
-            String baseString = "/DC=org/DC=cilogon/C=US/O=Fermi National Accelerator Laboratory/OU=People/CN=%s %s/CN=%s email=%s";
+
+            String baseString = "/DC=org/DC=cilogon/C=US/O=Fermi National Accelerator Laboratory/OU=People/CN=%s %s/CN=%s";
+            if(returnEmail) {
+                baseString = baseString + " email=%s";
+
+                rc = String.format(baseString,
+                        user.getFirstName(),
+                        user.getLastName(),
+                        id,
+                        user.getEmail());
+                DebugUtil.dbg(DNUtil.class, "OA2DNUtil.getFNLDN: people case=" + rc);
+                return rc;
+            }
             rc = String.format(baseString,
                     user.getFirstName(),
                     user.getLastName(),
-                    id,
-                    user.getEmail());
+                    id);
             DebugUtil.dbg(DNUtil.class, "OA2DNUtil.getFNLDN: people case=" + rc);
             return rc;
+
+
         }
 
         if (cns.length == 3 && cns[0].equals("Robots")) {
-            String baseString = "/DC=org/DC=cilogon/C=US/O=Fermi National Accelerator Laboratory/OU=Robots/CN=%s/CN=%s/CN=%s %s/CN=%s email=%s";
+            String baseString = "/DC=org/DC=cilogon/C=US/O=Fermi National Accelerator Laboratory/OU=Robots/CN=%s/CN=%s/CN=%s %s/CN=%s";
+            if(returnEmail){
+                baseString = " email=%s";
+                rc = String.format(baseString,
+                        cns[1],
+                        cns[2],
+                        user.getFirstName(),
+                        user.getLastName(),
+                        id,
+                        user.getEmail());
+                DebugUtil.dbg(DNUtil.class, "OA2DNUtil.getFNLDN: robot case=" + rc);
+                return rc;
+
+            }
             rc = String.format(baseString,
                     cns[1],
                     cns[2],
                     user.getFirstName(),
                     user.getLastName(),
-                    id,
-                    user.getEmail());
+                    id);
             DebugUtil.dbg(DNUtil.class, "OA2DNUtil.getFNLDN: robot case=" + rc);
             return rc;
 

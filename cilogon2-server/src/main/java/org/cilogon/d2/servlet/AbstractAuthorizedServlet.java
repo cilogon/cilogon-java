@@ -239,7 +239,7 @@ public abstract class AbstractAuthorizedServlet extends MyProxyDelegationServlet
         User user = getUserStore().get(newID(t.getUsername()));
         String xx = " transaction=" + t.getIdentifierString() + " and client=" + t.getClient().getIdentifierString();
 
-        String dn = user.getDN(t);
+        String dn = user.getDN(t, true);
         debug("userDN=" + dn);
         debug("myproxyUsername=" + t.getMyproxyUsername());
         if (t.getMyproxyUsername() != null && 0 < t.getMyproxyUsername().length()) {

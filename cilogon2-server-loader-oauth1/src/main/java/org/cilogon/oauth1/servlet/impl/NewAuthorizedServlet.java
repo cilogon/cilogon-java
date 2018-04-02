@@ -214,7 +214,7 @@ public class NewAuthorizedServlet extends AuthorizedServlet {
         trans.setUsername(p.userId); /// this is the internal identifier for this user.
         User user = getUserStore().get(newID(p.userId));
 
-        String dn = user.getDN(trans);
+        String dn = user.getDN(trans, true);
         debug("userDN=" + dn);
         debug("myproxyUsername=" + trans.getMyproxyUsername());
         if (trans.getMyproxyUsername() != null && 0 < trans.getMyproxyUsername().length()) {

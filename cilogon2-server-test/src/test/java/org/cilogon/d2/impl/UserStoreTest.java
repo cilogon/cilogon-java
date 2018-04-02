@@ -130,7 +130,7 @@ public abstract class UserStoreTest extends CILStoreTest {
         // remove user not in the database. This should just return true since the user is no longer there.
         assert userStore.remove(BasicIdentifier.newID("mairzy:doats/and/dozy/doats")) == null;
         //assert userStore.remove("noRemoteUser", "noIdP");
-        System.out.println("Default DN test: Does this look right? \"" + bob.getDN(null) + "\"");
+        System.out.println("Default DN test: Does this look right? \"" + bob.getDN(null, true) + "\"");
         bob.setFirstName("Rinaldo");
         bob.setLastName("Sarducci");
         try {
@@ -217,7 +217,7 @@ public abstract class UserStoreTest extends CILStoreTest {
                 "first "+x, "last-"+x, x+"@email.com",
                 "affiliation" + x, "display-" + x, "urn:ou" + x);
         assert true;
-        System.out.println("OpenID DN Test: Does this look right? \"" + bob.getDN(null) + "\"");
+        System.out.println("OpenID DN Test: Does this look right? \"" + bob.getDN(null, true) + "\"");
     }
 
     @Test
@@ -227,7 +227,7 @@ public abstract class UserStoreTest extends CILStoreTest {
         bob = pStore.createAndRegisterUser(createRU("LIGO-ePPN-" + getRandomString()), DNUtil.LIGO_IDP, "LIGO", "firstName", "lastName", "my-email@ligo.org",
                 null,null,null);
         assert true;
-        System.out.println("LIGO DN test: Does this look right? \"" + bob.getDN(null) + "\"");
+        System.out.println("LIGO DN test: Does this look right? \"" + bob.getDN(null,true) + "\"");
     }
 
     @Test

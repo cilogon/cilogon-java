@@ -200,7 +200,7 @@ public class UserStoreCommands extends StoreCommands {
         User user = (User) identifiable;
         sayi(getValue(user.getLastName()) + ", " + getValue(user.getFirstName()));
         sayi("user id=" + user.getIdentifier());
-        sayi("DN=" + user.getDN(null));
+        sayi("DN=" + user.getDN(null, false));
         sayi("remote user=" + user.getRemoteUser() + ", email=" + user.getEmail());
         sayi("idp=" + user.getIdP() + ", idp name=" + user.getIDPName());
         sayi("serial string =" + user.getSerialString());

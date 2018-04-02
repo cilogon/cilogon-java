@@ -18,7 +18,7 @@ import edu.uiuc.ncsa.security.delegation.server.storage.ClientStore;
 import edu.uiuc.ncsa.security.delegation.storage.Client;
 import edu.uiuc.ncsa.security.delegation.storage.TransactionStore;
 import edu.uiuc.ncsa.security.delegation.token.TokenForge;
-import edu.uiuc.ncsa.security.oauth_2_0.server.ScopeHandler;
+import edu.uiuc.ncsa.security.oauth_2_0.server.ClaimSource;
 import edu.uiuc.ncsa.security.storage.data.MapConverter;
 import edu.uiuc.ncsa.security.storage.sql.ConnectionPoolProvider;
 import org.apache.commons.configuration.tree.ConfigurationNode;
@@ -35,8 +35,6 @@ import org.cilogon.oauth2.servlet.impl.*;
 import javax.inject.Provider;
 
 import static edu.uiuc.ncsa.myproxy.oa4mp.server.admin.transactions.OA4MPIdentifierProvider.TRANSACTION_ID;
-import static edu.uiuc.ncsa.security.core.util.IdentifierProvider.SCHEME;
-import static edu.uiuc.ncsa.security.core.util.IdentifierProvider.SCHEME_SPECIFIC_PART;
 
 /**
  * This handles the extensions to OA4MP and serves as a facade for the CILogon store loader.
@@ -128,7 +126,7 @@ public class CILOA2ConfigurationLoader extends COLoader implements CILogonConfig
 
     @Override
     protected Provider<TransactionStore> getTSP() {
-        IdentifiableProvider tp = new CILST2Provider(new OA4MPIdentifierProvider(SCHEME, SCHEME_SPECIFIC_PART, TRANSACTION_ID, false));
+        IdentifiableProvider tp = new CILST2Provider(new OA4MPIdentifierProvider(TRANSACTION_ID, false));
         CILOA2TransactionKeys keys = new CILOA2TransactionKeys();
         CILOA2TransactionConverter<CILOA2ServiceTransaction> tc = new CILOA2TransactionConverter<>(keys,
                 tp,
@@ -147,6 +145,7 @@ public class CILOA2ConfigurationLoader extends COLoader implements CILogonConfig
     @Override
     public CILogonOA2ServiceEnvironment createInstance() {
         try {
+            initialize();
             CILogonOA2ServiceEnvironment se = new CILogonOA2ServiceEnvironment(
                     (MyLoggingFacade) loggerProvider.get(),
                     getTransactionStoreProvider(),
@@ -172,7 +171,7 @@ public class CILOA2ConfigurationLoader extends COLoader implements CILogonConfig
                     getIp(),
                     getM2P(),
                     getScopes(),
-                    getScopeHandler(),
+                    getClaimSource(),
                     getLdapConfiguration(),
                     isRefreshTokenEnabled(),
                     isTwoFactorSupportEnabled(),
@@ -191,14 +190,14 @@ public class CILOA2ConfigurationLoader extends COLoader implements CILogonConfig
     }
 
     @Override
-    public ScopeHandler getScopeHandler() throws ClassNotFoundException, IllegalAccessException, InstantiationException {
-        if (scopeHandler == null) {
-            CILogonScopeHandler ciLogonScopeHandler= new CILogonScopeHandler(this.getLdapConfiguration(), (MyLoggingFacade) loggerProvider.get());
-            ciLogonScopeHandler.setScopes(getScopes());
+    public ClaimSource getClaimSource() throws ClassNotFoundException, IllegalAccessException, InstantiationException {
+        if (claimSource == null) {
+            CILogonClaimSource ciLogonClaimSource = new CILogonClaimSource(this.getLdapConfiguration(), (MyLoggingFacade) loggerProvider.get());
+            ciLogonClaimSource.setScopes(getScopes());
 
-            scopeHandler = ciLogonScopeHandler;
+            claimSource = ciLogonClaimSource;
         }
-        return scopeHandler;
+        return claimSource;
     }
 
 

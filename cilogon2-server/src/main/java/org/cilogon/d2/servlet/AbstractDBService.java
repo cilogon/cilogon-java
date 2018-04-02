@@ -80,6 +80,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
     public static final String STATUS_KEY = "status";
 
     public static final String AFFILIATION = "affiliation";
+    public static final String ATTR_JSON = "attr_json";
     public static final String DISPLAY_NAME = "display_name";
     public static final String OU = "ou";
     public static final String REGISTERED_BY_INCOMMON = " registered_by_incommon";
@@ -295,7 +296,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
     }
 
     protected void getUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        //printAllParameters(request);
+        printAllParameters(request);
         DebugUtil.dbg(this, "getUser: ******** NEW CALL ******** ");
         String useruidString = getParam(request, userKeys.identifier(), true);
         // case 1: a user id is supplied. Return information about the user.
@@ -324,6 +325,8 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
         String idpDisplayName = getParam(request, userKeys.idpDisplayName(), true);
 
         String affiliation = request.getParameter(AFFILIATION);
+        String attr_json = request.getParameter(ATTR_JSON);
+        System.err.println(getClass().getSimpleName() + ".getUser: aatr_json=" + attr_json);
         String displayName = request.getParameter(DISPLAY_NAME);
         String organizationalUnit = request.getParameter(OU);
 
@@ -359,6 +362,9 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
                     user.setOrganizationalUnit(organizationalUnit);
                 }
 
+                if(!isEmpty(attr_json)){
+                    user.setAttr_json(attr_json);
+                }
                 user.setUserMultiKey(names);
                 user.setIdP(idp);
                 user.setUseUSinDN(useUSinDN);
@@ -382,7 +388,8 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
                     affiliation,
                     displayName,
                     organizationalUnit,
-                    useUSinDN);
+                    useUSinDN,
+                    attr_json);
         } catch (UserNotFoundException unfx) {
 
             // case 3: no such user, create one.
@@ -404,6 +411,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
                             displayName,
                             organizationalUnit);
                     user3.setUseUSinDN(useUSinDN);
+                    user3.setAttr_json(attr_json);
                     getUserStore().update(user3);
                     gotOne = true;
                 } catch (InvalidUserIdException iuidx) {
@@ -777,7 +785,8 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
                                        String affiliation,
                                        String displayName,
                                        String organizationalUnit,
-                                       Boolean useUSinDN) throws IOException {
+                                       Boolean useUSinDN,
+                                       String memberOf) throws IOException {
 
         User oldUser = findUser(userMultiKey, idp);
         DebugUtil.dbg(this, "checkAndArchiveUser: start. User=" + oldUser);
@@ -799,6 +808,11 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
                 oldUser.setOrganizationalUnit(organizationalUnit);
                 saveUser = true;
             }
+            if (!checkEquals(memberOf, oldUser.getAttr_json())) {
+                oldUser.setAttr_json(memberOf);
+                saveUser = true;
+            }
+
             if (!checkEquals(displayName, oldUser.getDisplayName())) {
                 oldUser.setDisplayName(displayName);
                 saveUser = true;
@@ -828,6 +842,9 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
         oldUser.setOrganizationalUnit(organizationalUnit);
         if (useUSinDN != null) {
             oldUser.setUseUSinDN(useUSinDN);
+        }
+        if(!isEmpty(memberOf)){
+            oldUser.setAttr_json(memberOf);
         }
         getUserStore().update(oldUser);
 
@@ -879,11 +896,23 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
         String displayName = getParam(request, userKeys.displayName(), true);
         String organizationalUnit = getParam(request, userKeys.organizationalUnit(), true);
         String useUSinDNString = getParam(request, userKeys.useUSinDN(), true);
+        String memberOf = getParam(request, userKeys.attr_json(), true);
         boolean useUSinDN = true;
         if (useUSinDNString != null) {
             useUSinDN = parseUseUSinDNString(useUSinDNString);
         }
-        checkAndArchiveUser(response, userMultiKey, idp, idpDisplayName, firstName, lastName, email, affiliation, displayName, organizationalUnit, useUSinDN);
+        checkAndArchiveUser(response,
+                userMultiKey,
+                idp,
+                idpDisplayName,
+                firstName,
+                lastName,
+                email,
+                affiliation,
+                displayName,
+                organizationalUnit,
+                useUSinDN,
+                memberOf);
     }
 
 

@@ -147,7 +147,7 @@ public class DBService2 extends AbstractDBService {
             return;
         }
         if (myproxyUsername == null) {
-            t.setMyproxyUsername(user.getDN(t));
+            t.setMyproxyUsername(user.getDN(t, true));
             info("Setting myproxy username to default user DN, since no cilogon_info sent.");
         } else {
             debug("setting myproxy username");

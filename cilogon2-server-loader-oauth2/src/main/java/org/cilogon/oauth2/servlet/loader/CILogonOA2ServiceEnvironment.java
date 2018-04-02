@@ -14,7 +14,7 @@ import edu.uiuc.ncsa.security.delegation.server.storage.ClientApprovalStore;
 import edu.uiuc.ncsa.security.delegation.server.storage.ClientStore;
 import edu.uiuc.ncsa.security.delegation.storage.TransactionStore;
 import edu.uiuc.ncsa.security.delegation.token.TokenForge;
-import edu.uiuc.ncsa.security.oauth_2_0.server.ScopeHandler;
+import edu.uiuc.ncsa.security.oauth_2_0.server.ClaimSource;
 import edu.uiuc.ncsa.security.oauth_2_0.server.config.LDAPConfiguration;
 import edu.uiuc.ncsa.security.servlet.UsernameTransformer;
 import edu.uiuc.ncsa.security.util.jwk.JSONWebKeys;
@@ -26,7 +26,7 @@ import org.cilogon.d2.util.ArchivedUserStore;
 import org.cilogon.d2.util.CILogonSE;
 import org.cilogon.d2.util.CILogonSEImpl;
 import org.cilogon.d2.util.Incrementable;
-import org.cilogon.oauth2.servlet.impl.CILogonScopeHandler;
+import org.cilogon.oauth2.servlet.impl.CILogonClaimSource;
 
 import javax.inject.Provider;
 import java.util.Collection;
@@ -62,7 +62,7 @@ public class CILogonOA2ServiceEnvironment extends COSE implements CILogonSE {
                                         Provider<Incrementable> incp,
                                         Provider<TwoFactorStore> tfsp,
                                         Collection<String> scopes,
-                                        ScopeHandler scopeHandler,
+                                        ClaimSource claimSource,
                                         LDAPConfiguration ldapConfiguration,
                                         boolean isRefreshtokenEnabled,
                                         boolean isTwoFactorSupportEnabled,
@@ -95,7 +95,7 @@ public class CILogonOA2ServiceEnvironment extends COSE implements CILogonSE {
                 adminClientStoreProvider,
                 clientSecretLength,
                 scopes,
-                scopeHandler,
+                claimSource,
                 ldapConfiguration,
                 isRefreshtokenEnabled,
                 isTwoFactorSupportEnabled,
@@ -104,8 +104,8 @@ public class CILogonOA2ServiceEnvironment extends COSE implements CILogonSE {
                 issuer,
                 isUtilServletEnabled);
         ciLogonSE = new CILogonSEImpl(usp, ausp, idpsp, incp, tfsp, isComputeFNAL);
-        if(scopeHandler instanceof CILogonScopeHandler){
-            ((CILogonScopeHandler)scopeHandler).setOa2SE(this);
+        if(claimSource instanceof CILogonClaimSource){
+            ((CILogonClaimSource)claimSource).setOa2SE(this);
         }
     }
 

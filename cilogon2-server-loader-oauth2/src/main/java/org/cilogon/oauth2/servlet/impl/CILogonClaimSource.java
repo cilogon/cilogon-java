@@ -1,8 +1,7 @@
 package org.cilogon.oauth2.servlet.impl;
 
-import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.OA2ServiceTransaction;
-import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.servlet.BasicScopeHandler;
-import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.servlet.LDAPScopeHandler;
+import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.servlet.BasicClaimsSourceImpl;
+import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.servlet.LDAPClaimsSource;
 import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
 import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
 import edu.uiuc.ncsa.security.delegation.server.ServiceTransaction;
@@ -12,22 +11,23 @@ import edu.uiuc.ncsa.security.oauth_2_0.server.OA2Claims;
 import edu.uiuc.ncsa.security.oauth_2_0.server.UnsupportedScopeException;
 import edu.uiuc.ncsa.security.oauth_2_0.server.config.LDAPConfiguration;
 import net.freeutils.charset.UTF7Charset;
+import net.sf.json.JSONObject;
 import org.cilogon.d2.storage.User;
 import org.cilogon.d2.storage.UserNotFoundException;
 import org.cilogon.d2.util.CILServiceTransactionInterface;
 import org.cilogon.oauth2.servlet.loader.CILogonOA2ServiceEnvironment;
 
-import static org.cilogon.oauth2.servlet.impl.CILogonScopeHandler.CILogonClaims.*;
+import static org.cilogon.oauth2.servlet.impl.CILogonClaimSource.CILogonClaims.*;
 
 /**
  * <p>Created by Jeff Gaynor<br>
  * on 8/20/15 at  1:37 PM
  */
-public class CILogonScopeHandler extends BasicScopeHandler implements OA2Scopes {
+public class CILogonClaimSource extends BasicClaimsSourceImpl implements OA2Scopes {
     LDAPConfiguration configuration;
     MyLoggingFacade logger;
 
-    public CILogonScopeHandler(LDAPConfiguration configuration, MyLoggingFacade logger) {
+    public CILogonClaimSource(LDAPConfiguration configuration, MyLoggingFacade logger) {
         this.configuration = configuration;
         this.logger = logger;
     }
@@ -41,28 +41,12 @@ public class CILogonScopeHandler extends BasicScopeHandler implements OA2Scopes 
         String OIDC = "oidc";
         String OU = "ou";
         String AFFILIATION = "affiliation";
+        String AUTHENTICATION_CONTEXT_CLASS_REFERENCE = "acr";
         String CERT_SUBJECT_DN = "cert_subject_dn";
     }
 
-  /*  public LDAPScopeHandler getLdapScopeHandler() {
-        if (ldapScopeHandler == null) {
-            DebugUtil.dbg(this, "Setting up LDAP Scope handlers.");
-            // *if* there is a global (i.e. default) server ldap configuration, create the handler.
-            if (getOa2SE().getLdapConfiguration() == null) {
-                DebugUtil.dbg(this, "*** No global configuration, setting default disabled.");
 
-                LDAPConfiguration cfg = new LDAPConfiguration();
-                cfg.setEnabled(false);
-                ldapScopeHandler = new CILOA2LDAPScopeHandler(cfg, getOa2SE().getMyLogger());
-            } else {
-                DebugUtil.dbg(this, "Global configuration found");
-                ldapScopeHandler = new CILOA2LDAPScopeHandler(getOa2SE().getLdapConfiguration(), getOa2SE().getMyLogger());
-            }
-        }
-        return ldapScopeHandler;
-    }*/
-
-    LDAPScopeHandler ldapScopeHandler = null;
+    LDAPClaimsSource ldapClaimsSource = null;
 
 
     public CILogonOA2ServiceEnvironment getServiceEnvironment() {
@@ -73,8 +57,10 @@ public class CILogonScopeHandler extends BasicScopeHandler implements OA2Scopes 
     UTF7Charset utf7Charset = new UTF7Charset();
 
     /**
-     * ****************************
-     * KEEP THIS!            *
+     * *****************************
+     * *
+     * KEEP THIS!          *
+     * *
      * *****************************
      */
     protected String convertFromUTF7ToUTF8(String utf7String) {
@@ -98,7 +84,7 @@ public class CILogonScopeHandler extends BasicScopeHandler implements OA2Scopes 
         if (getServiceEnvironment() == null) {
             throw new IllegalStateException("Error: this handler has not been initialized correctly. It must have a service environment specified");
         }
-        OA2ServiceTransaction t = (OA2ServiceTransaction) transaction;
+        CILOA2ServiceTransaction t = (CILOA2ServiceTransaction) transaction;
 
         User user = getServiceEnvironment().getUserStore().get(BasicIdentifier.newID(t.getUsername()));
         if (user == null) {
@@ -116,7 +102,7 @@ public class CILogonScopeHandler extends BasicScopeHandler implements OA2Scopes 
         if (t.getScopes().contains(SCOPE_CILOGON_INFO)) {
             // CIL-371
             try {
-                userInfo.getMap().put(CERT_SUBJECT_DN, user.getDN((CILServiceTransactionInterface) t));
+                userInfo.getMap().put(CERT_SUBJECT_DN, user.getDN((CILServiceTransactionInterface) t, false));
             } catch (Throwable ttt) {
                 // Should never happen, but just in case...
                 logger.warn("Unable to determine user's DN for user " + user.getIdentifierString() + ". Message is " + ttt.getMessage());
@@ -147,25 +133,19 @@ public class CILogonScopeHandler extends BasicScopeHandler implements OA2Scopes 
             if (user.getDisplayName() != null) {
                 userInfo.getMap().put(NAME, user.getDisplayName());
             }
-
+            // Fixes CIL-462
+            String rawJSON = user.getAttr_json();
+            if (rawJSON != null && !rawJSON.isEmpty()) {
+                try {
+                    JSONObject json = JSONObject.fromObject(rawJSON);
+                    if (json.containsKey(AUTHENTICATION_CONTEXT_CLASS_REFERENCE)) {
+                        userInfo.getMap().put(AUTHENTICATION_CONTEXT_CLASS_REFERENCE, json.getString(AUTHENTICATION_CONTEXT_CLASS_REFERENCE));
+                    }
+                } catch (Exception x) {
+                    // rock on, no acr.
+                }
+            }
         }
-    /*    if (getOa2SE().getLdapConfiguration().isEnabled()) {
-            // Fixes CIL-303: Invoke the NCSA LDAP handler if the user is affiliated with NCSA.
-            EduPersonPrincipleName eppn = user.getePPN();
-            if (eppn.getName() == null || eppn.getName().length() == 0) {
-                return userInfo; // nix to do.
-            }
-            if (eppn.getName().contains("ncsa.illinois.edu")) {
-                getLdapScopeHandler().process(userInfo, transaction);
-            }
-        }*/
-/*        if (getLdapScopeHandler() != null) {
-            DebugUtil.dbg(this, "In " + getClass().getSimpleName() + ", LDAP scope handler =" + getLdapScopeHandler().getClass().getSimpleName());
-            getLdapScopeHandler().process(userInfo, transaction);
-        }else{
-            DebugUtil.dbg(this, "In " + getClass().getSimpleName() + ", ** NO ** LDAP scope handler");
-        }*/
-
         return userInfo;
     }
 

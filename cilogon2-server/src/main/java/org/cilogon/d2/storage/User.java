@@ -154,6 +154,19 @@ public class User extends IdentifiableImpl {
     String iDPName; //remote_user
     String idP;
 
+    /**
+     * This is used in cases where the member of information is sent via a call to the getUser DB endpoint.
+     * @return
+     */
+    public String getAttr_json() {
+        return attr_json;
+    }
+
+    public void setAttr_json(String attr_json) {
+        this.attr_json = attr_json;
+    }
+
+    String attr_json;
     public boolean isUseUSinDN() {
         return useUSinDN;
     }
@@ -223,18 +236,19 @@ public class User extends IdentifiableImpl {
     Identifier serialIdentifier;
 
 
-    public String getDN(CILServiceTransactionInterface transaction) {
-        return DNUtil.getDN(this, transaction);
+    public String getDN(CILServiceTransactionInterface transaction, boolean returnEmail) {
+        return DNUtil.getDN(this, transaction, returnEmail);
     }
 
     public String toString() {
-        String out = "User[uid=\"" + getIdentifier() + ",key=" + getUserMultiKey() + ",IdP=" + getIdP() + "\", ";
+        String out = "User[uid=\"" + getIdentifier() + "\",key=" + getUserMultiKey() + ",IdP=" + getIdP() + "\", ";
         out = out + "first name=\"" + getFirstName() + "\", ";
         out = out + "last name=\"" + getLastName() + "\", ";
         out = out + "email=\"" + getEmail() + "\", ";
         out = out + "idp display=\"" + getIDPName() + "\",";
         out = out + "US IDP?=\"" + isUseUSinDN() + "\",";
-        out = out + ",ou=" + getOrganizationalUnit() + ",affiliation=" + getAffiliation() + ",displayName=" + getDisplayName();
+        out = out + "ou=" + getOrganizationalUnit() + ",affiliation=" + getAffiliation() + ",displayName=" + getDisplayName() + "\",";
+        out = out + "attr_json=" + getAttr_json();
         out = out + "]";
         return out;
     }
