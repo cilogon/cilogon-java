@@ -1,6 +1,6 @@
 package org.cilogon.oauth2.servlet.impl;
 
-import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.servlet.LDAPClaimsSource;
+import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.claims.LDAPClaimsSource;
 import edu.uiuc.ncsa.security.core.util.DebugUtil;
 import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
 import edu.uiuc.ncsa.security.delegation.server.ServiceTransaction;

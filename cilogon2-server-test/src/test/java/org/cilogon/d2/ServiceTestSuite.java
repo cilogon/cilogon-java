@@ -35,7 +35,8 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses(value = {
 
         /* Uncomment these to test which of them you want/need. */
-        RemoteDBServiceTest.class,
+        //RemoteDBServiceTest.class,
+        DBServiceUserTests.class,
         FS2FStoreTest.class,
         TokenTest.class,
         FSTransactionStoreTest.class,
