@@ -1,8 +1,7 @@
 package org.cilogon.oauth2.servlet.impl;
 
-import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.OA2ServiceTransaction;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.servlet.OA2AuthorizedServlet;
-import edu.uiuc.ncsa.security.delegation.token.AuthorizationGrant;
+import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.servlet.OA2AuthorizedServletUtil;
 
 /**
  * <p>Created by Jeff Gaynor<br>
@@ -10,8 +9,7 @@ import edu.uiuc.ncsa.security.delegation.token.AuthorizationGrant;
  */
 public class CILOA2AuthorizedServlet extends OA2AuthorizedServlet {
     @Override
-    protected OA2ServiceTransaction createNewTransaction(AuthorizationGrant grant) {
-        return new CILOA2ServiceTransaction(grant);
+    public OA2AuthorizedServletUtil getInitUtil() {
+        return new CILOA2AuthorizedServletUtil(this);
     }
-
 }

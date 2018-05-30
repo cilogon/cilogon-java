@@ -1,4 +1,4 @@
-package org.cilogon.oauth2.servlet.impl;
+package org.cilogon.oauth2.servlet.storage;
 
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.OA2TConverter;
 import edu.uiuc.ncsa.security.core.IdentifiableProvider;

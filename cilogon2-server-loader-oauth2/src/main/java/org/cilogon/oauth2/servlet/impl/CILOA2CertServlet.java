@@ -4,6 +4,7 @@ import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.OA2ServiceTransaction;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.servlet.OA2CertServlet;
 import org.cilogon.d2.storage.User;
 import org.cilogon.oauth2.servlet.loader.CILogonOA2ServiceEnvironment;
+import org.cilogon.oauth2.servlet.storage.CILOA2ServiceTransaction;
 
 import java.security.GeneralSecurityException;
 

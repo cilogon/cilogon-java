@@ -16,6 +16,7 @@ import org.cilogon.d2.storage.User;
 import org.cilogon.d2.storage.UserNotFoundException;
 import org.cilogon.d2.util.CILServiceTransactionInterface;
 import org.cilogon.oauth2.servlet.loader.CILogonOA2ServiceEnvironment;
+import org.cilogon.oauth2.servlet.storage.CILOA2ServiceTransaction;
 
 import static org.cilogon.oauth2.servlet.impl.CILogonClaimSource.CILogonClaims.*;
 

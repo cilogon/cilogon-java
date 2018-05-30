@@ -1,6 +1,5 @@
 package org.cilogon.oauth2.servlet.loader;
 
-import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.cm.ldap.LDAPStore;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.cm.loader.COSE;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.MyProxyFacadeProvider;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.admin.adminClient.AdminClientStore;
@@ -70,7 +69,7 @@ public class CILogonOA2ServiceEnvironment extends COSE implements CILogonSE {
                                         boolean isComputeFNAL,
                                         Provider<PermissionsStore> permissionsStoreProvider,
                                         Provider<AdminClientStore> adminClientStoreProvider,
-                                        Provider<LDAPStore> mldap,
+                                     //   Provider<LDAPStore> mldap,
                                         JSONWebKeys jsonWebKeys,
                                         String issuer,
                                         boolean isUtilServletEnabled) {
@@ -99,7 +98,8 @@ public class CILogonOA2ServiceEnvironment extends COSE implements CILogonSE {
                 ldapConfiguration,
                 isRefreshtokenEnabled,
                 isTwoFactorSupportEnabled,
-                maxClientRefreshTokenLifetime, mldap,
+                maxClientRefreshTokenLifetime,
+                //mldap,
                 jsonWebKeys,
                 issuer,
                 isUtilServletEnabled);
