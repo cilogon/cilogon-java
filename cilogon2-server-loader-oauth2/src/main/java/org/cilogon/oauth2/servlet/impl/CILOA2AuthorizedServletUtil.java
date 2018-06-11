@@ -19,4 +19,5 @@ public class CILOA2AuthorizedServletUtil extends OA2AuthorizedServletUtil {
     protected OA2ServiceTransaction createNewTransaction(AuthorizationGrant grant) {
         return new CILOA2ServiceTransaction(grant);
     }
+
 }

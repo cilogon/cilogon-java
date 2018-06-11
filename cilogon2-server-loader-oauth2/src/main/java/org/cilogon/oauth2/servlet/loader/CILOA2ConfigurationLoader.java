@@ -1,6 +1,7 @@
 package org.cilogon.oauth2.servlet.loader;
 
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.OA2ServiceTransaction;
+import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.claims.BasicClaimsSourceImpl;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.cm.loader.COLoader;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.OA2SQLTransactionStoreProvider;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.admin.transactions.DSTransactionProvider;
@@ -11,6 +12,7 @@ import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.configuration.Configurations;
 import edu.uiuc.ncsa.security.core.configuration.provider.MultiTypeProvider;
 import edu.uiuc.ncsa.security.core.exceptions.GeneralException;
+import edu.uiuc.ncsa.security.core.util.DebugUtil;
 import edu.uiuc.ncsa.security.core.util.IdentifiableProviderImpl;
 import edu.uiuc.ncsa.security.core.util.IdentifierProvider;
 import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
@@ -30,7 +32,6 @@ import org.cilogon.d2.storage.provider.TokenPrefixProvider;
 import org.cilogon.d2.twofactor.TwoFactorInfo;
 import org.cilogon.d2.twofactor.TwoFactorStore;
 import org.cilogon.d2.util.*;
-import org.cilogon.oauth2.servlet.impl.*;
 import org.cilogon.oauth2.servlet.storage.CILOA2ServiceTransaction;
 import org.cilogon.oauth2.servlet.storage.CILOA2TransactionConverter;
 import org.cilogon.oauth2.servlet.storage.CILOA2TransactionKeys;
@@ -183,7 +184,6 @@ public class CILOA2ConfigurationLoader extends COLoader implements CILogonConfig
                     isComputeFNAL(),
                     getMpp(),
                     getMacp(),
-                 //   getMLDAP(),
                     getJSONWebKeys(),
                     getIssuer(),
                     isUtilServerEnabled());
@@ -195,15 +195,12 @@ public class CILOA2ConfigurationLoader extends COLoader implements CILogonConfig
 
     @Override
     public ClaimSource getClaimSource() throws ClassNotFoundException, IllegalAccessException, InstantiationException {
+        DebugUtil.dbg(this, ".getClaimSource starting");
         if (claimSource == null) {
-            CILogonClaimSource ciLogonClaimSource = new CILogonClaimSource(this.getLdapConfiguration(), (MyLoggingFacade) loggerProvider.get());
-            ciLogonClaimSource.setScopes(getScopes());
-
-            claimSource = ciLogonClaimSource;
+            claimSource= new BasicClaimsSourceImpl(null);
         }
         return claimSource;
     }
-
 
 
     public boolean isComputeFNAL() {

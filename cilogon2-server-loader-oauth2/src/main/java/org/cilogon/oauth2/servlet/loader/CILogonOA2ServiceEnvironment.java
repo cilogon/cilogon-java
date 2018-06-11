@@ -25,7 +25,7 @@ import org.cilogon.d2.util.ArchivedUserStore;
 import org.cilogon.d2.util.CILogonSE;
 import org.cilogon.d2.util.CILogonSEImpl;
 import org.cilogon.d2.util.Incrementable;
-import org.cilogon.oauth2.servlet.impl.CILogonClaimSource;
+import org.cilogon.oauth2.servlet.impl.UserClaimSource;
 
 import javax.inject.Provider;
 import java.util.Collection;
@@ -104,8 +104,8 @@ public class CILogonOA2ServiceEnvironment extends COSE implements CILogonSE {
                 issuer,
                 isUtilServletEnabled);
         ciLogonSE = new CILogonSEImpl(usp, ausp, idpsp, incp, tfsp, isComputeFNAL);
-        if(claimSource instanceof CILogonClaimSource){
-            ((CILogonClaimSource)claimSource).setOa2SE(this);
+        if(claimSource instanceof UserClaimSource){
+            ((UserClaimSource)claimSource).setOa2SE(this);
         }
     }
 

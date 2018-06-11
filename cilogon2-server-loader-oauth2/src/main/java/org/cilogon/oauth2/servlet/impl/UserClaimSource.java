@@ -1,14 +1,13 @@
 package org.cilogon.oauth2.servlet.impl;
 
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.claims.BasicClaimsSourceImpl;
-import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.claims.LDAPClaimsSource;
 import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
+import edu.uiuc.ncsa.security.core.util.DebugUtil;
 import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
 import edu.uiuc.ncsa.security.delegation.server.ServiceTransaction;
 import edu.uiuc.ncsa.security.oauth_2_0.OA2Scopes;
-import edu.uiuc.ncsa.security.oauth_2_0.UserInfo;
-import edu.uiuc.ncsa.security.oauth_2_0.server.claims.OA2Claims;
 import edu.uiuc.ncsa.security.oauth_2_0.server.UnsupportedScopeException;
+import edu.uiuc.ncsa.security.oauth_2_0.server.claims.OA2Claims;
 import edu.uiuc.ncsa.security.oauth_2_0.server.config.LDAPConfiguration;
 import net.freeutils.charset.UTF7Charset;
 import net.sf.json.JSONObject;
@@ -18,20 +17,23 @@ import org.cilogon.d2.util.CILServiceTransactionInterface;
 import org.cilogon.oauth2.servlet.loader.CILogonOA2ServiceEnvironment;
 import org.cilogon.oauth2.servlet.storage.CILOA2ServiceTransaction;
 
-import static org.cilogon.oauth2.servlet.impl.CILogonClaimSource.CILogonClaims.*;
+import javax.servlet.http.HttpServletRequest;
+
+import static org.cilogon.oauth2.servlet.impl.UserClaimSource.CILogonClaims.*;
 
 /**
+ * This actually introspects the user database and does not require an LDAP configuration.
  * <p>Created by Jeff Gaynor<br>
  * on 8/20/15 at  1:37 PM
  */
-public class CILogonClaimSource extends BasicClaimsSourceImpl implements OA2Scopes {
+public class UserClaimSource extends BasicClaimsSourceImpl implements OA2Scopes {
     LDAPConfiguration configuration;
     MyLoggingFacade logger;
 
-    public CILogonClaimSource(LDAPConfiguration configuration, MyLoggingFacade logger) {
-        this.configuration = configuration;
+    public UserClaimSource(MyLoggingFacade logger) {
         this.logger = logger;
     }
+
 
     public interface CILogonClaims extends OA2Claims {
         String IDP = "idp";
@@ -47,9 +49,6 @@ public class CILogonClaimSource extends BasicClaimsSourceImpl implements OA2Scop
     }
 
 
-    LDAPClaimsSource ldapClaimsSource = null;
-
-
     public CILogonOA2ServiceEnvironment getServiceEnvironment() {
         return (CILogonOA2ServiceEnvironment) getOa2SE();
     }
@@ -60,7 +59,7 @@ public class CILogonClaimSource extends BasicClaimsSourceImpl implements OA2Scop
     /**
      * *****************************
      * *
-     * KEEP THIS!          *
+     *         KEEP THIS!          *
      * *
      * *****************************
      */
@@ -80,59 +79,72 @@ public class CILogonClaimSource extends BasicClaimsSourceImpl implements OA2Scop
         return out;*/
     }
 
+    public JSONObject process(JSONObject claims, ServiceTransaction transaction) throws UnsupportedScopeException {
+        return process(claims, null, transaction);
+    }
+
     @Override
-    public UserInfo process(UserInfo userInfo, ServiceTransaction transaction) throws UnsupportedScopeException {
+    protected JSONObject realProcessing(JSONObject claims, HttpServletRequest request, ServiceTransaction transaction) throws UnsupportedScopeException {
+        DebugUtil.dbg(this, "Starting to process user claims");
+
         if (getServiceEnvironment() == null) {
             throw new IllegalStateException("Error: this handler has not been initialized correctly. It must have a service environment specified");
         }
         CILOA2ServiceTransaction t = (CILOA2ServiceTransaction) transaction;
-
+        DebugUtil.dbg(this, "Got transaction");
         User user = getServiceEnvironment().getUserStore().get(BasicIdentifier.newID(t.getUsername()));
+        DebugUtil.dbg(this, "Starting to process w/ user = " + user);
+
         if (user == null) {
             throw new UserNotFoundException("No user was found with identifier \"" + t.getUsername() + "\"");
         }
         if (t.getScopes().contains(SCOPE_EMAIL)) {
-            userInfo.setEmail(user.getEmail());
+            claims.put(OA2Claims.EMAIL, user.getEmail());
         }
         if (t.getScopes().contains(SCOPE_PROFILE)) {
-            userInfo.setGiven_name(convertFromUTF7ToUTF8(user.getFirstName()));
-            userInfo.setFamily_name(convertFromUTF7ToUTF8(user.getLastName()));
+            claims.put(OA2Claims.GIVEN_NAME,convertFromUTF7ToUTF8(user.getFirstName()));
+            claims.put(OA2Claims.FAMILY_NAME,convertFromUTF7ToUTF8(user.getLastName()));
+
         }
+        DebugUtil.dbg(this, "First set of processing done, userinfo=" + claims);
+
         // Fixes CIL-210
 
         if (t.getScopes().contains(SCOPE_CILOGON_INFO)) {
+            DebugUtil.dbg(this, "has cilogon scope, processing ");
+
             // CIL-371
             try {
-                userInfo.getMap().put(CERT_SUBJECT_DN, user.getDN((CILServiceTransactionInterface) t, false));
+                claims.put(CERT_SUBJECT_DN, user.getDN((CILServiceTransactionInterface) t, false));
             } catch (Throwable ttt) {
                 // Should never happen, but just in case...
                 logger.warn("Unable to determine user's DN for user " + user.getIdentifierString() + ". Message is " + ttt.getMessage());
             }
-            userInfo.getMap().put(IDP, user.getIdP());
-            userInfo.getMap().put(IDP_NAME, user.getIDPName());
+            claims.put(IDP, user.getIdP());
+            claims.put(IDP_NAME, user.getIDPName());
             if (user.hasEPPN()) {
-                userInfo.getMap().put(EPPN, user.getePPN().getName());
+                claims.put(EPPN, user.getePPN().getName());
             }
             if (user.hasEPTID()) {
-                userInfo.getMap().put(EPTID, user.getePTID().getName());
+                claims.put(EPTID, user.getePTID().getName());
             }
             if (user.hasOpenID()) {
-                userInfo.getMap().put(OPENID, user.getOpenID().getName());
+                claims.put(OPENID, user.getOpenID().getName());
             }
 
             if (user.hasOpenIDConnect()) {
                 // Fixes CIL-365
-                userInfo.getMap().put(OIDC, user.getOpenIDConnect().getName());
+                claims.put(OIDC, user.getOpenIDConnect().getName());
             }
 
             if (user.getOrganizationalUnit() != null) {
-                userInfo.getMap().put(OU, user.getOrganizationalUnit());
+                claims.put(OU, user.getOrganizationalUnit());
             }
             if (user.getAffiliation() != null) {
-                userInfo.getMap().put(AFFILIATION, user.getAffiliation());
+                claims.put(AFFILIATION, user.getAffiliation());
             }
             if (user.getDisplayName() != null) {
-                userInfo.getMap().put(NAME, user.getDisplayName());
+                claims.put(NAME, user.getDisplayName());
             }
             // Fixes CIL-462
             String rawJSON = user.getAttr_json();
@@ -140,14 +152,19 @@ public class CILogonClaimSource extends BasicClaimsSourceImpl implements OA2Scop
                 try {
                     JSONObject json = JSONObject.fromObject(rawJSON);
                     if (json.containsKey(AUTHENTICATION_CONTEXT_CLASS_REFERENCE)) {
-                        userInfo.getMap().put(AUTHENTICATION_CONTEXT_CLASS_REFERENCE, json.getString(AUTHENTICATION_CONTEXT_CLASS_REFERENCE));
+                        claims.put(AUTHENTICATION_CONTEXT_CLASS_REFERENCE, json.getString(AUTHENTICATION_CONTEXT_CLASS_REFERENCE));
                     }
                 } catch (Exception x) {
                     // rock on, no acr.
                 }
             }
         }
-        return userInfo;
+        DebugUtil.dbg(this, "finished. Returning claims of " + claims);
+        return claims;
     }
 
+    @Override
+    public boolean isRunAtAuthorization() {
+        return false;
+    }
 }

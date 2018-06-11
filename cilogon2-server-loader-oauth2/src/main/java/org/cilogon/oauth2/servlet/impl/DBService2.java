@@ -1,6 +1,8 @@
 package org.cilogon.oauth2.servlet.impl;
 
+import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.OA2SE;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.OA2ServiceTransaction;
+import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.claims.OA2ClaimsUtil;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.clients.OA2Client;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.clients.OA2ClientApprovalKeys;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.clients.OA2ClientKeys;
@@ -9,6 +11,7 @@ import edu.uiuc.ncsa.security.core.exceptions.NFWException;
 import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
 import edu.uiuc.ncsa.security.core.util.DebugUtil;
 import edu.uiuc.ncsa.security.delegation.token.impl.AuthorizationGrantImpl;
+import net.sf.json.JSONObject;
 import org.cilogon.d2.servlet.AbstractDBService;
 import org.cilogon.d2.storage.User;
 import org.cilogon.d2.storage.UserStore;
@@ -100,9 +103,9 @@ public class DBService2 extends AbstractDBService {
         }
         Identifier identifier = BasicIdentifier.newID(ag);
         AuthorizationGrantImpl authGrant = new AuthorizationGrantImpl(URI.create(ag));
-        DebugUtil.dbg(this,"AuthGrant= " + authGrant.toString());
+        DebugUtil.dbg(this, "AuthGrant= " + authGrant.toString());
         if (!getTransactionStore().containsKey(identifier)) {
-            DebugUtil.dbg(this,"Failed to get transaction for key " + identifier);
+            DebugUtil.dbg(this, "Failed to get transaction for key " + identifier);
             getMyLogger().error("The auth grant \"" + authGrant + "\" is not a key for this transaction. No transaction found.");
             writeTransaction(null, STATUS_TRANSACTION_NOT_FOUND, resp);
             return;
@@ -116,7 +119,11 @@ public class DBService2 extends AbstractDBService {
         DebugUtil.dbg(this, "user=" + user.toString());
         long authTime = 0L;
         try {
-            authTime = Long.parseLong(req.getParameter(AUTHORIZATION_TIME));
+            if (req.getParameter(AUTHORIZATION_TIME) == null) {
+                authTime = new Date().getTime();
+            } else {
+                authTime = Long.parseLong(req.getParameter(AUTHORIZATION_TIME));
+            }
         } catch (Throwable t) {
             info("Got " + AUTHORIZATION_TIME + "=" + req.getParameter(AUTHORIZATION_TIME) + ", error=\"" + t.getMessage() + "\"");
         }
@@ -141,7 +148,7 @@ public class DBService2 extends AbstractDBService {
         }
         if (t == null) {
             // no transaction means there is nothing that can be done.
-            DebugUtil.dbg(this, "Got null transaction for key=" + authGrant );
+            DebugUtil.dbg(this, "Got null transaction for key=" + authGrant);
 
             getMyLogger().error("Getting the transaction for auth grant \"" + authGrant + "\" failed. No transaction found.");
             writeTransaction(t, STATUS_TRANSACTION_NOT_FOUND, resp);
@@ -163,18 +170,39 @@ public class DBService2 extends AbstractDBService {
         t.setAuthTime(new Date(authTime * 1000));
         t.setAuthGrantValid(true);
         t.setUsername(userUID.toString());
+
+        doClaims((CILogonOA2ServiceEnvironment) getServiceEnvironment(), t);
+
+
         getTransactionStore().save(t);
 
         DebugUtil.dbg(this, "setTransactionState:transaction saved " + getTransactionStore().get(t.getAuthorizationGrant()));
 
-
         writeTransaction(t, STATUS_OK, resp);
     }
 
-/*    @Override
-    public void debug(String x) {
-        System.err.println(getClass().getSimpleName() + ":  " + x);
-    }*/
+    protected void doClaims(CILogonOA2ServiceEnvironment env, CILOA2ServiceTransaction t) {
+         /*
+        This is the first place we can get claims for the user. We requrie the user, some existing claims
+        (which we append to) and the transaction.
+        This is a side effect of this call.
+         */
+        try {
+            OA2ClaimsUtil claimsUtil = new OA2ClaimsUtil(env, t);
+            // This gets us the basic claims.
+            UserClaimSource userClaimSource = new UserClaimSource(getMyLogger());
+            userClaimSource.setOa2SE((OA2SE) getServiceEnvironment());
+            JSONObject claims = claimsUtil.createBasicClaims(null);
+
+            userClaimSource.process(claims, t);
+            t.setClaims(claims);
+            DebugUtil.dbg(this, "stored claims =" + claims);
+        } catch (Throwable throwable) {
+            DebugUtil.dbg(this, "Claims processing failed. Reason=" + throwable.getMessage());
+            getMyLogger().error("Claims processing failed.", throwable);
+            return;
+        }
+    }
 
     // Fixes CIL-105.
     protected void getClient(HttpServletRequest req, HttpServletResponse resp) throws IOException {
