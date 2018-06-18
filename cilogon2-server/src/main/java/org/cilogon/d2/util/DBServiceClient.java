@@ -90,7 +90,7 @@ public class DBServiceClient {
         try {
             response = client.execute(httpGet);
             if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
-                clientPool.realDestroy(client);
+                clientPool.doDestroy(client);
                 throw new NFWException("Error: the DB service failed with status code " + response.getStatusLine());
             }
             clientPool.push(client);

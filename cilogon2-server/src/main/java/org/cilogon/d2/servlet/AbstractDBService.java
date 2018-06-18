@@ -17,6 +17,7 @@ import edu.uiuc.ncsa.security.delegation.storage.ClientApprovalKeys;
 import edu.uiuc.ncsa.security.delegation.storage.ClientKeys;
 import edu.uiuc.ncsa.security.delegation.token.AuthorizationGrant;
 import edu.uiuc.ncsa.security.delegation.token.TokenForge;
+import edu.uiuc.ncsa.security.servlet.ServletDebugUtil;
 import org.cilogon.d2.storage.*;
 import org.cilogon.d2.storage.impl.sql.CILSQLTransactionStore;
 import org.cilogon.d2.twofactor.TwoFactorInfo;
@@ -299,18 +300,28 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
         printAllParameters(request);
         DebugUtil.dbg(this, "getUser: ******** NEW CALL ******** ");
         String useruidString = getParam(request, userKeys.identifier(), true);
+        ServletDebugUtil.dbg(this,"userkey = " + userKeys.identifier() + ", user uid=" + useruidString);
         // case 1: a user id is supplied. Return information about the user.
         if (useruidString != null) {
             Identifier uid = newID(useruidString);
+            ServletDebugUtil.dbg(this,"created identifier =" + uid);
+
             try {
                 User user = getUserStore().get(uid);
+                ServletDebugUtil.dbg(this,"got user =" + user);
+
                 TwoFactorInfo tfi = get2FStore().get(uid);
+                ServletDebugUtil.dbg(this,"got two factor infor =" + tfi);
+
                 writeUser(user, tfi, STATUS_OK, response);
                 return;
             } catch (UserNotFoundException x) {
                 writeMessage(response, STATUS_USER_NOT_FOUND_ERROR);
+                return;
             }
         }
+        ServletDebugUtil.dbg(this,"NO user uid");
+
         // case 2, use remote user to see if user has been updated or not.
         UserMultiKey names = getNames(request);
         String idp = getParam(request, userKeys.idp());
@@ -455,9 +466,10 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
      * @throws java.io.UnsupportedEncodingException
      */
     protected String getParam(HttpServletRequest request, String key, boolean nullOK) throws UnsupportedEncodingException {
+        ServletDebugUtil.dbg(this, " Parameter requests = " + key + ", nullok? " + nullOK);
         request.setCharacterEncoding("UTF-8");
         String[] params = request.getParameterValues(key);
-
+        ServletDebugUtil.dbg(this, " Found parameter= " + params);
         if (null == params || params.length == 0) {
             if (nullOK) {
                 return null;
@@ -997,7 +1009,9 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
 
     protected void writeUser(User user, TwoFactorInfo tfi, int statusCode, HttpServletResponse response) throws IOException {
         startWrite(response);
+        ServletDebugUtil.dbg(this, "starting serialization of user ");
         serializer.serialize(response.getWriter(), user, tfi, statusCode);
+        ServletDebugUtil.dbg(this, "DONE with serialization of user ");
         stopWrite(response);
     }
 

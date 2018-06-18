@@ -113,7 +113,7 @@ public class UserClaimSource extends BasicClaimsSourceImpl implements OA2Scopes 
         if (t.getScopes().contains(SCOPE_CILOGON_INFO)) {
             DebugUtil.dbg(this, "has cilogon scope, processing ");
 
-            // CIL-371
+            // CIL-371, CIL-444 cert subject does not contain the email, hence the "false" flag.
             try {
                 claims.put(CERT_SUBJECT_DN, user.getDN((CILServiceTransactionInterface) t, false));
             } catch (Throwable ttt) {

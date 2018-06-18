@@ -8,6 +8,7 @@ import edu.uiuc.ncsa.security.core.util.Iso8601;
 import edu.uiuc.ncsa.security.delegation.storage.Client;
 import edu.uiuc.ncsa.security.delegation.storage.ClientApprovalKeys;
 import edu.uiuc.ncsa.security.delegation.storage.ClientKeys;
+import edu.uiuc.ncsa.security.servlet.ServletDebugUtil;
 import edu.uiuc.ncsa.security.storage.XMLMap;
 import org.cilogon.d2.servlet.AbstractDBService;
 import org.cilogon.d2.storage.*;
@@ -97,7 +98,7 @@ public class DBServiceSerializer {
      * @throws IOException
      */
     protected void doUserSerialization(PrintWriter w, User user) throws IOException {
-        System.err.println(getClass().getSimpleName() + ".douserSer: user=" + user);
+        ServletDebugUtil.dbg(this, "in douserSer: user=" + user);
         if (user.hasRemoteUser()) {
             print(w, userKeys.remoteUser(), user.getRemoteUser());
         }
@@ -120,7 +121,7 @@ public class DBServiceSerializer {
         print(w, userKeys.userID(), user.getIdentifier());
         print(w, userKeys.email(), user.getEmail());
         print(w, userKeys.serialString(), user.getSerialString());
-        print(w, distinguishedNameField, user.getDN(null, false));
+        print(w, distinguishedNameField, user.getDN(null, true));
         print(w, userKeys.creationTimestamp(), user.getCreationTime());
         print(w, userKeys.affiliation(), user.getAffiliation());
         print(w, userKeys.displayName(), user.getDisplayName());
