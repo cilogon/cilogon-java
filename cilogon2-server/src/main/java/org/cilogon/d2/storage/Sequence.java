@@ -38,11 +38,10 @@ abstract public class Sequence extends SQLDatabase implements Incrementable {
             stmt = c.createStatement();
             stmt.executeUpdate(x);
             stmt.close();
+            releaseConnection(c);
         } catch (SQLException e) {
             destroyConnection(c);
             throw new GeneralException("Error creating a new incrementable.", e);
-        } finally {
-            releaseConnection(c);
         }
         return true;
     }
@@ -58,11 +57,10 @@ abstract public class Sequence extends SQLDatabase implements Incrementable {
             String dropIt = getSequenceTable().dropStatement();
             stmt.executeUpdate(dropIt);
             stmt.close();
+            releaseConnection(c);
         } catch (SQLException e) {
             destroyConnection(c);
             throw new GeneralException("Error destroying the sequence", e);
-        } finally {
-            releaseConnection(c);
         }
         return true;
     }

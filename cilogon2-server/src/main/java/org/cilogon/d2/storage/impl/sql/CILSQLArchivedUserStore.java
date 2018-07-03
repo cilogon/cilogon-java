@@ -50,11 +50,10 @@ public class CILSQLArchivedUserStore extends SQLStore<ArchivedUser> implements A
             stmt.setString(2, userID.toString()); // this sets the id to get the user from the user table
             stmt.execute();// just execute() since executeQuery(x) would throw an exception regardless of content of x as per JDBC spec.
             stmt.close();
+            releaseConnection(c);
         } catch (SQLException e) {
             destroyConnection(c);
             throw new GeneralException("Error: Could not archive user.", e);
-        }finally {
-            releaseConnection(c);
         }
         return archivedUserID;
     }
@@ -76,11 +75,10 @@ public class CILSQLArchivedUserStore extends SQLStore<ArchivedUser> implements A
             }
             rs.close();
             stmt.close();
+            releaseConnection(c);
         } catch (SQLException e) {
             destroyConnection(c);
             throw new GeneralException("Error: Could not get all users by id", e);
-        }finally {
-            releaseConnection(c);
         }
         return aUsers;
     }

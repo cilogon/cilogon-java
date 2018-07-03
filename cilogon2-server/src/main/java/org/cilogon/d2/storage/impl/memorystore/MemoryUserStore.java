@@ -3,8 +3,11 @@ package org.cilogon.d2.storage.impl.memorystore;
 import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.util.IdentifiableProviderImpl;
 import edu.uiuc.ncsa.security.storage.MemoryStore;
+import edu.uiuc.ncsa.security.storage.data.MapConverter;
 import org.cilogon.d2.storage.*;
 import org.cilogon.d2.storage.provider.UserProvider;
+import org.cilogon.d2.util.UserConverter;
+import org.cilogon.d2.util.UserKeys;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -167,5 +170,11 @@ public class MemoryUserStore extends MemoryStore<User> implements UserStore {
     @Override
     public void update(User value) {
         update(value, false);
+    }
+
+    @Override
+    public MapConverter getConverter() {
+        UserKeys keys = new UserKeys();
+        return new UserConverter(keys, identifiableProvider);
     }
 }

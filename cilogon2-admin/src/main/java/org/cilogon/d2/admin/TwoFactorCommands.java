@@ -1,11 +1,12 @@
 package org.cilogon.d2.admin;
 
+import edu.uiuc.ncsa.myproxy.oa4mp.server.StoreCommands2;
 import edu.uiuc.ncsa.security.core.Identifiable;
 import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.Store;
 import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
 import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
-import edu.uiuc.ncsa.security.util.cli.StoreCommands;
+import edu.uiuc.ncsa.security.storage.data.MapConverter;
 import org.cilogon.d2.twofactor.TwoFactorInfo;
 import org.cilogon.d2.twofactor.TwoFactorStore;
 
@@ -13,7 +14,7 @@ import org.cilogon.d2.twofactor.TwoFactorStore;
  * <p>Created by Jeff Gaynor<br>
  * on 11/6/13 at  1:40 PM
  */
-public class TwoFactorCommands extends StoreCommands {
+public class TwoFactorCommands extends StoreCommands2 {
     @Override
     public void extraUpdates(Identifiable identifiable) {
     }
@@ -75,14 +76,6 @@ public class TwoFactorCommands extends StoreCommands {
 
         }
         return saveIt;
- /*       if (saveIt) {
-            getTFStore().save(tfi);
-            info("Saved two-factor info for id=" + tfi.getIdentifierString());
-            sayi("Two factor information updated.");
-        }else{
-            info("Did not save two-factor info for id=" + tfi.getIdentifierString());
-        }
- */
     }
 
     @Override
@@ -91,4 +84,10 @@ public class TwoFactorCommands extends StoreCommands {
         sayi("object id:" + tfi.getIdentifierString());
         sayi("     info:" + (tfi.getInfo() == null ? "(null)" : tfi.getInfo()));
     }
+
+    @Override
+    protected MapConverter getConverter() {
+        return ((TwoFactorStore) getStore()).getConverter();
+    }
+
 }

@@ -37,15 +37,17 @@ public class MySQLSequence extends Sequence {
               if(rs.next()){
                   value = rs.getInt(1);
               }else{
+                  rs.close();
+                               stmt.close();
+                               releaseConnection(c);
                   throw new GeneralException("Error: Could not retrieve the next value. There was some issue with MySQL.");
               }
               rs.close();
               stmt.close();
+              releaseConnection(c);
           } catch (SQLException e) {
               destroyConnection(c);
               throw new CILogonException("Error getting next value in sequence", e);
-          } finally {
-              releaseConnection(c);
           }
           return value;
     }

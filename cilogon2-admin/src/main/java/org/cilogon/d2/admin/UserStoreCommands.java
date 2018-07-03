@@ -1,13 +1,14 @@
 package org.cilogon.d2.admin;
 
+import edu.uiuc.ncsa.myproxy.oa4mp.server.StoreCommands2;
 import edu.uiuc.ncsa.security.core.Identifiable;
 import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.Store;
 import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
 import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
+import edu.uiuc.ncsa.security.storage.data.MapConverter;
 import edu.uiuc.ncsa.security.util.cli.BasicSorter;
 import edu.uiuc.ncsa.security.util.cli.InputLine;
-import edu.uiuc.ncsa.security.util.cli.StoreCommands;
 import org.cilogon.d2.storage.*;
 import org.cilogon.d2.util.ArchivedUserStore;
 
@@ -15,7 +16,7 @@ import org.cilogon.d2.util.ArchivedUserStore;
  * <p>Created by Jeff Gaynor<br>
  * on 5/23/13 at  9:47 AM
  */
-public class UserStoreCommands extends StoreCommands {
+public class UserStoreCommands extends StoreCommands2 {
 
     @Override
     public void extraUpdates(Identifiable identifiable) {
@@ -223,4 +224,10 @@ public class UserStoreCommands extends StoreCommands {
         say("Done. object with id = " + x.getIdentifierString() + " has been removed from the store");
         clearEntries();
     }
+
+    @Override
+    protected MapConverter getConverter() {
+return        ((UserStore)getStore()).getConverter();
+    }
+
 }

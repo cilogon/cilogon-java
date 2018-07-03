@@ -38,4 +38,7 @@ public abstract class PersonName implements Serializable{
         }
         return name.toString();
     }
+    public boolean isEmpty(){
+        return name != null && !name.isEmpty();
+    }
 }

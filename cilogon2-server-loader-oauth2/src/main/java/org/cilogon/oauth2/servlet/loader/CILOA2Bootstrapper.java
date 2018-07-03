@@ -46,7 +46,7 @@ public class CILOA2Bootstrapper extends AbstractBootstrapper {
             CILogonOA2ServiceEnvironment se = (CILogonOA2ServiceEnvironment) getEnvironment();
             try {
                 SATFactory.setAdminClientConverter(AdminClientStoreProviders.getAdminClientConverter());
-                SATFactory.setClientConverter((ClientConverter<? extends Client>) se.getClientStore().getACConverter());
+                SATFactory.setClientConverter((ClientConverter<? extends Client>) se.getClientStore().getConverter());
             } catch (Exception e) {
                 e.printStackTrace();
             }

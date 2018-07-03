@@ -1,6 +1,7 @@
 package org.cilogon.d2.storage;
 
 import edu.uiuc.ncsa.security.core.Store;
+import edu.uiuc.ncsa.security.storage.data.MapConverter;
 
 import java.util.Collection;
 
@@ -45,4 +46,6 @@ public interface IdentityProviderStore extends Store<IdentityProvider> {
      * @return
      */
     public boolean hasIdp(String idp);
+
+    public MapConverter getConverter();
 }

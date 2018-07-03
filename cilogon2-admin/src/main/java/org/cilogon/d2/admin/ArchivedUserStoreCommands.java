@@ -1,12 +1,13 @@
 package org.cilogon.d2.admin;
 
+import edu.uiuc.ncsa.myproxy.oa4mp.server.StoreCommands2;
 import edu.uiuc.ncsa.security.core.Identifiable;
 import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.Store;
 import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
 import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
+import edu.uiuc.ncsa.security.storage.data.MapConverter;
 import edu.uiuc.ncsa.security.util.cli.InputLine;
-import edu.uiuc.ncsa.security.util.cli.StoreCommands;
 import org.cilogon.d2.storage.ArchivedUser;
 import org.cilogon.d2.storage.User;
 import org.cilogon.d2.storage.UserNotFoundException;
@@ -21,7 +22,7 @@ import java.util.Set;
  * <p>Created by Jeff Gaynor<br>
  * on 5/23/13 at  11:45 AM
  */
-public class ArchivedUserStoreCommands extends StoreCommands {
+public class ArchivedUserStoreCommands extends StoreCommands2 {
     public static final String USER_FLAG = "u";
 
     @Override
@@ -287,4 +288,10 @@ public class ArchivedUserStoreCommands extends StoreCommands {
         sayi("Sorry but you cannot create an archived user this way. Switch to using \"users\"");
         sayi("and then archive a specific user. Archived users only exist in reference to a given user");
     }
+
+    @Override
+    protected MapConverter getConverter() {
+        return ((ArchivedUserStore)getStore()).getConverter();
+    }
+
 }

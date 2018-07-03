@@ -2,6 +2,7 @@ package org.cilogon.d2.twofactor;
 
 import edu.uiuc.ncsa.security.core.IdentifiableProvider;
 import edu.uiuc.ncsa.security.storage.MemoryStore;
+import edu.uiuc.ncsa.security.storage.data.MapConverter;
 
 /**
  * <p>Created by Jeff Gaynor<br>
@@ -10,5 +11,10 @@ import edu.uiuc.ncsa.security.storage.MemoryStore;
 public class TwoFactorMS extends MemoryStore<TwoFactorInfo> implements TwoFactorStore{
     public TwoFactorMS(IdentifiableProvider<TwoFactorInfo> identifiableProvider) {
         super(identifiableProvider);
+    }
+
+    @Override
+    public MapConverter getConverter() {
+        return new TwoFactorMapConverter((TwoFactorInfoProvider) identifiableProvider);
     }
 }

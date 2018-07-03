@@ -51,7 +51,7 @@ public class CILTestSuiteInitializer extends TestSuiteInitializer {
 
          try {
              SATFactory.setAdminClientConverter(AdminClientStoreProviders.getAdminClientConverter());
-             SATFactory.setClientConverter((ClientConverter<? extends Client>) fsp.getClientStore().getACConverter());
+             SATFactory.setClientConverter((ClientConverter<? extends Client>) fsp.getClientStore().getConverter());
          } catch (Exception e) {
              e.printStackTrace();
          }

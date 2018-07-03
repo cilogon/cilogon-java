@@ -2,6 +2,7 @@ package org.cilogon.d2.util;
 
 import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.Store;
+import edu.uiuc.ncsa.security.storage.data.MapConverter;
 import org.cilogon.d2.storage.ArchivedUser;
 
 import java.util.List;
@@ -37,4 +38,6 @@ public interface ArchivedUserStore extends Store<ArchivedUser> {
      * @return
      */
     public ArchivedUser getLastArchivedUser(Identifier userid);
+
+    public MapConverter getConverter();
 }

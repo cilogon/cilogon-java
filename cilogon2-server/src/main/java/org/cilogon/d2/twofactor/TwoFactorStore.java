@@ -1,6 +1,7 @@
 package org.cilogon.d2.twofactor;
 
 import edu.uiuc.ncsa.security.core.Store;
+import edu.uiuc.ncsa.security.storage.data.MapConverter;
 
 /**
  * Marker interface required by storage API.
@@ -8,4 +9,5 @@ import edu.uiuc.ncsa.security.core.Store;
  * on 10/18/12 at  11:05 AM
  */
 public interface TwoFactorStore extends Store<TwoFactorInfo> {
+    public MapConverter getConverter();
 }

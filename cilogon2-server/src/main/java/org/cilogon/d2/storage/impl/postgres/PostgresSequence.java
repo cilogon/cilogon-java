@@ -34,11 +34,10 @@ public class PostgresSequence extends Sequence {
               value = rs.getInt(1);
               rs.close();
               stmt.close();
+              releaseConnection(c);
           } catch (SQLException e) {
               destroyConnection(c);
               throw new CILogonException("Error getting next value in sequence", e);
-          } finally {
-              releaseConnection(c);
           }
           return value;
       }

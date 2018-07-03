@@ -1,6 +1,7 @@
 package org.cilogon.d2.util;
 
 import edu.uiuc.ncsa.security.core.exceptions.GeneralException;
+import edu.uiuc.ncsa.security.core.exceptions.NFWException;
 import edu.uiuc.ncsa.security.core.util.DebugUtil;
 import org.cilogon.d2.storage.User;
 
@@ -58,18 +59,29 @@ public class DNUtil {
 
     protected static String getLIGODN(User user, boolean returnEmail) {
         String baseString = "/DC=org/DC=cilogon/C=US/O=LIGO/CN=%s %s %s";
+        String name = null;
+        if(user.getRemoteUser().isEmpty()){
+            name = user.getRemoteUser().getName();
+        }
+        if(name == null && !user.getePPN().isEmpty()){
+            name = user.getePPN().getName();
+        }
+        if(name == null){
+            throw new NFWException("Error: LIGO user \"" + user.getIdentifierString() + "\" has neither the remote user nor EPPN set. Cannot create a DN");
+        }
+
         if (returnEmail) {
             baseString = baseString + " email=%s";
             return String.format(baseString,
                     user.getFirstName(),
                     user.getLastName(),
-                    user.getRemoteUser().getName(),
+                    name,
                     user.getEmail());
         }
         return String.format(baseString,
                 user.getFirstName(),
                 user.getLastName(),
-                user.getRemoteUser().getName());
+                name);
     }
 
     // Fix for CIL-320: getting DN should not depend on transaction state.

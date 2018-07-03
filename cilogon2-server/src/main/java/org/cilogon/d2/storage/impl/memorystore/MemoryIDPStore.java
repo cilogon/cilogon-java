@@ -2,8 +2,11 @@ package org.cilogon.d2.storage.impl.memorystore;
 
 import edu.uiuc.ncsa.security.core.IdentifiableProvider;
 import edu.uiuc.ncsa.security.storage.MemoryStore;
+import edu.uiuc.ncsa.security.storage.data.MapConverter;
 import org.cilogon.d2.storage.IdentityProvider;
 import org.cilogon.d2.storage.IdentityProviderStore;
+import org.cilogon.d2.util.IDPConverter;
+import org.cilogon.d2.util.IDPKeys;
 
 import java.util.Collection;
 
@@ -41,5 +44,9 @@ public class MemoryIDPStore extends MemoryStore<IdentityProvider> implements Ide
         return containsKey(idp);
     }
 
-
+    @Override
+    public MapConverter getConverter() {
+        IDPKeys keys = new IDPKeys();
+        return new IDPConverter(keys,identifiableProvider);
+    }
 }

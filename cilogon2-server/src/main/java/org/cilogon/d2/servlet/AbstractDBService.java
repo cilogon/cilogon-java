@@ -337,17 +337,15 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
 
         String affiliation = request.getParameter(AFFILIATION);
         String attr_json = request.getParameter(ATTR_JSON);
-        System.err.println(getClass().getSimpleName() + ".getUser: aatr_json=" + attr_json);
         String displayName = request.getParameter(DISPLAY_NAME);
         String organizationalUnit = request.getParameter(OU);
 
         String useUSinDNString = getParam(request, userKeys.useUSinDN(), true);
-        Boolean useUSinDN = true; //default
-        /*if(useUSinDNString == null) {
+        Boolean useUSinDN = parseUseUSinDNString(useUSinDNString);
+        if(useUSinDNString == null) {
             getMyLogger().warn("No us_idp flag set for this request, assuming IDP is US");
-        }else{*/
-        useUSinDN = parseUseUSinDNString(useUSinDNString);
-        //}
+            useUSinDN = Boolean.TRUE;
+        }
         DebugUtil.dbg(this, "getUser: use US in DN String= " + useUSinDNString);
         if (isEmpty(idpDisplayName) && isEmpty(firstName) && isEmpty(lastName) && isEmpty(email)) {
             DebugUtil.dbg(this, "getUser:Empty information means to find user");
@@ -469,7 +467,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
         ServletDebugUtil.dbg(this, " Parameter requests = " + key + ", nullok? " + nullOK);
         request.setCharacterEncoding("UTF-8");
         String[] params = request.getParameterValues(key);
-        ServletDebugUtil.dbg(this, " Found parameter= " + params);
+        ServletDebugUtil.dbg(this, " Found parameter= " + Arrays.toString(params));
         if (null == params || params.length == 0) {
             if (nullOK) {
                 return null;
@@ -528,8 +526,8 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
             if (getTransactionStore() instanceof CILSQLTransactionStore) {
                 String identifier = t.getIdentifierString();
                 info("Trying to get legacy info for client with identifier " + identifier);
-                CILSQLTransactionStore pg = (CILSQLTransactionStore) getTransactionStore();
-                Connection c = pg.getConnection();
+                CILSQLTransactionStore transactionStore = (CILSQLTransactionStore) getTransactionStore();
+                Connection c = transactionStore.getConnection();
                 String statement = "SELECT portal_name,success_uri,error_uri from cilogon.a_transaction where temp_cred=?";
                 try {
                     PreparedStatement stmt = c.prepareStatement(statement);
@@ -549,6 +547,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
                     t.setClient(ac); //don't save this, since the identifier is not unique!
                     rs.close();
                     stmt.close();
+                    transactionStore.releaseConnection(c);
                     info("Got legacy client info for " + identifier);
                 } catch (SQLException sqlx) {
                     sqlx.printStackTrace();
@@ -556,8 +555,6 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
                     // last ditch effort... see if the old service can be pinged.
                     //legacyPP(ag, response);
                     return;
-                } finally {
-                    pg.releaseConnection(c);
                 }
             }
             // try and get it from the old service. Can't do much about it.

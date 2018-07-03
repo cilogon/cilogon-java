@@ -129,11 +129,11 @@ public class CILSQLUserStore extends SQLStore<User> implements UserStore {
             }
             rs.close();
             stmt.close();
+            releaseConnection(c);
+
         } catch (SQLException e) {
             destroyConnection(c);
             throw new CILogonException("Error getting user with ids = \"" + userMultiKey + "\" and identity provider =\"" + idP + "\"", e);
-        } finally {
-            releaseConnection(c);
         }
         if (users.isEmpty()) throw new UserNotFoundException();
         return users;
@@ -224,15 +224,15 @@ public class CILSQLUserStore extends SQLStore<User> implements UserStore {
             } else {
                 rs.close();
                 stmt.close();
+                releaseConnection(c);
                 throw new UserNotFoundException("Error: no user found for remoteUser=" + remoteUser + ", and idp=" + idP);
             }
             rs.close();
             stmt.close();
+            releaseConnection(c);
         } catch (SQLException e) {
             destroyConnection(c);
             throw new CILogonException("Error getting user with remote user name = \"" + remoteUser + "\" and identity provider =\"" + idP + "\"", e);
-        } finally {
-            releaseConnection(c);
         }
         return user;
 
@@ -247,11 +247,10 @@ public class CILSQLUserStore extends SQLStore<User> implements UserStore {
             stmt.setString(2, idP);
             stmt.executeUpdate();
             stmt.close();
+            releaseConnection(c);
         } catch (SQLException e) {
             destroyConnection(c);
             return false;
-        } finally {
-            releaseConnection(c);
         }
         // note that if there is no entry for this, then there is no SQL error and we return true in any case.
         return true;
@@ -299,11 +298,11 @@ public class CILSQLUserStore extends SQLStore<User> implements UserStore {
             } // Finish up using the database, then decide what to do. Catch any real DB exceptions that happen.
             rs.close();
             stmt.close();
+            releaseConnection(c);
+
         } catch (Exception e) {
             destroyConnection(c);
             throw new CILogonException("Error getting uid for remote user = " + personName + ", and IdP = " + idP, e);
-        } finally {
-            releaseConnection(c);
         }
         if (rc == null) {
             throw new UserNotFoundException("No user found for remoteUser=" + personName + ", idp=" + idP);

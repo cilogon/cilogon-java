@@ -1,9 +1,10 @@
 package org.cilogon.d2.admin;
 
+import edu.uiuc.ncsa.myproxy.oa4mp.server.StoreCommands2;
 import edu.uiuc.ncsa.security.core.Identifiable;
 import edu.uiuc.ncsa.security.core.Store;
 import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
-import edu.uiuc.ncsa.security.util.cli.StoreCommands;
+import edu.uiuc.ncsa.security.storage.data.MapConverter;
 import org.cilogon.d2.storage.IdentityProvider;
 import org.cilogon.d2.storage.IdentityProviderStore;
 
@@ -11,7 +12,7 @@ import org.cilogon.d2.storage.IdentityProviderStore;
  * <p>Created by Jeff Gaynor<br>
  * on 11/4/13 at  3:54 PM
  */
-public class IDPCommands extends StoreCommands {
+public class IDPCommands extends StoreCommands2 {
     @Override
     public void extraUpdates(Identifiable identifiable) {
     }
@@ -50,4 +51,10 @@ public class IDPCommands extends StoreCommands {
     protected void longFormat(Identifiable identifiable) {
         sayi(identifiable.getIdentifierString());
     }
+
+    @Override
+    protected MapConverter getConverter() {
+        return ((IdentityProviderStore)getStore()).getConverter();
+    }
+
 }
