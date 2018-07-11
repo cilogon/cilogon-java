@@ -9,5 +9,4 @@ import edu.uiuc.ncsa.security.storage.data.MapConverter;
  * on 10/18/12 at  11:05 AM
  */
 public interface TwoFactorStore extends Store<TwoFactorInfo> {
-    public MapConverter getConverter();
 }

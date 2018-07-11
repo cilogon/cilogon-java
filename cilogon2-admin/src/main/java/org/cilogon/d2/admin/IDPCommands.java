@@ -4,7 +4,6 @@ import edu.uiuc.ncsa.myproxy.oa4mp.server.StoreCommands2;
 import edu.uiuc.ncsa.security.core.Identifiable;
 import edu.uiuc.ncsa.security.core.Store;
 import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
-import edu.uiuc.ncsa.security.storage.data.MapConverter;
 import org.cilogon.d2.storage.IdentityProvider;
 import org.cilogon.d2.storage.IdentityProviderStore;
 
@@ -52,9 +51,6 @@ public class IDPCommands extends StoreCommands2 {
         sayi(identifiable.getIdentifierString());
     }
 
-    @Override
-    protected MapConverter getConverter() {
-        return ((IdentityProviderStore)getStore()).getConverter();
-    }
+
 
 }

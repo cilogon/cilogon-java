@@ -1,6 +1,7 @@
 package org.cilogon.d2.twofactor;
 
 import edu.uiuc.ncsa.security.core.IdentifiableProvider;
+import edu.uiuc.ncsa.security.core.XMLConverter;
 import edu.uiuc.ncsa.security.storage.MemoryStore;
 import edu.uiuc.ncsa.security.storage.data.MapConverter;
 
@@ -13,8 +14,12 @@ public class TwoFactorMS extends MemoryStore<TwoFactorInfo> implements TwoFactor
         super(identifiableProvider);
     }
 
-    @Override
-    public MapConverter getConverter() {
+    public MapConverter getMApConverter() {
         return new TwoFactorMapConverter((TwoFactorInfoProvider) identifiableProvider);
+    }
+
+    @Override
+    public XMLConverter<TwoFactorInfo> getXMLConverter() {
+        return getMApConverter();
     }
 }

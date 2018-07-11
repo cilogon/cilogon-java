@@ -38,6 +38,4 @@ public interface ArchivedUserStore extends Store<ArchivedUser> {
      * @return
      */
     public ArchivedUser getLastArchivedUser(Identifier userid);
-
-    public MapConverter getConverter();
 }

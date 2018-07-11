@@ -205,4 +205,9 @@ public class UserFileStore extends FileStore<User> implements UserStore {
         t.setSerialIdentifier(serialString); // or subsequent calls have wrong serial string!
         super.update(t);
     }
+
+    @Override
+    public MapConverter getMapConverter() {
+        return converter;
+    }
 }

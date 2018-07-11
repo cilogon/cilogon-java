@@ -46,6 +46,4 @@ public interface IdentityProviderStore extends Store<IdentityProvider> {
      * @return
      */
     public boolean hasIdp(String idp);
-
-    public MapConverter getConverter();
 }

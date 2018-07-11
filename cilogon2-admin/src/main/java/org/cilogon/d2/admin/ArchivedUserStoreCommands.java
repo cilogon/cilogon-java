@@ -289,9 +289,6 @@ public class ArchivedUserStoreCommands extends StoreCommands2 {
         sayi("and then archive a specific user. Archived users only exist in reference to a given user");
     }
 
-    @Override
-    protected MapConverter getConverter() {
-        return ((ArchivedUserStore)getStore()).getConverter();
-    }
+
 
 }

@@ -85,5 +85,5 @@ public interface UserStore extends Store<User> {
      */
     public User create(boolean newSerialString);
 
-    public MapConverter getConverter();
+    public MapConverter getMapConverter();
 }

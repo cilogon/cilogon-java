@@ -1,6 +1,7 @@
 package org.cilogon.d2.storage.impl.memorystore;
 
 import edu.uiuc.ncsa.security.core.Identifier;
+import edu.uiuc.ncsa.security.core.XMLConverter;
 import edu.uiuc.ncsa.security.core.util.IdentifiableProviderImpl;
 import edu.uiuc.ncsa.security.storage.MemoryStore;
 import edu.uiuc.ncsa.security.storage.data.MapConverter;
@@ -172,9 +173,13 @@ public class MemoryUserStore extends MemoryStore<User> implements UserStore {
         update(value, false);
     }
 
-    @Override
-    public MapConverter getConverter() {
+    public MapConverter getMapConverter() {
         UserKeys keys = new UserKeys();
         return new UserConverter(keys, identifiableProvider);
+    }
+
+    @Override
+    public XMLConverter<User> getXMLConverter() {
+        return getMapConverter();
     }
 }

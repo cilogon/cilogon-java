@@ -17,6 +17,7 @@ import static edu.uiuc.ncsa.myproxy.oa4mp.TestUtils.findConfigNode;
  */
 public class CILTestSuiteInitializer extends TestSuiteInitializer {
 
+
     public CILTestSuiteInitializer(AbstractBootstrapper bootstrapper) {
         super(bootstrapper);
     }
@@ -51,7 +52,7 @@ public class CILTestSuiteInitializer extends TestSuiteInitializer {
 
          try {
              SATFactory.setAdminClientConverter(AdminClientStoreProviders.getAdminClientConverter());
-             SATFactory.setClientConverter((ClientConverter<? extends Client>) fsp.getClientStore().getConverter());
+             SATFactory.setClientConverter((ClientConverter<? extends Client>) fsp.getClientStore().getMapConverter());
          } catch (Exception e) {
              e.printStackTrace();
          }

@@ -55,8 +55,30 @@ import org.junit.runners.Suite;
 public class ServiceTestSuite extends TestSuite {
     @BeforeClass
     public static void initialize() {
-        // Fill in initializing stores (memory, file system, various DB stores) as needed.
-        // set the store in the corresponding static ServiceTestUtils method.
-
+  /*      ServiceTestUtils.setBootstrapper(getBootstrapper());
+        ServiceTestUtils.setMemoryStoreProvider(getTSP(getMemoryStoreConfigName()));
+        //ServiceTestStoreProvider2 fsp = getTSP(getFileStoreConfigName()); // use this later to get its client converter. Any store would do.
+        ServiceTestUtils.setFsStoreProvider(fsp);
+        ServiceTestUtils.setMySQLStoreProvider(getTSP(getMySQLStoreConfigName()));
+        ServiceTestUtils.setPgStoreProvider(getTSP(getPostgresStoreConfigName()));
+*/
     }
+
+/*    @Override
+    public CILTestStoreProvider getTSP(final String namedNode) {
+        return new TestStoreProvider() {
+            CILogonConfigurationLoader loader;
+
+            @Override
+            public ConfigurationLoader<? extends ServiceEnvironment> getConfigLoader() {
+                if (loader == null) {
+                    //loader = new OA2ConfigurationLoader(findConfigNode(namedNode));
+                    loader = new COLoader(findConfigNode(namedNode));
+                }
+                return loader;
+            }
+
+        };
+
+    }*/
 }

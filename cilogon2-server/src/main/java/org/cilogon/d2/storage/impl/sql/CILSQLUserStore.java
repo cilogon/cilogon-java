@@ -326,4 +326,8 @@ public class CILSQLUserStore extends SQLStore<User> implements UserStore {
         return getUserID(((UserKeys) converter.keys).openID(), openID.getName(), idP);
     }
 
+    @Override
+    public MapConverter getMapConverter() {
+        return converter;
+    }
 }

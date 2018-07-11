@@ -6,7 +6,6 @@ import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.Store;
 import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
 import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
-import edu.uiuc.ncsa.security.storage.data.MapConverter;
 import org.cilogon.d2.twofactor.TwoFactorInfo;
 import org.cilogon.d2.twofactor.TwoFactorStore;
 
@@ -84,10 +83,4 @@ public class TwoFactorCommands extends StoreCommands2 {
         sayi("object id:" + tfi.getIdentifierString());
         sayi("     info:" + (tfi.getInfo() == null ? "(null)" : tfi.getInfo()));
     }
-
-    @Override
-    protected MapConverter getConverter() {
-        return ((TwoFactorStore) getStore()).getConverter();
-    }
-
 }
