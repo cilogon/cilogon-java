@@ -5,12 +5,12 @@
     <parent>
         <artifactId>cilogon2</artifactId>
         <groupId>edu.uiuc.ncsa.security</groupId>
-        <version>4.1-SNAPSHOT</version>
+        <version>4.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>cilogon2-server-test-oauth1</artifactId>
-    <name>Cilogon OAuth 1.0a  server test suite</name>
+    <artifactId>cilogon2-server-test-oauth2</artifactId>
+    <name>Cilogon OAuth 2 server test suite</name>
     <packaging>jar</packaging>
     <dependencies>
         <dependency>
@@ -55,15 +55,10 @@
         </dependency>
         <dependency>
             <groupId>edu.uiuc.ncsa.security</groupId>
-            <artifactId>cilogon2-server-loader-oauth1</artifactId>
+            <artifactId>cilogon2-server-loader-oauth2</artifactId>
             <version>4.1-SNAPSHOT</version>
         </dependency>
-        <dependency>
-                 <groupId>javax.servlet</groupId>
-                 <artifactId>servlet-api</artifactId>
-                 <version>2.5</version>
-                 <scope>provided</scope>
-             </dependency>
+
 
         <dependency>
             <groupId>edu.uiuc.ncsa.security</groupId>
@@ -100,13 +95,20 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>edu.uiuc.ncsa.myproxy</groupId>
+            <artifactId>oa4mp-server-test-oauth2</artifactId>
+            <version>4.1-SNAPSHOT</version>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>edu.uiuc.ncsa.security.delegation</groupId>
-            <artifactId>ncsa-security-oauth-1.0a</artifactId>
+            <artifactId>ncsa-security-oauth-2.0</artifactId>
             <version>4.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>edu.uiuc.ncsa.myproxy</groupId>
-            <artifactId>oa4mp-server-loader-oauth1</artifactId>
+            <artifactId>oa4mp-server-loader-oauth2</artifactId>
             <version>4.1-SNAPSHOT</version>
         </dependency>
         <dependency>
@@ -171,7 +173,7 @@
                     </items>
                 </configuration>
             </plugin>
-            <!--<plugin>
+          <!--  <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>3.1.0</version>

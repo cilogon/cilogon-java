@@ -5,7 +5,6 @@ import edu.uiuc.ncsa.security.core.util.DoubleHashMap;
 import edu.uiuc.ncsa.security.delegation.token.*;
 import edu.uiuc.ncsa.security.util.TestBase;
 import org.cilogon.d2.CILTestStoreProviderI2;
-import org.cilogon.d2.ServiceTestUtils;
 import org.junit.Test;
 
 import java.net.URI;
@@ -14,13 +13,7 @@ import java.net.URI;
  * <p>Created by Jeff Gaynor<br>
  * on 3/16/12 at  10:34 AM
  */
-public class TokenTest extends TestBase {
-
-
-    public CILTestStoreProviderI2 getTSProvider() {
-        return (CILTestStoreProviderI2) ServiceTestUtils.getMemoryStoreProvider();
-    }
-
+public  class TokenTest extends TestBase {
 
 
     protected void checkToken(Token token, String testServer, String component, String ssComponent) {
@@ -30,8 +23,7 @@ public class TokenTest extends TestBase {
         String sharedSecret = null;
         if (token instanceof AccessToken) {
             sharedSecret = ((AccessToken) token).getSharedSecret();
-        }else
-        if (token instanceof AuthorizationGrant) {
+        } else if (token instanceof AuthorizationGrant) {
             sharedSecret = ((AuthorizationGrant) token).getSharedSecret();
         }
         if (sharedSecret == null) return;
@@ -43,8 +35,8 @@ public class TokenTest extends TestBase {
 
 
     @Test
-    public void testAccessToken() throws Exception {
-        TokenForge tf = getTSProvider().getTokenForge();
+    public void testAccessToken(CILTestStoreProviderI2 provider) throws Exception {
+        TokenForge tf = provider.getTokenForge();
         AuthorizationGrant ag = tf.getAuthorizationGrant();
         AccessToken token = tf.getAccessToken("urn:test:/test/accessToken/" + System.currentTimeMillis(), "urn:test:/test/accessToken/SharedSecret/" + System.currentTimeMillis());
         Verifier v = tf.getVerifier("urn:test:/test/verfier/" + System.currentTimeMillis());

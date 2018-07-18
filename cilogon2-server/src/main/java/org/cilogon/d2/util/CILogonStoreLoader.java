@@ -19,6 +19,8 @@ import org.cilogon.d2.storage.impl.sql.provider.CILSQLUserStoreProvider;
 import org.cilogon.d2.storage.provider.*;
 import org.cilogon.d2.twofactor.*;
 
+import java.util.HashMap;
+
 import static edu.uiuc.ncsa.myproxy.oa4mp.server.OA4MPConfigTags.MYSQL_STORE;
 import static edu.uiuc.ncsa.myproxy.oa4mp.server.OA4MPConfigTags.POSTGRESQL_STORE;
 import static edu.uiuc.ncsa.security.core.configuration.StorageConfigurationTags.MARIADB_STORE;
@@ -196,6 +198,11 @@ public  class CILogonStoreLoader<T extends ServiceEnvironmentImpl> extends DBCon
 
     @Override
     public T createInstance() {
+        return null;
+    }
+
+    @Override
+    public HashMap<String, String> getConstants() {
         return null;
     }
 }

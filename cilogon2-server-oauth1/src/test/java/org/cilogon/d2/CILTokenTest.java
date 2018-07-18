@@ -18,6 +18,17 @@ import org.junit.Test;
  * on 5/2/12 at  10:26 AM
  */
 public class CILTokenTest extends TokenTest {
+    public void testAll() throws Exception {
+        doTests((CILTestStoreProviderI2) ServiceTestUtils.getMemoryStoreProvider());
+        doTests((CILTestStoreProviderI2) ServiceTestUtils.getFsStoreProvider());
+        doTests((CILTestStoreProviderI2) ServiceTestUtils.getMySQLStoreProvider());
+        doTests((CILTestStoreProviderI2) ServiceTestUtils.getPgStoreProvider());
+    }
+
+    public void doTests(CILTestStoreProviderI2 provider) throws Exception {
+        testAccessToken(provider);
+        testProviders(provider);
+    }
 
     @Test
     public void testTokenSemantics() throws Exception {
@@ -39,9 +50,8 @@ public class CILTokenTest extends TokenTest {
 
     }
 
-    @Test
-    public void testProviders() throws Exception {
-        CILogonConfiguration loader = (CILogonConfiguration) ServiceTestUtils.getPgStoreProvider().getConfigLoader();
+    public void testProviders(CILTestStoreProviderI2 provider) throws Exception {
+        CILogonConfiguration loader = ((CILogonConfiguration)provider.getConfigLoader());
         SerialStringProvider sp = loader.getSsp();
         SerialStrings ss = sp.get();
         System.out.println(ss);

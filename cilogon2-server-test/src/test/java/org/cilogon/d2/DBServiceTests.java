@@ -150,7 +150,7 @@ public class DBServiceTests extends RemoteDBServiceTest {
         getTransactionStore().save(t);
         //now its in the store. We have to get it.
         Map<String, Object> t2; // we can't actually recreate the transaction completely -- that is not the aim. So we use a hash map instead.
-        String tokenKey = getTSProvider().getConfigLoader().getConstants().get(ServiceConstantKeys.TOKEN_KEY);
+        String tokenKey = (String)getTSProvider().getConfigLoader().getConstants().get(ServiceConstantKeys.TOKEN_KEY);
         t2 = getDBSClient().getPortalParameters(t.getAuthorizationGrant().getToken());
         assert t2.get(DBServiceSerializer.CILOGON_CALLBACK_URI).equals(t.getCallback().toString());
         assert t2.get(DBServiceSerializer.CILOGON_FAILURE_URI).equals(client.getErrorUri().toString());

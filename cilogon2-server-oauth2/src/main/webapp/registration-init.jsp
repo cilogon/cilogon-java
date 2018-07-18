@@ -74,8 +74,8 @@
                         <input type="checkbox"
                                name="chkScopes"
                                value="${scope}"
-                            <c:set var="xxx" scope="session" value="${scope}"/>
-                               <c:if test="${xxx == 'openid'}">checked="checked"</c:if>
+                            <c:set var="CILTestStoreProviderImpl" scope="session" value="${scope}"/>
+                               <c:if test="${CILTestStoreProviderImpl == 'openid'}">checked="checked"</c:if>
                                 >${scope}&nbsp;
                     </c:forEach>
                 </td>

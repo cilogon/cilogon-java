@@ -1,7 +1,7 @@
 package org.cilogon.d2;
 
 import edu.uiuc.ncsa.myproxy.oa4mp.TestStoreProviderInterface;
-import edu.uiuc.ncsa.myproxy.oa4mp.server.servlet.AbstractConfigurationLoader;
+import edu.uiuc.ncsa.security.core.util.ConfigurationLoader;
 import edu.uiuc.ncsa.security.delegation.token.TokenForge;
 import org.cilogon.d2.storage.IdentityProviderStore;
 import org.cilogon.d2.storage.User;
@@ -15,7 +15,7 @@ import org.cilogon.d2.util.Incrementable;
  * on 10/25/17 at  12:07 PM
  */
 public interface CILTestStoreProviderI2 extends TestStoreProviderInterface{
-    AbstractConfigurationLoader getConfigLoader() ;
+    ConfigurationLoader getConfigLoader() ;
 
     TwoFactorStore getTwoFactorStore() throws Exception;
 

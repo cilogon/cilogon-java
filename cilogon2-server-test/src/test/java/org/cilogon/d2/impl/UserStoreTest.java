@@ -3,9 +3,14 @@ package org.cilogon.d2.impl;
 import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.exceptions.GeneralException;
 import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
-import org.cilogon.d2.CILStoreTest;
+import edu.uiuc.ncsa.security.util.TestBase;
+import org.cilogon.d2.CILTestStoreProviderI2;
 import org.cilogon.d2.RemoteDBServiceTest;
+import org.cilogon.d2.ServiceTestUtils;
 import org.cilogon.d2.storage.*;
+import org.cilogon.d2.storage.impl.memorystore.MemoryUserStore;
+import org.cilogon.d2.storage.provider.UserIdentifierProvider;
+import org.cilogon.d2.storage.provider.UserProvider;
 import org.cilogon.d2.util.DNUtil;
 import org.cilogon.d2.util.Incrementable;
 import org.junit.Test;
@@ -23,29 +28,36 @@ import static org.cilogon.d2.ServiceTestUtils.getSerialStrings;
  * <p>Created by Jeff Gaynor<br>
  * on Mar 12, 2010 at  6:41:46 PM
  */
-public abstract class UserStoreTest extends CILStoreTest {
-
-    public UserStore getUserStore() throws Exception {
-        return getCILStoreTestProvider().getUserStore();
+public  class UserStoreTest extends TestBase {
+    public void testAll() throws Exception{
+        doTests((CILTestStoreProviderI2) ServiceTestUtils.getMemoryStoreProvider());
+        doTests((CILTestStoreProviderI2) ServiceTestUtils.getFsStoreProvider());
+        doTests((CILTestStoreProviderI2) ServiceTestUtils.getMySQLStoreProvider());
+        doTests((CILTestStoreProviderI2) ServiceTestUtils.getPgStoreProvider());
     }
 
-    public IdentityProviderStore getIDP() throws Exception {
-        return getCILStoreTestProvider().getIDP();
+    public void doTests(CILTestStoreProviderI2 provider) throws Exception{
+        testNextValue(provider.getSequence());
+        testSerialStringIncrement(provider.getUserStore());
+        testMapInterface(provider.getUserStore());
+        testGetUser(provider.getUserStore());
+        testUserCreate(provider.getUserStore(), provider.getIDP());
+        testCIL68(provider.getUserStore());
+        testCIL68a(provider.getUserStore());
+        testOAUTH108(provider.getUserStore(), provider.getIDP());
+        testInCommon(provider.getUserStore(), provider.getIDP());
+        testLIGOUser(provider.getUserStore());
+        testOpenIdUser(provider.getUserStore());
     }
 
-    @Override
-    public void checkStoreClass() throws Exception {
-        testClassAsignability(getUserStore());
-    }
 
-    @Test
-    public void testNextValue() throws Exception {
-        Incrementable incrementable = getCILStoreTestProvider().getSequence();
+    public void testNextValue(Incrementable incrementable) throws Exception {
+        //Incrementable incrementable = getCILStoreTestProvider().getSequence();
         long start = incrementable.nextValue();
         for (int i = 0; i < count; i++) {
             assert incrementable.nextValue() == start + i + 1;
         }
-        System.out.println("\nnext value from incrementable \"" + getCILStoreTestProvider().getSequence().getClass().getSimpleName() + "\" is " + (start + count));
+        System.out.println("\nnext value from incrementable \"" + incrementable.getClass().getSimpleName() + "\" is " + (start + count));
     }
 
    protected UserMultiKey createRU(String x){
@@ -56,15 +68,15 @@ public abstract class UserStoreTest extends CILStoreTest {
         return RemoteDBServiceTest.createUMK(x);
     }
     @Test
-    public void testGetUser() throws Exception {
+    public void testGetUser(UserStore userStore) throws Exception {
         try {
-            getUserStore().get(createRU(getRandomString(10)), getRandomString(10));
+            userStore.get(createRU(getRandomString(10)), getRandomString(10));
             assert false : "Regression test failed: get User (remoteUser,idp) should throw an exception if the user does not exist";
         } catch (UserNotFoundException x) {
             assert true;
         }
         try {
-            getUserStore().get(newID("foo:bar:" + getRandomString(10)));
+            userStore.get(newID("foo:bar:" + getRandomString(10)));
             assert false : "Regression test failed: getUser(Identifier) should throw a UserNotFoundException if user does not exist";
         } catch (UserNotFoundException x) {
             assert true;
@@ -76,13 +88,13 @@ public abstract class UserStoreTest extends CILStoreTest {
      * @throws Exception
      */
     @Test
-    public void testOAUTH108() throws Exception {
+    public void testOAUTH108(UserStore userStore, IdentityProviderStore identityProviderStore) throws Exception {
         IdentityProvider idp = new IdentityProvider(newID(URI.create("urn:identity/prov/" + getRandomString())));
-        getIDP().register(idp);
+        identityProviderStore.register(idp);
         String random = getRandomString();
         UserMultiKey umk = createUMK(random);
-        User bob = getUserStore().createAndRegisterUser(umk, idp.getIdentifierString(), "idp display name", "bob", "smith", "bob@smith.com",
-                "affiliation-" + random,"displayName-" + random,"orgUnit-" + random);
+        User bob = userStore.createAndRegisterUser(umk, idp.getIdentifierString(), "idp display name", "bob", "smith", "bob@smith.com",
+                "affiliation-" + random, "displayName-" + random, "orgUnit-" + random);
         bob.setePPN(umk.getEppn());
         assert checkNoNulls(umk.getEppn(), bob.getePPN()) : "Setter fails for ePPN";
         bob.setePTID(umk.getEptid());
@@ -91,8 +103,8 @@ public abstract class UserStoreTest extends CILStoreTest {
         assert checkNoNulls(umk.getOpenID(), bob.getOpenID()) : "Setter fails for Open ID";
         bob.setePTID(umk.getEptid());
         bob.setOpenID(umk.getOpenID());
-        getUserStore().save(bob);
-        User bob2 = getUserStore().get(bob.getIdentifier());
+        userStore.save(bob);
+        User bob2 = userStore.get(bob.getIdentifier());
         assert checkNoNulls(bob.getePPN(), bob2.getePPN()) : "ePPN check fails. Expected \"" + bob.getePPN() + "\" and got \"" + bob2.getePPN() + "\"";
         assert checkNoNulls(bob.getePTID(), bob2.getePTID()) : "ePTID check fails. Expected \"" + bob.getePTID() + "\" and got \"" + bob2.getePTID() + "\"";
         assert checkNoNulls(bob.getOpenID(), bob2.getOpenID()) : "Open ID check fails. Expected \"" + bob.getOpenID() + "\" and got \"" + bob2.getOpenID() + "\"";
@@ -100,20 +112,18 @@ public abstract class UserStoreTest extends CILStoreTest {
         assert bob.equals(bob2) : "Failed object equality check when testing for ePPN, ePTID and openID.";
     }
 
-    protected User getSingleUser(UserMultiKey umk, IdentityProvider  idp) throws Exception {
-        Collection<User> users  = getUserStore().get(umk, idp.getIdentifierString());
+    protected User getSingleUser(UserStore userStore, UserMultiKey umk, IdentityProvider  idp) throws Exception {
+        Collection<User> users  = userStore.get(umk, idp.getIdentifierString());
         assert users.size() == 1 : "Error: unexpected or no users found. ";
         return users.iterator().next();
     }
-    @Test
-    public void testUserCreate() throws Exception {
+    public void testUserCreate(UserStore userStore, IdentityProviderStore identityProviderStore) throws Exception {
 
-        UserStore userStore = getUserStore();
         User bob = null;
         IdentityProvider idp = new IdentityProvider(newID(URI.create("urn:identity/prov/" + getRandomString())));
         String r = getRandomString();
         UserMultiKey umk =  createRU(r);
-        getIDP().register(idp);
+        identityProviderStore.register(idp);
         bob = userStore.createAndRegisterUser(umk, idp.getIdentifierString(), "idp display name", "bob", "smith", "bob@smith.com",
                 "affiliation"+r, "display" + r, "urn:ou:" + r);
 
@@ -121,7 +131,7 @@ public abstract class UserStoreTest extends CILStoreTest {
         User bob2 = userStore.get(bob.getIdentifier());
 
         assert bob2.equals(bob);
-        User bob3 = getSingleUser(umk, idp);
+        User bob3 = getSingleUser(userStore, umk, idp);
         assert bob3.equals(bob);
 
         assert userStore.getUserID(umk, bob.getIdP()).equals(bob.getIdentifier());
@@ -151,10 +161,9 @@ public abstract class UserStoreTest extends CILStoreTest {
      * @throws Exception
      */
     @Test
-    public void testMapInterface() throws Exception {
-        UserStore userStore = getUserStore();
+    public void testMapInterface(UserStore userStore) throws Exception {
         Set<Identifier> keys = userStore.keySet();
-        assert keys.size() == userStore.size();
+        assert keys.size() == userStore.size() : "Got " + keys.size() + " keys for the user store, but the reported size of the store is " + userStore.size();
         if (keys.size() == 0) {
             return;
         }
@@ -175,16 +184,15 @@ public abstract class UserStoreTest extends CILStoreTest {
      *
      * @throws Exception
      */
-    @Test
-    public void testCIL68() throws Exception {
-        User user = getUserStore().create(true);
+    public void testCIL68(UserStore userStore) throws Exception {
+        User user = userStore.create(true);
         Identifier serialIdentifier = user.getSerialIdentifier();
         // issue is to update the user
         user.setFirstName("Bob");
         user.setUserMultiKey(createRU( "remote-" + getRandomString()));
         user.setIdP("idp-" + getRandomString());
-        getUserStore().register(user);
-        getUserStore().update(user);
+        userStore.register(user);
+        userStore.update(user);
         assert !serialIdentifier.equals(user.getSerialIdentifier());
         assert serialIdentifier.equals(user.getIdentifier()) : "After an update, the user id and serial id should not match, but they do.";
     }
@@ -194,23 +202,20 @@ public abstract class UserStoreTest extends CILStoreTest {
      * supposed to invoke update as needed.
       * @throws Exception
       */
-     @Test
-     public void testCIL68a() throws Exception {
-         User user = getUserStore().create(true);
+     public void testCIL68a(UserStore userStore) throws Exception {
+         User user = userStore.create(true);
          Identifier serialIdentifier = user.getSerialIdentifier();
          // issue is to update the user
          user.setFirstName("Bob");
          user.setUserMultiKey(createRU( "remote-" + getRandomString()));
          user.setIdP("idp-" + getRandomString());
-         getUserStore().register(user);
-         getUserStore().save(user);
+         userStore.register(user);
+         userStore.save(user);
          assert !serialIdentifier.equals(user.getSerialIdentifier());
          assert serialIdentifier.equals(user.getIdentifier()) : "After an update, the user id and serial id should not match, but they do.";
      }
 
-    @Test
-    public void testOpenIdUser() throws Exception {
-        UserStore pStore = getUserStore();
+    public void testOpenIdUser(UserStore pStore) throws Exception {
         User bob = null;
         String x = getRandomString();
         bob = pStore.createAndRegisterUser(createRU("remote-"+getRandomString()), "urn:identity/prov/" + getRandomString(), "idp-name:"+x,
@@ -220,9 +225,7 @@ public abstract class UserStoreTest extends CILStoreTest {
         System.out.println("OpenID DN Test: Does this look right? \"" + bob.getDN(null, true) + "\"");
     }
 
-    @Test
-    public void testLIGOUser() throws Exception {
-        UserStore pStore = getUserStore();
+    public void testLIGOUser(UserStore pStore) throws Exception {
         User bob = null;
         bob = pStore.createAndRegisterUser(createRU("LIGO-ePPN-" + getRandomString()), DNUtil.LIGO_IDP, "LIGO", "firstName", "lastName", "my-email@ligo.org",
                 null,null,null);
@@ -230,7 +233,6 @@ public abstract class UserStoreTest extends CILStoreTest {
         System.out.println("LIGO DN test: Does this look right? \"" + bob.getDN(null,true) + "\"");
     }
 
-    @Test
     public void testSerialStrings() throws Exception {
         // This test doesn't save the user and only tests the machinery for working with serial strings and identifiers
         User user = new User(BasicIdentifier.newID("test:foo://user/"), getSerialStrings());
@@ -256,27 +258,28 @@ public abstract class UserStoreTest extends CILStoreTest {
         }
     }
 
-    @Test
-      public void testSerialStringIncrement() throws Exception {
-        User user = getUserStore().create(true);
+      public void testSerialStringIncrement(UserStore userStore) throws Exception {
+        User user = userStore.create(true);
         String x = getRandomString();
         user.setFirstName("first-" + x);
         user.setLastName("last-" + x);
         user.setIdP("urn:idp:" + x);
-        getUserStore().save(user);
+        userStore.save(user);
+
 
         Identifier identifier = user.getSerialIdentifier();
        // so change a field and update the user. The serial string should be different
         String y = getRandomString();
         user.setFirstName("first-" + y);
-        getUserStore().update(user);
+        userStore.update(user);
         assert !user.getSerialIdentifier().equals(identifier) : "old serial id=" + identifier + ", new id=" + user.getSerialIdentifier() + ". These should not be equal.";
 
         // And now check that the save method actually does choose the right method, updating if the user exists.
         identifier = user.getSerialIdentifier();
         user.setLastName("last-" + y);
-        getUserStore().save(user);
+        userStore.save(user);
         assert !user.getSerialIdentifier().equals(identifier) : "old serial id=" + identifier + ", new id=" + user.getSerialIdentifier() + ". These should not be equal.";
+        userStore.remove(user.getIdentifier());
       }
 
     /**
@@ -285,36 +288,121 @@ public abstract class UserStoreTest extends CILStoreTest {
      * @throws Exception
      */
       @Test
-    public void testInCommon() throws Exception{
+    public void testInCommon(UserStore userStore, IdentityProviderStore identityProviderStore) throws Exception{
           IdentityProvider idp = new IdentityProvider(newID(URI.create("urn:identity/prov/" + getRandomString())));
-              getIDP().register(idp);
+              identityProviderStore.register(idp);
               String random = getRandomString();
               UserMultiKey umk = createUMK(random);
-              User bob = getUserStore().createAndRegisterUser(umk, idp.getIdentifierString(), "idp display name", "bob", "smith", "bob@smith.com",
-                      "affiliation-" + random,"displayName-" + random,"orgUnit-" + random);
+              User bob = userStore.createAndRegisterUser(umk, idp.getIdentifierString(), "idp display name", "bob", "smith", "bob@smith.com",
+                      "affiliation-" + random, "displayName-" + random, "orgUnit-" + random);
           // so at this point this user should not have this set:
 
           // A positive test.
           bob.setUseUSinDN(true);
-          getUserStore().save(bob);
-          bob = getUserStore().get(bob.getIdentifier());
+          userStore.save(bob);
+          bob = userStore.get(bob.getIdentifier());
           assert bob.isUseUSinDN() : "Error: Provenance of IDP set to true, but the stored value is false";
 
           IdentityProvider idp2 = new IdentityProvider(newID(URI.create("urn:identity/prov/" + getRandomString())));
-              getIDP().register(idp2);
+              identityProviderStore.register(idp2);
               random = getRandomString();
               umk = createUMK(random);
-              User bob2 = getUserStore().createAndRegisterUser(umk, idp.getIdentifierString(), "idp display name", "bob2", "smith", "bob2@smith.com",
-                      "affiliation-" + random,"displayName-" + random,"orgUnit-" + random);
+              User bob2 = userStore.createAndRegisterUser(umk, idp.getIdentifierString(), "idp display name", "bob2", "smith", "bob2@smith.com",
+                      "affiliation-" + random, "displayName-" + random, "orgUnit-" + random);
 
           bob2.setUseUSinDN(false);
-          getUserStore().save(bob2);
-          bob2 = getUserStore().get(bob2.getIdentifier());
+          userStore.save(bob2);
+          bob2 = userStore.get(bob2.getIdentifier());
           assert !bob2.isUseUSinDN() : "Error: Provenance of IDP set to false, but the stored value is true";
 
           // Clean up.
-          getUserStore().remove(bob.getIdentifier());
-          getUserStore().remove(bob2.getIdentifier());
+          identityProviderStore.remove(idp);
+          identityProviderStore.remove(idp2);
+          userStore.remove(bob.getIdentifier());
+          userStore.remove(bob2.getIdentifier());
       }
 
+    /**
+     * This tests for a badly behaving incrementable against an in-memory user store.
+     * @throws Exception
+     */
+    @Test
+      public void testBadIncrementable() throws Exception {
+          MemoryUserStore store = new MemoryUserStore(new UserProvider(new MyUIDProvider(), null));
+          String r = getRandomString();
+
+          // It has been saved as part of the registration process and is in the store.
+          // Now create another one that is not. Here the user provider can only generate a single user id, mimicking the failure of
+          // an SQL store or a file store to increment correctly.
+          r = getRandomString();
+
+          try {
+            User  user = store.createAndRegisterUser(createRU("remote-" + r),
+                      "idp:/" + r,
+                      "idp-name-" + r,
+                      "first-" + r,
+                      "last-" + r,
+                      "foo@bar." + r,
+                      "affiliation" + r,
+                      "displayName" + r,
+                      "urn:ou:" + r);
+              store.save(user);
+              assert false : "Was able to create another user in the store with the same id.";
+          } catch (InvalidUserIdException ix) {
+              assert true;
+          }
+      }
+
+      public class MyUIDProvider extends UserIdentifierProvider {
+          public MyUIDProvider() {
+              super(new BadIncrementable(), "fake:server");
+          }
+      }
+
+      /**
+       * A test class that does not increment right so we get bad identifiers from it.
+       */
+      public class BadIncrementable implements Incrementable {
+          long onlyValue = 2L;
+
+          @Override
+          public boolean createNew(long initialValue) {
+              return false;
+          }
+
+          @Override
+          public long nextValue() {
+              return onlyValue;
+          }
+
+          @Override
+          public boolean destroy() {
+              return false;
+          }
+
+          @Override
+          public boolean init() {
+              return false;
+          }
+
+          @Override
+          public boolean createNew() {
+              return false;
+          }
+
+          @Override
+          public boolean isCreated() {
+              return false;
+          }
+
+          @Override
+          public boolean isInitialized() {
+              return false;
+          }
+
+          @Override
+          public boolean isDestroyed() {
+              return false;
+          }
+      }
 }

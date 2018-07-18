@@ -1,6 +1,8 @@
 package org.cilogon.d2.impl;
 
-import org.cilogon.d2.CILStoreTest;
+import edu.uiuc.ncsa.security.util.TestBase;
+import org.cilogon.d2.CILTestStoreProviderI2;
+import org.cilogon.d2.ServiceTestUtils;
 import org.cilogon.d2.storage.User;
 import org.cilogon.d2.storage.UserStore;
 import org.cilogon.d2.twofactor.TwoFactorInfo;
@@ -11,36 +13,38 @@ import org.junit.Test;
  * <p>Created by Jeff Gaynor<br>
  * on 10/18/12 at  1:40 PM
  */
-public abstract class TwoFactorStoreTest extends CILStoreTest {
-    public TwoFactorStore get2FStore() throws Exception {
-        return getCILStoreTestProvider().getTwoFactorStore();
+public  class TwoFactorStoreTest extends TestBase {
+    public void testAll() throws Exception {
+        doTests((CILTestStoreProviderI2) ServiceTestUtils.getMemoryStoreProvider());
+        doTests((CILTestStoreProviderI2) ServiceTestUtils.getFsStoreProvider());
+        doTests((CILTestStoreProviderI2) ServiceTestUtils.getMySQLStoreProvider());
+        doTests((CILTestStoreProviderI2) ServiceTestUtils.getPgStoreProvider());
     }
 
-    public UserStore getUserStore() throws Exception {
-        return getCILStoreTestProvider().getUserStore();
-    }
-
-    @Override
-    public void checkStoreClass() throws Exception {
-        testClassAsignability(get2FStore());
+    public void doTests(CILTestStoreProviderI2 provider) throws Exception {
+           testPutInfo(provider.getUserStore(),provider.getTwoFactorStore());
     }
 
     @Test
-    public void testPutInfo() throws Exception {
+    public void testPutInfo(UserStore userStore, TwoFactorStore twoFactorStore) throws Exception {
 
-        User user = getUserStore().create(true);
+        User user = userStore.create(true);
         user.setFirstName("Relth");
         user.setLastName("Gryzaackxs-" + getRandomString(8));
-        getUserStore().save(user);
+        userStore.save(user);
 
-        TwoFactorInfo info = get2FStore().create();
+        TwoFactorInfo info = twoFactorStore.create();
         info.setIdentifier(user.getIdentifier());
         String infoString = getRandomString(256);
         info.setInfo(infoString);
-        get2FStore().save(info);
+        twoFactorStore.save(info);
 
-        TwoFactorInfo info2 = get2FStore().get(info.getIdentifier());
+        TwoFactorInfo info2 = twoFactorStore.get(info.getIdentifier());
         assert info2.getIdentifier().equals(info.getIdentifier()) : "Identifiers did not match";
         assert info2.getInfo().equals(info.getInfo()) : "info did not match";
+        // clean up
+        userStore.remove(user.getIdentifier());
+        twoFactorStore.remove(info.getIdentifier());
+        twoFactorStore.remove(info2.getIdentifier());
     }
 }

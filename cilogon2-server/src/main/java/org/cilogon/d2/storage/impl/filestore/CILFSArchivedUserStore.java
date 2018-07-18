@@ -9,14 +9,21 @@ import edu.uiuc.ncsa.security.storage.data.MapConverter;
 import org.cilogon.d2.storage.ArchivedUser;
 import org.cilogon.d2.storage.User;
 import org.cilogon.d2.storage.UserStore;
-import org.cilogon.d2.storage.provider.ArchivedUserProvider;
-import org.cilogon.d2.util.ArchivedUserConverter;
 import org.cilogon.d2.util.ArchivedUserStore;
 
 import java.io.File;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+
+       /*
+        NOTE the archived user file store is not implemented (see note below) and all the tests for it here
+        will fail.
+        The reason is that databases keepa separate table for users but the file store has to
+        manage a thing called an AUEntry (ArchivedUserEntry) and there is no converter for that
+        to serialize it. At this poiint (7/19/2018) it is still doubtful anyone wants to put
+        CILogon on a file system, but enough of the code exists that it should be kept for now.
+         */
 
 /**
  * This actually creates and manages a store of old users that are recorded in a specific data structure.
@@ -43,7 +50,7 @@ public class CILFSArchivedUserStore extends FileStore<ArchivedUser> implements A
         // Caveat: This sets the converter to null, so that plain old java serialization is used.
         // Since this shouldn't really ever change, that should be ok.
         public AUEntryFileStore(File file) {
-            super(file, null, null);
+            super(file,  null,null);
         }
 
         public AUEntryFileStore(File storeDirectory, File indexDirectory) {
@@ -86,14 +93,14 @@ public class CILFSArchivedUserStore extends FileStore<ArchivedUser> implements A
 
     AUEntryFileStore auEntryFileStore;
 
-    public CILFSArchivedUserStore(File file,
+/*    public CILFSArchivedUserStore(File file,
                                   UserStore userStore,
                                   ArchivedUserProvider idp,
                                   ArchivedUserConverter archivedUserConverter) {
         super(file, idp, archivedUserConverter);
         auEntryFileStore = new AUEntryFileStore(new File(file, OA4MPConfigTags.ARCHIVED_USERS));
         this.userStore = userStore;
-    }
+    }*/
 
 
 

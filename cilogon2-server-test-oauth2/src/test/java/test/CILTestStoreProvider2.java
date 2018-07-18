@@ -16,23 +16,14 @@ import org.cilogon.d2.util.Incrementable;
  */
 public class CILTestStoreProvider2 extends TestStoreProvider2 implements CILTestStoreProviderI2 {
     public CILTestStoreProvider getCilTSP() {
-        if(cilTSP == null){
-            cilTSP = new CILTestStoreProvider() {
-                @Override
-                public AbstractConfigurationLoader getConfigLoader() {
-                    return null;
-                }
-            };
-        }
         return cilTSP;
     }
 
-    public void setCilTSP(CILTestStoreProvider cilTSP) {
+    CILTestStoreProvider cilTSP ;
+
+    public CILTestStoreProvider2(CILTestStoreProvider cilTSP) {
         this.cilTSP = cilTSP;
     }
-
-    CILTestStoreProvider cilTSP;
-
 
     @Override
     public ArchivedUserStore getArchivedUserStore() throws Exception {

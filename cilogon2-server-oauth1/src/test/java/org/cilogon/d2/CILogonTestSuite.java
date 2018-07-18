@@ -7,20 +7,12 @@ package org.cilogon.d2;
 
 import edu.uiuc.ncsa.myproxy.oa4mp.NewCAStoreTest;
 import edu.uiuc.ncsa.myproxy.oa4mp.NewClientStoreTest;
-import edu.uiuc.ncsa.myproxy.oa4mp.NewTransactionTest;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.servlet.AbstractConfigurationLoader;
 import junit.framework.TestSuite;
-import org.cilogon.d2.impl.filesystem.FS2FStoreTest;
-import org.cilogon.d2.impl.filesystem.FSArchivedUserStoreTest;
-import org.cilogon.d2.impl.filesystem.FSIdentityProviderStoreTest;
-import org.cilogon.d2.impl.filesystem.FSUserStoreTest;
-import org.cilogon.d2.impl.memory.MemoryArchivedUserStoreTest;
-import org.cilogon.d2.impl.memory.MemoryIDPTest;
-import org.cilogon.d2.impl.memory.MemoryUserStoreTest;
-import org.cilogon.d2.impl.mysql.*;
-import org.cilogon.d2.impl.postgres.PG2FStoreTest;
-import org.cilogon.d2.impl.postgres.PGIDPStoreTest;
-import org.cilogon.d2.impl.postgres.PGUserStoreTest;
+import org.cilogon.d2.impl.ArchivedUserStoreTest;
+import org.cilogon.d2.impl.IdentityProviderTest;
+import org.cilogon.d2.impl.NewCILTransactionStoreTest;
+import org.cilogon.d2.impl.TwoFactorStoreTest;
 import org.cilogon.oauth1.loader.CILogonBootstrapper;
 import org.cilogon.oauth1.loader.CILogonConfigurationLoader;
 import org.junit.BeforeClass;
@@ -39,37 +31,13 @@ import static edu.uiuc.ncsa.myproxy.oa4mp.TestUtils.findConfigNode;
  //       DBServiceUserTests.class,
         DBServiceTests.class,
         DBServiceUserIDTests.class,
-        FS2FStoreTest.class,
-        MySQL2FStoreTest.class,
-        PG2FStoreTest.class,
+        IdentityProviderTest.class,
+        TwoFactorStoreTest.class,
+        NewCILTransactionStoreTest.class,
+        ArchivedUserStoreTest.class,
         CILTokenTest.class,
         NewClientStoreTest.class,
         NewCAStoreTest.class,
-        NewTransactionTest.class,
-        //FSClientTest.class,
-        //FSCAStoreTest.class,
-        //FSTransactionStoreTest.class,
-        FSUserStoreTest.class,
-        FSIdentityProviderStoreTest.class,
-        FSArchivedUserStoreTest.class,
-        //MClientStoreTest.class,
-        //MCAStoreTest.class,
-        //MemoryTransactionStoreTest.class,
-        MemoryUserStoreTest.class,
-        MemoryIDPTest.class,
-        MemoryArchivedUserStoreTest.class,
-        //PGClientStoreTest.class,
-        //PGCAStoreTest.class,
-        //PGTransactionStoreTest.class,
-        PGUserStoreTest.class,
-        PGIDPStoreTest.class,
-        //MySQLClientStoreTest.class,
-        //MySQLCAStoreTest.class,
-        //PGArchivedUserStoreTest.class,
-        MySQLTransactionStoreTest.class,
-        MySQLArchivedUserStoreTest.class,
-        MySQLUserStoreTest.class,
-        MySQLIDPStoreTest.class
 
 })
 public class CILogonTestSuite extends TestSuite {

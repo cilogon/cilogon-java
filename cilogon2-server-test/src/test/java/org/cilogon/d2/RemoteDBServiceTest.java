@@ -32,12 +32,20 @@ import static org.cilogon.d2.servlet.AbstractDBService.STATUS_OK;
  */
 public abstract class RemoteDBServiceTest extends TestBase {
 
+    public static String getHost() {
+        return host;
+    }
+
+    public static void setHost(String host) {
+        RemoteDBServiceTest.host = host;
+    }
+
     public static String host = "http://localhost:44444/oauth/dbService";
     DBServiceClient dbsClient = null;
 
     public DBServiceClient getDBSClient() {
         if (dbsClient == null) {
-            dbsClient = new DBServiceClient(host, getTSProvider().getConfigLoader().getConstants().get(ServiceConstantKeys.TOKEN_KEY));
+            dbsClient = new DBServiceClient(getHost(), (String)getTSProvider().getConfigLoader().getConstants().get(ServiceConstantKeys.TOKEN_KEY));
         }
         return dbsClient;
     }

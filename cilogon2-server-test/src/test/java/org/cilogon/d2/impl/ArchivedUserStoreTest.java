@@ -2,7 +2,9 @@ package org.cilogon.d2.impl;
 
 import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.util.BeanUtils;
-import org.cilogon.d2.CILStoreTest;
+import edu.uiuc.ncsa.security.util.TestBase;
+import org.cilogon.d2.CILTestStoreProviderI2;
+import org.cilogon.d2.ServiceTestUtils;
 import org.cilogon.d2.storage.ArchivedUser;
 import org.cilogon.d2.storage.User;
 import org.cilogon.d2.storage.UserMultiKey;
@@ -19,34 +21,34 @@ import static org.cilogon.d2.ServiceTestUtils.checkTimestamp;
  * <p>Created by Jeff Gaynor<br>
  * on 3/9/12 at  12:11 PM
  */
-public abstract class ArchivedUserStoreTest extends CILStoreTest {
+public  class ArchivedUserStoreTest extends TestBase {
+    public void testAll() throws Exception {
+        doTests((CILTestStoreProviderI2) ServiceTestUtils.getMemoryStoreProvider());
+        doTests((CILTestStoreProviderI2) ServiceTestUtils.getMySQLStoreProvider());
+        doTests((CILTestStoreProviderI2) ServiceTestUtils.getPgStoreProvider());
 
-    public UserStore getUserStore() throws Exception {
-        return getCILStoreTestProvider().getUserStore();
+ //       doTests((CILTestStoreProviderI2) ServiceTestUtils.getFsStoreProvider());
     }
 
-    public ArchivedUserStore getArchivedUserStore() throws Exception {
-        return getCILStoreTestProvider().getArchivedUserStore();
+    public void doTests(CILTestStoreProviderI2 provider) throws Exception {
+        testArchiveUserStore(provider);
+        testLastArchivedUser(provider);
+        testNewIDs(provider);
     }
 
-
-    @Override
-    public void checkStoreClass() throws Exception {
-        //     assert getTSProvider().getArchivedUserStore().getClass().isAssignableFrom(getStoreClass())  : "The archived user store is not a " + getStoreClass().getSimpleName();
-        testClassAsignability(getCILStoreTestProvider().getArchivedUserStore());
-    }
 
 
     @Test
-    public void testArchiveUserStore() throws Exception {
+    public void testArchiveUserStore(CILTestStoreProviderI2 provider) throws Exception {
+        ArchivedUserStore archivedUserStore = provider.getArchivedUserStore();
         // what is in the user store *should* be indep. of the user instance. newUser() saves the object already.
-        User user = getCILStoreTestProvider().newUser();
+        User user = provider.newUser();
         String oldFirstName = user.getFirstName();
         user.setFirstName("Roderick");
         // Archive the user in the user store
-        Identifier archivedUserUID = getArchivedUserStore().archiveUser(user.getIdentifier());
-        assert getArchivedUserStore().containsKey(archivedUserUID) : "failed to archive user";
-        ArchivedUser archivedUser = getArchivedUserStore().get(archivedUserUID);
+        Identifier archivedUserUID = archivedUserStore.archiveUser(user.getIdentifier());
+        assert archivedUserStore.containsKey(archivedUserUID) : "failed to archive user";
+        ArchivedUser archivedUser = archivedUserStore.get(archivedUserUID);
 
         // Get the archived user and prove it is indeed the old user, not the new one.
         User oldUser = archivedUser.getUser();
@@ -129,13 +131,14 @@ public abstract class ArchivedUserStoreTest extends CILStoreTest {
     }
 
 
-    @Test
-    public void testLastArchivedUser() throws Exception {
-        User user = getCILStoreTestProvider().newUser();
-        getUserStore().save(user);
+    public void testLastArchivedUser(CILTestStoreProviderI2 provider) throws Exception {
+        UserStore userStore = provider.getUserStore();
+        ArchivedUserStore archivedUserStore = provider.getArchivedUserStore();
+        User user = provider.newUser();
+        userStore.save(user);
 
         // Shouldn't be one archived before we start.
-        assert getArchivedUserStore().getLastArchivedUser(user.getIdentifier()) == null;
+        assert archivedUserStore.getLastArchivedUser(user.getIdentifier()) == null;
         // archive some users
         for (int i = 0; i < count; i++) {
             // This next sleep command is needed because if items update too fast, their timestamps in SQL
@@ -144,24 +147,23 @@ public abstract class ArchivedUserStoreTest extends CILStoreTest {
             Thread.sleep(1000);
             user.setFirstName("Bob-" + i);
             // update does not archive. We have to do that
-            getArchivedUserStore().archiveUser(user.getIdentifier());
-            getUserStore().update(user);
+            archivedUserStore.archiveUser(user.getIdentifier());
+            userStore.update(user);
         }
-        List<ArchivedUser> x = getArchivedUserStore().getAllByUserId(user.getIdentifier());
+        List<ArchivedUser> x = archivedUserStore.getAllByUserId(user.getIdentifier());
         assert x.size() == count;
-        User targetUser = getArchivedUserStore().getLastArchivedUser(user.getIdentifier()).getUser();
+        User targetUser = archivedUserStore.getLastArchivedUser(user.getIdentifier()).getUser();
         // We're one behind the count in number (index origin zero) and one behind that in names, hence count-2 should do it.
         if (targetUser.getFirstName().equals("Bob-" + (count - 2))) {
             assert true;
         } else {
             System.out.println(getClass().getSimpleName() + ": archived user name = " + targetUser.getFirstName() + ", should be Bob-" + (count - 2));
-            System.out.println(getClass().getSimpleName() + ": store =" + getArchivedUserStore().getClass().getName());
+            System.out.println(getClass().getSimpleName() + ": store =" + archivedUserStore.getClass().getName());
             System.out.println("Failed to get correct archived user? These are sorted by timestamp and in *tests* backed by an SQL store they might be indistinguishable.");
         }
     }
 
-    @Test
-    public void testNewIDs() throws Exception {
+    public void testNewIDs(CILTestStoreProviderI2 provider) throws Exception {
         UserMultiKey umk = createUMK();
         UserMultiKey ruKey = new UserMultiKey(umk.getRemoteUserName());
         UserMultiKey eppnKey = new UserMultiKey(umk.getEppn());
@@ -169,25 +171,25 @@ public abstract class ArchivedUserStoreTest extends CILStoreTest {
         UserMultiKey openIdKey = new UserMultiKey(umk.getOpenID());
         UserMultiKey oidcKey = new UserMultiKey(umk.getOpenIDConnect());
 
-        User user = getCILStoreTestProvider().newUser();
+        User user = provider.newUser();
 
-        checkArchivedKey(ruKey, user, true);
-        checkArchivedKey(eppnKey, user, false);
-        checkArchivedKey(eptidKey, user, false);
-        checkArchivedKey(openIdKey, user, false);
-        checkArchivedKey(oidcKey, user, false);
+        checkArchivedKey(provider, ruKey, user, true);
+        checkArchivedKey(provider, eppnKey, user, false);
+        checkArchivedKey(provider, eptidKey, user, false);
+        checkArchivedKey(provider, openIdKey, user, false);
+        checkArchivedKey(provider, oidcKey, user, false);
 
-        List<ArchivedUser> archivedUsers = getArchivedUserStore().getAllByUserId(user.getIdentifier());
+        List<ArchivedUser> archivedUsers = provider.getArchivedUserStore().getAllByUserId(user.getIdentifier());
         assert archivedUsers.size() == 5 : "Expected 5 archived users and got " + archivedUsers.size() + " instead.";
 
     }
 
-    private void checkArchivedKey(UserMultiKey multiKey, User user, boolean doSerialIDsMatch) throws Exception {
+    private void checkArchivedKey(CILTestStoreProviderI2 provider, UserMultiKey multiKey, User user, boolean doSerialIDsMatch) throws Exception {
         ArchivedUser lastAUser;
         user.setUserMultiKey(multiKey);
-        getUserStore().update(user);
-        Identifier archivedUserID = getArchivedUserStore().archiveUser(user.getIdentifier());
-        lastAUser = getArchivedUserStore().get(archivedUserID);
+        provider.getUserStore().update(user);
+        Identifier archivedUserID = provider.getArchivedUserStore().archiveUser(user.getIdentifier());
+        lastAUser = provider.getArchivedUserStore().get(archivedUserID);
         compareUsers(lastAUser, user, true);
     }
 }
