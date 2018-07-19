@@ -37,6 +37,7 @@ public  class UserStoreTest extends TestBase {
     }
 
     public void doTests(CILTestStoreProviderI2 provider) throws Exception{
+        testFNAL(provider.getUserStore());
         testNextValue(provider.getSequence());
         testSerialStringIncrement(provider.getUserStore());
         testMapInterface(provider.getUserStore());
@@ -258,6 +259,64 @@ public  class UserStoreTest extends TestBase {
         }
     }
 
+    /**
+     * Test using a real user and his data
+     * @param userStore
+     * @throws Exception
+     */
+      public void testFNAL(UserStore userStore) throws Exception{
+          /*
+           User[
+           uid="http://cilogon.org/serverA/users/18351",
+           key=UserMultiKey[
+              remoteUser=https://idp.fnal.gov/idp/shibboleth!https://cilogon.org/shibboleth!CJtWNa2SKrwXb0NHzPGlWwr7uTE=,
+              eptid=https://idp.fnal.gov/idp/shibboleth!https://cilogon.org/shibboleth!6258095E940C4172B7E4096063C3C447A91B0F14,
+              eppn=kreymer@fnal.gov],
+              IdP=https://idp.fnal.gov/idp/shibboleth",
+              first name="Arthur",
+              last name="Kreymer",
+              email="kreymer@fnal.gov",
+              idp display="Fermi National Accelerator Laboratory",
+              US IDP?="true",
+              ou=Robots:minos27.fnal.gov:cron,
+              affiliation=null,
+              displayName=Arthur E Kreymer",
+              attr_json=null]
+           */
+          RemoteUserName remoteUser = new RemoteUserName("https://idp.fnal.gov/idp/shibboleth!https://cilogon.org/shibboleth!CJtWNa2SKrwXb0NHzPGlWwr7uTE=");
+          EduPersonTargetedID eptid = new EduPersonTargetedID("https://idp.fnal.gov/idp/shibboleth!https://cilogon.org/shibboleth!6258095E940C4172B7E4096063C3C447A91B0F14");
+          EduPersonPrincipleName eppn = new EduPersonPrincipleName("kreymer@fnal.gov");
+          UserMultiKey umk = new UserMultiKey(remoteUser,eppn,eptid,null,null);
+
+
+
+          User user = userStore.createAndRegisterUser(
+                  umk,
+                  "https://idp.fnal.gov/idp/shibboleth", //idp
+                  "Fermi National Accelerator Laboratory", //ipd display name
+                  "Arthur", //first name
+                  "Kreymer", // last name
+                  "kreymer@fnal.gov", // email
+                  null, // affiliation
+                  "Arthur E Kreymer", // display name
+                  "Robots:minos27.fnal.gov:cron" // organizational unit
+          );
+          user.setAttr_json(null);
+          user.setUseUSinDN(true);
+
+          System.out.println("============ START FNAL TEST");
+          DNUtil.setComputeFNAL(false);
+          System.out.println("-> computeFNAL = false");
+          System.out.println("get email=true: "+ user.getDN(null, true));
+          System.out.println("get email=false: "+ user.getDN(null, false));
+          DNUtil.setComputeFNAL(true);
+          System.out.println("-> computeFNAL = true");
+          System.out.println("get email=true: "+ user.getDN(null, true));
+          System.out.println("get email=false: "+ user.getDN(null, false));
+          System.out.println("============ END FNAL TEST");
+          // clean up
+          userStore.remove(user.getIdentifier());
+      }
       public void testSerialStringIncrement(UserStore userStore) throws Exception {
         User user = userStore.create(true);
         String x = getRandomString();

@@ -118,10 +118,8 @@ public class DNUtil {
         String[] cns = new String[st.countTokens()];
         int i = 0;
         while (st.hasMoreTokens()) {
-
             cns[i++] = st.nextToken();
             DebugUtil.dbg(DNUtil.class, "OA2DNUtil.getFNLDN: cns[i]==" + cns[i - 1]); // cause we incremented
-
         }
         String eppn = user.getePPN().getName();
         String id = "UID:" + eppn.substring(0, eppn.indexOf("@"));
@@ -153,7 +151,9 @@ public class DNUtil {
         if (cns.length == 3 && cns[0].equals("Robots")) {
             String baseString = "/DC=org/DC=cilogon/C=US/O=Fermi National Accelerator Laboratory/OU=Robots/CN=%s/CN=%s/CN=%s %s/CN=%s";
             if(returnEmail){
-                baseString = " email=%s";
+
+                // Fix for "robot bug"
+                baseString = baseString + " email=%s";
                 rc = String.format(baseString,
                         cns[1],
                         cns[2],

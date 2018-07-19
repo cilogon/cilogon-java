@@ -1,7 +1,5 @@
 package test;
 
-import org.cilogon.d2.DBServiceTests;
-import org.cilogon.d2.DBServiceUserIDTests;
 import org.cilogon.d2.ServiceTestSuite;
 import org.cilogon.d2.impl.*;
 import org.cilogon.d2.util.TokenTest;
@@ -19,8 +17,8 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses(value = {
 
         /* Uncomment these to test which of them you want/need. */
-       DBServiceTests.class,
-        DBServiceUserIDTests.class,
+   //    DBServiceTests.class,
+     //   DBServiceUserIDTests.class,
         TwoFactorStoreTest.class,
         TokenTest.class,
         UserStoreTest.class,

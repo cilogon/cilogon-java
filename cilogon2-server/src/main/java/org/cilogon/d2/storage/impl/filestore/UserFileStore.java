@@ -162,7 +162,13 @@ public class UserFileStore extends FileStore<User> implements UserStore {
 
     @Override
     public User get(Object key) {
-        User user = super.get(key);
+        User user = null;
+        try {
+            user = super.get(key);
+        }catch(Throwable t){
+            // there was some other error getting the user
+            throw new UserNotFoundException("User not found for identifier=\"" + key + "\"");
+        }
         if (user != null) return user;
         throw new UserNotFoundException("User not found for identifier=\"" + key + "\"");
     }
