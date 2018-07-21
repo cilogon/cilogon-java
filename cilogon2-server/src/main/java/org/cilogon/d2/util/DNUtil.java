@@ -152,7 +152,7 @@ public class DNUtil {
             String baseString = "/DC=org/DC=cilogon/C=US/O=Fermi National Accelerator Laboratory/OU=Robots/CN=%s/CN=%s/CN=%s %s/CN=%s";
             if(returnEmail){
 
-                // Fix for "robot bug"
+                // Fix for "robot bug" baseString was not concatenated, it was replaced.
                 baseString = baseString + " email=%s";
                 rc = String.format(baseString,
                         cns[1],

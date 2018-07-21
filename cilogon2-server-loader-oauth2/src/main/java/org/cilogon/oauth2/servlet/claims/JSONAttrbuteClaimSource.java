@@ -29,7 +29,8 @@ public class JSONAttrbuteClaimSource extends BasicClaimsSourceImpl {
     public JSONAttrbuteClaimSource() {
     }
 
-    public String SHIBBOLETH_MEMBER_OF = "member_of";
+    public String SHIBBOLETH_MEMBER_OF_KEY = "member_of";
+    public static String SHIBBOLETH_LIST_DELIMITER = ";";
 
     @Override
     public JSONObject process(JSONObject claims, ServiceTransaction transaction) throws UnsupportedScopeException {
@@ -58,7 +59,7 @@ public class JSONAttrbuteClaimSource extends BasicClaimsSourceImpl {
         for (Object key0 : saml.keySet()) {
             String key = key0.toString();
             String value = saml.getString(key);
-            if (key.equals(SHIBBOLETH_MEMBER_OF)) {
+            if (key.equals(SHIBBOLETH_MEMBER_OF_KEY)) {
                 JSONArray array = JSONArray.fromObject(value);
                 Groups g = getGroupHandler().parse(array);
                 claims.put(OA2Claims.IS_MEMBER_OF, g);
@@ -94,10 +95,10 @@ public class JSONAttrbuteClaimSource extends BasicClaimsSourceImpl {
             String key = key0.toString();
             //keys should be strings!! But just in case, make sure it is one
             // TODO - stick this in a proper GroupHandler one of these days...
-            if (key.equals(SHIBBOLETH_MEMBER_OF)) {
+            if (key.equals(SHIBBOLETH_MEMBER_OF_KEY)) {
                 Groups group = new Groups();
                 String rawGroups = saml.getString(key);
-                StringTokenizer st = new StringTokenizer(rawGroups, ";", false);
+                StringTokenizer st = new StringTokenizer(rawGroups, SHIBBOLETH_LIST_DELIMITER, false);
                 while (st.hasMoreElements()) {
                     GroupElement groupElement = new GroupElement(st.nextToken());
                     group.put(groupElement);
@@ -105,7 +106,20 @@ public class JSONAttrbuteClaimSource extends BasicClaimsSourceImpl {
                 claims.put(OA2Claims.IS_MEMBER_OF, group);
                 // parse into a group structure
             } else {
-                claims.put(key.toString(), saml.getJSONObject(key.toString()));
+                // parse into a JSON array since SAML support multiple values for any attribute,
+                String values = saml.getString(key);
+                if (values.indexOf(SHIBBOLETH_LIST_DELIMITER) < 0) {
+                    // A single value.
+                    claims.put(key.toString(), values);
+                } else {
+                    // split it up.
+                    StringTokenizer st = new StringTokenizer(values, SHIBBOLETH_LIST_DELIMITER, false);
+                    JSONArray array = new JSONArray();
+                    while (st.hasMoreElements()) {
+                        array.add(st.nextToken());
+                    }
+                    claims.put(key.toString(), array);
+                }
             }
 
         }

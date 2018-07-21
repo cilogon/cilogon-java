@@ -94,17 +94,20 @@ public class UserClaimSource extends BasicClaimsSourceImpl implements OA2Scopes 
         DebugUtil.dbg(this, "Got transaction");
         User user = getServiceEnvironment().getUserStore().get(BasicIdentifier.newID(t.getUsername()));
         DebugUtil.dbg(this, "Starting to process w/ user = " + user);
-
+        DebugUtil.dbg(this, "Scopes = " + t.getScopes());
         if (user == null) {
             throw new UserNotFoundException("No user was found with identifier \"" + t.getUsername() + "\"");
         }
         if (t.getScopes().contains(SCOPE_EMAIL)) {
             claims.put(OA2Claims.EMAIL, user.getEmail());
+        } else{
+            DebugUtil.dbg(this, " No " + SCOPE_EMAIL + "  scope");
         }
         if (t.getScopes().contains(SCOPE_PROFILE)) {
             claims.put(OA2Claims.GIVEN_NAME,convertFromUTF7ToUTF8(user.getFirstName()));
             claims.put(OA2Claims.FAMILY_NAME,convertFromUTF7ToUTF8(user.getLastName()));
-
+        }else{
+            DebugUtil.dbg(this, " No "+SCOPE_PROFILE + " scope");
         }
         DebugUtil.dbg(this, "First set of processing done, userinfo=" + claims);
 
@@ -158,6 +161,9 @@ public class UserClaimSource extends BasicClaimsSourceImpl implements OA2Scopes 
                     // rock on, no acr.
                 }
             }
+        }else{
+            DebugUtil.dbg(this, " No " + SCOPE_CILOGON_INFO + " scope");
+
         }
         DebugUtil.dbg(this, "finished. Returning claims of " + claims);
         return claims;
