@@ -18,6 +18,7 @@ import org.cilogon.d2.storage.UserStore;
 import org.cilogon.d2.twofactor.TwoFactorSerializationKeys;
 import org.cilogon.d2.util.IDPKeys;
 import org.cilogon.d2.util.UserKeys;
+import org.cilogon.oauth2.servlet.claims.UserClaimSource;
 import org.cilogon.oauth2.servlet.loader.CILogonOA2ServiceEnvironment;
 import org.cilogon.oauth2.servlet.storage.CILOA2ServiceTransaction;
 
@@ -192,7 +193,7 @@ public class DBService2 extends AbstractDBService {
             // This gets us the basic claims.
             UserClaimSource userClaimSource = new UserClaimSource(getMyLogger());
             userClaimSource.setOa2SE((OA2SE) getServiceEnvironment());
-            JSONObject claims = claimsUtil.createBasicClaims(null);
+            JSONObject claims = claimsUtil.createBasicClaims(null, t);
 
             userClaimSource.process(claims, t);
             t.setClaims(claims);

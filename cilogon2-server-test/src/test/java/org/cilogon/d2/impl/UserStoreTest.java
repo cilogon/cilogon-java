@@ -36,6 +36,7 @@ public  class UserStoreTest extends TestBase {
         doTests((CILTestStoreProviderI2) ServiceTestUtils.getPgStoreProvider());
     }
 
+
     public void doTests(CILTestStoreProviderI2 provider) throws Exception{
         testFNAL(provider.getUserStore());
         testNextValue(provider.getSequence());

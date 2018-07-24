@@ -1,4 +1,4 @@
-package org.cilogon.oauth2.servlet.impl;
+package org.cilogon.oauth2.servlet.claims;
 
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.claims.BasicClaimsSourceImpl;
 import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
@@ -19,7 +19,7 @@ import org.cilogon.oauth2.servlet.storage.CILOA2ServiceTransaction;
 
 import javax.servlet.http.HttpServletRequest;
 
-import static org.cilogon.oauth2.servlet.impl.UserClaimSource.CILogonClaims.*;
+import static org.cilogon.oauth2.servlet.claims.UserClaimSource.CILogonClaims.*;
 
 /**
  * This actually introspects the user database and does not require an LDAP configuration.
@@ -98,6 +98,9 @@ public class UserClaimSource extends BasicClaimsSourceImpl implements OA2Scopes 
         if (user == null) {
             throw new UserNotFoundException("No user was found with identifier \"" + t.getUsername() + "\"");
         }
+        /*
+        These scopes are honored as per CILogon's operational policies.
+         */
         if (t.getScopes().contains(SCOPE_EMAIL)) {
             claims.put(OA2Claims.EMAIL, user.getEmail());
         } else{
@@ -147,7 +150,7 @@ public class UserClaimSource extends BasicClaimsSourceImpl implements OA2Scopes 
                 claims.put(AFFILIATION, user.getAffiliation());
             }
             if (user.getDisplayName() != null) {
-                claims.put(NAME, user.getDisplayName());
+                claims.put(OA2Claims.NAME, user.getDisplayName());
             }
             // Fixes CIL-462
             String rawJSON = user.getAttr_json();

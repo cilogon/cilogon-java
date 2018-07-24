@@ -1,7 +1,8 @@
 package org.cilogon.oauth2.servlet.loader;
 
-import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.cm.loader.COSE;
+import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.OA2SE;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.MyProxyFacadeProvider;
+import edu.uiuc.ncsa.myproxy.oa4mp.server.ServiceEnvironmentImpl;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.admin.adminClient.AdminClientStore;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.admin.permissions.PermissionsStore;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.servlet.AuthorizationServletConfig;
@@ -25,7 +26,7 @@ import org.cilogon.d2.util.ArchivedUserStore;
 import org.cilogon.d2.util.CILogonSE;
 import org.cilogon.d2.util.CILogonSEImpl;
 import org.cilogon.d2.util.Incrementable;
-import org.cilogon.oauth2.servlet.impl.UserClaimSource;
+import org.cilogon.oauth2.servlet.claims.UserClaimSource;
 
 import javax.inject.Provider;
 import java.util.Collection;
@@ -36,7 +37,7 @@ import java.util.List;
  * <p>Created by Jeff Gaynor<br>
  * on 3/30/15 at  12:00 PM
  */
-public class CILogonOA2ServiceEnvironment extends COSE implements CILogonSE {
+public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
     public CILogonOA2ServiceEnvironment(MyLoggingFacade logger,
                                         Provider<TransactionStore> tsp,
                                         Provider<ClientStore> csp,
@@ -45,7 +46,7 @@ public class CILogonOA2ServiceEnvironment extends COSE implements CILogonSE {
                                         Provider<ClientApprovalStore> casp,
                                         List<MyProxyFacadeProvider> mfp,
                                         MailUtilProvider mup,
-                                        MessagesProvider messagesProvider,
+                                        ServiceEnvironmentImpl.MessagesProvider messagesProvider,
                                         Provider<AGIssuer> agip,
                                         Provider<ATIssuer> atip,
                                         Provider<PAIssuer> paip,
