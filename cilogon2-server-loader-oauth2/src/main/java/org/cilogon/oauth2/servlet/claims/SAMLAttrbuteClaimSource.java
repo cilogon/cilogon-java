@@ -9,6 +9,7 @@ import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
 import edu.uiuc.ncsa.security.delegation.server.ServiceTransaction;
 import edu.uiuc.ncsa.security.oauth_2_0.server.UnsupportedScopeException;
 import edu.uiuc.ncsa.security.oauth_2_0.server.claims.OA2Claims;
+import edu.uiuc.ncsa.security.servlet.ServletDebugUtil;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.cilogon.d2.storage.User;
@@ -18,15 +19,17 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.StringTokenizer;
 
 /**
+ * This will read SAML attributes that are sent in the header
  * <p>Created by Jeff Gaynor<br>
  * on 7/10/18 at  8:15 AM
  */
-public class JSONAttrbuteClaimSource extends BasicClaimsSourceImpl {
-    public JSONAttrbuteClaimSource(OA2SE oa2SE) {
+public class SAMLAttrbuteClaimSource extends BasicClaimsSourceImpl {
+    public SAMLAttrbuteClaimSource(OA2SE oa2SE) {
         super(oa2SE);
     }
 
-    public JSONAttrbuteClaimSource() {
+    public SAMLAttrbuteClaimSource() {
+        super();
     }
 
     public String SHIBBOLETH_MEMBER_OF_KEY = "member_of";
@@ -73,7 +76,10 @@ public class JSONAttrbuteClaimSource extends BasicClaimsSourceImpl {
 
     /**
      * As of next release (4.1) we should be getting SAML attributes that have been parsed into JSON, so we do not
-     * need to do the parsing ourselves.
+     * need to do the parsing ourselves. Note that these attributes have been sent over out of band and
+     * stashed in a {@link User} attribute named {@link User#getAttr_json()}, since the assumption is that
+     * this servlet is access through Apache (or some other web server) and therefore cannot have direct access to
+     * the secure headers.
      *
      * @param claims
      * @param transaction
@@ -83,6 +89,8 @@ public class JSONAttrbuteClaimSource extends BasicClaimsSourceImpl {
     protected JSONObject oldProcess(JSONObject claims, ServiceTransaction transaction) throws UnsupportedScopeException {
         // In the case of CILogon, the username on the transaction is the unique user id in the database, so get the user
         CILogonOA2ServiceEnvironment se = (CILogonOA2ServiceEnvironment) getOa2SE();
+        ServletDebugUtil.dbg(this, ".oldProcess: username=" + transaction.getUsername());
+        ServletDebugUtil.dbg(this, ".oldProcess: service env=" + se);
         User user = se.getUserStore().get(BasicIdentifier.newID(transaction.getUsername()));
         if (user == null) {
             throw new NFWException("Error: user not found for identifier \"" + transaction.getUsername() + "\"");
@@ -91,6 +99,10 @@ public class JSONAttrbuteClaimSource extends BasicClaimsSourceImpl {
             return claims; // basically there were no specific Shib headers that were passed in for this user, which is just fine.
         }
         JSONObject saml = JSONObject.fromObject(user.getAttr_json());
+        if (saml == null) {
+            ServletDebugUtil.dbg(this, ".oldProcess: No SAML attributes found for user " + transaction.getUsername() + ". Skipping.");
+            return claims;
+        }
         for (Object key0 : saml.keySet()) {
             String key = key0.toString();
             //keys should be strings!! But just in case, make sure it is one
@@ -103,7 +115,7 @@ public class JSONAttrbuteClaimSource extends BasicClaimsSourceImpl {
                     GroupElement groupElement = new GroupElement(st.nextToken());
                     group.put(groupElement);
                 }
-                claims.put(OA2Claims.IS_MEMBER_OF, group);
+                claims.put(OA2Claims.IS_MEMBER_OF, group.toJSON()); // or the JSON object tries to turn it into something weird.
                 // parse into a group structure
             } else {
                 // parse into a JSON array since SAML support multiple values for any attribute,
@@ -129,7 +141,7 @@ public class JSONAttrbuteClaimSource extends BasicClaimsSourceImpl {
     @Override
     public JSONObject process(JSONObject claims, HttpServletRequest request, ServiceTransaction transaction) throws UnsupportedScopeException {
         if (request != null) {
-            throw new IllegalArgumentException("Error: this is not supported for servlet requests, ");
+            throw new IllegalArgumentException("Error: this is not supported for servlet requests.");
         }
         return process(claims, transaction);
     }
@@ -137,5 +149,37 @@ public class JSONAttrbuteClaimSource extends BasicClaimsSourceImpl {
     @Override
     public boolean isRunAtAuthorization() {
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return "SAMLAttrbuteClaimSource{" +
+                "SHIBBOLETH_MEMBER_OF_KEY='" + SHIBBOLETH_MEMBER_OF_KEY + '\'' +
+                ",runAtAuthTime=" + isRunAtAuthorization() +
+                ", service env =" + getOa2SE() +
+                '}';
+    }
+
+    public static void main(String[] arg) {
+        // just a test on the old form attributes from the CILogon service. Make sure they format right.
+        String x = "{\"member_of\":\"c13b7ba3-b038-4abb-b062-4491d1f9f12b;09895d05-1b79-4529-9f9d-9367752a1d0a\",\"acr\":\"urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport\"}";
+        JSONObject saml = JSONObject.fromObject(x);
+        try {
+            String rawGroups = saml.getString("member_of");
+            Groups group = new Groups();
+
+            StringTokenizer st = new StringTokenizer(rawGroups, SHIBBOLETH_LIST_DELIMITER, false);
+            while (st.hasMoreElements()) {
+                GroupElement groupElement = new GroupElement(st.nextToken());
+                group.put(groupElement);
+            }
+            JSONObject foo = new JSONObject();
+            System.out.println(group.toJSON());
+            foo.put("isMemberOf", group.toJSON());
+            System.out.println(foo);
+
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
     }
 }
