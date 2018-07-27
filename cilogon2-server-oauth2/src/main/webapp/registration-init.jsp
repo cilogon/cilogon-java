@@ -139,7 +139,7 @@ The redirect_uri parameter must exactly match one URL in this list."></textarea>
         <label for="inputRtLifetime" class="col-sm-2 col-form-label">Refresh
           Token Lifetime</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" id="inputRtLifetime"
+          <input type="number" class="form-control" id="inputRtLifetime"
             name="${rtLifetime}" value="${rtLifetimeValue}"
             aria-describedBy="rtLifetimeHelp"
             placeholder="(Optional) lifetime in seconds"/>
