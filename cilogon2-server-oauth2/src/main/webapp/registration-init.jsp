@@ -95,7 +95,7 @@
         <label for="inputHomeURL" class="col-sm-2 col-form-label">Home
           URL</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" id="inputHomeURL"
+          <input type="url" class="form-control" id="inputHomeURL"
             name="${clientHomeUrl}" value="${clientHomeUrlValue}" required 
             aria-describedBy="homeURLHelp"
             placeholder="Enter the URL for your client's home page."/>
@@ -152,7 +152,7 @@ The redirect_uri parameter must exactly match one URL in this list."></textarea>
         <label for="inputIssuer" class="col-sm-2
           col-form-label">Issuer</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" id="inputIsser"
+          <input type="url" class="form-control" id="inputIsser"
             name="${issuer}" value="${issuerValue}"
             aria-describedBy="issuerHelp"
             placeholder="(Optional)"/>
