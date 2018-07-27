@@ -148,23 +148,12 @@ The redirect_uri parameter must exactly match one URL in this list."></textarea>
         </div>
       </div>
 
-      <div class="form-group row">
-        <label for="inputIssuer" class="col-sm-2
-          col-form-label">Issuer</label>
-        <div class="col-sm-10">
-          <input type="url" class="form-control" id="inputIsser"
-            name="${issuer}" value="${issuerValue}"
-            aria-describedBy="issuerHelp"
-            placeholder="(Optional)"/>
-          <small id="issuerHelp" class="form-text text-muted">Defaults to
-            the URL of the CILogon Service.</small>
-        </div>
-      </div>
-
       <input type="hidden" id="status" name="${action}" value="${request}"/>
 
       <div class="row">
+        <div class="col-sm-12">
           <b><font color="red">${retryMessage}</font></b>
+        </div>
       </div>
 
       <button type="submit" class="btn btn-primary mb-2">Register Client</button>
