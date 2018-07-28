@@ -105,7 +105,7 @@
       </div>
 
       <div class="form-group row">
-        <label for="inputCallbackURLs" class="col-sm-2
+        <label for="${callbackURI}" class="col-sm-2
           col-form-label">Callback URLs</label>
         <div class="col-sm-10">
           <textarea class="form-control" id="${callbackURI}" 
@@ -123,11 +123,12 @@ The redirect_uri parameter must exactly match one URL in this list."></textarea>
               <div class="form-check">
                 <input class="form-check-input" type="checkbox" name="chkScopes" value="${scope}" id="${scope}Check"
                     <c:set var="CILTestStoreProviderImpl" scope="session" value="${scope}"/>
-                    <c:if test="${CILTestStoreProviderImpl == 'openid'}">checked="checked" disabled</c:if>
+                    <c:if test="${CILTestStoreProviderImpl == 'openid'}">checked="checked" disabled="disabled"</c:if>
                 />
                 <label class="form-check-label" for="${scope}Check">${scope}</label>
               </div>
             </c:forEach>
+            <input type="hidden" name="chkScopes" value="openid"/>
             <small id="scopesHelp" class="form-text text-muted"><a
               href="https://www.cilogon.org/oidc"
               target="_blank">Information on scopes</a></small>
