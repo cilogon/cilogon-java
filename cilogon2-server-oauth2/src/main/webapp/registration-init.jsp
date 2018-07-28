@@ -50,7 +50,7 @@
           <input type="text" class="form-control" id="inputClientName"
             name="${clientName}" value="${clientNameValue}" required
             aria-describedBy="clientNameHelp" 
-            placeholder="Enter a name for your OAuth 2.0 client"/>
+            placeholder="Name of your OAuth 2.0 client"/>
           <small id="clientNameHelp" class="form-text text-muted">The Client
             Name is displayed to end-users on the Identity Provider selection
             page.</small>
@@ -64,7 +64,7 @@
           <input type="email" class="form-control" id="inputContactEmail"
             name="${clientEmail}" value="${clientEmailValue}" required
             aria-describedBy="contactEmailHelp"
-            placeholder="Enter your email address"/>
+            placeholder="Your email address"/>
           <small id="contactEmailHelp" class="form-text text-muted">A client
             approval email will be sent to this address.</small>
         </div>
@@ -77,7 +77,7 @@
           <input type="url" class="form-control" id="inputHomeURL"
             name="${clientHomeUrl}" value="${clientHomeUrlValue}" required 
             aria-describedBy="homeURLHelp"
-            placeholder="Enter the URL for your client's home page."/>
+            placeholder="URL of your client's home page"/>
           <small id="homeURLHelp" class="form-text text-muted">The Home URL
             is used as the hyperlink for the Client Name.</small>
         </div>
