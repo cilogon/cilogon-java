@@ -1,7 +1,7 @@
 <!doctype html>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<html>
+<html lang="en">
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -17,30 +17,10 @@
           href="static/cilogon.css"/>
 </head>
 
-
-<style type="text/css">
-    .hidden {
-        display: none;
-    }
-
-    .unhidden {
-        display: block;
-    }
-</style>
-<script type="text/javascript">
-    function unhide(divID) {
-        var item = document.getElementById(divID);
-        if (item) {
-            item.className = (item.className == 'hidden') ? 'unhidden' : 'hidden';
-        }
-    }
-</script>
 <body>
 <div id="topimgfill">
-    <div id="topimg"/>
+    <div id="topimg"></div>
 </div>
-
-<br clear="all"/>
 
 <div class="main">
 
@@ -112,5 +92,4 @@
 </script>
 
 </body>
-
 </html>

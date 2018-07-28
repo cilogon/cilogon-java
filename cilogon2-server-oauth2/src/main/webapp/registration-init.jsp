@@ -2,7 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<html>
+<html lang="en">
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -18,30 +18,10 @@
           href="static/cilogon.css"/>
 </head>
 
-
-<style type="text/css">
-    .hidden {
-        display: none;
-    }
-
-    .unhidden {
-        display: block;
-    }
-</style>
-<script type="text/javascript">
-    function unhide(divID) {
-        var item = document.getElementById(divID);
-        if (item) {
-            item.className = (item.className == 'hidden') ? 'unhidden' : 'hidden';
-        }
-    }
-</script>
 <body>
 <div id="topimgfill">
-    <div id="topimg"/>
+    <div id="topimg"></div>
 </div>
-
-<br clear="all"/>
 
 <div class="main">
 
@@ -50,9 +30,8 @@
     <p>
     Please fill out the form below to register your OIDC/OAuth 2.0
     client with CILogon. 
-    <p/>
-    <h4>Your request will be manually evaluated for approval.</h4>
     </p>
+    <h4>Your request will be manually evaluated for approval.</h4>
     <p>
     For more information, please read the
     <a href="http://grid.ncsa.illinois.edu/myproxy/oauth/client/manuals/registering-with-an-oauth2-server.xhtml"
@@ -153,12 +132,13 @@ The redirect_uri parameter must exactly match one URL in this list."></textarea>
 
       <div class="row">
         <div class="col-sm-12">
-          <b><font color="red">${retryMessage}</font></b>
+          <p style="color:red"><b>${retryMessage}</b></p>
         </div>
       </div>
 
       <button type="submit" class="btn btn-primary mb-2">Register Client</button>
     </form>
 </div>
+
 </body>
 </html>
