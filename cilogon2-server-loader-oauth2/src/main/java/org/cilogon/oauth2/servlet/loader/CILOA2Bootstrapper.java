@@ -11,6 +11,7 @@ import edu.uiuc.ncsa.security.delegation.storage.Client;
 import edu.uiuc.ncsa.security.delegation.storage.impl.ClientConverter;
 import edu.uiuc.ncsa.security.servlet.Initialization;
 import org.apache.commons.configuration.tree.ConfigurationNode;
+import org.cilogon.d2.util.DNUtil;
 
 import javax.servlet.ServletException;
 import java.io.IOException;
@@ -50,6 +51,7 @@ public class CILOA2Bootstrapper extends AbstractBootstrapper {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            DNUtil.setComputeFNAL(se.isComputeFNAL());
 
             try {
                 mps.processStoreCheck(se.getUserStore());

@@ -291,7 +291,7 @@ public  class UserStoreTest extends TestBase {
 
 
 
-          User user = userStore.createAndRegisterUser(
+          User robotUser = userStore.createAndRegisterUser(
                   umk,
                   "https://idp.fnal.gov/idp/shibboleth", //idp
                   "Fermi National Accelerator Laboratory", //ipd display name
@@ -302,21 +302,53 @@ public  class UserStoreTest extends TestBase {
                   "Arthur E Kreymer", // display name
                   "Robots:minos27.fnal.gov:cron" // organizational unit
           );
-          user.setAttr_json(null);
-          user.setUseUSinDN(true);
+          robotUser.setAttr_json(null);
+          robotUser.setUseUSinDN(true);
 
           System.out.println("============ START FNAL TEST");
+          System.out.println("============ Robots");
           DNUtil.setComputeFNAL(false);
           System.out.println("-> computeFNAL = false");
-          System.out.println("get email=true: "+ user.getDN(null, true));
-          System.out.println("get email=false: "+ user.getDN(null, false));
+          System.out.println("get email=true: " + robotUser.getDN(null, true));
+          System.out.println("get email=false: " + robotUser.getDN(null, false));
           DNUtil.setComputeFNAL(true);
           System.out.println("-> computeFNAL = true");
-          System.out.println("get email=true: "+ user.getDN(null, true));
-          System.out.println("get email=false: "+ user.getDN(null, false));
-          System.out.println("============ END FNAL TEST");
+          System.out.println("get email=true: " + robotUser.getDN(null, true));
+          System.out.println("get email=false: " + robotUser.getDN(null, false));
+          System.out.println("============ END Robots");
           // clean up
-          userStore.remove(user.getIdentifier());
+          userStore.remove(robotUser.getIdentifier());
+
+          // And now to test people
+          User peopleUser = userStore.createAndRegisterUser(
+                  umk,
+                  "https://idp.fnal.gov/idp/shibboleth", //idp
+                  "Fermi National Accelerator Laboratory", //ipd display name
+                  "Arthur", //first name
+                  "Kreymer", // last name
+                  "kreymer@fnal.gov", // email
+                  null, // affiliation
+                  "Arthur E Kreymer", // display name
+                  "People:minos27.fnal.gov:cron" // organizational unit
+          );
+
+          peopleUser.setAttr_json(null);
+          peopleUser.setUseUSinDN(true);
+
+          System.out.println("============ People");
+          DNUtil.setComputeFNAL(false);
+          System.out.println("-> computeFNAL = false");
+          System.out.println("get email=true: " + peopleUser.getDN(null, true));
+          System.out.println("get email=false: " + peopleUser.getDN(null, false));
+          DNUtil.setComputeFNAL(true);
+          System.out.println("-> computeFNAL = true");
+          System.out.println("get email=true: " + peopleUser.getDN(null, true));
+          System.out.println("get email=false: " + peopleUser.getDN(null, false));
+          System.out.println("============ END People");
+          // clean up
+          userStore.remove(peopleUser.getIdentifier());
+
+
       }
       public void testSerialStringIncrement(UserStore userStore) throws Exception {
         User user = userStore.create(true);

@@ -3,6 +3,7 @@ package org.cilogon.d2.util;
 import edu.uiuc.ncsa.security.core.exceptions.GeneralException;
 import edu.uiuc.ncsa.security.core.exceptions.NFWException;
 import edu.uiuc.ncsa.security.core.util.DebugUtil;
+import edu.uiuc.ncsa.security.servlet.ServletDebugUtil;
 import org.cilogon.d2.storage.User;
 
 import java.util.StringTokenizer;
@@ -20,6 +21,7 @@ public class DNUtil {
     protected static final int OPENID_CASE = 11;
 
     public static boolean isComputeFNAL() {
+        ServletDebugUtil.dbg(DNUtil.class, "computeFNAL=" + computeFNAL);
         return computeFNAL;
     }
 
@@ -31,6 +33,7 @@ public class DNUtil {
 
 
     protected static int getCase(User user) {
+        ServletDebugUtil.dbg(DNUtil.class, "in getCase");
         if (user.hasOpenID() || user.hasOpenIDConnect())
             return OPENID_CASE;
 
@@ -38,10 +41,13 @@ public class DNUtil {
         if (user.getIdP() != null && user.getIdP().matches(LIGO_IDP)) return LIGO_CASE;
         // Fix for CIL-234
         if (user.getePPN() != null && user.getePPN().getName().toLowerCase().endsWith("fnal.gov")) return FNL_CASE;
+        ServletDebugUtil.dbg(DNUtil.class, "returning default case");
+
         return DEFAULT_CASE;
     }
 
     public static String getDN(User user, CILServiceTransactionInterface transaction, boolean returnEmail) {
+        ServletDebugUtil.dbg(DNUtil.class, "in getDN.");
         switch (getCase(user)) {
             case LIGO_CASE:
                 return getLIGODN(user, returnEmail);

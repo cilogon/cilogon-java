@@ -168,7 +168,7 @@ public class UserClaimSource extends BasicClaimsSourceImpl implements OA2Scopes 
             DebugUtil.dbg(this, " No " + SCOPE_CILOGON_INFO + " scope");
 
         }
-        DebugUtil.dbg(this, "finished. Returning claims of " + claims);
+        DebugUtil.dbg(this, "finished. Returning claims of " + claims.toString(1));
         return claims;
     }
 
