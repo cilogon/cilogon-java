@@ -18,11 +18,17 @@ public class MySQLSequenceProvider extends IncrementableProvider implements OA4M
     ConnectionPoolProvider<? extends ConnectionPool> connectionPoolProvider;
 
     public MySQLSequenceProvider(ConfigurationNode cn, ConnectionPoolProvider<? extends ConnectionPool> cpp) {
-        super(cn, MYSQL_STORE);
-        connectionPoolProvider = cpp;
+        this(cn, MYSQL_STORE, cpp);
     }
 
-      protected ConnectionPool getConnectionPool() {
+    public MySQLSequenceProvider(ConfigurationNode config,
+                                 String type,
+                                 ConnectionPoolProvider<? extends ConnectionPool> connectionPoolProvider) {
+        super(config, type);
+        this.connectionPoolProvider = connectionPoolProvider;
+    }
+
+    protected ConnectionPool getConnectionPool() {
         if (connectionPoolProvider.getConfig() == null) {
             connectionPoolProvider.setConfig(getTypeConfig());
         }

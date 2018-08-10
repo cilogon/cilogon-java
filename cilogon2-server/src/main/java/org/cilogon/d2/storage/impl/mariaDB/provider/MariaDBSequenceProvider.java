@@ -11,6 +11,6 @@ import org.cilogon.d2.storage.impl.mysql.provider.MySQLSequenceProvider;
  */
 public class MariaDBSequenceProvider extends MySQLSequenceProvider {
     public MariaDBSequenceProvider(ConfigurationNode cn, ConnectionPoolProvider<? extends ConnectionPool> cpp) {
-        super(cn, cpp);
+        super(cn, MARIADB_STORE, cpp);
     }
 }

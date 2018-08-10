@@ -1,6 +1,8 @@
 package org.cilogon.d2.util;
 
+import edu.uiuc.ncsa.myproxy.oa4mp.server.OA4MPConfigTags;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.ServiceEnvironmentImpl;
+import edu.uiuc.ncsa.security.core.configuration.Configurations;
 import edu.uiuc.ncsa.security.delegation.servlet.DBConfigLoader;
 import edu.uiuc.ncsa.security.storage.sql.mysql.MySQLConnectionPoolProvider;
 import edu.uiuc.ncsa.security.storage.sql.postgres.PGConnectionPoolProvider;
@@ -41,6 +43,11 @@ public  class CILogonStoreLoader<T extends ServiceEnvironmentImpl> extends DBCon
 
     public CILogonStoreLoader(ConfigurationNode node) {
         super(node);
+        String x = Configurations.getFirstAttribute(cn, OA4MPConfigTags.DISABLE_DEFAULT_STORES);
+        if (x != null) {
+            isDefaultStoreDisabled(Boolean.parseBoolean(x));
+        }
+
     }
 
     @Override
