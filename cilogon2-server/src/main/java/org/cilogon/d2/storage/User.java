@@ -202,13 +202,13 @@ public class User extends IdentifiableImpl {
 
     public RemoteUserName getRemoteUser() {
         if (hasRemoteUser()) {
-            return userMultiKey.getRemoteUserName();
+            return getUserMultiKey().getRemoteUserName();
         }
         return null;
     }
 
     public void setRemoteUser(RemoteUserName remoteUser) {
-        userMultiKey.setRemoteUserName(remoteUser);
+        getUserMultiKey().setRemoteUserName(remoteUser);
     }
 
     String serialString;
@@ -352,7 +352,7 @@ public class User extends IdentifiableImpl {
 
     public EduPersonPrincipleName getePPN() {
         if (hasEPPN()) {
-            return userMultiKey.getEppn();
+            return getUserMultiKey().getEppn();
         }
         return null;
     }
@@ -363,7 +363,7 @@ public class User extends IdentifiableImpl {
 
     public EduPersonTargetedID getePTID() {
         if (hasEPTID()) {
-            return userMultiKey.getEptid();
+            return getUserMultiKey().getEptid();
         }
         return null;
     }
@@ -374,19 +374,19 @@ public class User extends IdentifiableImpl {
 
     public OpenID getOpenID() {
         if (hasOpenID()) {
-            return userMultiKey.getOpenID();
+            return getUserMultiKey().getOpenID();
         }
         return null;
     }
 
     public void setOpenID(OpenID openID) {
-        userMultiKey.setOpenID(openID);
+        getUserMultiKey().setOpenID(openID);
     }
 
 
     public OpenIDConnect getOpenIDConnect() {
         if (hasOpenIDConnect()) {
-            return userMultiKey.getOpenIDConnect();
+            return getUserMultiKey().getOpenIDConnect();
         }
         return null;
     }

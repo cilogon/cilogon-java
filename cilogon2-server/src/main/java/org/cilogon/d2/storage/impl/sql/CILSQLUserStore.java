@@ -187,9 +187,9 @@ public class CILSQLUserStore extends SQLStore<User> implements UserStore {
     }
 
     @Override
-    public User create(boolean newIdentifier) {
-        User user = getUserProvider().get(newIdentifier);
-        if (newIdentifier && containsKey(user.getIdentifier())) {
+    public User create(boolean newSerialString) {
+        User user = getUserProvider().get(true); // create with an identifier. decide about the serial string later
+        if (newSerialString && containsKey(user.getIdentifier())) {
             throw new InvalidUserIdException("Error: The id \"" + user.getIdentifierString() + "\" is already in use.");
         }
         return user;

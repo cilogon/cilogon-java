@@ -54,6 +54,12 @@ public class UserStoreCommands extends StoreCommands2 {
         return lastName + ", " + firstName + ", id=" + user.getIdentifierString();
     }
 
+/*
+    @Override
+    public void create(InputLine inputLine) {
+        say("Unsupported in this version...");
+    }
+*/
 
     @Override
     public String getName() {
@@ -98,46 +104,50 @@ public class UserStoreCommands extends StoreCommands2 {
         user.setFirstName(getInput("first name", user.getFirstName()));
         user.setLastName(getInput("last name", user.getLastName()));
         String temp = null;
-        getRemoteUser(user);
-        getEPPN(user);
-        getEPTID(user);
-        getOpenID(user);
-        getOpenIDConnect(user);
+        try {
+            getRemoteUser(user);
+            getEPPN(user);
+            getEPTID(user);
+            getOpenID(user);
+            getOpenIDConnect(user);
 
-        user.setIdP(getInput("idp", user.getIdP()));
-        user.setEmail(getInput("email", user.getEmail()));
-        user.setIDPName(getInput("idp name", user.getIDPName()));
-        user.setAffiliation(getInput("affiliation", user.getAffiliation()));
-        user.setOrganizationalUnit(getInput("organizational unit", user.getOrganizationalUnit()));
-        user.setDisplayName(getInput("user's display name", user.getDisplayName()));
-        sayi("Current serial identifier is \"" + user.getSerialIdentifier() + "\"");
-        sayi("Autogenerate a new serial identifier [y/n]?");
-        boolean noNewSID = !isOk(readline()); // since the question is positive but the argument is neg., this is right.
-        if(noNewSID) {
-            String sid = getInput("serial string", user.getSerialIdentifier().toString());
-            if (sid != null) {
-                user.setSerialIdentifier(BasicIdentifier.newID(sid));
-            }
-        }
-        sayi("save changes [y/n]?");
-        boolean saveIt = isOk(readline());
-        if (saveIt) {
-            if (!input.equals(user.getIdentifierString())) {
-                sayi2("remove user with id=\"" + user.getIdentifier() + "\" [y/n]? ");
-                if (isOk(readline())) {
-                    getStore().remove(user.getIdentifier());
-                    sayi(" user removed. Be sure to save any changes.");
+            user.setIdP(getInput("idp", user.getIdP()));
+            user.setEmail(getInput("email", user.getEmail()));
+            user.setIDPName(getInput("idp name", user.getIDPName()));
+            user.setAffiliation(getInput("affiliation", user.getAffiliation()));
+            user.setOrganizationalUnit(getInput("organizational unit", user.getOrganizationalUnit()));
+            user.setDisplayName(getInput("user's display name", user.getDisplayName()));
+            sayi("Current serial identifier is \"" + user.getSerialIdentifier() + "\"");
+            sayi("Autogenerate a new serial identifier [y/n]?");
+            boolean noNewSID = !isOk(readline()); // since the question is positive but the argument is neg., this is right.
+            if (noNewSID) {
+                String sid = getInput("serial string", user.getSerialIdentifier().toString());
+                if (sid != null) {
+                    user.setSerialIdentifier(BasicIdentifier.newID(sid));
                 }
-                user.setIdentifier(BasicIdentifier.newID(input));
             }
-            getUserStore().update(user,noNewSID);
-            clearEntries();
+            sayi("save changes [y/n]?");
+            boolean saveIt = isOk(readline());
+            if (saveIt) {
+                if (!input.equals(user.getIdentifierString())) {
+                    sayi2("remove user with id=\"" + user.getIdentifier() + "\" [y/n]? ");
+                    if (isOk(readline())) {
+                        getStore().remove(user.getIdentifier());
+                        sayi(" user removed. Be sure to save any changes.");
+                    }
+                    user.setIdentifier(BasicIdentifier.newID(input));
+                }
+                getUserStore().update(user, noNewSID);
+                clearEntries();
+            }
+
+            // do the saving here since we have to make a choice about serial identifiers.
+            // returning anything other than false will cause a new serial id to be created every time.
+            return false;
+        }catch(Throwable t){
+            t.printStackTrace();
+            throw t;
         }
-
-        // do the saving here since we have to make a choice about serial identifiers.
-        // returning anything other than false will cause a new serial id to be created every time.
-        return false;
-
     }
 
     protected String getPersonPrompt(String prompt, PersonName person) {
