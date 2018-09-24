@@ -73,7 +73,8 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
                                      //   Provider<LDAPStore> mldap,
                                         JSONWebKeys jsonWebKeys,
                                         String issuer,
-                                        boolean isUtilServletEnabled) {
+                                        boolean isUtilServletEnabled,
+                                        boolean isOIDCEnabled) {
         super(logger,
                 tsp,
                 csp,
@@ -103,7 +104,9 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
                 //mldap,
                 jsonWebKeys,
                 issuer,
-                isUtilServletEnabled);
+                isUtilServletEnabled,
+                isOIDCEnabled
+                );
         ciLogonSE = new CILogonSEImpl(usp, ausp, idpsp, incp, tfsp, isComputeFNAL);
         if(claimSource instanceof UserClaimSource){
             ((UserClaimSource)claimSource).setOa2SE(this);

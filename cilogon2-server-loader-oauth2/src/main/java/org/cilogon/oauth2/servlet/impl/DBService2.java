@@ -7,8 +7,10 @@ import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.clients.OA2Client;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.clients.OA2ClientApprovalKeys;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.clients.OA2ClientKeys;
 import edu.uiuc.ncsa.security.core.Identifier;
+import edu.uiuc.ncsa.security.core.exceptions.InvalidTimestampException;
 import edu.uiuc.ncsa.security.core.exceptions.NFWException;
 import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
+import edu.uiuc.ncsa.security.core.util.DateUtils;
 import edu.uiuc.ncsa.security.core.util.DebugUtil;
 import edu.uiuc.ncsa.security.delegation.token.impl.AuthorizationGrantImpl;
 import net.sf.json.JSONObject;
@@ -47,6 +49,11 @@ public class DBService2 extends AbstractDBService {
     public static final String SET_TRANSACTION_STATE = "setTransactionState";
     public static final int SET_TRANSACTION_STATE_CASE = 720;
     public static final int STATUS_TRANSACTION_NOT_FOUND = 0x10001;
+    public static final int STATUS_EXPIRED_TOKEN = 0x10003;
+
+    public static final String CREATE_TRANSACTION_STATE = "createTransactionState";
+    public static final int CREATE_TRANSACTION_STATE_CASE = 730;
+    public static final int STATUS_CREATE_TRANSACTION_FAILED = 0x10005;
 
 
     @Override
@@ -72,6 +79,8 @@ public class DBService2 extends AbstractDBService {
             case SET_TRANSACTION_STATE_CASE:
                 setTransactionState(request, response);
                 return;
+            case CREATE_TRANSACTION_STATE_CASE:
+                createTransaction(request, response);
         }
 
         super.doAction(request, response, action);
@@ -89,6 +98,19 @@ public class DBService2 extends AbstractDBService {
         stopWrite(response);
     }
 
+    protected void createTransaction(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        DebugUtil.dbg(this, "createTransaction: ******** NEW CALL ******** ");
+        CILOA2AuthorizedServletUtil initUtil = new CILOA2AuthorizedServletUtil(this);
+        try {
+            CILOA2ServiceTransaction transaction = (CILOA2ServiceTransaction) initUtil.doDelegation(req, resp);
+            getTransactionStore().save(transaction);
+            writeTransaction(transaction, STATUS_OK, resp);
+            DebugUtil.dbg(this, "createTransaction: ******** DONE ******** ");
+        } catch (Throwable t) {
+            DebugUtil.dbg(this, "createTransaction failed. \"" + t.getMessage() + "\".");
+            writeTransaction(null, STATUS_CREATE_TRANSACTION_FAILED, resp);
+        }
+    }
 
     // Fixes CIL-101
     protected void setTransactionState(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -104,6 +126,16 @@ public class DBService2 extends AbstractDBService {
         }
         Identifier identifier = BasicIdentifier.newID(ag);
         AuthorizationGrantImpl authGrant = new AuthorizationGrantImpl(URI.create(ag));
+        // Fix CIL-505
+        try {
+            DateUtils.checkTimestamp(ag); // if it is expired, then it will not be in the database anyway.
+        } catch (InvalidTimestampException xx) {
+            DebugUtil.dbg(this, "expired token " + ag);
+            getMyLogger().error("The auth grant \"" + ag + "\" is expired. No transaction found.");
+            writeTransaction(null, STATUS_EXPIRED_TOKEN, resp);
+            return;
+
+        }
         DebugUtil.dbg(this, "AuthGrant= " + authGrant.toString());
         if (!getTransactionStore().containsKey(identifier)) {
             DebugUtil.dbg(this, "Failed to get transaction for key " + identifier);
