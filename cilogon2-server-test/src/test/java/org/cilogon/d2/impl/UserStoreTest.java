@@ -28,8 +28,8 @@ import static org.cilogon.d2.ServiceTestUtils.getSerialStrings;
  * <p>Created by Jeff Gaynor<br>
  * on Mar 12, 2010 at  6:41:46 PM
  */
-public  class UserStoreTest extends TestBase {
-    public void testAll() throws Exception{
+public class UserStoreTest extends TestBase {
+    public void testAll() throws Exception {
         doTests((CILTestStoreProviderI2) ServiceTestUtils.getMemoryStoreProvider());
         doTests((CILTestStoreProviderI2) ServiceTestUtils.getFsStoreProvider());
         doTests((CILTestStoreProviderI2) ServiceTestUtils.getMySQLStoreProvider());
@@ -37,7 +37,7 @@ public  class UserStoreTest extends TestBase {
     }
 
 
-    public void doTests(CILTestStoreProviderI2 provider) throws Exception{
+    public void doTests(CILTestStoreProviderI2 provider) throws Exception {
         testFNAL(provider.getUserStore());
         testNextValue(provider.getSequence());
         testSerialStringIncrement(provider.getUserStore());
@@ -62,13 +62,14 @@ public  class UserStoreTest extends TestBase {
         System.out.println("\nnext value from incrementable \"" + incrementable.getClass().getSimpleName() + "\" is " + (start + count));
     }
 
-   protected UserMultiKey createRU(String x){
-       return RemoteDBServiceTest.createRU(x);
-   }
+    protected UserMultiKey createRU(String x) {
+        return RemoteDBServiceTest.createRU(x);
+    }
 
-    protected UserMultiKey createUMK(String x){
+    protected UserMultiKey createUMK(String x) {
         return RemoteDBServiceTest.createUMK(x);
     }
+
     @Test
     public void testGetUser(UserStore userStore) throws Exception {
         try {
@@ -87,6 +88,7 @@ public  class UserStoreTest extends TestBase {
 
     /**
      * Test to show OAUTH-108 is resolved.
+     *
      * @throws Exception
      */
     @Test
@@ -114,20 +116,21 @@ public  class UserStoreTest extends TestBase {
         assert bob.equals(bob2) : "Failed object equality check when testing for ePPN, ePTID and openID.";
     }
 
-    protected User getSingleUser(UserStore userStore, UserMultiKey umk, IdentityProvider  idp) throws Exception {
-        Collection<User> users  = userStore.get(umk, idp.getIdentifierString());
+    protected User getSingleUser(UserStore userStore, UserMultiKey umk, IdentityProvider idp) throws Exception {
+        Collection<User> users = userStore.get(umk, idp.getIdentifierString());
         assert users.size() == 1 : "Error: unexpected or no users found. ";
         return users.iterator().next();
     }
+
     public void testUserCreate(UserStore userStore, IdentityProviderStore identityProviderStore) throws Exception {
 
         User bob = null;
         IdentityProvider idp = new IdentityProvider(newID(URI.create("urn:identity/prov/" + getRandomString())));
         String r = getRandomString();
-        UserMultiKey umk =  createRU(r);
+        UserMultiKey umk = createRU(r);
         identityProviderStore.register(idp);
         bob = userStore.createAndRegisterUser(umk, idp.getIdentifierString(), "idp display name", "bob", "smith", "bob@smith.com",
-                "affiliation"+r, "display" + r, "urn:ou:" + r);
+                "affiliation" + r, "display" + r, "urn:ou:" + r);
 
 
         User bob2 = userStore.get(bob.getIdentifier());
@@ -165,7 +168,6 @@ public  class UserStoreTest extends TestBase {
     @Test
     public void testMapInterface(UserStore userStore) throws Exception {
         Set<Identifier> keys = userStore.keySet();
-        assert keys.size() == userStore.size() : "Got " + keys.size() + " keys for the user store, but the reported size of the store is " + userStore.size();
         if (keys.size() == 0) {
             return;
         }
@@ -175,6 +177,10 @@ public  class UserStoreTest extends TestBase {
         assert userStore.containsValue(user);
         Set<Map.Entry<Identifier, User>> m = userStore.entrySet();
         assert m.size() == keys.size();
+        assert keys.size() == userStore.size() : "Got " + keys.size() + " keys for the user store of type \"" +
+                userStore.getClass().getSimpleName() + "\", " +
+                "but the reported size of the store is " + userStore.size() + ". This probably means you have extra files in your user directory if its a file store...";
+
     }
 
     /**
@@ -191,7 +197,7 @@ public  class UserStoreTest extends TestBase {
         Identifier serialIdentifier = user.getSerialIdentifier();
         // issue is to update the user
         user.setFirstName("Bob");
-        user.setUserMultiKey(createRU( "remote-" + getRandomString()));
+        user.setUserMultiKey(createRU("remote-" + getRandomString()));
         user.setIdP("idp-" + getRandomString());
         userStore.register(user);
         userStore.update(user);
@@ -200,39 +206,107 @@ public  class UserStoreTest extends TestBase {
     }
 
     /**
-      * See note in previous test. This does the same thing but with the save function, since that is
+     * See note in previous test. This does the same thing but with the save function, since that is
      * supposed to invoke update as needed.
-      * @throws Exception
-      */
-     public void testCIL68a(UserStore userStore) throws Exception {
-         User user = userStore.create(true);
-         Identifier serialIdentifier = user.getSerialIdentifier();
-         // issue is to update the user
-         user.setFirstName("Bob");
-         user.setUserMultiKey(createRU( "remote-" + getRandomString()));
-         user.setIdP("idp-" + getRandomString());
-         userStore.register(user);
-         userStore.save(user);
-         assert !serialIdentifier.equals(user.getSerialIdentifier());
-         assert serialIdentifier.equals(user.getIdentifier()) : "After an update, the user id and serial id should not match, but they do.";
-     }
+     *
+     * @throws Exception
+     */
+    public void testCIL68a(UserStore userStore) throws Exception {
+        User user = userStore.create(true);
+        Identifier serialIdentifier = user.getSerialIdentifier();
+        // issue is to update the user
+        user.setFirstName("Bob");
+        user.setUserMultiKey(createRU("remote-" + getRandomString()));
+        user.setIdP("idp-" + getRandomString());
+        userStore.register(user);
+        userStore.save(user);
+        assert !serialIdentifier.equals(user.getSerialIdentifier());
+        assert serialIdentifier.equals(user.getIdentifier()) : "After an update, the user id and serial id should not match, but they do.";
+        userStore.remove(user);
+    }
 
     public void testOpenIdUser(UserStore pStore) throws Exception {
         User bob = null;
         String x = getRandomString();
-        bob = pStore.createAndRegisterUser(createRU("remote-"+getRandomString()), "urn:identity/prov/" + getRandomString(), "idp-name:"+x,
-                "first "+x, "last-"+x, x+"@email.com",
+        bob = pStore.createAndRegisterUser(createRU("remote-" + getRandomString()), "urn:identity/prov/" + getRandomString(), "idp-name:" + x,
+                "first " + x, "last-" + x, x + "@email.com",
                 "affiliation" + x, "display-" + x, "urn:ou" + x);
         assert true;
         System.out.println("OpenID DN Test: Does this look right? \"" + bob.getDN(null, true) + "\"");
+        pStore.remove(bob);
     }
 
-    public void testLIGOUser(UserStore pStore) throws Exception {
-        User bob = null;
-        bob = pStore.createAndRegisterUser(createRU("LIGO-ePPN-" + getRandomString()), DNUtil.LIGO_IDP, "LIGO", "firstName", "lastName", "my-email@ligo.org",
-                null,null,null);
-        assert true;
-        System.out.println("LIGO DN test: Does this look right? \"" + bob.getDN(null,true) + "\"");
+    public void testLIGOUser(UserStore userStore) throws Exception {
+        User vulnavia = null;
+        vulnavia = userStore.createAndRegisterUser(createRU("LIGO-remote-user-" + getRandomString()),
+                "https://login2.ligo.org/idp/shibboleth", //idp
+                "LIGO", // IDP display name
+                "Vulnavia", // first name
+                "Phibes", // last name
+                "v.phibes@ligo.org", //email
+                null, // affiliation
+                "Vulnavia Phibes", // display name
+                "People:o3.ncsa.illinois.edu:cron" // organizational unit
+        );
+        System.out.println("\n============> LIGO People (with remote user)");
+        System.out.println("get email = false\": " + vulnavia.getDN(null, false) + "\"");
+        System.out.println("get email = true\": " + vulnavia.getDN(null, true) + "\"");
+        userStore.remove(vulnavia);
+
+
+        UserMultiKey umk = new UserMultiKey(
+                      new RemoteUserName(""),
+                      new EduPersonPrincipleName("vulnavia.phibes@ligo.org"),
+                      new EduPersonTargetedID("test:ligo/user/vulnavia.phibes"),
+                      null, //open id
+                      null // OIDC
+              );
+              vulnavia = userStore.createAndRegisterUser(
+                      umk, // user multi-key
+                      "https://login2.ligo.org/idp/shibboleth", //idp
+                      "LIGO", // IDP display name
+                      "Vulnavia", // first name
+                      "Phibes", // last name
+                      "v.phibes@ligo.org", //email
+                      null, // affiliation
+                      "Vulnavia Phibes", // display name
+                      "People:o3.ncsa.illinois.edu:cron" // organizational unit
+              );
+              System.out.println("============> LIGO People (with EPPN)");
+              System.out.println("get email = false\": " + vulnavia.getDN(null, false) + "\"");
+              System.out.println("get email = true\": " + vulnavia.getDN(null, true) + "\"");
+              userStore.remove(vulnavia);
+
+
+        // test the robot
+
+         umk = new UserMultiKey(
+                new RemoteUserName("test:ligo/user/anton.phibes"),
+                new EduPersonPrincipleName("anton.phibes@ligo.org"),
+                new EduPersonTargetedID("test:ligo/user/anton.phibes"),
+                null, //open id
+                null // OIDC
+        );
+
+        User anton = userStore.createAndRegisterUser(
+                umk,
+                "https://login2.ligo.org/idp/shibboleth", //idp
+                "LIGO", //ipd display name
+                "Anton", //first name
+                "Phibes", // last name
+                "anton.phibes@ligo.org", // email
+                null, // affiliation
+                "Anton Phibes", // display name
+                "Robots:o3.ncsa.illinois.edu:cron" // organizational unit
+        );
+        anton.setAttr_json(null);
+        anton.setUseUSinDN(true);
+        System.out.println("============> LIGO Robots (with eppn)");
+        System.out.println("get email=true: " + anton.getDN(null, true));
+        System.out.println("get email=false: " + anton.getDN(null, false));
+        System.out.println("============> END LIGO\n\n");
+        userStore.remove(anton);
+
     }
 
     public void testSerialStrings() throws Exception {
@@ -258,14 +332,16 @@ public  class UserStoreTest extends TestBase {
         } catch (IllegalArgumentException e) {
             assert true;
         }
+
     }
 
     /**
      * Test using a real user and his data
+     *
      * @param userStore
      * @throws Exception
      */
-      public void testFNAL(UserStore userStore) throws Exception{
+    public void testFNAL(UserStore userStore) throws Exception {
           /*
            User[
            uid="http://cilogon.org/serverA/users/18351",
@@ -284,73 +360,73 @@ public  class UserStoreTest extends TestBase {
               displayName=Arthur E Kreymer",
               attr_json=null]
            */
-          RemoteUserName remoteUser = new RemoteUserName("https://idp.fnal.gov/idp/shibboleth!https://cilogon.org/shibboleth!CJtWNa2SKrwXb0NHzPGlWwr7uTE=");
-          EduPersonTargetedID eptid = new EduPersonTargetedID("https://idp.fnal.gov/idp/shibboleth!https://cilogon.org/shibboleth!6258095E940C4172B7E4096063C3C447A91B0F14");
-          EduPersonPrincipleName eppn = new EduPersonPrincipleName("kreymer@fnal.gov");
-          UserMultiKey umk = new UserMultiKey(remoteUser,eppn,eptid,null,null);
+        RemoteUserName remoteUser = new RemoteUserName("https://idp.fnal.gov/idp/shibboleth!https://cilogon.org/shibboleth!CJtWNa2SKrwXb0NHzPGlWwr7uTE=");
+        EduPersonTargetedID eptid = new EduPersonTargetedID("https://idp.fnal.gov/idp/shibboleth!https://cilogon.org/shibboleth!6258095E940C4172B7E4096063C3C447A91B0F14");
+        EduPersonPrincipleName eppn = new EduPersonPrincipleName("kreymer@fnal.gov");
+        UserMultiKey umk = new UserMultiKey(remoteUser, eppn, eptid, null, null);
 
 
+        User robotUser = userStore.createAndRegisterUser(
+                umk,
+                "https://idp.fnal.gov/idp/shibboleth", //idp
+                "Fermi National Accelerator Laboratory", //ipd display name
+                "Arthur", //first name
+                "Kreymer", // last name
+                "kreymer@fnal.gov", // email
+                null, // affiliation
+                "Arthur E Kreymer", // display name
+                "Robots:minos27.fnal.gov:cron" // organizational unit
+        );
+        robotUser.setAttr_json(null);
+        robotUser.setUseUSinDN(true);
 
-          User robotUser = userStore.createAndRegisterUser(
-                  umk,
-                  "https://idp.fnal.gov/idp/shibboleth", //idp
-                  "Fermi National Accelerator Laboratory", //ipd display name
-                  "Arthur", //first name
-                  "Kreymer", // last name
-                  "kreymer@fnal.gov", // email
-                  null, // affiliation
-                  "Arthur E Kreymer", // display name
-                  "Robots:minos27.fnal.gov:cron" // organizational unit
-          );
-          robotUser.setAttr_json(null);
-          robotUser.setUseUSinDN(true);
+        System.out.println("============ START FNAL TEST");
+        System.out.println("============ Robots");
+        DNUtil.setComputeFNAL(false);
+        System.out.println("-> computeFNAL = false");
+        System.out.println("get email=true: " + robotUser.getDN(null, true));
+        System.out.println("get email=false: " + robotUser.getDN(null, false));
+        DNUtil.setComputeFNAL(true);
+        System.out.println("-> computeFNAL = true");
+        System.out.println("get email=true: " + robotUser.getDN(null, true));
+        System.out.println("get email=false: " + robotUser.getDN(null, false));
+        System.out.println("============ END Robots");
+        // clean up
+        userStore.remove(robotUser.getIdentifier());
 
-          System.out.println("============ START FNAL TEST");
-          System.out.println("============ Robots");
-          DNUtil.setComputeFNAL(false);
-          System.out.println("-> computeFNAL = false");
-          System.out.println("get email=true: " + robotUser.getDN(null, true));
-          System.out.println("get email=false: " + robotUser.getDN(null, false));
-          DNUtil.setComputeFNAL(true);
-          System.out.println("-> computeFNAL = true");
-          System.out.println("get email=true: " + robotUser.getDN(null, true));
-          System.out.println("get email=false: " + robotUser.getDN(null, false));
-          System.out.println("============ END Robots");
-          // clean up
-          userStore.remove(robotUser.getIdentifier());
+        // And now to test people
+        User peopleUser = userStore.createAndRegisterUser(
+                umk,
+                "https://idp.fnal.gov/idp/shibboleth", //idp
+                "Fermi National Accelerator Laboratory", //ipd display name
+                "Arthur", //first name
+                "Kreymer", // last name
+                "kreymer@fnal.gov", // email
+                null, // affiliation
+                "Arthur E Kreymer", // display name
+                "People:minos27.fnal.gov:cron" // organizational unit
+        );
 
-          // And now to test people
-          User peopleUser = userStore.createAndRegisterUser(
-                  umk,
-                  "https://idp.fnal.gov/idp/shibboleth", //idp
-                  "Fermi National Accelerator Laboratory", //ipd display name
-                  "Arthur", //first name
-                  "Kreymer", // last name
-                  "kreymer@fnal.gov", // email
-                  null, // affiliation
-                  "Arthur E Kreymer", // display name
-                  "People:minos27.fnal.gov:cron" // organizational unit
-          );
+        peopleUser.setAttr_json(null);
+        peopleUser.setUseUSinDN(true);
 
-          peopleUser.setAttr_json(null);
-          peopleUser.setUseUSinDN(true);
-
-          System.out.println("============ People");
-          DNUtil.setComputeFNAL(false);
-          System.out.println("-> computeFNAL = false");
-          System.out.println("get email=true: " + peopleUser.getDN(null, true));
-          System.out.println("get email=false: " + peopleUser.getDN(null, false));
-          DNUtil.setComputeFNAL(true);
-          System.out.println("-> computeFNAL = true");
-          System.out.println("get email=true: " + peopleUser.getDN(null, true));
-          System.out.println("get email=false: " + peopleUser.getDN(null, false));
-          System.out.println("============ END People");
-          // clean up
-          userStore.remove(peopleUser.getIdentifier());
+        System.out.println("============ People");
+        DNUtil.setComputeFNAL(false);
+        System.out.println("-> computeFNAL = false");
+        System.out.println("get email=true: " + peopleUser.getDN(null, true));
+        System.out.println("get email=false: " + peopleUser.getDN(null, false));
+        DNUtil.setComputeFNAL(true);
+        System.out.println("-> computeFNAL = true");
+        System.out.println("get email=true: " + peopleUser.getDN(null, true));
+        System.out.println("get email=false: " + peopleUser.getDN(null, false));
+        System.out.println("============ END People");
+        // clean up
+        userStore.remove(peopleUser.getIdentifier());
 
 
-      }
-      public void testSerialStringIncrement(UserStore userStore) throws Exception {
+    }
+
+    public void testSerialStringIncrement(UserStore userStore) throws Exception {
         User user = userStore.create(true);
         String x = getRandomString();
         user.setFirstName("first-" + x);
@@ -360,7 +436,7 @@ public  class UserStoreTest extends TestBase {
 
 
         Identifier identifier = user.getSerialIdentifier();
-       // so change a field and update the user. The serial string should be different
+        // so change a field and update the user. The serial string should be different
         String y = getRandomString();
         user.setFirstName("first-" + y);
         userStore.update(user);
@@ -372,129 +448,131 @@ public  class UserStoreTest extends TestBase {
         userStore.save(user);
         assert !user.getSerialIdentifier().equals(identifier) : "old serial id=" + identifier + ", new id=" + user.getSerialIdentifier() + ". These should not be equal.";
         userStore.remove(user.getIdentifier());
-      }
+    }
 
     /**
      * This tests that the incommon flag in the user object behaves correctly, viz., that it is not setm
      * then once set, attempts to change it fail.
-     * @throws Exception
-     */
-      @Test
-    public void testInCommon(UserStore userStore, IdentityProviderStore identityProviderStore) throws Exception{
-          IdentityProvider idp = new IdentityProvider(newID(URI.create("urn:identity/prov/" + getRandomString())));
-              identityProviderStore.register(idp);
-              String random = getRandomString();
-              UserMultiKey umk = createUMK(random);
-              User bob = userStore.createAndRegisterUser(umk, idp.getIdentifierString(), "idp display name", "bob", "smith", "bob@smith.com",
-                      "affiliation-" + random, "displayName-" + random, "orgUnit-" + random);
-          // so at this point this user should not have this set:
-
-          // A positive test.
-          bob.setUseUSinDN(true);
-          userStore.save(bob);
-          bob = userStore.get(bob.getIdentifier());
-          assert bob.isUseUSinDN() : "Error: Provenance of IDP set to true, but the stored value is false";
-
-          IdentityProvider idp2 = new IdentityProvider(newID(URI.create("urn:identity/prov/" + getRandomString())));
-              identityProviderStore.register(idp2);
-              random = getRandomString();
-              umk = createUMK(random);
-              User bob2 = userStore.createAndRegisterUser(umk, idp.getIdentifierString(), "idp display name", "bob2", "smith", "bob2@smith.com",
-                      "affiliation-" + random, "displayName-" + random, "orgUnit-" + random);
-
-          bob2.setUseUSinDN(false);
-          userStore.save(bob2);
-          bob2 = userStore.get(bob2.getIdentifier());
-          assert !bob2.isUseUSinDN() : "Error: Provenance of IDP set to false, but the stored value is true";
-
-          // Clean up.
-          identityProviderStore.remove(idp);
-          identityProviderStore.remove(idp2);
-          userStore.remove(bob.getIdentifier());
-          userStore.remove(bob2.getIdentifier());
-      }
-
-    /**
-     * This tests for a badly behaving incrementable against an in-memory user store.
+     *
      * @throws Exception
      */
     @Test
-      public void testBadIncrementable() throws Exception {
-          MemoryUserStore store = new MemoryUserStore(new UserProvider(new MyUIDProvider(), null));
-          String r = getRandomString();
+    public void testInCommon(UserStore userStore, IdentityProviderStore identityProviderStore) throws Exception {
+        IdentityProvider idp = new IdentityProvider(newID(URI.create("urn:identity/prov/" + getRandomString())));
+        identityProviderStore.register(idp);
+        String random = getRandomString();
+        UserMultiKey umk = createUMK(random);
+        User bob = userStore.createAndRegisterUser(umk, idp.getIdentifierString(), "idp display name", "bob", "smith", "bob@smith.com",
+                "affiliation-" + random, "displayName-" + random, "orgUnit-" + random);
+        // so at this point this user should not have this set:
 
-          // It has been saved as part of the registration process and is in the store.
-          // Now create another one that is not. Here the user provider can only generate a single user id, mimicking the failure of
-          // an SQL store or a file store to increment correctly.
-          r = getRandomString();
+        // A positive test.
+        bob.setUseUSinDN(true);
+        userStore.save(bob);
+        bob = userStore.get(bob.getIdentifier());
+        assert bob.isUseUSinDN() : "Error: Provenance of IDP set to true, but the stored value is false";
 
-          try {
-            User  user = store.createAndRegisterUser(createRU("remote-" + r),
-                      "idp:/" + r,
-                      "idp-name-" + r,
-                      "first-" + r,
-                      "last-" + r,
-                      "foo@bar." + r,
-                      "affiliation" + r,
-                      "displayName" + r,
-                      "urn:ou:" + r);
-              store.save(user);
-              assert false : "Was able to create another user in the store with the same id.";
-          } catch (InvalidUserIdException ix) {
-              assert true;
-          }
-      }
+        IdentityProvider idp2 = new IdentityProvider(newID(URI.create("urn:identity/prov/" + getRandomString())));
+        identityProviderStore.register(idp2);
+        random = getRandomString();
+        umk = createUMK(random);
+        User bob2 = userStore.createAndRegisterUser(umk, idp.getIdentifierString(), "idp display name", "bob2", "smith", "bob2@smith.com",
+                "affiliation-" + random, "displayName-" + random, "orgUnit-" + random);
 
-      public class MyUIDProvider extends UserIdentifierProvider {
-          public MyUIDProvider() {
-              super(new BadIncrementable(), "fake:server");
-          }
-      }
+        bob2.setUseUSinDN(false);
+        userStore.save(bob2);
+        bob2 = userStore.get(bob2.getIdentifier());
+        assert !bob2.isUseUSinDN() : "Error: Provenance of IDP set to false, but the stored value is true";
 
-      /**
-       * A test class that does not increment right so we get bad identifiers from it.
-       */
-      public class BadIncrementable implements Incrementable {
-          long onlyValue = 2L;
+        // Clean up.
+        identityProviderStore.remove(idp);
+        identityProviderStore.remove(idp2);
+        userStore.remove(bob.getIdentifier());
+        userStore.remove(bob2.getIdentifier());
+    }
 
-          @Override
-          public boolean createNew(long initialValue) {
-              return false;
-          }
+    /**
+     * This tests for a badly behaving incrementable against an in-memory user store.
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testBadIncrementable() throws Exception {
+        MemoryUserStore store = new MemoryUserStore(new UserProvider(new MyUIDProvider(), null));
+        String r = getRandomString();
 
-          @Override
-          public long nextValue() {
-              return onlyValue;
-          }
+        // It has been saved as part of the registration process and is in the store.
+        // Now create another one that is not. Here the user provider can only generate a single user id, mimicking the failure of
+        // an SQL store or a file store to increment correctly.
+        r = getRandomString();
 
-          @Override
-          public boolean destroy() {
-              return false;
-          }
+        try {
+            User user = store.createAndRegisterUser(createRU("remote-" + r),
+                    "idp:/" + r,
+                    "idp-name-" + r,
+                    "first-" + r,
+                    "last-" + r,
+                    "foo@bar." + r,
+                    "affiliation" + r,
+                    "displayName" + r,
+                    "urn:ou:" + r);
+            store.save(user);
+            assert false : "Was able to create another user in the store with the same id.";
+        } catch (InvalidUserIdException ix) {
+            assert true;
+        }
+    }
 
-          @Override
-          public boolean init() {
-              return false;
-          }
+    public class MyUIDProvider extends UserIdentifierProvider {
+        public MyUIDProvider() {
+            super(new BadIncrementable(), "fake:server");
+        }
+    }
 
-          @Override
-          public boolean createNew() {
-              return false;
-          }
+    /**
+     * A test class that does not increment right so we get bad identifiers from it.
+     */
+    public class BadIncrementable implements Incrementable {
+        long onlyValue = 2L;
 
-          @Override
-          public boolean isCreated() {
-              return false;
-          }
+        @Override
+        public boolean createNew(long initialValue) {
+            return false;
+        }
 
-          @Override
-          public boolean isInitialized() {
-              return false;
-          }
+        @Override
+        public long nextValue() {
+            return onlyValue;
+        }
 
-          @Override
-          public boolean isDestroyed() {
-              return false;
-          }
-      }
+        @Override
+        public boolean destroy() {
+            return false;
+        }
+
+        @Override
+        public boolean init() {
+            return false;
+        }
+
+        @Override
+        public boolean createNew() {
+            return false;
+        }
+
+        @Override
+        public boolean isCreated() {
+            return false;
+        }
+
+        @Override
+        public boolean isInitialized() {
+            return false;
+        }
+
+        @Override
+        public boolean isDestroyed() {
+            return false;
+        }
+    }
 }

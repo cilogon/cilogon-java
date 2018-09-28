@@ -67,6 +67,7 @@ public  class ArchivedUserStoreTest extends TestBase {
 
         user.setFirstName(oldFirstName);
         compareUsers(archivedUser, user, true);
+        provider.getUserStore().remove(user); // cleeanup
     }
 
     /**
