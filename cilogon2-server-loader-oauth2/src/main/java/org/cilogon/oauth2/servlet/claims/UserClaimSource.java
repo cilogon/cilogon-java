@@ -2,18 +2,16 @@ package org.cilogon.oauth2.servlet.claims;
 
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.claims.BasicClaimsSourceImpl;
 import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
-import edu.uiuc.ncsa.security.core.util.DebugUtil;
 import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
 import edu.uiuc.ncsa.security.delegation.server.ServiceTransaction;
 import edu.uiuc.ncsa.security.oauth_2_0.OA2Scopes;
 import edu.uiuc.ncsa.security.oauth_2_0.server.UnsupportedScopeException;
 import edu.uiuc.ncsa.security.oauth_2_0.server.claims.OA2Claims;
-import edu.uiuc.ncsa.security.oauth_2_0.server.config.LDAPConfiguration;
 import net.freeutils.charset.UTF7Charset;
 import net.sf.json.JSONObject;
 import org.cilogon.d2.storage.User;
 import org.cilogon.d2.storage.UserNotFoundException;
-import org.cilogon.d2.util.CILServiceTransactionInterface;
+import org.cilogon.d2.util.AbstractCILServiceTransaction;
 import org.cilogon.oauth2.servlet.loader.CILogonOA2ServiceEnvironment;
 import org.cilogon.oauth2.servlet.storage.CILOA2ServiceTransaction;
 
@@ -27,7 +25,6 @@ import static org.cilogon.oauth2.servlet.claims.UserClaimSource.CILogonClaims.*;
  * on 8/20/15 at  1:37 PM
  */
 public class UserClaimSource extends BasicClaimsSourceImpl implements OA2Scopes {
-    LDAPConfiguration configuration;
     MyLoggingFacade logger;
 
     public UserClaimSource(MyLoggingFacade logger) {
@@ -85,16 +82,11 @@ public class UserClaimSource extends BasicClaimsSourceImpl implements OA2Scopes 
 
     @Override
     protected JSONObject realProcessing(JSONObject claims, HttpServletRequest request, ServiceTransaction transaction) throws UnsupportedScopeException {
-        DebugUtil.dbg(this, "Starting to process user claims");
-
         if (getServiceEnvironment() == null) {
             throw new IllegalStateException("Error: this handler has not been initialized correctly. It must have a service environment specified");
         }
         CILOA2ServiceTransaction t = (CILOA2ServiceTransaction) transaction;
-        DebugUtil.dbg(this, "Got transaction");
         User user = getServiceEnvironment().getUserStore().get(BasicIdentifier.newID(t.getUsername()));
-        DebugUtil.dbg(this, "Starting to process w/ user = " + user);
-        DebugUtil.dbg(this, "Scopes = " + t.getScopes());
         if (user == null) {
             throw new UserNotFoundException("No user was found with identifier \"" + t.getUsername() + "\"");
         }
@@ -103,25 +95,19 @@ public class UserClaimSource extends BasicClaimsSourceImpl implements OA2Scopes 
          */
         if (t.getScopes().contains(SCOPE_EMAIL)) {
             claims.put(OA2Claims.EMAIL, user.getEmail());
-        } else{
-            DebugUtil.dbg(this, " No " + SCOPE_EMAIL + "  scope");
         }
         if (t.getScopes().contains(SCOPE_PROFILE)) {
             claims.put(OA2Claims.GIVEN_NAME,convertFromUTF7ToUTF8(user.getFirstName()));
             claims.put(OA2Claims.FAMILY_NAME,convertFromUTF7ToUTF8(user.getLastName()));
-        }else{
-            DebugUtil.dbg(this, " No "+SCOPE_PROFILE + " scope");
         }
-        DebugUtil.dbg(this, "First set of processing done, userinfo=" + claims);
 
         // Fixes CIL-210
 
         if (t.getScopes().contains(SCOPE_CILOGON_INFO)) {
-            DebugUtil.dbg(this, "has cilogon scope, processing ");
 
             // CIL-371, CIL-444 cert subject does not contain the email, hence the "false" flag.
             try {
-                claims.put(CERT_SUBJECT_DN, user.getDN((CILServiceTransactionInterface) t, false));
+                claims.put(CERT_SUBJECT_DN, user.getDN((AbstractCILServiceTransaction) t, false));
             } catch (Throwable ttt) {
                 // Should never happen, but just in case...
                 logger.warn("Unable to determine user's DN for user " + user.getIdentifierString() + ". Message is " + ttt.getMessage());
@@ -164,11 +150,7 @@ public class UserClaimSource extends BasicClaimsSourceImpl implements OA2Scopes 
                     // rock on, no acr.
                 }
             }
-        }else{
-            DebugUtil.dbg(this, " No " + SCOPE_CILOGON_INFO + " scope");
-
         }
-        DebugUtil.dbg(this, "finished. Returning claims of " + claims.toString(1));
         return claims;
     }
 

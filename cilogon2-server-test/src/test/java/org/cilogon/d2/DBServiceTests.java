@@ -2,15 +2,13 @@ package org.cilogon.d2;
 
 import edu.uiuc.ncsa.myproxy.oa4mp.server.ServiceConstantKeys;
 import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
+import edu.uiuc.ncsa.security.delegation.server.ServiceTransaction;
 import edu.uiuc.ncsa.security.delegation.storage.Client;
 import edu.uiuc.ncsa.security.storage.XMLMap;
 import org.cilogon.d2.servlet.AbstractDBService;
 import org.cilogon.d2.storage.*;
 import org.cilogon.d2.twofactor.TwoFactorInfo;
-import org.cilogon.d2.util.CILogonServiceTransaction;
-import org.cilogon.d2.util.DBServiceException;
-import org.cilogon.d2.util.DBServiceSerializer;
-import org.cilogon.d2.util.UserKeys;
+import org.cilogon.d2.util.*;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -114,16 +112,23 @@ public class DBServiceTests extends RemoteDBServiceTest {
 
         newUser.setePPN(new EduPersonPrincipleName("eppn:test/1"));
          assert testAUChange(newUser, false): "EPPN change caused archived user event.";
+        // NOTE have to null out the EPPN, EPTID etc. after use since one failure mode on the server
+        // is to reject any request with all of these set, since that is impossible in practice and
+        // would probably represent a serious internal consistency issue.
+
+         newUser.setePPN(null);
 
         newUser.setePTID(new EduPersonTargetedID("eptid:test/1"));
         assert testAUChange(newUser, false) : "EPTID change caused archived user event.";
+        newUser.setePTID(null);
 
         newUser.setOpenID(new OpenID("openid:test/1"));
         assert testAUChange(newUser, false) : "Open ID change caused archived user event.";
+        newUser.setOpenID(null);
 
         newUser.setOpenIDConnect(new OpenIDConnect("openid:connect/test/1"));
         assert testAUChange(newUser, false) : "OpenID Connect change caused archived user event.";
-
+        getUserStore().remove(user.getIdentifier());
  }
 
     protected boolean testAUChange(User user, boolean isChanged) throws Exception {
@@ -139,7 +144,7 @@ public class DBServiceTests extends RemoteDBServiceTest {
     public void testPortalParameter() throws Exception {
 
         Client client = (Client) getClientStore().create();
-        CILogonServiceTransaction t = (CILogonServiceTransaction) getTransactionStore().create();
+        ServiceTransaction t = (ServiceTransaction) getTransactionStore().create();
         t.setAuthorizationGrant(getTSProvider().getSE().getTokenForge().getAuthorizationGrant());
         t.setCallback(createToken("callbackURI"));
         client.setName("Test AbstractDBService portal name");

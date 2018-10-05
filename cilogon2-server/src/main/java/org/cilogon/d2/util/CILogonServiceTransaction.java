@@ -9,7 +9,7 @@ import static edu.uiuc.ncsa.security.core.util.BeanUtils.checkEquals;
  * <p>Created by Jeff Gaynor<br>
  * on 3/14/12 at  3:38 PM
  */
-public class CILogonServiceTransaction extends OA4MPServiceTransaction implements CILServiceTransactionInterface {
+public class CILogonServiceTransaction extends OA4MPServiceTransaction implements AbstractCILServiceTransaction {
     public CILogonServiceTransaction(Identifier identifier) {
         super(identifier);
     }

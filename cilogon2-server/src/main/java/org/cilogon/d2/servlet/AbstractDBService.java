@@ -9,7 +9,6 @@ import edu.uiuc.ncsa.security.core.exceptions.NFWException;
 import edu.uiuc.ncsa.security.core.exceptions.TransactionNotFoundException;
 import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
 import edu.uiuc.ncsa.security.core.util.DateUtils;
-import edu.uiuc.ncsa.security.core.util.DebugUtil;
 import edu.uiuc.ncsa.security.delegation.server.ServiceTransaction;
 import edu.uiuc.ncsa.security.delegation.server.request.IssuerResponse;
 import edu.uiuc.ncsa.security.delegation.storage.Client;
@@ -17,7 +16,6 @@ import edu.uiuc.ncsa.security.delegation.storage.ClientApprovalKeys;
 import edu.uiuc.ncsa.security.delegation.storage.ClientKeys;
 import edu.uiuc.ncsa.security.delegation.token.AuthorizationGrant;
 import edu.uiuc.ncsa.security.delegation.token.TokenForge;
-import edu.uiuc.ncsa.security.servlet.ServletDebugUtil;
 import org.cilogon.d2.storage.*;
 import org.cilogon.d2.storage.impl.sql.CILSQLTransactionStore;
 import org.cilogon.d2.twofactor.TwoFactorInfo;
@@ -149,7 +147,6 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
      * @throws ServletException
      */
     protected void doAction(HttpServletRequest request, HttpServletResponse response, String action) throws IOException, ServletException {
-        DebugUtil.dbg(this, "DBService");
         //printAllParameters(request);
         switch (lookupCase(action)) {
             case GET_USER_ID_CASE:
@@ -298,21 +295,13 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
 
     protected void getUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
         printAllParameters(request);
-        DebugUtil.dbg(this, "getUser: ******** NEW CALL ******** ");
         String useruidString = getParam(request, userKeys.identifier(), true);
-        ServletDebugUtil.dbg(this,"userkey = " + userKeys.identifier() + ", user uid=" + useruidString);
         // case 1: a user id is supplied. Return information about the user.
         if (useruidString != null) {
             Identifier uid = newID(useruidString);
-            ServletDebugUtil.dbg(this,"created identifier =" + uid);
-
             try {
                 User user = getUserStore().get(uid);
-                ServletDebugUtil.dbg(this,"got user =" + user);
-
                 TwoFactorInfo tfi = get2FStore().get(uid);
-                ServletDebugUtil.dbg(this,"got two factor infor =" + tfi);
-
                 writeUser(user, tfi, STATUS_OK, response);
                 return;
             } catch (UserNotFoundException x) {
@@ -320,7 +309,6 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
                 return;
             }
         }
-        ServletDebugUtil.dbg(this,"NO user uid");
 
         // case 2, use remote user to see if user has been updated or not.
         UserMultiKey names = getNames(request);
@@ -329,9 +317,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
             throw new DBServiceException(STATUS_NO_IDENTITY_PROVIDER);
         }
         String email = getParam(request, userKeys.email(), true);
-        debug("email = " + email);
         String firstName = getParam(request, userKeys.firstName(), true);
-        debug("first name = " + firstName);
         String lastName = getParam(request, userKeys.lastName(), true);
         String idpDisplayName = getParam(request, userKeys.idpDisplayName(), true);
 
@@ -346,16 +332,13 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
             getMyLogger().warn("No us_idp flag set for this request, assuming IDP is US");
             useUSinDN = Boolean.TRUE;
         }
-        DebugUtil.dbg(this, "getUser: use US in DN String= " + useUSinDNString);
         if (isEmpty(idpDisplayName) && isEmpty(firstName) && isEmpty(lastName) && isEmpty(email)) {
-            DebugUtil.dbg(this, "getUser:Empty information means to find user");
             try {
                 User user = findUser(names, idp);
 
                 user.setUseUSinDN(useUSinDN);
 
                 TwoFactorInfo tfi = get2FStore().get(user.getIdentifier());
-                DebugUtil.dbg(this, "user = " + user);
                 getUserStore().save(user);
                 writeUser(user, tfi, STATUS_OK, response);
             } catch (UserNotFoundException x) {
@@ -378,13 +361,10 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
                 user.setIdP(idp);
                 user.setUseUSinDN(useUSinDN);
                 getUserStore().save(user);
-                DebugUtil.dbg(this, "getUser:user = " + user);
-
                 writeUser(user, null, STATUS_OK, response);
             }
         }
         try {
-            DebugUtil.dbg(this, "getUser:check and archive user");
             // check that the user is valid and if something has changed, archive the user's old information.
             // user id's are immutable, so this will not create a new one, though it will create a new archived user id.
             checkAndArchiveUser(response,
@@ -436,8 +416,6 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
             }
             // it is possible that there might be some information already about this user. Check, just in case...
             TwoFactorInfo tfi = get2FStore().get(user3.getIdentifier());
-            DebugUtil.dbg(this, "user = " + user3);
-
             writeUser(user3, tfi, STATUS_NEW_USER, response);
             info("DONE WRITING NEW USER, ID = " + user3.getIdentifier());
         }
@@ -464,10 +442,8 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
      * @throws java.io.UnsupportedEncodingException
      */
     protected String getParam(HttpServletRequest request, String key, boolean nullOK) throws UnsupportedEncodingException {
-        ServletDebugUtil.dbg(this, " Parameter requests = " + key + ", nullok? " + nullOK);
         request.setCharacterEncoding("UTF-8");
         String[] params = request.getParameterValues(key);
-        ServletDebugUtil.dbg(this, " Found parameter= " + Arrays.toString(params));
         if (null == params || params.length == 0) {
             if (nullOK) {
                 return null;
@@ -514,7 +490,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
             getMyLogger().warn("Expired or bad token.");
             throw new DBServiceException(STATUS_TRANSACTION_NOT_FOUND);
         }
-        CILogonServiceTransaction t = (CILogonServiceTransaction) getTransaction(ag);
+        ServiceTransaction t =  getTransaction(ag);
         if (t == null) {
             getMyLogger().warn("Did not find portal parameters for transaction w/token =" + ag);
             throw new DBServiceException(STATUS_TRANSACTION_NOT_FOUND);
@@ -798,13 +774,9 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
                                        String memberOf) throws IOException {
 
         User oldUser = findUser(userMultiKey, idp);
-        DebugUtil.dbg(this, "checkAndArchiveUser: start. User=" + oldUser);
-        DebugUtil.dbg(this, "checkAndArchiveUser: use US in DN=" + useUSinDN);
-        debug("USER FOR CHECK = " + oldUser);
         TwoFactorInfo tfi = get2FStore().get(oldUser.getIdentifier());
         if (oldUser.compare(idpDisplayName, firstName, lastName, email)) {
             info("No change to user \"" + oldUser.getIdentifier() + "\", returning");
-            DebugUtil.dbg(this, "checkAndArchiveUser: no archive for old user, update then return");
 
             // There is an issue. This condition is to trigger an archive user event. The affiliation &c. can still change,
             // which should cause the user to be updated, but should not cause the user to be archived.
@@ -833,12 +805,10 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
             if (saveUser) {
                 getUserStore().update(oldUser, true); // force that there is no new serial string produced.
             }
-            DebugUtil.dbg(this, "checkAndArchiveUser: Updated user=" + oldUser);
             writeUser(oldUser, tfi, STATUS_OK, response);
             return;
         }
         info("Archiving user \"" + oldUser.getIdentifier() + "\", returning");
-        DebugUtil.dbg(this, "checkAndArchiveUser: archiving user");
 
         getArchivedUserStore().archiveUser(oldUser.getIdentifier());
         // Now update to the new values and save it.
@@ -1006,9 +976,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
 
     protected void writeUser(User user, TwoFactorInfo tfi, int statusCode, HttpServletResponse response) throws IOException {
         startWrite(response);
-        ServletDebugUtil.dbg(this, "starting serialization of user ");
         serializer.serialize(response.getWriter(), user, tfi, statusCode);
-        ServletDebugUtil.dbg(this, "DONE with serialization of user ");
         stopWrite(response);
     }
 
@@ -1025,7 +993,6 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
     public void getLastArchivedUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Identifier userid = newID(request.getParameter(userKeys.identifier()));
         ArchivedUser lastOne = getArchivedUserStore().getLastArchivedUser(userid);
-        debug("LAST ARCHIVED USER = " + lastOne);
         if (lastOne == null) {
             // None of these have been archived. We *could* check if the user has a valid uid
             // in the store and return user not found if so and user not found error if not,

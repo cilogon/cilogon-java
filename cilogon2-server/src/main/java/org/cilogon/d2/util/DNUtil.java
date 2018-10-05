@@ -46,7 +46,7 @@ public class DNUtil {
         return DEFAULT_CASE;
     }
 
-    public static String getDN(User user, CILServiceTransactionInterface transaction, boolean returnEmail) {
+    public static String getDN(User user, AbstractCILServiceTransaction transaction, boolean returnEmail) {
         ServletDebugUtil.dbg(DNUtil.class, "in getDN.");
         switch (getCase(user)) {
             case LIGO_CASE:

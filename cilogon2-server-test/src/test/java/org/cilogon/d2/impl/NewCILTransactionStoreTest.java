@@ -5,7 +5,7 @@ import edu.uiuc.ncsa.myproxy.oa4mp.server.OA4MPServiceTransaction;
 import edu.uiuc.ncsa.security.delegation.storage.TransactionStore;
 import org.cilogon.d2.CILTestStoreProviderI2;
 import org.cilogon.d2.storage.User;
-import org.cilogon.d2.util.CILServiceTransactionInterface;
+import org.cilogon.d2.util.AbstractCILServiceTransaction;
 
 import java.net.URI;
 
@@ -43,7 +43,7 @@ public class NewCILTransactionStoreTest extends NewTransactionTest {
           st.setLifetime(12 * 60 * 60 * 1000); // set for 12 hours
           String loa = "http://incommonfederation.org/assurance/silver";
           // CILogon specific test
-          ((CILServiceTransactionInterface)st).setLoa(loa);
+          ((AbstractCILServiceTransaction)st).setLoa(loa);
           store.save(st);
 
           assert st.equals(store.get(st.getVerifier()));
@@ -54,7 +54,7 @@ public class NewCILTransactionStoreTest extends NewTransactionTest {
           store.save(st);
           assert st.equals(store.get(st.getIdentifier()));
           assert st.equals(store.get(st.getAccessToken()));
-          CILServiceTransactionInterface zzz = (CILServiceTransactionInterface) store.get(st.getIdentifier());
+          AbstractCILServiceTransaction zzz = (AbstractCILServiceTransaction) store.get(st.getIdentifier());
           assert loa.equals(zzz.getLoa());
           st.setAccessTokenValid(false);
           store.save(st);

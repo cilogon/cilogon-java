@@ -11,7 +11,7 @@ import edu.uiuc.ncsa.security.storage.XMLMap;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.cilogon.d2.servlet.AbstractDBService;
 import org.cilogon.d2.storage.IdentityProvider;
@@ -84,7 +84,10 @@ public class DBServiceClient {
                 }
             }
         }
-        HttpGet httpGet = new HttpGet(getString);
+        //HttpGet httpGet = new HttpGet(getString);
+        HttpPost httpGet = new HttpPost(getString);
+        //httpGet.setHeader("Accept", "application/json");
+        httpGet.setHeader("Content-type", "application/x-www-form-urlencoded");
         HttpClient client = clientPool.pop();
         HttpResponse response = null;
         try {

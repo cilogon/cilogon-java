@@ -5,6 +5,7 @@ import edu.uiuc.ncsa.security.core.exceptions.GeneralException;
 import edu.uiuc.ncsa.security.core.exceptions.NFWException;
 import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
 import edu.uiuc.ncsa.security.core.util.Iso8601;
+import edu.uiuc.ncsa.security.delegation.server.ServiceTransaction;
 import edu.uiuc.ncsa.security.delegation.storage.Client;
 import edu.uiuc.ncsa.security.delegation.storage.ClientApprovalKeys;
 import edu.uiuc.ncsa.security.delegation.storage.ClientKeys;
@@ -149,7 +150,7 @@ public class DBServiceSerializer {
         print(w, userKeys.identifier(), userid);
     }
 
-    public void serialize(PrintWriter w, CILogonServiceTransaction t) throws IOException {
+    public void serialize(PrintWriter w, ServiceTransaction t) throws IOException {
 
         writeMessage(w, STATUS_OK);
         Client client = t.getClient();

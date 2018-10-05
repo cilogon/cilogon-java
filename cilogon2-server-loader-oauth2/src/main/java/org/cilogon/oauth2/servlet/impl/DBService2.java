@@ -114,11 +114,7 @@ public class DBService2 extends AbstractDBService {
 
     // Fixes CIL-101
     protected void setTransactionState(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        //System.err.println(getClass().getSimpleName() + ".setTransactionState: starting");
-        DebugUtil.dbg(this, "setTransactionState: ******** NEW CALL ******** ");
         String ag = req.getParameter(AUTHORIZATION_CODE);
-        DebugUtil.dbg(this, "code=" + ag);
-
         if (ag == null || ag.trim().length() == 0) {
             getMyLogger().error("Warning. No auth code. Cannot complete call.");
             writeMessage(resp, STATUS_MISSING_ARGUMENT);
@@ -130,15 +126,12 @@ public class DBService2 extends AbstractDBService {
         try {
             DateUtils.checkTimestamp(ag); // if it is expired, then it will not be in the database anyway.
         } catch (InvalidTimestampException xx) {
-            DebugUtil.dbg(this, "expired token " + ag);
             getMyLogger().error("The auth grant \"" + ag + "\" is expired. No transaction found.");
             writeTransaction(null, STATUS_EXPIRED_TOKEN, resp);
             return;
 
         }
-        DebugUtil.dbg(this, "AuthGrant= " + authGrant.toString());
         if (!getTransactionStore().containsKey(identifier)) {
-            DebugUtil.dbg(this, "Failed to get transaction for key " + identifier);
             getMyLogger().error("The auth grant \"" + authGrant + "\" is not a key for this transaction. No transaction found.");
             writeTransaction(null, STATUS_TRANSACTION_NOT_FOUND, resp);
             return;
@@ -149,7 +142,6 @@ public class DBService2 extends AbstractDBService {
         }
         UserStore userStore = ((CILogonOA2ServiceEnvironment) getEnvironment()).getUserStore();
         User user = userStore.get(userUID);
-        DebugUtil.dbg(this, "user=" + user.toString());
         long authTime = 0L;
         try {
             if (req.getParameter(AUTHORIZATION_TIME) == null) {
@@ -161,28 +153,20 @@ public class DBService2 extends AbstractDBService {
             info("Got " + AUTHORIZATION_TIME + "=" + req.getParameter(AUTHORIZATION_TIME) + ", error=\"" + t.getMessage() + "\"");
         }
         String loa = req.getParameter("loa");
-        DebugUtil.dbg(this, "LOA=" + loa);
         String myproxyUsername = req.getParameter("cilogon_info");
-        debug(getClass().getSimpleName() + ".setTransState: cilogon_info=" + myproxyUsername);
         CILOA2ServiceTransaction t = null;
         // Make sure that if there is some internal issue getting a transaction that a random runtime exception
         // is unhandled. In particular, if a user waits a very long time before trying to get an access token,
         // their transaction may have expired and been garbage collected. Fail gracefully.
         try {
-            DebugUtil.dbg(this, "Attempting to get transaction for key=" + authGrant);
             t = (CILOA2ServiceTransaction) getTransaction(authGrant);
-            DebugUtil.dbg(this, "   Success");
         } catch (Throwable throwable) {
-            DebugUtil.dbg(this, "Failed to get transaction for key=" + authGrant + ". Reason=" + throwable.getMessage());
-
             getMyLogger().error("Getting the transaction for auth grant \"" + authGrant + "\" failed.", throwable);
             writeTransaction(t, STATUS_TRANSACTION_NOT_FOUND, resp);
             return;
         }
         if (t == null) {
             // no transaction means there is nothing that can be done.
-            DebugUtil.dbg(this, "Got null transaction for key=" + authGrant);
-
             getMyLogger().error("Getting the transaction for auth grant \"" + authGrant + "\" failed. No transaction found.");
             writeTransaction(t, STATUS_TRANSACTION_NOT_FOUND, resp);
             return;
@@ -191,11 +175,9 @@ public class DBService2 extends AbstractDBService {
             t.setMyproxyUsername(user.getDN(t, true));
             info("Setting myproxy username to default user DN, since no cilogon_info sent.");
         } else {
-            debug("setting myproxy username");
             t.setMyproxyUsername(URLDecoder.decode(myproxyUsername, "UTF-8"));
         }
         if (loa != null) {
-            DebugUtil.dbg(this, "setTransactionState: setting LOA to " + loa);
             t.setLoa(loa);
         }
 
@@ -206,10 +188,7 @@ public class DBService2 extends AbstractDBService {
 
         doClaims((CILogonOA2ServiceEnvironment) getServiceEnvironment(), t);
 
-
         getTransactionStore().save(t);
-
-        DebugUtil.dbg(this, "setTransactionState:transaction saved " + getTransactionStore().get(t.getAuthorizationGrant()));
 
         writeTransaction(t, STATUS_OK, resp);
     }
@@ -229,9 +208,7 @@ public class DBService2 extends AbstractDBService {
 
             userClaimSource.process(claims, t);
             t.setClaims(claims);
-            DebugUtil.dbg(this, "stored claims =" + claims);
         } catch (Throwable throwable) {
-            DebugUtil.dbg(this, "Claims processing failed. Reason=" + throwable.getMessage());
             getMyLogger().error("Claims processing failed.", throwable);
             return;
         }
@@ -241,7 +218,6 @@ public class DBService2 extends AbstractDBService {
     protected void getClient(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Identifier clientID = newID(req.getParameter("client_id"));
         OA2Client client = (OA2Client) getServiceEnvironment().getClientStore().get(clientID);
-        debug("getting client = " + client);
         if (client == null) {
             // None of these have been archived. We *could* check if the user has a valid uid
             // in the store and return user not found if so and user not found error if not,

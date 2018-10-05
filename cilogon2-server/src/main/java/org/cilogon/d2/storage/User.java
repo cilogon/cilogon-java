@@ -5,7 +5,7 @@ import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
 import edu.uiuc.ncsa.security.core.util.BeanUtils;
 import edu.uiuc.ncsa.security.core.util.DateUtils;
 import edu.uiuc.ncsa.security.core.util.IdentifiableImpl;
-import org.cilogon.d2.util.CILServiceTransactionInterface;
+import org.cilogon.d2.util.AbstractCILServiceTransaction;
 import org.cilogon.d2.util.DNUtil;
 import org.cilogon.d2.util.SerialStrings;
 
@@ -236,7 +236,7 @@ public class User extends IdentifiableImpl {
     Identifier serialIdentifier;
 
 
-    public String getDN(CILServiceTransactionInterface transaction, boolean returnEmail) {
+    public String getDN(AbstractCILServiceTransaction transaction, boolean returnEmail) {
         return DNUtil.getDN(this, transaction, returnEmail);
     }
 
