@@ -246,7 +246,7 @@ public class UserStoreTest extends TestBase {
                 "v.phibes@ligo.org", //email
                 null, // affiliation
                 "Vulnavia Phibes", // display name
-                "People:o3.ncsa.illinois.edu:cron" // organizational unit
+                null // organizational unit -- null for people, set only for robots
         );
         System.out.println("\n============> LIGO People (with remote user)");
         System.out.println("get email = false\": " + vulnavia.getDN(null, false) + "\"");
@@ -270,7 +270,7 @@ public class UserStoreTest extends TestBase {
                       "v.phibes@ligo.org", //email
                       null, // affiliation
                       "Vulnavia Phibes", // display name
-                      "People:o3.ncsa.illinois.edu:cron" // organizational unit
+                      null
               );
               System.out.println("============> LIGO People (with EPPN)");
               System.out.println("get email = false\": " + vulnavia.getDN(null, false) + "\"");

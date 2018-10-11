@@ -66,7 +66,7 @@ public class DNUtil {
     protected static String getLIGODN(User user, boolean returnEmail) {
         String baseString = "/DC=org/DC=cilogon/C=US/O=LIGO/CN=%s %s %s";
         String name = null;
-        if (user.getRemoteUser()!= null && !user.getRemoteUser().isEmpty()) {
+        if (user.getRemoteUser() != null && !user.getRemoteUser().isEmpty()) {
             name = user.getRemoteUser().getName();
         }
         if (name == null && !user.getePPN().isEmpty()) {
@@ -75,47 +75,61 @@ public class DNUtil {
         if (name == null) {
             throw new NFWException("Error: LIGO user \"" + user.getIdentifierString() + "\" has neither the remote user nor EPPN set. Cannot create a DN");
         }
-        // CIL-512 compute DN for robots too.
-        StringTokenizer st = new StringTokenizer(user.getOrganizationalUnit(), ":");
-        String[] cns = new String[st.countTokens()];
-        int i = 0;
-        while (st.hasMoreTokens()) {
-            cns[i++] = st.nextToken();
-            DebugUtil.dbg(DNUtil.class, "OA2DNUtil.getLIGODN: cns[i]==" + cns[i - 1]); // cause we incremented
-        }
+        if (user.getOrganizationalUnit() != null && !user.getOrganizationalUnit().isEmpty()) {
+            // ONLY in this case is it possible that we have a robot DN
+            // CIL-512 compute DN for robots too.
+            StringTokenizer st = new StringTokenizer(user.getOrganizationalUnit(), ":");
+            String[] cns = new String[st.countTokens()];
+            int i = 0;
+            while (st.hasMoreTokens()) {
+                cns[i++] = st.nextToken();
+                DebugUtil.dbg(DNUtil.class, "OA2DNUtil.getLIGODN: cns[i]==" + cns[i - 1]); // cause we incremented
+            }
 
-        if (cns[0].equals("People")) {
-            if (returnEmail) {
-                baseString = baseString + " email=%s";
+            if (cns.length == 3 && cns[0].equals("Robots")) {
+                String eppn = user.getePPN().getName();
+                String id = "UID:" + eppn.substring(0, eppn.indexOf("@"));
+
+                  /*
+                   /DC=org/DC=cilogon/C=US/O=LIGO/OU=Robots/CN=o3.ncsa.illinois.edu/CN=cron/CN=Jim Basney/CN=UID:jim.basney
+                   */
+                baseString = "/DC=org/DC=cilogon/C=US/O=LIGO/OU=Robots/CN=%s/CN=%s/CN=%s %s/CN=%s";
+                if (returnEmail) {
+                    baseString = baseString + " email=%s";
+                    return String.format(baseString,
+                            cns[1],
+                            cns[2],
+                            user.getFirstName(),
+                            user.getLastName(),
+                            id,
+                            user.getEmail());
+                }
                 return String.format(baseString,
+                        cns[1],
+                        cns[2],
                         user.getFirstName(),
                         user.getLastName(),
-                        name,
-                        user.getEmail());
+                        id);
             }
+        }
+
+        // Note that unlike the FNAL case, there is no "people" field in the OU for LIGO generally. It is implicit.
+        if (returnEmail) {
+            baseString = baseString + " email=%s";
             return String.format(baseString,
                     user.getFirstName(),
                     user.getLastName(),
-                    name);
+                    name,
+                    user.getEmail());
         }
-        if (cns.length == 3 && cns[0].equals("Robots")) {
-            String eppn = user.getePPN().getName();
-                   String id = "UID:" + eppn.substring(0, eppn.indexOf("@"));
-
-            /*
-             /DC=org/DC=cilogon/C=US/O=LIGO/OU=Robots/CN=o3.ncsa.illinois.edu/CN=cron/CN=Jim Basney/CN=UID:jim.basney
-             */
-            baseString = "/DC=org/DC=cilogon/C=US/O=LIGO/OU=Robots/CN=%s/CN=%s/CN=%s %s/CN=%s";
-            return String.format(baseString,
-                    cns[1],
-                    cns[2],
-                    user.getFirstName(),
-                    user.getLastName(),
-                    id);
-        }
-
+        return String.format(baseString,
+                user.getFirstName(),
+                user.getLastName(),
+                name);
+/*
         throw new GeneralException("Error: computing LIGO DN. Could not determine proper " +
                 "format from organizational unit=\"" + user.getOrganizationalUnit() + "\"");
+*/
 
     }
 
