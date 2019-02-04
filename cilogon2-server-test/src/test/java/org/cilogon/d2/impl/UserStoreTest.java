@@ -4,6 +4,7 @@ import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.exceptions.GeneralException;
 import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
 import edu.uiuc.ncsa.security.util.TestBase;
+import net.freeutils.charset.UTF7Charset;
 import org.cilogon.d2.CILTestStoreProviderI2;
 import org.cilogon.d2.RemoteDBServiceTest;
 import org.cilogon.d2.ServiceTestUtils;
@@ -39,6 +40,7 @@ public class UserStoreTest extends TestBase {
 
     public void doTests(CILTestStoreProviderI2 provider) throws Exception {
         testFNAL(provider.getUserStore());
+        testUTF7(provider.getUserStore());
         testNextValue(provider.getSequence());
         testSerialStringIncrement(provider.getUserStore());
         testMapInterface(provider.getUserStore());
@@ -334,7 +336,52 @@ public class UserStoreTest extends TestBase {
         }
 
     }
+    public void testUTF7(UserStore userStore) throws Exception{
+        // test is to send new information for a user.
+          String firstName = "Дмитрий";
+          String lastName = "Шостакович+源";  // Russian - Japanese last name...
+          String email = "Шоста@和楽器.com";
+          String affiliation = "affilation" + lastName;
+          String displayName = firstName + " " + lastName;
+          String organizationalUnit = "organization:foo42.fnord: " + lastName;
+        RemoteUserName remoteUser = new RemoteUserName("https://idp.fnal.gov/idp/shibboleth!https://cilogon.org/shibboleth!CJtWNa2SKrwXb0NHzPGlWwr7uTE=");
+         EduPersonTargetedID eptid = new EduPersonTargetedID("https://idp.fnal.gov/idp/shibboleth!https://cilogon.org/shibboleth!6258095E940C4172B7E4096063C3C447A91B0F14");
+         EduPersonPrincipleName eppn = new EduPersonPrincipleName("kreymer@fnal.gov");
+         UserMultiKey umk = new UserMultiKey(remoteUser, eppn, eptid, null, null);
 
+        User peopleUser = userStore.createAndRegisterUser(
+                 umk,
+                 "https://idp.fnal.gov/idp/shibboleth", //idp
+                 "Fermi National Accelerator Laboratory", //ipd display name
+                 firstName, //first name
+                 lastName, // last name
+                 email, // email
+                 affiliation, // affiliation
+                 displayName, // display name
+                 organizationalUnit // organizational unit
+         );
+
+        String dn = DNUtil.getDN(peopleUser, null, true);
+        System.out.println("UTF7 DN = \"" + dn + "\"");
+        userStore.remove(peopleUser.getIdentifier());
+    }
+
+    public static void main(String[] args){
+        try{
+            String firstName = "Дмитрий";
+            String lastName = "Шостакович+源";  // Russian - Japanese last name...
+            String email = "Шоста@和楽器.com";
+
+            UTF7Charset utf7 = new UTF7Charset();
+           byte[] emailBytes  = email.getBytes(utf7);
+           System.out.println(new String(emailBytes));
+           System.out.println(new String(emailBytes,utf7));
+
+
+        }catch(Throwable t){
+            t.printStackTrace();
+        }
+    }
     /**
      * Test using a real user and his data
      *

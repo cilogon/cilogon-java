@@ -4,6 +4,7 @@ import edu.uiuc.ncsa.security.core.exceptions.GeneralException;
 import edu.uiuc.ncsa.security.core.exceptions.NFWException;
 import edu.uiuc.ncsa.security.core.util.DebugUtil;
 import edu.uiuc.ncsa.security.servlet.ServletDebugUtil;
+import net.freeutils.charset.UTF7Charset;
 import org.cilogon.d2.storage.User;
 
 import java.util.StringTokenizer;
@@ -99,16 +100,16 @@ public class DNUtil {
                     return String.format(baseString,
                             cns[1],
                             cns[2],
-                            user.getFirstName(),
-                            user.getLastName(),
+                            toUTF7(user.getFirstName()),
+                            toUTF7(user.getLastName()),
                             id,
                             user.getEmail());
                 }
                 return String.format(baseString,
                         cns[1],
                         cns[2],
-                        user.getFirstName(),
-                        user.getLastName(),
+                        toUTF7(user.getFirstName()),
+                                toUTF7(user.getLastName()),
                         id);
             }
         }
@@ -117,14 +118,14 @@ public class DNUtil {
         if (returnEmail) {
             baseString = baseString + " email=%s";
             return String.format(baseString,
-                    user.getFirstName(),
-                    user.getLastName(),
+                    toUTF7(user.getFirstName()),
+                    toUTF7(user.getLastName()),
                     name,
                     user.getEmail());
         }
         return String.format(baseString,
-                user.getFirstName(),
-                user.getLastName(),
+                toUTF7(user.getFirstName()),
+                toUTF7(user.getLastName()),
                 name);
 /*
         throw new GeneralException("Error: computing LIGO DN. Could not determine proper " +
@@ -140,22 +141,37 @@ public class DNUtil {
         if (returnEmail) {
             baseString = baseString + " email=%s";
             return String.format(baseString,
-                    user.getIDPName(),
-                    user.getFirstName(),
-                    user.getLastName(),
+                    toUTF7(user.getIDPName()),
+                    toUTF7(user.getFirstName()),
+                    toUTF7(user.getLastName()),
                     user.getSerialString(),
                     user.getEmail());
 
         }
         return String.format(baseString,
-                user.getIDPName(),
-                user.getFirstName(),
-                user.getLastName(),
+                toUTF7(user.getIDPName()),
+                toUTF7(user.getFirstName()),
+                toUTF7(user.getLastName()),
                 user.getSerialString());
     }
 
     protected static final int FNL_CASE = 12;
 
+    /**
+     * Converts a String to its UTF7 equivalent and returns that. E.g. A string like <br/><br/>
+     * Шоста@和楽器.com
+     * <br/><br/>
+     * would be returned as
+     * <br/><br/>
+     * +BCgEPgRBBEIEMABAVIxpfVZo.com
+     * @param inString
+     * @return
+     */
+    protected static String toUTF7(String inString) {
+        UTF7Charset utf7 = new UTF7Charset();
+        byte[] rawBytes = inString.getBytes(utf7);
+        return new String(rawBytes);
+    }
 
     protected static String getFNLDN(User user, boolean returnEmail) {
         DebugUtil.dbg(DNUtil.class, "OA2DNUtil.getFNLDN: user=" + user);
@@ -180,16 +196,16 @@ public class DNUtil {
                 baseString = baseString + " email=%s";
 
                 rc = String.format(baseString,
-                        user.getFirstName(),
-                        user.getLastName(),
+                        toUTF7(user.getFirstName()),
+                        toUTF7(user.getLastName()),
                         id,
                         user.getEmail());
                 DebugUtil.dbg(DNUtil.class, "OA2DNUtil.getFNLDN: people case=" + rc);
                 return rc;
             }
             rc = String.format(baseString,
-                    user.getFirstName(),
-                    user.getLastName(),
+                    toUTF7(user.getFirstName()),
+                    toUTF7(user.getLastName()),
                     id);
             DebugUtil.dbg(DNUtil.class, "OA2DNUtil.getFNLDN: people case=" + rc);
             return rc;
@@ -206,8 +222,8 @@ public class DNUtil {
                 rc = String.format(baseString,
                         cns[1],
                         cns[2],
-                        user.getFirstName(),
-                        user.getLastName(),
+                        toUTF7(user.getFirstName()),
+                        toUTF7(user.getLastName()),
                         id,
                         user.getEmail());
                 DebugUtil.dbg(DNUtil.class, "OA2DNUtil.getFNLDN: robot case=" + rc);
@@ -217,8 +233,8 @@ public class DNUtil {
             rc = String.format(baseString,
                     cns[1],
                     cns[2],
-                    user.getFirstName(),
-                    user.getLastName(),
+                    toUTF7(user.getFirstName()),
+                    toUTF7(user.getLastName()),
                     id);
             DebugUtil.dbg(DNUtil.class, "OA2DNUtil.getFNLDN: robot case=" + rc);
             return rc;

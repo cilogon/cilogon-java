@@ -52,6 +52,11 @@
             <version>4.2-SNAPSHOT</version>
         </dependency>
         <dependency>
+            <groupId>net.freeutils</groupId>
+            <artifactId>jcharset</artifactId>
+            <version>2.0</version>
+        </dependency>
+        <dependency>
             <artifactId>ncsa-security-util</artifactId>
             <groupId>edu.uiuc.ncsa.security</groupId>
             <version>4.2-SNAPSHOT</version>

@@ -89,8 +89,8 @@ public class SAMLAttrbuteClaimSource extends BasicClaimsSourceImpl {
     protected JSONObject oldProcess(JSONObject claims, ServiceTransaction transaction) throws UnsupportedScopeException {
         // In the case of CILogon, the username on the transaction is the unique user id in the database, so get the user
         CILogonOA2ServiceEnvironment se = (CILogonOA2ServiceEnvironment) getOa2SE();
-        ServletDebugUtil.dbg(this, ".oldProcess: username=" + transaction.getUsername());
-        ServletDebugUtil.dbg(this, ".oldProcess: service env=" + se);
+        //   ServletDebugUtil.trace(this, ".oldProcess: username=" + transaction.getUsername());
+        ServletDebugUtil.trace(this, ".oldProcess: service env=" + se);
         User user = se.getUserStore().get(BasicIdentifier.newID(transaction.getUsername()));
         if (user == null) {
             throw new NFWException("Error: user not found for identifier \"" + transaction.getUsername() + "\"");
@@ -100,9 +100,14 @@ public class SAMLAttrbuteClaimSource extends BasicClaimsSourceImpl {
         }
         JSONObject saml = JSONObject.fromObject(user.getAttr_json());
         if (saml == null) {
-            ServletDebugUtil.dbg(this, ".oldProcess: No SAML attributes found for user " + transaction.getUsername() + ". Skipping.");
+            ServletDebugUtil.trace(this, ".oldProcess: No SAML attributes found for user " + transaction.getUsername() + ". Skipping.");
             return claims;
         }
+        return getJsonObject(claims, saml);
+    }
+
+    private JSONObject getJsonObject(JSONObject claims, JSONObject saml) {
+
         for (Object key0 : saml.keySet()) {
             String key = key0.toString();
             //keys should be strings!! But just in case, make sure it is one
@@ -162,8 +167,12 @@ public class SAMLAttrbuteClaimSource extends BasicClaimsSourceImpl {
 
     public static void main(String[] arg) {
         // just a test on the old form attributes from the CILogon service. Make sure they format right.
-        String x = "{\"member_of\":\"c13b7ba3-b038-4abb-b062-4491d1f9f12b;09895d05-1b79-4529-9f9d-9367752a1d0a\",\"acr\":\"urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport\"}";
-        JSONObject saml = JSONObject.fromObject(x);
+        // String x = "{\"member_of\":\"c13b7ba3-b038-4abb-b062-4491d1f9f12b;09895d05-1b79-4529-9f9d-9367752a1d0a\",\"acr\":\"urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport\"}";
+        //JSONObject saml = JSONObject.fromObject(x);
+        JSONObject saml = new JSONObject();
+        saml.put("member_of", "c13b7ba3-b038-4abb-b062-4491d1f9f12b;09895d05-1b79-4529-9f9d-9367752a1d0a");
+        saml.put("acr", "urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport");
+        saml.put("entitlement", "urn:mace:exampleIdP.org:demoservice:demo-admin");
         try {
             String rawGroups = saml.getString("member_of");
             Groups group = new Groups();
@@ -176,8 +185,12 @@ public class SAMLAttrbuteClaimSource extends BasicClaimsSourceImpl {
             JSONObject foo = new JSONObject();
             System.out.println(group.toJSON());
             foo.put("isMemberOf", group.toJSON());
+            System.out.println("\nFrom group processor:");
             System.out.println(foo);
+            System.out.println("\nFrom attr_json processor:");
+            SAMLAttrbuteClaimSource samlAttrbuteClaimSource = new SAMLAttrbuteClaimSource(null);
 
+            System.out.println(samlAttrbuteClaimSource.getJsonObject(new JSONObject(), saml).toString(2));
         } catch (Throwable t) {
             t.printStackTrace();
         }
