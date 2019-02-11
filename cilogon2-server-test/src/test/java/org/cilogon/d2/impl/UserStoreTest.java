@@ -41,6 +41,7 @@ public class UserStoreTest extends TestBase {
     public void doTests(CILTestStoreProviderI2 provider) throws Exception {
         testFNAL(provider.getUserStore());
         testUTF7(provider.getUserStore());
+        testUTF7RegressionTest(provider.getUserStore());
         testNextValue(provider.getSequence());
         testSerialStringIncrement(provider.getUserStore());
         testMapInterface(provider.getUserStore());
@@ -257,32 +258,32 @@ public class UserStoreTest extends TestBase {
 
 
         UserMultiKey umk = new UserMultiKey(
-                      new RemoteUserName(""),
-                      new EduPersonPrincipleName("vulnavia.phibes@ligo.org"),
-                      new EduPersonTargetedID("test:ligo/user/vulnavia.phibes"),
-                      null, //open id
-                      null // OIDC
-              );
-              vulnavia = userStore.createAndRegisterUser(
-                      umk, // user multi-key
-                      "https://login2.ligo.org/idp/shibboleth", //idp
-                      "LIGO", // IDP display name
-                      "Vulnavia", // first name
-                      "Phibes", // last name
-                      "v.phibes@ligo.org", //email
-                      null, // affiliation
-                      "Vulnavia Phibes", // display name
-                      null
-              );
-              System.out.println("============> LIGO People (with EPPN)");
-              System.out.println("get email = false\": " + vulnavia.getDN(null, false) + "\"");
-              System.out.println("get email = true\": " + vulnavia.getDN(null, true) + "\"");
-              userStore.remove(vulnavia);
+                new RemoteUserName(""),
+                new EduPersonPrincipleName("vulnavia.phibes@ligo.org"),
+                new EduPersonTargetedID("test:ligo/user/vulnavia.phibes"),
+                null, //open id
+                null // OIDC
+        );
+        vulnavia = userStore.createAndRegisterUser(
+                umk, // user multi-key
+                "https://login2.ligo.org/idp/shibboleth", //idp
+                "LIGO", // IDP display name
+                "Vulnavia", // first name
+                "Phibes", // last name
+                "v.phibes@ligo.org", //email
+                null, // affiliation
+                "Vulnavia Phibes", // display name
+                null
+        );
+        System.out.println("============> LIGO People (with EPPN)");
+        System.out.println("get email = false\": " + vulnavia.getDN(null, false) + "\"");
+        System.out.println("get email = true\": " + vulnavia.getDN(null, true) + "\"");
+        userStore.remove(vulnavia);
 
 
         // test the robot
 
-         umk = new UserMultiKey(
+        umk = new UserMultiKey(
                 new RemoteUserName("test:ligo/user/anton.phibes"),
                 new EduPersonPrincipleName("anton.phibes@ligo.org"),
                 new EduPersonTargetedID("test:ligo/user/anton.phibes"),
@@ -336,52 +337,104 @@ public class UserStoreTest extends TestBase {
         }
 
     }
-    public void testUTF7(UserStore userStore) throws Exception{
-        // test is to send new information for a user.
-          String firstName = "Дмитрий";
-          String lastName = "Шостакович+源";  // Russian - Japanese last name...
-          String email = "Шоста@和楽器.com";
-          String affiliation = "affilation" + lastName;
-          String displayName = firstName + " " + lastName;
-          String organizationalUnit = "organization:foo42.fnord: " + lastName;
+
+    /**
+     * This takes a known user in the database and checks that the computed DN has not changed.
+     * @param userStore
+     * @throws Exception
+     */
+    public void testUTF7RegressionTest(UserStore userStore) throws Exception {
+    /*
+    dn    /DC=org/DC=cilogon/C=US/O=Google/CN=+MNUw6yAVMOowxjDqIBU- +MNUw6yAVMOo- D3170 email=boomerangfish@gmail.com
+        emailaddr    boomerangfish@gmail.com
+        firstname    フル―リテリ―
+        idp    https://accounts.google.com/o/oauth2/auth
+        idpname    Google
+        lastname    フル―リ
+        loa    openid
+        oidcID    118253954935913583765
+        responseurl    https://dev.cilogon.org/
+        stage    logon
+        status    0
+        uid    http://cilogon.org/serverD/users/1
+     */
+    String refDN = "/DC=org/DC=cilogon/C=US/O=Google/CN=+MNUw6yAVMOowxjDqIBU- +MNUw6yAVMOo- D3170 email=boomerangfish@gmail.com";
+        String firstName = "フル―リテリ―";
+        String lastName = "フル―リ";
+        String email = "boomerangfish@gmail.com";
+        String affiliation = "affilation test";
+        String displayName = firstName + " " + lastName;
+        String organizationalUnit = "People:minos27.fnal.gov:cron"; // organizational unit
         RemoteUserName remoteUser = new RemoteUserName("https://idp.fnal.gov/idp/shibboleth!https://cilogon.org/shibboleth!CJtWNa2SKrwXb0NHzPGlWwr7uTE=");
-         EduPersonTargetedID eptid = new EduPersonTargetedID("https://idp.fnal.gov/idp/shibboleth!https://cilogon.org/shibboleth!6258095E940C4172B7E4096063C3C447A91B0F14");
-         EduPersonPrincipleName eppn = new EduPersonPrincipleName("kreymer@fnal.gov");
-         UserMultiKey umk = new UserMultiKey(remoteUser, eppn, eptid, null, null);
+        EduPersonTargetedID eptid = new EduPersonTargetedID("https://idp.fnal.gov/idp/shibboleth!https://cilogon.org/shibboleth!6258095E940C4172B7E4096063C3C447A91B0F14");
+        EduPersonPrincipleName eppn = new EduPersonPrincipleName("boomerangfish@gmail.com");
+        UserMultiKey umk = new UserMultiKey(remoteUser, eppn, eptid, null, null);
 
         User peopleUser = userStore.createAndRegisterUser(
-                 umk,
-                 "https://idp.fnal.gov/idp/shibboleth", //idp
-                 "Fermi National Accelerator Laboratory", //ipd display name
-                 firstName, //first name
-                 lastName, // last name
-                 email, // email
-                 affiliation, // affiliation
-                 displayName, // display name
-                 organizationalUnit // organizational unit
-         );
+                umk,
+                "https://accounts.google.com/o/oauth2/auth", //idp
+                "Google", //ipd display name
+                firstName, //first name
+                lastName, // last name
+                email, // email
+                affiliation, // affiliation
+                displayName, // display name
+                organizationalUnit // organizational unit
+        );
+        peopleUser.setUseUSinDN(true);
+        String dn = DNUtil.getDN(peopleUser, null, true);
+        System.out.println("reference DN = \"" + refDN);
+         System.out.println("computed UTF7 DN = \"" + dn + "\"");
+         System.out.println("Are these equal up to serial string?");
+         userStore.remove(peopleUser.getIdentifier());
+    }
+    public void testUTF7(UserStore userStore) throws Exception {
+        // test is to send new information for a user.
+        String firstName = "Дмитрий";
+        String lastName = "Шостакович+源";  // Russian - Japanese last name...
+        String email = "Шоста@和楽器.com";
+        String affiliation = "affilation" + lastName;
+        String displayName = firstName + " " + lastName;
+        String organizationalUnit = "People:minos27.fnal.gov:cron"; // organizational unit
+        RemoteUserName remoteUser = new RemoteUserName("https://idp.fnal.gov/idp/shibboleth!https://cilogon.org/shibboleth!CJtWNa2SKrwXb0NHzPGlWwr7uTE=");
+        EduPersonTargetedID eptid = new EduPersonTargetedID("https://idp.fnal.gov/idp/shibboleth!https://cilogon.org/shibboleth!6258095E940C4172B7E4096063C3C447A91B0F14");
+        EduPersonPrincipleName eppn = new EduPersonPrincipleName("kreymer@fnal.gov");
+        UserMultiKey umk = new UserMultiKey(remoteUser, eppn, eptid, null, null);
+
+        User peopleUser = userStore.createAndRegisterUser(
+                umk,
+                "https://idp.fnal.gov/idp/shibboleth", //idp
+                "Fermi National Accelerator Laboratory", //ipd display name
+                firstName, //first name
+                lastName, // last name
+                email, // email
+                affiliation, // affiliation
+                displayName, // display name
+                organizationalUnit // organizational unit
+        );
 
         String dn = DNUtil.getDN(peopleUser, null, true);
         System.out.println("UTF7 DN = \"" + dn + "\"");
         userStore.remove(peopleUser.getIdentifier());
     }
 
-    public static void main(String[] args){
-        try{
+    public static void main(String[] args) {
+        try {
             String firstName = "Дмитрий";
             String lastName = "Шостакович+源";  // Russian - Japanese last name...
             String email = "Шоста@和楽器.com";
 
             UTF7Charset utf7 = new UTF7Charset();
-           byte[] emailBytes  = email.getBytes(utf7);
-           System.out.println(new String(emailBytes));
-           System.out.println(new String(emailBytes,utf7));
+            byte[] emailBytes = email.getBytes(utf7);
+            System.out.println(new String(emailBytes));
+            System.out.println(new String(emailBytes, utf7));
 
 
-        }catch(Throwable t){
+        } catch (Throwable t) {
             t.printStackTrace();
         }
     }
+
     /**
      * Test using a real user and his data
      *

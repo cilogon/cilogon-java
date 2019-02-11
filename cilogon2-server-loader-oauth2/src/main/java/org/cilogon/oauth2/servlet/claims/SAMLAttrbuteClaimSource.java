@@ -42,7 +42,10 @@ public class SAMLAttrbuteClaimSource extends BasicClaimsSourceImpl {
 
     /**
      * The assumption is that all attributes will be JSONArrays since SAML supports multi-valued attributes.
-     *
+     *  <br/>Update: CIL-532 requires eduPersonEntitlement support. After discussions, we have decided not to
+     *  have pre-parsed JSON, but stick with the {@link #oldProcess(JSONObject, ServiceTransaction)}. This code
+     *  should be kept for a bit in case we decide to change our minds, since it is debugged and works, but it
+     *  may ultimately go away.
      * @param claims
      * @param transaction
      * @return

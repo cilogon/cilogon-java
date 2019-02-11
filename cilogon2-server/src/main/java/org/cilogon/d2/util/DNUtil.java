@@ -7,6 +7,10 @@ import edu.uiuc.ncsa.security.servlet.ServletDebugUtil;
 import net.freeutils.charset.UTF7Charset;
 import org.cilogon.d2.storage.User;
 
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
+import java.nio.charset.CharacterCodingException;
+import java.nio.charset.CharsetEncoder;
 import java.util.StringTokenizer;
 
 /**
@@ -168,11 +172,55 @@ public class DNUtil {
      * @return
      */
     protected static String toUTF7(String inString) {
+        return oldUTF7(inString);
+    }
+    protected static String newUTF7(String inString) {
+        try {
+            UTF7Charset utf7 = new UTF7Charset();
+
+            CharsetEncoder encoder = utf7.newEncoder();
+            ByteBuffer bbuf = encoder.encode(CharBuffer.wrap(inString));
+            //byte[] rawBytes = inString.getBytes(utf7);
+            byte[] converted = new byte[bbuf.limit()];
+            System.arraycopy(bbuf.array(),0,converted,0,converted.length);
+            System.out.println(bbuf.limit());
+            String output =  new String(converted);
+            // jcharset does not add a final "-" (which can be optional in certain cases according to RFC 2515) but we *always* expect one in DNs, so we add it in.
+            if(!output.endsWith("-")){
+                output = output + "-";
+            }
+            return output;
+        }catch(CharacterCodingException cx){
+            throw new GeneralException("Bad character encoding for UTF 7", cx);
+        }
+    }
+
+    /**
+     * Convert a string to UTF 7 if it has not been already converted. 
+     * @param inString
+     * @return
+     */
+    protected static String oldUTF7(String inString) {
+        // UTF 7 string start with + and end with -.
+        inString = inString.trim();
+        if(inString.endsWith("-") && inString.startsWith("+")){
+            return inString;
+        }
         UTF7Charset utf7 = new UTF7Charset();
         byte[] rawBytes = inString.getBytes(utf7);
         return new String(rawBytes);
     }
 
+    public static void main(String[] args){
+        //String input = "/DC=org/DC=cilogon/C=US/O=Google/CN=+MNUw6yAVMOowxjDqIBU- +MNUw6yAVMOo- A299626 email=boomerangfish@gmail.com";
+        String input = "フル―リテリ―";
+        String testString = "+MNUw6yAVMOowxjDqIBU-";
+        System.out.println("original = \"" + input + "\"");
+        String encodedToUTF7String =  toUTF7(input);
+        System.out.println("to UTF 7 = \"" + encodedToUTF7String + "\"");
+        System.out.println("is expected conversion correct? " + testString.equals(encodedToUTF7String));
+
+    }
     protected static String getFNLDN(User user, boolean returnEmail) {
         DebugUtil.dbg(DNUtil.class, "OA2DNUtil.getFNLDN: user=" + user);
         if (user.getOrganizationalUnit() == null) {
