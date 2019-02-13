@@ -171,7 +171,7 @@ public class DNUtil {
      * @param inString
      * @return
      */
-    protected static String toUTF7(String inString) {
+    public static String toUTF7(String inString) {
         return oldUTF7(inString);
     }
     protected static String newUTF7(String inString) {
@@ -202,8 +202,11 @@ public class DNUtil {
      */
     protected static String oldUTF7(String inString) {
         // UTF 7 string start with + and end with -.
+        //String regex = ".*\\+.*-.*";
+        String regex = ".*\\+[a-zA-Z0-9\\+/]+[^a-zA-Z0-9\\+/].*";
+     //   String regex = "\\+[a-zA-Z0-9\\+/]+[^a-zA-Z0-9\\+/]";
         inString = inString.trim();
-        if(inString.endsWith("-") && inString.startsWith("+")){
+        if(inString.matches(regex)){
             return inString;
         }
         UTF7Charset utf7 = new UTF7Charset();
@@ -219,6 +222,15 @@ public class DNUtil {
         String encodedToUTF7String =  toUTF7(input);
         System.out.println("to UTF 7 = \"" + encodedToUTF7String + "\"");
         System.out.println("is expected conversion correct? " + testString.equals(encodedToUTF7String));
+        String embeddedTest ="Dami+AOE-n Cruz Santiago";
+        encodedToUTF7String = toUTF7(embeddedTest);
+        System.out.println("Embedded string =  " + embeddedTest);
+        System.out.println("Encoded embedded string =  " + encodedToUTF7String);
+        System.out.println("Embedded UTF 7 not re-encoded? " + encodedToUTF7String.equals(embeddedTest));
+
+        String twoOfThem = "université de lyon & フル―リ foo";
+        System.out.println(toUTF7(twoOfThem));
+
 
     }
     protected static String getFNLDN(User user, boolean returnEmail) {

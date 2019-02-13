@@ -340,6 +340,7 @@ public class UserStoreTest extends TestBase {
 
     /**
      * This takes a known user in the database and checks that the computed DN has not changed.
+     *
      * @param userStore
      * @throws Exception
      */
@@ -358,7 +359,7 @@ public class UserStoreTest extends TestBase {
         status    0
         uid    http://cilogon.org/serverD/users/1
      */
-    String refDN = "/DC=org/DC=cilogon/C=US/O=Google/CN=+MNUw6yAVMOowxjDqIBU- +MNUw6yAVMOo- D3170 email=boomerangfish@gmail.com";
+        String refDN = "/DC=org/DC=cilogon/C=US/O=Google/CN=+MNUw6yAVMOowxjDqIBU- +MNUw6yAVMOo- D3170 email=boomerangfish@gmail.com";
         String firstName = "フル―リテリ―";
         String lastName = "フル―リ";
         String email = "boomerangfish@gmail.com";
@@ -384,10 +385,11 @@ public class UserStoreTest extends TestBase {
         peopleUser.setUseUSinDN(true);
         String dn = DNUtil.getDN(peopleUser, null, true);
         System.out.println("reference DN = \"" + refDN);
-         System.out.println("computed UTF7 DN = \"" + dn + "\"");
-         System.out.println("Are these equal up to serial string?");
-         userStore.remove(peopleUser.getIdentifier());
+        System.out.println("computed UTF7 DN = \"" + dn + "\"");
+        System.out.println("Are these equal up to serial string?");
+        userStore.remove(peopleUser.getIdentifier());
     }
+
     public void testUTF7(UserStore userStore) throws Exception {
         // test is to send new information for a user.
         String firstName = "Дмитрий";
@@ -416,6 +418,33 @@ public class UserStoreTest extends TestBase {
         String dn = DNUtil.getDN(peopleUser, null, true);
         System.out.println("UTF7 DN = \"" + dn + "\"");
         userStore.remove(peopleUser.getIdentifier());
+    }
+
+    /**
+     * UTF 7 strings may have embedded encodings. This test will show whether or not these are handled correctly.
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testDoubleEncoding() throws Exception {
+        String embeddedTest = "Dami+AOE-n Cruz Santiago";
+        String encodedToUTF7String = DNUtil.toUTF7(embeddedTest);
+        assert encodedToUTF7String.equals(embeddedTest) : "re-encoding a UTF 7 encoded string should be idempotent. It is not.";
+    }
+
+    @Test
+    public void testMultipleEncoding() throws Exception {
+        String twoOfThem = "université de lyon & blarg フル―リ foo";
+        String singleEncoded = DNUtil.toUTF7(twoOfThem);
+        String encodedString = twoOfThem;
+        int numberOfEncodings = 5;
+        for (int i = 0; i < numberOfEncodings; i++) {
+            encodedString = DNUtil.toUTF7(encodedString);
+        }
+        System.out.println("original string: " + twoOfThem);
+        System.out.println("After one encoding: " + singleEncoded);
+        System.out.println("After " + numberOfEncodings + "  encodings: " + encodedString);
+        assert singleEncoded.equals(encodedString) : "More than on UTF 7 encoding should not change the string";
     }
 
     public static void main(String[] args) {
