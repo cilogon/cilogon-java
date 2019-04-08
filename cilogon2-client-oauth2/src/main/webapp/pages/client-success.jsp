@@ -10,7 +10,7 @@
 <html>
 
 <head>
-    <title>CILogon for OAuth 2 client success page.</title>
+    <title>CILogon Demo Success Page.</title>
     <link rel="stylesheet"
           type="text/css"
           media="all"
@@ -50,21 +50,50 @@
 
     <p>You have successfully requested a certificate from the server.<br>
 
-    <ul>
-        <li><a href="javascript:unhide('showCert');">Show/Hide certificates</a></li>
-        <div id="showCert" class="hidden">
-            <p>
-            <pre>${cert}</pre>
-        </div>
-        <li><a href="javascript:unhide('showUserInfo');">Show/Hide User Info</a></li>
-          <div id="showUserInfo" class="hidden">
-          <p>
-            <pre>${userinfo}</pre>
-          </div>
-    </ul>
-    <form name="input" action="${action}" method="get"/>
-    <input type="submit" value="Return to client"/>
-    </form>
+        <ul>
+            <li><a href="javascript:unhide('showCert');">Show/Hide certificates</a></li>
+            <div id="showCert" class="hidden">
+    <p>
+    <pre>${cert}</pre>
+</div>
+<li><a href="javascript:unhide('showUserInfo');">Show/Hide User Info</a></li>
+<div id="showUserInfo" class="hidden">
+    <p>
+    <pre>${userinfo}</pre>
+</div>
+<li><a href="javascript:unhide('showIDToken');">Show/Hide User Info</a></li>
+<div id="showIDToken" class="hidden">
+    <table border="1">
+        <tr>
+            <td>ID Token</td>
+            <td>
+                <pre>${id_token}</pre>
+            </td>
+        </tr>
+        <tr>
+            <td>Header</td>
+            <td>
+                <pre>${id_header}</pre>
+            </td>
+        </tr>
+        <tr>
+            <td>Payload</td>
+            <td>
+                <pre>${id_payload}</pre>
+            </td>
+        </tr>
+        <tr>
+            <td>Public signing key</td>
+            <td><pre>${id_public_key}</pre></td>
+        </tr>
+    </table>
+
+</div>
+
+</ul>
+<form name="input" action="${action}" method="get"/>
+<input type="submit" value="Return to client"/>
+</form>
 </div>
 </body>
 </html>

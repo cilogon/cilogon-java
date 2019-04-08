@@ -17,6 +17,7 @@ import edu.uiuc.ncsa.security.delegation.token.TokenForge;
 import edu.uiuc.ncsa.security.oauth_2_0.server.claims.ClaimSource;
 import edu.uiuc.ncsa.security.oauth_2_0.server.config.LDAPConfiguration;
 import edu.uiuc.ncsa.security.servlet.UsernameTransformer;
+import edu.uiuc.ncsa.security.util.json.JSONStore;
 import edu.uiuc.ncsa.security.util.jwk.JSONWebKeys;
 import edu.uiuc.ncsa.security.util.mail.MailUtilProvider;
 import org.cilogon.d2.storage.IdentityProviderStore;
@@ -74,7 +75,8 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
                                         JSONWebKeys jsonWebKeys,
                                         String issuer,
                                         boolean isUtilServletEnabled,
-                                        boolean isOIDCEnabled) {
+                                        boolean isOIDCEnabled,
+                                        Provider<JSONStore> jsonStoreProvider) {
         super(logger,
                 tsp,
                 csp,
@@ -105,7 +107,8 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
                 jsonWebKeys,
                 issuer,
                 isUtilServletEnabled,
-                isOIDCEnabled
+                isOIDCEnabled,
+                jsonStoreProvider
                 );
         ciLogonSE = new CILogonSEImpl(usp, ausp, idpsp, incp, tfsp, isComputeFNAL);
         if(claimSource instanceof UserClaimSource){

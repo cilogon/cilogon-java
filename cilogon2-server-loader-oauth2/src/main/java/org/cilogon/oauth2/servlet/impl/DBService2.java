@@ -204,7 +204,7 @@ public class DBService2 extends AbstractDBService {
             // This gets us the basic claims.
             UserClaimSource userClaimSource = new UserClaimSource(getMyLogger());
             userClaimSource.setOa2SE((OA2SE) getServiceEnvironment());
-            JSONObject claims = claimsUtil.createBasicClaims(null, t);
+            JSONObject claims = claimsUtil.processAuthorizationClaims(null, t);
 
             userClaimSource.process(claims, t);
             t.setClaims(claims);

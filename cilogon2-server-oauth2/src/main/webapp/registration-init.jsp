@@ -89,8 +89,7 @@
         <div class="col-sm-10">
           <textarea class="form-control" id="${callbackURI}" 
             name="${callbackURI}" rows="5" required
-            placeholder="Enter your callback URLs, one per line.
-The redirect_uri parameter must exactly match a URL in this list."></textarea>
+            placeholder="Enter your callback URLs, one per line. The redirect_uri parameter must exactly match a URL in this list.">${callbackURIValue}</textarea>
         </div>
       </div>
 
