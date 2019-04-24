@@ -9,7 +9,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
     <title>CILogon OIDC/OAuth 2.0 Client Registration</title>
     <link rel="stylesheet"
@@ -28,114 +29,134 @@
     <h2>CILogon OIDC/OAuth 2.0 Client Registration</h2>
 
     <p>
-    Please fill out the form below to register your OIDC/OAuth 2.0
-    client with CILogon. 
+        Please fill out the form below to register your OIDC/OAuth 2.0
+        client with CILogon.
     </p>
     <h4>Your request will be manually evaluated for approval.</h4>
     <p>
-    For more information, please read the
-    <a href="http://grid.ncsa.illinois.edu/myproxy/oauth/client/manuals/registering-with-an-oauth2-server.xhtml"
-    target="_blank">Registering a Client with an OAuth 2 server</a>
-    documentation.
+        For more information, please read the
+        <a href="http://grid.ncsa.illinois.edu/myproxy/oauth/client/manuals/registering-with-an-oauth2-server.xhtml"
+           target="_blank">Registering a Client with an OAuth 2 server</a>
+        documentation.
     </p>
 
-    <hr />
+    <hr/>
 
     <form action="${actionToTake}" method="post">
 
-      <div class="form-group row">
-        <label for="inputClientName" class="col-sm-2 col-form-label">Client
-          Name</label>
-        <div class="col-sm-10">
-          <input type="text" class="form-control" id="inputClientName"
-            name="${clientName}" value="${clientNameValue}" required
-            aria-describedBy="clientNameHelp" 
-            placeholder="Name of your OAuth 2.0 client"/>
-          <small id="clientNameHelp" class="form-text text-muted">The Client
-            Name is displayed to end-users on the Identity Provider selection
-            page.</small>
+        <div class="form-group row">
+            <label for="inputClientName" class="col-sm-2 col-form-label">Client
+                Name</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="inputClientName"
+                       name="${clientName}" value="${clientNameValue}" required
+                       aria-describedBy="clientNameHelp"
+                       placeholder="Name of your OAuth 2.0 client"/>
+                <small id="clientNameHelp" class="form-text text-muted">The Client
+                    Name is displayed to end-users on the Identity Provider selection
+                    page.
+                </small>
+            </div>
         </div>
-      </div>
 
-      <div class="form-group row">
-        <label for="inputContactEmail" class="col-sm-2 col-form-label">Contact
-          Email</label>
-        <div class="col-sm-10">
-          <input type="email" class="form-control" id="inputContactEmail"
-            name="${clientEmail}" value="${clientEmailValue}" required
-            aria-describedBy="contactEmailHelp"
-            placeholder="Your email address"/>
-          <small id="contactEmailHelp" class="form-text text-muted">A client
-            approval email will be sent to this address.</small>
+        <div class="form-group row">
+            <label for="inputContactEmail" class="col-sm-2 col-form-label">Contact
+                Email</label>
+            <div class="col-sm-10">
+                <input type="email" class="form-control" id="inputContactEmail"
+                       name="${clientEmail}" value="${clientEmailValue}" required
+                       aria-describedBy="contactEmailHelp"
+                       placeholder="Your email address"/>
+                <small id="contactEmailHelp" class="form-text text-muted">A client
+                    approval email will be sent to this address.
+                </small>
+            </div>
         </div>
-      </div>
 
-      <div class="form-group row">
-        <label for="inputHomeURL" class="col-sm-2 col-form-label">Home
-          URL</label>
-        <div class="col-sm-10">
-          <input type="url" class="form-control" id="inputHomeURL"
-            name="${clientHomeUrl}" value="${clientHomeUrlValue}" required 
-            aria-describedBy="homeURLHelp"
-            placeholder="URL of your client's home page"/>
-          <small id="homeURLHelp" class="form-text text-muted">The Home URL
-            is used as the hyperlink for the Client Name.</small>
+        <div class="form-group row">
+            <label for="inputHomeURL" class="col-sm-2 col-form-label">Home
+                URL</label>
+            <div class="col-sm-10">
+                <input type="url" class="form-control" id="inputHomeURL"
+                       name="${clientHomeUrl}" value="${clientHomeUrlValue}" required
+                       aria-describedBy="homeURLHelp"
+                       placeholder="URL of your client's home page"/>
+                <small id="homeURLHelp" class="form-text text-muted">The Home URL
+                    is used as the hyperlink for the Client Name.
+                </small>
+            </div>
         </div>
-      </div>
 
-      <div class="form-group row">
-        <label for="${callbackURI}" class="col-sm-2
+        <div class="form-group row">
+            <label for="${callbackURI}" class="col-sm-2
           col-form-label">Callback URLs</label>
-        <div class="col-sm-10">
-          <textarea class="form-control" id="${callbackURI}" 
-            name="${callbackURI}" rows="5" required
-            placeholder="Enter your callback URLs, one per line. The redirect_uri parameter must exactly match a URL in this list.">${callbackURIValue}</textarea>
+            <div class="col-sm-10">
+          <textarea class="form-control" id="${callbackURI}"
+                    name="${callbackURI}" rows="5" required
+                    placeholder="Enter your callback URLs, one per line. The redirect_uri parameter must exactly match a URL in this list.">${callbackURIValue}</textarea>
+            </div>
         </div>
-      </div>
 
-      <fieldset class="form-group">
+        <div class="form-group row">
+            <label for="${clientIsPublic}" class="col-sm-2
+            col-form-label">Is this a public client?</label>
+            <div class="col-sm-10">
+                <input type="checkbox"
+                       name="${clientIsPublic}" value="${clientIsPublicValue}"
+                       aria-describedby=clientIsPublicHelp"/> Is this client public? In that case the only allowed scope is openid.
+                <small id="clientIsPublicHelp" class="form-text text-muted">Check this box if the client is to be
+                    public, i.e., limited access, no certificates allowed and no secret needed.
+                    If you are not sure what this is, do not check it or ask for help
+                </small>
+            </div>
+        </div>
+
+        <fieldset class="form-group">
+            <div class="row">
+                <legend class="col-form-label col-sm-2 pt-0">Scopes</legend>
+                <div class="col-sm-10">
+                    <c:forEach items="${scopes}" var="scope">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="chkScopes" value="${scope}"
+                                   id="${scope}Check"
+                                    <c:set var="CILTestStoreProviderImpl" scope="session" value="${scope}"/>
+                                   <c:if test="${CILTestStoreProviderImpl == 'openid'}">checked="checked"
+                                   disabled="disabled"</c:if>
+                            />
+                            <label class="form-check-label" for="${scope}Check">${scope}</label>
+                        </div>
+                    </c:forEach>
+                    <input type="hidden" name="chkScopes" value="openid"/>
+                    <small id="scopesHelp" class="form-text text-muted"><a
+                            href="https://www.cilogon.org/oidc"
+                            target="_blank">Information on scopes</a></small>
+                </div>
+            </div>
+        </fieldset>
+
+        <div class="form-group row">
+            <label for="inputRtLifetime" class="col-sm-2 col-form-label">Refresh
+                Token Lifetime</label>
+            <div class="col-sm-10">
+                <input type="number" class="form-control" id="inputRtLifetime"
+                       name="${rtLifetime}" value="${rtLifetimeValue}"
+                       aria-describedBy="rtLifetimeHelp"
+                       placeholder="(Optional) lifetime in seconds"/>
+                <small id="rtLifetimeHelp" class="form-text text-muted">Leave
+                    blank if refresh tokens are not required.
+                </small>
+            </div>
+        </div>
+
+        <input type="hidden" id="status" name="${action}" value="${request}"/>
+
         <div class="row">
-          <legend class="col-form-label col-sm-2 pt-0">Scopes</legend>
-          <div class="col-sm-10">
-            <c:forEach items="${scopes}" var="scope">
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="chkScopes" value="${scope}" id="${scope}Check"
-                    <c:set var="CILTestStoreProviderImpl" scope="session" value="${scope}"/>
-                    <c:if test="${CILTestStoreProviderImpl == 'openid'}">checked="checked" disabled="disabled"</c:if>
-                />
-                <label class="form-check-label" for="${scope}Check">${scope}</label>
-              </div>
-            </c:forEach>
-            <input type="hidden" name="chkScopes" value="openid"/>
-            <small id="scopesHelp" class="form-text text-muted"><a
-              href="https://www.cilogon.org/oidc"
-              target="_blank">Information on scopes</a></small>
-          </div>
+            <div class="col-sm-12">
+                <p style="color:red"><b>${retryMessage}</b></p>
+            </div>
         </div>
-      </fieldset>
 
-      <div class="form-group row">
-        <label for="inputRtLifetime" class="col-sm-2 col-form-label">Refresh
-          Token Lifetime</label>
-        <div class="col-sm-10">
-          <input type="number" class="form-control" id="inputRtLifetime"
-            name="${rtLifetime}" value="${rtLifetimeValue}"
-            aria-describedBy="rtLifetimeHelp"
-            placeholder="(Optional) lifetime in seconds"/>
-          <small id="rtLifetimeHelp" class="form-text text-muted">Leave
-            blank if refresh tokens are not required.</small>
-        </div>
-      </div>
-
-      <input type="hidden" id="status" name="${action}" value="${request}"/>
-
-      <div class="row">
-        <div class="col-sm-12">
-          <p style="color:red"><b>${retryMessage}</b></p>
-        </div>
-      </div>
-
-      <button type="submit" class="btn btn-primary mb-2">Register Client</button>
+        <button type="submit" class="btn btn-primary mb-2">Register Client</button>
     </form>
 </div>
 

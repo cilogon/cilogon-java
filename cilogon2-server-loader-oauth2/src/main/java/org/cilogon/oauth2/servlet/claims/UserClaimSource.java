@@ -7,6 +7,7 @@ import edu.uiuc.ncsa.security.delegation.server.ServiceTransaction;
 import edu.uiuc.ncsa.security.oauth_2_0.OA2Scopes;
 import edu.uiuc.ncsa.security.oauth_2_0.server.UnsupportedScopeException;
 import edu.uiuc.ncsa.security.oauth_2_0.server.claims.OA2Claims;
+import edu.uiuc.ncsa.security.servlet.ServletDebugUtil;
 import net.freeutils.charset.UTF7Charset;
 import net.sf.json.JSONObject;
 import org.cilogon.d2.storage.User;
@@ -143,10 +144,18 @@ public class UserClaimSource extends BasicClaimsSourceImpl implements OA2Scopes 
             if (rawJSON != null && !rawJSON.isEmpty()) {
                 try {
                     JSONObject json = JSONObject.fromObject(rawJSON);
+                    // CIL-532 fix -- put in ALL of the values in the JSON attribute field and let the
+                    // configuration select them rather than having this in the code.
+                    for(Object key : json.keySet()){
+                        claims.put(key.toString(), json.getString(key.toString()));
+                    }
+/*                   Old way was to select only the acr explicitly.
                     if (json.containsKey(AUTHENTICATION_CONTEXT_CLASS_REFERENCE)) {
                         claims.put(AUTHENTICATION_CONTEXT_CLASS_REFERENCE, json.getString(AUTHENTICATION_CONTEXT_CLASS_REFERENCE));
                     }
+*/
                 } catch (Exception x) {
+                    ServletDebugUtil.trace(this,"Error: was not able to parse the attr_json field into elements. Message=\"" + x.getMessage() + "\". Processing will continue...");
                     // rock on, no acr.
                 }
             }

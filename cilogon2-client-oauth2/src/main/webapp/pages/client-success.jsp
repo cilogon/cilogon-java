@@ -46,54 +46,52 @@
 
     <h1>Success!</h1>
 
-    <p>The subject of the first cert is<br><br> ${certSubject}
+    <ul>
+        <li><a href="javascript:unhide('showUserInfo');">Show/Hide User Info</a></li>
+        <div id="showUserInfo" class="hidden">
+            <p>
+            <pre>${userinfo}</pre>
+        </div>
+        <li><a href="javascript:unhide('showIDToken');">Show/Hide ID Token</a></li>
+        <div id="showIDToken" class="hidden">
+            <table border="1">
+                <tr>
+                    <td>ID Token</td>
+                    <td>
+                        <pre>${id_token}</pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Header</td>
+                    <td>
+                        <pre>${id_header}</pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Payload</td>
+                    <td>
+                        <pre>${id_payload}</pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Public signing key</td>
+                    <td>
+                        <pre>${id_public_key}</pre>
+                    </td>
+                </tr>
+            </table>
 
-    <p>You have successfully requested a certificate from the server.<br>
+        </div>
+        <li><a href="javascript:unhide('showCert');">Show/Hide certificate subject</a></li>
+          <div id="showCert" class="hidden">
+              <p> The subject of the first certificate is 
+              <pre>${certSubject}</pre>
+          </div>
 
-        <ul>
-            <li><a href="javascript:unhide('showCert');">Show/Hide certificates</a></li>
-            <div id="showCert" class="hidden">
-    <p>
-    <pre>${cert}</pre>
-</div>
-<li><a href="javascript:unhide('showUserInfo');">Show/Hide User Info</a></li>
-<div id="showUserInfo" class="hidden">
-    <p>
-    <pre>${userinfo}</pre>
-</div>
-<li><a href="javascript:unhide('showIDToken');">Show/Hide User Info</a></li>
-<div id="showIDToken" class="hidden">
-    <table border="1">
-        <tr>
-            <td>ID Token</td>
-            <td>
-                <pre>${id_token}</pre>
-            </td>
-        </tr>
-        <tr>
-            <td>Header</td>
-            <td>
-                <pre>${id_header}</pre>
-            </td>
-        </tr>
-        <tr>
-            <td>Payload</td>
-            <td>
-                <pre>${id_payload}</pre>
-            </td>
-        </tr>
-        <tr>
-            <td>Public signing key</td>
-            <td><pre>${id_public_key}</pre></td>
-        </tr>
-    </table>
-
-</div>
-
-</ul>
-<form name="input" action="${action}" method="get"/>
-<input type="submit" value="Return to client"/>
-</form>
+    </ul>
+    <form name="input" action="${action}" method="get"/>
+    <input type="submit" value="Return to client"/>
+    </form>
 </div>
 </body>
 </html>

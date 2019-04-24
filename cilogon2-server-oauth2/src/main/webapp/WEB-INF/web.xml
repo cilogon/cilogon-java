@@ -51,6 +51,14 @@
         <servlet-name>initiate</servlet-name>
         <url-pattern>/init</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>admin-register</servlet-name>
+        <servlet-class>edu.uiuc.ncsa.myproxy.oa4mp.oauth2.servlet.OA2AdminRegistrationServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>admin-register</servlet-name>
+        <url-pattern>/admin-register</url-pattern>
+    </servlet-mapping>
 
     <servlet>
         <servlet-name>accessToken</servlet-name>
@@ -78,6 +86,16 @@
         <servlet-name>oidc-cm</servlet-name>
         <url-pattern>/oidc-cm</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+          <servlet-name>revoke</servlet-name>
+          <servlet-class>edu.uiuc.ncsa.myproxy.oa4mp.oauth2.servlet.RevocationServlet</servlet-class>
+      </servlet>
+      <servlet-mapping>
+          <servlet-name>revoke</servlet-name>
+          <url-pattern>/revoke</url-pattern>
+      </servlet-mapping>
+
 
     <servlet>
         <servlet-name>getCert</servlet-name>

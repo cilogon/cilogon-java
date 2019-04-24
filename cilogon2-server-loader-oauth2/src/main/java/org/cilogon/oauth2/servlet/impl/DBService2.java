@@ -51,7 +51,8 @@ public class DBService2 extends AbstractDBService {
     public static final int STATUS_TRANSACTION_NOT_FOUND = 0x10001;
     public static final int STATUS_EXPIRED_TOKEN = 0x10003;
 
-    public static final String CREATE_TRANSACTION_STATE = "createTransactionState";
+    //public static final String CREATE_TRANSACTION_STATE = "createTransactionState";
+    public static final String CREATE_TRANSACTION_STATE = "createTransaction";
     public static final int CREATE_TRANSACTION_STATE_CASE = 730;
     public static final int STATUS_CREATE_TRANSACTION_FAILED = 0x10005;
 
@@ -71,7 +72,8 @@ public class DBService2 extends AbstractDBService {
 
     @Override
     protected void doAction(HttpServletRequest request, HttpServletResponse response, String action) throws IOException, ServletException {
-        //printAllParameters(request);
+        printAllParameters(request);
+        DebugUtil.trace(this, "action = " + action);
         switch (lookupCase(action)) {
             case GET_CLIENT_CASE:
                 getClient(request, response);
@@ -80,8 +82,13 @@ public class DBService2 extends AbstractDBService {
                 setTransactionState(request, response);
                 return;
             case CREATE_TRANSACTION_STATE_CASE:
+                DebugUtil.trace(this, "creating transaction");
+
                 createTransaction(request, response);
+                return;
         }
+        DebugUtil.trace(this, "action NOT FOUND, invoking super ");
+
 
         super.doAction(request, response, action);
     }
@@ -104,6 +111,7 @@ public class DBService2 extends AbstractDBService {
         try {
             CILOA2ServiceTransaction transaction = (CILOA2ServiceTransaction) initUtil.doDelegation(req, resp);
             getTransactionStore().save(transaction);
+            DebugUtil.dbg(this, "createTransaction: writing transaction. " + transaction);
             writeTransaction(transaction, STATUS_OK, resp);
             DebugUtil.dbg(this, "createTransaction: ******** DONE ******** ");
         } catch (Throwable t) {
@@ -235,6 +243,7 @@ public class DBService2 extends AbstractDBService {
     protected int lookupCase(String x) {
         if (x.equals(GET_CLIENT)) return GET_CLIENT_CASE;
         if (x.equals(SET_TRANSACTION_STATE)) return SET_TRANSACTION_STATE_CASE;
+        if (x.equals(CREATE_TRANSACTION_STATE)) return CREATE_TRANSACTION_STATE_CASE;  // CIL-467 needs this
         return super.lookupCase(x);
     }
 }

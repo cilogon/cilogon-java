@@ -99,9 +99,13 @@ public class SAMLAttrbuteClaimSource extends BasicClaimsSourceImpl {
             throw new NFWException("Error: user not found for identifier \"" + transaction.getUsername() + "\"");
         }
         if (user.getAttr_json() == null || user.getAttr_json().isEmpty()) {
+            ServletDebugUtil.trace(this,".oldProcess: No SAML attributes found");
             return claims; // basically there were no specific Shib headers that were passed in for this user, which is just fine.
         }
+        ServletDebugUtil.trace(this,".oldProcess: attr_json = \"" + user.getAttr_json() + "\"");
+
         JSONObject saml = JSONObject.fromObject(user.getAttr_json());
+        ServletDebugUtil.trace(this,".oldProcess: attr_json parses as JSONObject to = \"" + saml);
         if (saml == null) {
             ServletDebugUtil.trace(this, ".oldProcess: No SAML attributes found for user " + transaction.getUsername() + ". Skipping.");
             return claims;
@@ -115,7 +119,9 @@ public class SAMLAttrbuteClaimSource extends BasicClaimsSourceImpl {
             String key = key0.toString();
             //keys should be strings!! But just in case, make sure it is one
             // TODO - stick this in a proper GroupHandler one of these days...
+            ServletDebugUtil.trace(this,".getJsonObject: key = \"" + key + "\"");
             if (key.equals(SHIBBOLETH_MEMBER_OF_KEY)) {
+
                 Groups group = new Groups();
                 String rawGroups = saml.getString(key);
                 StringTokenizer st = new StringTokenizer(rawGroups, SHIBBOLETH_LIST_DELIMITER, false);
@@ -171,31 +177,46 @@ public class SAMLAttrbuteClaimSource extends BasicClaimsSourceImpl {
     public static void main(String[] arg) {
         // just a test on the old form attributes from the CILogon service. Make sure they format right.
         // String x = "{\"member_of\":\"c13b7ba3-b038-4abb-b062-4491d1f9f12b;09895d05-1b79-4529-9f9d-9367752a1d0a\",\"acr\":\"urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport\"}";
-        //JSONObject saml = JSONObject.fromObject(x);
-        JSONObject saml = new JSONObject();
-        saml.put("member_of", "c13b7ba3-b038-4abb-b062-4491d1f9f12b;09895d05-1b79-4529-9f9d-9367752a1d0a");
-        saml.put("acr", "urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport");
-        saml.put("entitlement", "urn:mace:exampleIdP.org:demoservice:demo-admin");
+
         try {
-            String rawGroups = saml.getString("member_of");
-            Groups group = new Groups();
+              test1();
+              test2();
 
-            StringTokenizer st = new StringTokenizer(rawGroups, SHIBBOLETH_LIST_DELIMITER, false);
-            while (st.hasMoreElements()) {
-                GroupElement groupElement = new GroupElement(st.nextToken());
-                group.put(groupElement);
-            }
-            JSONObject foo = new JSONObject();
-            System.out.println(group.toJSON());
-            foo.put("isMemberOf", group.toJSON());
-            System.out.println("\nFrom group processor:");
-            System.out.println(foo);
-            System.out.println("\nFrom attr_json processor:");
-            SAMLAttrbuteClaimSource samlAttrbuteClaimSource = new SAMLAttrbuteClaimSource(null);
-
-            System.out.println(samlAttrbuteClaimSource.getJsonObject(new JSONObject(), saml).toString(2));
         } catch (Throwable t) {
             t.printStackTrace();
         }
+    }
+    protected static void test2() throws Exception{
+        String x = "{\"acr\":\"urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport\",\"entitlement\":\"urn:mace:dir:entitlement:common-lib-terms\"}";
+        JSONObject saml = JSONObject.fromObject(x);
+        SAMLAttrbuteClaimSource samlAttrbuteClaimSource = new SAMLAttrbuteClaimSource(null);
+        //JSONObject claims = samlAttrbuteClaimSource.process(new JSONObject(), null);
+        JSONObject claims = new JSONObject();
+        claims = samlAttrbuteClaimSource.getJsonObject(claims, saml);
+        System.out.println("\n ----- test2 ----- \n" + claims);
+    }
+    protected static void test1() throws Exception{
+        JSONObject saml = new JSONObject();
+              saml.put("member_of", "c13b7ba3-b038-4abb-b062-4491d1f9f12b;09895d05-1b79-4529-9f9d-9367752a1d0a");
+              saml.put("acr", "urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport");
+              saml.put("entitlement", "urn:mace:exampleIdP.org:demoservice:demo-admin");
+
+              String rawGroups = saml.getString("member_of");
+              Groups group = new Groups();
+
+              StringTokenizer st = new StringTokenizer(rawGroups, SHIBBOLETH_LIST_DELIMITER, false);
+              while (st.hasMoreElements()) {
+                  GroupElement groupElement = new GroupElement(st.nextToken());
+                  group.put(groupElement);
+              }
+              JSONObject foo = new JSONObject();
+              System.out.println(group.toJSON());
+              foo.put("isMemberOf", group.toJSON());
+              System.out.println("\nFrom group processor:");
+              System.out.println(foo);
+              System.out.println("\nFrom attr_json processor:");
+              SAMLAttrbuteClaimSource samlAttrbuteClaimSource = new SAMLAttrbuteClaimSource(null);
+
+              System.out.println(samlAttrbuteClaimSource.getJsonObject(new JSONObject(), saml).toString(2));
     }
 }
