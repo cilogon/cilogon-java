@@ -42,6 +42,7 @@
         <url-pattern>/util</url-pattern>
     </servlet-mapping>
 
+<!-- Removed, as per CIL-467
     <servlet>
         <servlet-name>initiate</servlet-name>
         <servlet-class>org.cilogon.oauth2.servlet.impl.CILOA2AuthorizedServlet</servlet-class>
@@ -51,6 +52,7 @@
         <servlet-name>initiate</servlet-name>
         <url-pattern>/init</url-pattern>
     </servlet-mapping>
+    -->
     <servlet>
         <servlet-name>admin-register</servlet-name>
         <servlet-class>edu.uiuc.ncsa.myproxy.oa4mp.oauth2.servlet.OA2AdminRegistrationServlet</servlet-class>

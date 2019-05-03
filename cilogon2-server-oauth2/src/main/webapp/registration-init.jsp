@@ -106,7 +106,7 @@
                        aria-describedby=clientIsPublicHelp"/> Is this client public? In that case the only allowed scope is openid.
                 <small id="clientIsPublicHelp" class="form-text text-muted">Check this box if the client is to be
                     public, i.e., limited access, no certificates allowed and no secret needed.
-                    If you are not sure what this is, do not check it or ask for help
+                    If you are not sure what this is, do not check it, or ask for help.
                 </small>
             </div>
         </div>
