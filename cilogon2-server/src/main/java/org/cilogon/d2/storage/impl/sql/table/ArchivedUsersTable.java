@@ -62,6 +62,8 @@ public class ArchivedUsersTable extends Table {
                 getUsersTable().userKeys().displayName() + "," +
                 getUsersTable().userKeys().organizationalUnit() + "," +
                 getUsersTable().userKeys().creationTimestamp() + "," +
+                getUsersTable().userKeys().useUSinDN() + "," +
+                getUsersTable().userKeys().attr_json() + "," +
                 auKeys().archivedTimestampColumn() + ")" +
                 "select ?," +
                 getUsersTable().userKeys().remoteUser() + "," +
@@ -80,6 +82,8 @@ public class ArchivedUsersTable extends Table {
                 getUsersTable().userKeys().displayName() + "," +
                 getUsersTable().userKeys().organizationalUnit() + "," +
                 getUsersTable().userKeys().creationTimestamp() + "," +
+                getUsersTable().userKeys().useUSinDN() + "," +
+                getUsersTable().userKeys().attr_json() + "," +
                 "CURRENT_TIMESTAMP FROM " + getUsersTable().getFQTablename() + " where " + getUsersTable().userKeys().identifier() + " = ?";
     }
 

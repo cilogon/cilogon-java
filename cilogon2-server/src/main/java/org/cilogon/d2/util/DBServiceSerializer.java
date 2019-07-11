@@ -366,6 +366,7 @@ public class DBServiceSerializer {
         if (head.equals(STATUS_KEY)) {
             // Even return  codes are ok and informational.
             if (Integer.parseInt(tail) % 2 == 0) return;
+            ServletDebugUtil.trace(this, "Got unrecognized response of head=\"" + head + "\" tail=\""  + tail + "\"");
             throw new DBServiceException(tail);
         }
     }

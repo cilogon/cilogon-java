@@ -4,6 +4,7 @@ import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.cache.SimpleEntryImpl;
 import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
 import edu.uiuc.ncsa.security.core.util.IdentifiableProviderImpl;
+import edu.uiuc.ncsa.security.servlet.ServletDebugUtil;
 import edu.uiuc.ncsa.security.storage.data.MapConverter;
 import edu.uiuc.ncsa.security.storage.sql.ConnectionPool;
 import edu.uiuc.ncsa.security.storage.sql.SQLStore;
@@ -38,6 +39,8 @@ public class CILSQLUserStore extends SQLStore<User> implements UserStore {
                                       String organizationalUnit) {
         Identifier uid = null;
         User user = create(true);
+        ServletDebugUtil.trace(this,"created new user" + user);
+
         uid = user.getIdentifier();
         user.setCreationTime(new Date());
         user.setIdP(idP);
@@ -50,7 +53,10 @@ public class CILSQLUserStore extends SQLStore<User> implements UserStore {
         user.setAffiliation(affiliation);
         user.setDisplayName(displayName);
         user.setOrganizationalUnit(organizationalUnit);
+        ServletDebugUtil.trace(this,"registering new user" + user);
+
         register(user);
+        ServletDebugUtil.trace(this,"AFTER registering new user" + user);
         return user;
     }
 
@@ -189,6 +195,7 @@ public class CILSQLUserStore extends SQLStore<User> implements UserStore {
     @Override
     public User create(boolean newSerialString) {
         User user = getUserProvider().get(true); // create with an identifier. decide about the serial string later
+        // check if this in use in the store.
         if (newSerialString && containsKey(user.getIdentifier())) {
             throw new InvalidUserIdException("Error: The id \"" + user.getIdentifierString() + "\" is already in use.");
         }
@@ -266,6 +273,8 @@ public class CILSQLUserStore extends SQLStore<User> implements UserStore {
     /**
      * Update the user. <B>NOTE:</b> it is up to the programmer to archive the user prior to making any updates,
      * if that is warranted.
+     * <b><it>This updates the serial string!!</it></b> If you do not want the serial string updated, you should use
+     * {@link #update(User, boolean)} with the second argument of <code>true</code>. 
      *
      * @param user
      * @
@@ -276,10 +285,13 @@ public class CILSQLUserStore extends SQLStore<User> implements UserStore {
     }
 
     public void update(User user, boolean noNewSerialID) {
+        ServletDebugUtil.trace(this,"user id = " + user.getIdentifierString() + ", serial string=" + user.getSerialString() + ", noNewSerialID=" + noNewSerialID);
         // Fix for CIL-69: Any changes to the user (IDP, first name, last name, email) must change the serial identifier too.
         if (!noNewSerialID) {
             Identifier serialString = getUserProvider().newIdentifier();
             user.setSerialIdentifier(serialString); // or subsequent calls have wrong serial string!
+            ServletDebugUtil.trace(this,"setting serial string for user id = " + user.getIdentifierString() + ", serial string=" + user.getSerialString());
+
         }
         super.update(user);
     }

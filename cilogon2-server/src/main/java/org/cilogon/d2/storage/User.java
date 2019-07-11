@@ -1,10 +1,12 @@
 package org.cilogon.d2.storage;
 
 import edu.uiuc.ncsa.security.core.Identifier;
+import edu.uiuc.ncsa.security.core.exceptions.GeneralException;
 import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
 import edu.uiuc.ncsa.security.core.util.BeanUtils;
 import edu.uiuc.ncsa.security.core.util.DateUtils;
 import edu.uiuc.ncsa.security.core.util.IdentifiableImpl;
+import edu.uiuc.ncsa.security.servlet.ServletDebugUtil;
 import org.cilogon.d2.util.AbstractCILServiceTransaction;
 import org.cilogon.d2.util.DNUtil;
 import org.cilogon.d2.util.SerialStrings;
@@ -188,6 +190,7 @@ public class User extends IdentifiableImpl {
 
 
     public void setSerialString(String serialString) {
+        ServletDebugUtil.trace(this, "Setting user serial string to "+ serialString, new GeneralException());
         if (this.serialString == null) {
             // syntax check. Simple but catches a lot of errors.
             if (0 != serialString.split("[A-Za-z]+[0-9]+").length) {
@@ -215,6 +218,8 @@ public class User extends IdentifiableImpl {
 
 
     public Identifier getSerialIdentifier() {
+        ServletDebugUtil.trace(this, "Setting user serial identifier to "+ serialString, new GeneralException());
+
         if (serialIdentifier == null) {
             if (serialString != null) {
                 serialIdentifier = BasicIdentifier.newID(serialStrings.fromSerialString(serialString));
@@ -242,6 +247,7 @@ public class User extends IdentifiableImpl {
 
     public String toString() {
         String out = "User[uid=\"" + getIdentifier() + "\",key=" + getUserMultiKey() + ",IdP=" + getIdP() + "\", ";
+        out = out + "serial string=\"" + getSerialString() + "\", ";
         out = out + "first name=\"" + getFirstName() + "\", ";
         out = out + "last name=\"" + getLastName() + "\", ";
         out = out + "email=\"" + getEmail() + "\", ";

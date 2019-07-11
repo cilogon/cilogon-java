@@ -3,7 +3,7 @@
  issue the following commands inside psql:
 
  create database ncsa;
- \connect database ncsa;
+ \c  ncsa; <<-- connects to database, this is a meta command
  drop schema oauth cascade;
  create schema ciloa2;
  set search_path to ciloa2;

@@ -6,6 +6,7 @@ import org.cilogon.d2.storage.EduPersonPrincipleName;
 import org.cilogon.d2.storage.RemoteUserName;
 import org.cilogon.d2.storage.User;
 import org.cilogon.d2.storage.UserMultiKey;
+import org.cilogon.d2.storage.impl.mysql.MySQLSequence;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -155,18 +156,27 @@ public class DBServiceUserIDTests extends RemoteDBServiceTest {
      */
     public User testOneThenTwoIds(UserMultiKey key1, UserMultiKey umk2) throws Exception {
         User user = newUser();
+        MySQLSequence.printit = true;
+        System.err.println("testOneThenTwoIds: user id = " + user.getIdentifierString() + ", serial string = " + user.getSerialString());
         user.setUserMultiKey(key1);
-        getUserStore().save(user); // otherwise the next step returns a different user id.
+        getUserStore().update(user,true); // otherwise the next step returns a different user id.
+        System.err.println("testOneThenTwoIds POST SAVE: user id = " + user.getIdentifierString() + ", serial string = " + user.getSerialString());
+
         XMLMap map = getDBSClient().getUser(user.getUserMultiKey(),
                 user.getIdP(), user.getIDPName(), user.getFirstName(), user.getLastName(), user.getEmail(),
                 user.getAffiliation(),
                 user.getDisplayName(),
                 user.getOrganizationalUnit());
+        System.err.println("testOneThenTwoIds GOT MAP: = " + map.get("user_uid") + ", serial string = " + map.get("serial_string"));
 
         checkUserAgainstMap(map, user);
         // now reget with both the first and second key
         map = getDBSClient().getUser(umk2, user.getIdP());
+        System.err.println("testOneThenTwoIds GOT MAP by umk: = " + map.get("user_uid") + ", serial string = " + map.get("serial_string"));
+
         user.setUserMultiKey(umk2);
+        MySQLSequence.printit = false;
+
         checkUserAgainstMap(map, user);
         // final bit of this is to check that giving just first key in the future will return the right user.
         map = getDBSClient().getUser(key1, user.getIdP());
@@ -187,7 +197,7 @@ public class DBServiceUserIDTests extends RemoteDBServiceTest {
         UserMultiKey eptidKey = new UserMultiKey(umk.getEptid());
         User user = newUser();
         user.setUserMultiKey(eptidKey);
-        getUserStore().save(user); // otherwise the next step returns a different user id.
+        getUserStore().update(user,true); // otherwise the next step returns a different user id.
         XMLMap map = getDBSClient().getUser(user.getUserMultiKey(),
                 user.getIdP(),
                 user.getIDPName(),
@@ -270,7 +280,7 @@ public class DBServiceUserIDTests extends RemoteDBServiceTest {
             Date date = new Date(currentTime - (i + 1) * oneYear); // have these spaced one year apart.
             user.setCreationTime(date);
             user.setUserMultiKey(newUmk);
-            getUserStore().save(user);
+            getUserStore().update(user,true);
             user = newUser();
             user.setIdP(idp);
         }

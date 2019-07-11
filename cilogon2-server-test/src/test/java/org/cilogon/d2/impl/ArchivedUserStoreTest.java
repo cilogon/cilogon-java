@@ -21,13 +21,13 @@ import static org.cilogon.d2.ServiceTestUtils.checkTimestamp;
  * <p>Created by Jeff Gaynor<br>
  * on 3/9/12 at  12:11 PM
  */
-public  class ArchivedUserStoreTest extends TestBase {
+public class ArchivedUserStoreTest extends TestBase {
     public void testAll() throws Exception {
         doTests((CILTestStoreProviderI2) ServiceTestUtils.getMemoryStoreProvider());
         doTests((CILTestStoreProviderI2) ServiceTestUtils.getMySQLStoreProvider());
         doTests((CILTestStoreProviderI2) ServiceTestUtils.getPgStoreProvider());
 
- //       doTests((CILTestStoreProviderI2) ServiceTestUtils.getFsStoreProvider());
+        //       doTests((CILTestStoreProviderI2) ServiceTestUtils.getFsStoreProvider());
     }
 
     public void doTests(CILTestStoreProviderI2 provider) throws Exception {
@@ -36,15 +36,55 @@ public  class ArchivedUserStoreTest extends TestBase {
         testNewIDs(provider);
     }
 
-
-
-    @Test
+    /**
+     * Regression test that changing something in the user does not change an already archived user. This is unlikely to happen
+     * in SQL stores, but could occur in memory or file store implementations.
+     *
+     * @param provider
+     * @throws Exception
+     */
     public void testArchiveUserStore(CILTestStoreProviderI2 provider) throws Exception {
         ArchivedUserStore archivedUserStore = provider.getArchivedUserStore();
         // what is in the user store *should* be indep. of the user instance. newUser() saves the object already.
         User user = provider.newUser();
+
+        // Archive the user in the user store
+        Identifier archivedUserUID = archivedUserStore.archiveUser(user.getIdentifier());
+        assert archivedUserStore.containsKey(archivedUserUID) : "failed to archive user";
+        ArchivedUser archivedUser = archivedUserStore.get(archivedUserUID);
+
+        // Check everything is faithfully stored.
+        compareUsers(archivedUser, user, true);
+
+        // Now change some stuff and check that the archived user has not somehow changed. This is less important
+        // for SQL stores, but could happen in memory or file stores if they are nto implemented correctly
         String oldFirstName = user.getFirstName();
+        user.setUseUSinDN(true);
+        user.setAttr_json("random_attribute_string_" + getRandomString());
         user.setFirstName("Roderick");
+        user.setFirstName(oldFirstName);
+        provider.getUserStore().save(user);
+        archivedUser = archivedUserStore.get(archivedUserUID);
+        User oldUser = archivedUser.getUser();
+        assert oldUser.getFirstName().equals(oldFirstName) : "Changing user updates archived user";
+        assert oldUser.isUseUSinDN() == false;
+        assert !user.getAttr_json().equals(oldUser.getAttr_json());
+        provider.getUserStore().remove(user); // cleanup
+        provider.getArchivedUserStore().remove(archivedUser);
+    }
+
+    /**
+     * Create a user and immediately archive it. These should match exactly (showing that saving it to the archive is faithful
+     *
+     * @param provider
+     * @throws Exception
+     */
+    @Test
+    public void testArchivingIntergrity(CILTestStoreProviderI2 provider) throws Exception {
+        ArchivedUserStore archivedUserStore = provider.getArchivedUserStore();
+        // what is in the user store *should* be indep. of the user instance. newUser() saves the object already.
+        User user = provider.newUser();
+
         // Archive the user in the user store
         Identifier archivedUserUID = archivedUserStore.archiveUser(user.getIdentifier());
         assert archivedUserStore.containsKey(archivedUserUID) : "failed to archive user";
@@ -52,22 +92,10 @@ public  class ArchivedUserStoreTest extends TestBase {
 
         // Get the archived user and prove it is indeed the old user, not the new one.
         User oldUser = archivedUser.getUser();
-        assert oldUser.getFirstName().equals(oldFirstName) : "User first names don't match";
-        assert oldUser.getIdentifier().equals(user.getIdentifier()) : "User uid's don't match";
-        assert oldUser.getLastName().equals(user.getLastName()) : "User last names don't match";
-        assert oldUser.getEmail().equals(user.getEmail()) : "User email's don't match";
-        assert oldUser.getIDPName().equals(user.getIDPName()) : "User idp names don't match";
-        assert BeanUtils.checkBasic(oldUser.getePPN(), user.getePPN()) : "User eppns don't match";
-        assert BeanUtils.checkBasic(oldUser.getePTID(), user.getePTID()) : "User eptids don't match";
-        assert BeanUtils.checkBasic(oldUser.getOpenID(), user.getOpenID()) : "User openids don't match";
-        assert BeanUtils.checkBasic(oldUser.getRemoteUser(), user.getRemoteUser()) : "User remote users don't match";
-        // The old serial identifier is set to be the same as the uid at creation time. Check it.
-        assert oldUser.getSerialIdentifier().equals(user.getIdentifier()) : "User's serial identifiers don't match";
-        assert checkTimestamp(user, oldUser);
 
-        user.setFirstName(oldFirstName);
         compareUsers(archivedUser, user, true);
-        provider.getUserStore().remove(user); // cleeanup
+        provider.getUserStore().remove(user); // cleanup
+        provider.getArchivedUserStore().remove(archivedUser);
     }
 
     /**
@@ -94,6 +122,20 @@ public  class ArchivedUserStoreTest extends TestBase {
         assert BeanUtils.checkNoNulls(oldUser.getOpenID(), user.getOpenID()) : "User openids don't match. Expected " + oldUser.getOpenID() + " and got " + user.getOpenID();
         assert BeanUtils.checkNoNulls(oldUser.getOpenIDConnect(), user.getOpenIDConnect()) : "User openid connect id's don't match. Expected " + oldUser.getOpenIDConnect() + " and got " + user.getOpenIDConnect();
         assert BeanUtils.checkNoNulls(oldUser.getRemoteUser(), user.getRemoteUser()) : "User remote users don't match. Expected " + oldUser.getRemoteUser() + " and got " + user.getRemoteUser();
+        assert BeanUtils.checkNoNulls(oldUser.isUseUSinDN(), user.isUseUSinDN()) : "'User is in US' don't match. Expected " + oldUser.isUseUSinDN() + " and got " + user.isUseUSinDN();
+        if (user.getAttr_json() == null) {
+            if (oldUser.getAttr_json() == null || oldUser.getAttr_json().isEmpty()) {
+                assert true;
+            } else {
+                assert false : "JSON attributes do not match. Expected \"" + oldUser.getAttr_json() + "\" and got \"" + user.getAttr_json() + "\"";
+            }
+        } else {
+            if (oldUser.getAttr_json() == null || oldUser.getAttr_json().isEmpty()) {
+                assert false : "JSON attributes do not match. Expected \"" + oldUser.getAttr_json() + "\" and got \"" + user.getAttr_json() + "\"";
+            } else {
+                assert oldUser.getAttr_json().equals(user.getAttr_json());
+            }
+        }
 
         if (oldUser.hasEPPN()) {
             assert BeanUtils.checkBasic(oldUser.getePPN(), user.getePPN()) : "User eppns don't match. Expected " + oldUser.getePPN() + " and got " + user.getePPN();
@@ -111,10 +153,10 @@ public  class ArchivedUserStoreTest extends TestBase {
             assert user.getOpenID() == null : "User openID should be null, got " + user.getOpenID();
         }
         if (oldUser.hasOpenIDConnect()) {
-                   assert BeanUtils.checkBasic(oldUser.getOpenIDConnect(), user.getOpenIDConnect()) : "User oidc's don't match. Expected " + oldUser.getOpenID() + " and got " + user.getOpenID();
-               } else {
-                   assert user.getOpenIDConnect() == null : "User oidc  should be null, got " + user.getOpenIDConnect();
-               }
+            assert BeanUtils.checkBasic(oldUser.getOpenIDConnect(), user.getOpenIDConnect()) : "User oidc's don't match. Expected " + oldUser.getOpenID() + " and got " + user.getOpenID();
+        } else {
+            assert user.getOpenIDConnect() == null : "User oidc  should be null, got " + user.getOpenIDConnect();
+        }
         if (oldUser.hasRemoteUser()) {
             assert BeanUtils.checkBasic(oldUser.getRemoteUser(), user.getRemoteUser()) : "User remote users don't match. Expected " + oldUser.getRemoteUser() + " and got " + user.getRemoteUser();
 

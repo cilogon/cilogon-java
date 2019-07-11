@@ -82,7 +82,7 @@ public abstract class RemoteDBServiceTest extends TestBase {
         }
 
         assert user.getIdP().equals(map.get(userKeys.idp())) : "IDP's don't match";
-        assert user.getIDPName().equals(map.get(userKeys.idpDisplayName())) : "IDP display names don't match";
+        assert user.getIDPName().equals(map.get(userKeys.idpDisplayName())) : "IDP display names don't match. Expected " + user.getIDPName() + " and got " + (map.get(userKeys.idpDisplayName()));
         assert user.getFirstName().equals(map.get(userKeys.firstName())) : "first names don't match";
         assert user.getLastName().equals(map.get(userKeys.lastName())) : "last names don't match";
         if (checkSerialString) {

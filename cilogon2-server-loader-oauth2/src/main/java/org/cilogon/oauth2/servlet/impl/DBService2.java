@@ -3,17 +3,23 @@ package org.cilogon.oauth2.servlet.impl;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.OA2SE;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.OA2ServiceTransaction;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.claims.OA2ClaimsUtil;
+import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.servlet.OA2ClientUtils;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.clients.OA2Client;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.clients.OA2ClientApprovalKeys;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.clients.OA2ClientKeys;
 import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.exceptions.InvalidTimestampException;
 import edu.uiuc.ncsa.security.core.exceptions.NFWException;
+import edu.uiuc.ncsa.security.core.exceptions.UnknownClientException;
 import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
 import edu.uiuc.ncsa.security.core.util.DateUtils;
-import edu.uiuc.ncsa.security.core.util.DebugUtil;
+import edu.uiuc.ncsa.security.delegation.server.UnapprovedClientException;
+import edu.uiuc.ncsa.security.delegation.storage.Client;
 import edu.uiuc.ncsa.security.delegation.token.impl.AuthorizationGrantImpl;
+import edu.uiuc.ncsa.security.oauth_2_0.OA2Errors;
+import edu.uiuc.ncsa.security.servlet.ServletDebugUtil;
 import net.sf.json.JSONObject;
+import org.apache.http.HttpStatus;
 import org.cilogon.d2.servlet.AbstractDBService;
 import org.cilogon.d2.storage.User;
 import org.cilogon.d2.storage.UserStore;
@@ -51,10 +57,14 @@ public class DBService2 extends AbstractDBService {
     public static final int STATUS_TRANSACTION_NOT_FOUND = 0x10001;
     public static final int STATUS_EXPIRED_TOKEN = 0x10003;
 
-    //public static final String CREATE_TRANSACTION_STATE = "createTransactionState";
     public static final String CREATE_TRANSACTION_STATE = "createTransaction";
     public static final int CREATE_TRANSACTION_STATE_CASE = 730;
     public static final int STATUS_CREATE_TRANSACTION_FAILED = 0x10005;
+    public static final int STATUS_UNKNOWN_CALLBACK = 0x10007;
+    public static final int STATUS_MISSING_CLIENT_ID = 0x10009;
+    public static final int STATUS_NO_REGISTERED_CALLBACKS = 0x1000B;
+    public static final int STATUS_UNKNOWN_CLIENT = 0x1000D;
+    public static final int STATUS_UNAPPROVED_CLIENT = 0x1000F;
 
 
     @Override
@@ -73,7 +83,7 @@ public class DBService2 extends AbstractDBService {
     @Override
     protected void doAction(HttpServletRequest request, HttpServletResponse response, String action) throws IOException, ServletException {
         printAllParameters(request);
-        DebugUtil.trace(this, "action = " + action);
+        ServletDebugUtil.trace(this, "action = " + action);
         switch (lookupCase(action)) {
             case GET_CLIENT_CASE:
                 getClient(request, response);
@@ -82,12 +92,12 @@ public class DBService2 extends AbstractDBService {
                 setTransactionState(request, response);
                 return;
             case CREATE_TRANSACTION_STATE_CASE:
-                DebugUtil.trace(this, "creating transaction");
+                ServletDebugUtil.trace(this, "creating transaction");
 
                 createTransaction(request, response);
                 return;
         }
-        DebugUtil.trace(this, "action NOT FOUND, invoking super ");
+        ServletDebugUtil.trace(this, "action NOT FOUND, invoking super ");
 
 
         super.doAction(request, response, action);
@@ -106,18 +116,70 @@ public class DBService2 extends AbstractDBService {
     }
 
     protected void createTransaction(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        DebugUtil.dbg(this, "createTransaction: ******** NEW CALL ******** ");
+        ServletDebugUtil.trace(this, "createTransaction: ******** NEW CALL ******** ");
+        ServletDebugUtil.trace(this, "createTransaction: printing request ");
+        ServletDebugUtil.printAllParameters(this.getClass(), req);
         CILOA2AuthorizedServletUtil initUtil = new CILOA2AuthorizedServletUtil(this);
+        /* This next call checks that there is a client id supplied and throws an
+               UnknownClientException
+           if no id is found (not ideal, but we there we have it). So, in that case, this will
+           be handled in the catch block below. This gives us the chance to check separately that
+           all the right the parameters are sent along.
+         */
+        Client client = null;
         try {
+            client = getClient(req);
+        } catch (UnknownClientException ucx) {
+            OA2ClientUtils.NoClientIDException xx = new OA2ClientUtils.NoClientIDException(OA2Errors.INVALID_REQUEST,
+                    "No client id was found",
+                    HttpStatus.SC_BAD_REQUEST);
+            ServletDebugUtil.trace(this, "createTransaction failed. \"" + xx + "\".", xx);
+            writeTransaction(null, figureOutErrorCode(xx), resp);
+            return;
+        }
+        try {
+            if (client == null) {
+                throw new UnknownClientException("No client for this identifier was found.");
+            }
+
             CILOA2ServiceTransaction transaction = (CILOA2ServiceTransaction) initUtil.doDelegation(req, resp);
             getTransactionStore().save(transaction);
-            DebugUtil.dbg(this, "createTransaction: writing transaction. " + transaction);
+            ServletDebugUtil.trace(this, "createTransaction: writing transaction. " + transaction);
             writeTransaction(transaction, STATUS_OK, resp);
-            DebugUtil.dbg(this, "createTransaction: ******** DONE ******** ");
+            ServletDebugUtil.trace(this, "createTransaction: ******** DONE ******** ");
         } catch (Throwable t) {
-            DebugUtil.dbg(this, "createTransaction failed. \"" + t.getMessage() + "\".");
-            writeTransaction(null, STATUS_CREATE_TRANSACTION_FAILED, resp);
+            getMyLogger().warn("Error creating transaction:\"" + t.getMessage() + "\"");
+            ServletDebugUtil.trace(this, "createTransaction failed. \"" + t.getMessage() + "\".", t);
+            ServletDebugUtil.warn(this, "Error creating transaction: \"" + t.getMessage() + "\".");
+            // CIL-570: Error codes need to be augmented so can tell why various initial errors happen.
+            // There could be a lot more of these (such documenting protocol errors and such), but this
+            // should do for most cases. If it needs to be revisted in the future, this is the place to check.
+            writeTransaction(null, figureOutErrorCode(t), resp);
         }
+    }
+
+    /*
+    Ugly having to pull it off the exception type, but it is the best we can do and not either break
+    encapsulation of have to rewrite a bunch of error handling to return the code.
+     */
+    protected int figureOutErrorCode(Throwable t) {
+        if (t instanceof OA2ClientUtils.InvalidRedirectError) {
+            return STATUS_UNKNOWN_CALLBACK;
+        }
+        if (t instanceof OA2ClientUtils.NoRegisteredRedirectError) {
+            return STATUS_NO_REGISTERED_CALLBACKS;
+        }
+        if (t instanceof OA2ClientUtils.NoClientIDException) {
+            return STATUS_MISSING_CLIENT_ID;
+        }
+        if (t instanceof UnknownClientException) {
+            return STATUS_UNKNOWN_CLIENT;
+        }
+        if (t instanceof UnapprovedClientException) {
+            return STATUS_UNAPPROVED_CLIENT;
+        }
+        // default case: Creating the error failed.
+        return STATUS_CREATE_TRANSACTION_FAILED;
     }
 
     // Fixes CIL-101
