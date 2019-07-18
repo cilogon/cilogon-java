@@ -23,8 +23,8 @@ import java.util.Iterator;
  */
 public class UserFileStore extends FileStore<User> implements UserStore {
 
-    public UserFileStore(File file, UserProvider up, MapConverter converter) {
-        super(file, up, converter);
+    public UserFileStore(File file, UserProvider up, MapConverter converter, boolean removeEmptyFiles) {
+        super(file, up, converter, removeEmptyFiles);
     }
 
     protected UserProvider getUP() {
@@ -36,8 +36,9 @@ public class UserFileStore extends FileStore<User> implements UserStore {
     public UserFileStore(File storeDirectory,
                          File indexDirectory,
                          IdentifiableProviderImpl<User> up,
-                         MapConverter converter) {
-        super(storeDirectory, indexDirectory, up, converter);
+                         MapConverter converter,
+                         boolean removeEmptyFiles) {
+        super(storeDirectory, indexDirectory, up, converter, removeEmptyFiles);
     }
 
     @Override

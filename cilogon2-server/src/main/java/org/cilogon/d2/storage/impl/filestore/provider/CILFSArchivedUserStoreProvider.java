@@ -30,10 +30,10 @@ public class CILFSArchivedUserStoreProvider extends FSProvider<CILFSArchivedUser
 
     @Override
 
-    protected CILFSArchivedUserStore produce(File dataPath, File indexPath) {
+    protected CILFSArchivedUserStore produce(File dataPath, File indexPath, boolean removeEmptyFiles) {
         return new CILFSArchivedUserStore(dataPath,
                 indexPath,
                 usp.get(),
-                archivedUserProvider, converter);
+                archivedUserProvider, converter, removeEmptyFiles);
     }
 }

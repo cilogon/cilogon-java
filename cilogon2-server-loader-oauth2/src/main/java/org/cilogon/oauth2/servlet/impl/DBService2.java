@@ -16,10 +16,9 @@ import edu.uiuc.ncsa.security.core.util.DateUtils;
 import edu.uiuc.ncsa.security.delegation.server.UnapprovedClientException;
 import edu.uiuc.ncsa.security.delegation.storage.Client;
 import edu.uiuc.ncsa.security.delegation.token.impl.AuthorizationGrantImpl;
-import edu.uiuc.ncsa.security.oauth_2_0.OA2Errors;
+import edu.uiuc.ncsa.security.oauth_2_0.OA2Constants;
 import edu.uiuc.ncsa.security.servlet.ServletDebugUtil;
 import net.sf.json.JSONObject;
-import org.apache.http.HttpStatus;
 import org.cilogon.d2.servlet.AbstractDBService;
 import org.cilogon.d2.storage.User;
 import org.cilogon.d2.storage.UserStore;
@@ -115,6 +114,12 @@ public class DBService2 extends AbstractDBService {
         stopWrite(response);
     }
 
+    protected void doError(String message, int errorCode, HttpServletResponse resp) throws IOException {
+        ServletDebugUtil.trace(this, "createTransaction failed: \"" + message + "\".");
+        writeTransaction(null, errorCode, resp);
+
+    }
+
     protected void createTransaction(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         ServletDebugUtil.trace(this, "createTransaction: ******** NEW CALL ******** ");
         ServletDebugUtil.trace(this, "createTransaction: printing request ");
@@ -127,27 +132,52 @@ public class DBService2 extends AbstractDBService {
            all the right the parameters are sent along.
          */
         Client client = null;
-        try {
-            client = getClient(req);
-        } catch (UnknownClientException ucx) {
-            OA2ClientUtils.NoClientIDException xx = new OA2ClientUtils.NoClientIDException(OA2Errors.INVALID_REQUEST,
-                    "No client id was found",
-                    HttpStatus.SC_BAD_REQUEST);
-            ServletDebugUtil.trace(this, "createTransaction failed. \"" + xx + "\".", xx);
-            writeTransaction(null, figureOutErrorCode(xx), resp);
+        if (!req.getParameterMap().containsKey(OA2Constants.CLIENT_ID)) {
+            // missing parameter
+            doError("No client id parameter was found.", STATUS_MISSING_ARGUMENT, resp);
             return;
         }
+        String clientID = req.getParameter(OA2Constants.CLIENT_ID);
+        if (clientID == null || clientID.isEmpty()) {
+            //missing client id
+            doError("No value for client id parameter was found.", STATUS_MISSING_CLIENT_ID, resp);
+            return;
+        }
+        Identifier client_id = null;
+        try {
+            client_id = BasicIdentifier.newID(clientID);
+        } catch (Throwable t) {
+            // invalid client id (means it did not resolve into a URI correctly
+            doError("Invalid client id syntax.", STATUS_MALFORMED_INPUT, resp);
+            return;
+        }
+        if (!getServiceEnvironment().getClientStore().containsKey(client_id)) {
+            // Unknown client.
+            doError("Unknown client", STATUS_UNKNOWN_CLIENT, resp);
+            return;
+        }
+        if (!getServiceEnvironment().getClientApprovalStore().isApproved(client_id)) {
+            // unapproved client
+            doError("Unapproved client.", STATUS_UNAPPROVED_CLIENT, resp);
+            return;
+        }
+
+        client = getClient(req); // This has got to work since we just checked it is there
+/*
         try {
             if (client == null) {
                 throw new UnknownClientException("No client for this identifier was found.");
             }
+*/
 
+        try {
             CILOA2ServiceTransaction transaction = (CILOA2ServiceTransaction) initUtil.doDelegation(req, resp);
             getTransactionStore().save(transaction);
             ServletDebugUtil.trace(this, "createTransaction: writing transaction. " + transaction);
             writeTransaction(transaction, STATUS_OK, resp);
             ServletDebugUtil.trace(this, "createTransaction: ******** DONE ******** ");
         } catch (Throwable t) {
+            // grab bag of errors from lower down in the stack.
             getMyLogger().warn("Error creating transaction:\"" + t.getMessage() + "\"");
             ServletDebugUtil.trace(this, "createTransaction failed. \"" + t.getMessage() + "\".", t);
             ServletDebugUtil.warn(this, "Error creating transaction: \"" + t.getMessage() + "\".");

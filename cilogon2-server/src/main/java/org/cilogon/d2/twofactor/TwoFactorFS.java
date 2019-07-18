@@ -12,14 +12,15 @@ import java.io.File;
  */
 public class TwoFactorFS extends FileStore<TwoFactorInfo> implements TwoFactorStore{
 
-    public TwoFactorFS(File file, IdentifiableProvider<TwoFactorInfo> idp, MapConverter<TwoFactorInfo> cp) {
-        super(file, idp, cp);
+    public TwoFactorFS(File file, IdentifiableProvider<TwoFactorInfo> idp, MapConverter<TwoFactorInfo> cp, boolean removeEmptyFiles) {
+        super(file, idp, cp, removeEmptyFiles);
     }
 
     protected TwoFactorFS(File storeDirectory,
                           File indexDirectory,
                           IdentifiableProvider<TwoFactorInfo> identifiableProvider,
-                          MapConverter<TwoFactorInfo> twoFactorInfoMapConverter) {
-        super(storeDirectory, indexDirectory, identifiableProvider, twoFactorInfoMapConverter);
+                          MapConverter<TwoFactorInfo> twoFactorInfoMapConverter,
+                          boolean removeEmptyFiles) {
+        super(storeDirectory, indexDirectory, identifiableProvider, twoFactorInfoMapConverter, removeEmptyFiles);
     }
 }

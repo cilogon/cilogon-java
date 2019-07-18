@@ -26,7 +26,7 @@ public class CILFSUserStoreProvider extends FSProvider<UserFileStore> implements
     }
 
     @Override
-    protected UserFileStore produce(File dataPath, File indexPath) {
-        return new UserFileStore(dataPath,indexPath,userProvider, converter);
+    protected UserFileStore produce(File dataPath, File indexPath, boolean removeEmptyFiles) {
+        return new UserFileStore(dataPath,indexPath,userProvider, converter, removeEmptyFiles);
     }
 }

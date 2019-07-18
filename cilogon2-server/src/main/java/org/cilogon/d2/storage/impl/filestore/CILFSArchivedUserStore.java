@@ -19,7 +19,7 @@ import java.util.List;
        /*
         NOTE the archived user file store is not implemented (see note below) and all the tests for it here
         will fail.
-        The reason is that databases keepa separate table for users but the file store has to
+        The reason is that databases kee pa separate table for users but the file store has to
         manage a thing called an AUEntry (ArchivedUserEntry) and there is no converter for that
         to serialize it. At this poiint (7/19/2018) it is still doubtful anyone wants to put
         CILogon on a file system, but enough of the code exists that it should be kept for now.
@@ -38,8 +38,9 @@ public class CILFSArchivedUserStore extends FileStore<ArchivedUser> implements A
                                   File indexPath,
                                   UserStore userStore,
                                   IdentifiableProviderImpl<ArchivedUser> aup,
-                                  MapConverter archivedUserMapConverter) {
-        super(dataPath, indexPath, aup, archivedUserMapConverter);
+                                  MapConverter archivedUserMapConverter,
+                                  boolean removeEmptyFiles) {
+        super(dataPath, indexPath, aup, archivedUserMapConverter, removeEmptyFiles);
         this.userStore = userStore;
         File f = new File(dataPath.getParent(), OA4MPConfigTags.ARCHIVED_USERS);
         f.mkdirs(); // just in case we need to create this on the fly.
@@ -50,11 +51,11 @@ public class CILFSArchivedUserStore extends FileStore<ArchivedUser> implements A
         // Caveat: This sets the converter to null, so that plain old java serialization is used.
         // Since this shouldn't really ever change, that should be ok.
         public AUEntryFileStore(File file) {
-            super(file,  null,null);
+            super(file,  null,null, true);
         }
 
         public AUEntryFileStore(File storeDirectory, File indexDirectory) {
-            super(storeDirectory, indexDirectory, null, null);
+            super(storeDirectory, indexDirectory, null, null, true);
         }
 
         @Override
