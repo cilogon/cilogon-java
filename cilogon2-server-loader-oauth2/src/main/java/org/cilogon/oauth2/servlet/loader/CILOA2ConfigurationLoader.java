@@ -189,7 +189,8 @@ public class CILOA2ConfigurationLoader extends OA2ConfigurationLoader implements
                     getIssuer(),
                     isUtilServerEnabled(),
                     isOIDCEnabled(),
-                    getMultiJSONStoreProvider());
+                    getMultiJSONStoreProvider(),
+                    getCmConfigs());
             return  se;
         } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
             throw new GeneralException("Error: Could not create the runtime environment", e);

@@ -1,6 +1,7 @@
 package org.cilogon.oauth2.servlet.loader;
 
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.OA2SE;
+import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.cm.CMConfigs;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.MyProxyFacadeProvider;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.ServiceEnvironmentImpl;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.admin.adminClient.AdminClientStore;
@@ -76,7 +77,9 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
                                         String issuer,
                                         boolean isUtilServletEnabled,
                                         boolean isOIDCEnabled,
-                                        Provider<JSONStore> jsonStoreProvider) {
+                                        Provider<JSONStore> jsonStoreProvider,
+                                        CMConfigs cmConfigs
+                                        ) {
         super(logger,
                 tsp,
                 csp,
@@ -108,7 +111,8 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
                 issuer,
                 isUtilServletEnabled,
                 isOIDCEnabled,
-                jsonStoreProvider
+                jsonStoreProvider,
+                cmConfigs
                 );
         ciLogonSE = new CILogonSEImpl(usp, ausp, idpsp, incp, tfsp, isComputeFNAL);
         if(claimSource instanceof UserClaimSource){
