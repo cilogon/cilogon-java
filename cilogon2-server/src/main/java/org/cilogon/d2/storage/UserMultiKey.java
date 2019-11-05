@@ -208,6 +208,7 @@ public class UserMultiKey implements Iterable<PersonName>, Serializable {
         }
         if (hasOpenID()) {
             x = x + (gotOne ? "," : "") + "openid=" + getOpenID().getName();
+            gotOne = true;
         }
         if (hasOpenIDConnect()) {
             x = x + (gotOne ? "," : "") + "oidc=" + getOpenIDConnect().getName();

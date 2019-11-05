@@ -202,6 +202,9 @@ public class DNUtil {
      */
     protected static String oldUTF7(String inString) {
         // UTF 7 string start with + and end with -.
+        if(inString == null || inString.isEmpty()){
+            throw new IllegalArgumentException("Error: no DN to convert to UTF-7");
+        }
         inString = inString.trim();
         if(inString.endsWith("-") && inString.startsWith("+")){
             return inString;
@@ -235,6 +238,10 @@ public class DNUtil {
             DebugUtil.dbg(DNUtil.class, "OA2DNUtil.getFNLDN: cns[i]==" + cns[i - 1]); // cause we incremented
         }
         String eppn = user.getePPN().getName();
+        if(eppn == null || eppn.isEmpty()){
+            DebugUtil.dbg(DNUtil.class, "OA2DNUtil.getFNLDN: Missing EPPN, cannot create the DN."); // cause we incremented
+            throw new GeneralException("Error: Missing EPPN, cannot create the correct DN");
+        }
         String id = "UID:" + eppn.substring(0, eppn.indexOf("@"));
         String rc = null;
         if (cns[0].equals("People")) {

@@ -4,6 +4,7 @@ import edu.uiuc.ncsa.myproxy.oa4mp.server.StoreCommands2;
 import edu.uiuc.ncsa.security.core.Identifiable;
 import edu.uiuc.ncsa.security.core.Store;
 import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
+import net.sf.json.JSONObject;
 import org.cilogon.d2.storage.IdentityProvider;
 import org.cilogon.d2.storage.IdentityProviderStore;
 
@@ -51,6 +52,13 @@ public class IDPCommands extends StoreCommands2 {
         sayi(identifiable.getIdentifierString());
     }
 
+    @Override
+    protected void addEntry(Identifiable identifiable, JSONObject json) {
 
+    }
 
+    @Override
+    protected void removeEntry(Identifiable identifiable, JSONObject json) {
+
+    }
 }

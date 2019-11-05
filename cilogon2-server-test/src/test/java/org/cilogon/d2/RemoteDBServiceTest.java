@@ -82,9 +82,11 @@ public abstract class RemoteDBServiceTest extends TestBase {
         }
 
         assert user.getIdP().equals(map.get(userKeys.idp())) : "IDP's don't match";
-        assert user.getIDPName().equals(map.get(userKeys.idpDisplayName())) : "IDP display names don't match. Expected " + user.getIDPName() + " and got " + (map.get(userKeys.idpDisplayName()));
+        assert user.getIDPName().equals(map.get(userKeys.idpDisplayName())) : "IDP display names don't match. Expected \"" + user.getIDPName() + "\" and got \"" + (map.get(userKeys.idpDisplayName())) + "\"";
         assert user.getFirstName().equals(map.get(userKeys.firstName())) : "first names don't match";
         assert user.getLastName().equals(map.get(userKeys.lastName())) : "last names don't match";
+        // Disabling this. The issue is that internally, updating the user has several saves written in to it as it is archived.
+        // These update the serial string automatically and intercepting these would take a low-level re-write.
         if (checkSerialString) {
             assert user.getSerialString().equals(map.get(userKeys.serialString())) : "serial strings don't match. Expected " + user.getSerialString() + ", and got " + map.get(userKeys.serialString());
         }
@@ -165,7 +167,9 @@ public abstract class RemoteDBServiceTest extends TestBase {
 
     /**
      * This will create a new complete UserMultiKey using all parameters, just appending the string
-     * to eppn:, eptid: etc. to get valid uris
+     * to eppn:, eptid: etc. to get valid uris. You should not be able to specify all of these. This is
+     * just basically a list of all possible ones for testing and each test takes what it needs,
+     * e.g. search by eppn.
      *
      * @param x
      * @return
@@ -183,13 +187,13 @@ public abstract class RemoteDBServiceTest extends TestBase {
         IdentityProvider idp = new IdentityProvider(BasicIdentifier.newID("urn:identity/prov/" + rString));
         getIDPStore().add(idp);
         User bob = getUserStore().createAndRegisterUser(createRU("remote-" + rString),
-                idp.getIdentifier().toString(), "idp display name",
+                idp.getIdentifier().toString(), "idp display name-" + rString,
                 firstName,
                 lastName,
                 firstName.toLowerCase() + "." + lastName.toLowerCase() + "@" + rString + ".edu",
-                "affiliation" + rString,
+                "affiliation-" + rString,
                 firstName + " " + lastName,
-                "organization" + rString);
+                "organization-" + rString);
         return bob;
     }
 }

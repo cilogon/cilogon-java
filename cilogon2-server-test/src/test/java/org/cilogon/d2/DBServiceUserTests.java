@@ -30,12 +30,11 @@ public class DBServiceUserTests extends RemoteDBServiceTest {
         for (int i = 0; i < count; i++) {
             assert responseOk(getDBSClient().getUser(user.getIdentifier()));
         }
-
-        // Now for an open id-like test.
-        user.setEmail(null);
-        user.setFirstName(null);
-        user.setLastName(null);
-        user.setIDPName(null);
+        String rString = getRandomString();
+        user.setEmail("name" + rString + "@foo.bar");
+        user.setFirstName("firstName-" + rString);
+        user.setLastName("lastName-" + rString);
+        user.setIDPName("idpName-" + rString);
         getArchivedUserStore().archiveUser(user.getIdentifier());
         getUserStore().update(user);
         for (int i = 0; i < count; i++) {
@@ -52,6 +51,10 @@ public class DBServiceUserTests extends RemoteDBServiceTest {
         checkUserAgainstMap(m, user2);
     }
 
+    /**
+     * Test that we can create a new user by a call to the DB service.
+     * @throws Exception
+     */
     @Test
     public void testGetNewUser() throws Exception {
         UserMultiKey umk = createRU("remote-user-" + getRandomString());

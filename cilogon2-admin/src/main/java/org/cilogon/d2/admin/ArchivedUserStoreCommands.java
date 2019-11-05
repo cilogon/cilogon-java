@@ -6,8 +6,8 @@ import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.Store;
 import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
 import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
-import edu.uiuc.ncsa.security.storage.data.MapConverter;
 import edu.uiuc.ncsa.security.util.cli.InputLine;
+import net.sf.json.JSONObject;
 import org.cilogon.d2.storage.ArchivedUser;
 import org.cilogon.d2.storage.User;
 import org.cilogon.d2.storage.UserNotFoundException;
@@ -289,6 +289,13 @@ public class ArchivedUserStoreCommands extends StoreCommands2 {
         sayi("and then archive a specific user. Archived users only exist in reference to a given user");
     }
 
+    @Override
+    protected void addEntry(Identifiable identifiable, JSONObject json) {
+        
+    }
 
+    @Override
+    protected void removeEntry(Identifiable identifiable, JSONObject json) {
 
+    }
 }

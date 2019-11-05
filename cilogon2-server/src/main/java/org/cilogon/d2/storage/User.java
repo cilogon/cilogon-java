@@ -218,8 +218,6 @@ public class User extends IdentifiableImpl {
 
 
     public Identifier getSerialIdentifier() {
-        ServletDebugUtil.trace(this, "Setting user serial identifier to "+ serialString, new GeneralException());
-
         if (serialIdentifier == null) {
             if (serialString != null) {
                 serialIdentifier = BasicIdentifier.newID(serialStrings.fromSerialString(serialString));

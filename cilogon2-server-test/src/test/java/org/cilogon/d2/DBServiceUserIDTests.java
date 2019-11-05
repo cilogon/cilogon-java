@@ -2,6 +2,7 @@ package org.cilogon.d2;
 
 import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
 import edu.uiuc.ncsa.security.storage.XMLMap;
+import net.sf.json.JSONObject;
 import org.cilogon.d2.storage.EduPersonPrincipleName;
 import org.cilogon.d2.storage.RemoteUserName;
 import org.cilogon.d2.storage.User;
@@ -145,6 +146,15 @@ public class DBServiceUserIDTests extends RemoteDBServiceTest {
         assert user.getOpenIDConnect().equals(umk2.getOpenIDConnect());
     }
 
+    void printUserNice(String header, User user) throws Exception {
+        XMLMap map =  new XMLMap();
+        getUserStore().getMapConverter().toMap(user, map);
+        JSONObject j = new JSONObject();
+        j.putAll(map);
+        System.err.println(header);
+        System.err.println(j.toString(2));
+
+    }
     /**
      * This test covers the case where one ID is given, then later a pair are given
      * (such as eppn then eppn,eptid or openid then openid, oidc). This ensures that the system can
@@ -156,8 +166,9 @@ public class DBServiceUserIDTests extends RemoteDBServiceTest {
      */
     public User testOneThenTwoIds(UserMultiKey key1, UserMultiKey umk2) throws Exception {
         User user = newUser();
+        System.err.println("testOneThenTwoIds: user for id = " + user.getIdentifierString() + ", serial string = " + user.getSerialString());
+        printUserNice("testOneThenTwoIds:", user);
         MySQLSequence.printit = true;
-        System.err.println("testOneThenTwoIds: user id = " + user.getIdentifierString() + ", serial string = " + user.getSerialString());
         user.setUserMultiKey(key1);
         getUserStore().update(user,true); // otherwise the next step returns a different user id.
         System.err.println("testOneThenTwoIds POST SAVE: user id = " + user.getIdentifierString() + ", serial string = " + user.getSerialString());
@@ -167,10 +178,13 @@ public class DBServiceUserIDTests extends RemoteDBServiceTest {
                 user.getAffiliation(),
                 user.getDisplayName(),
                 user.getOrganizationalUnit());
-        System.err.println("testOneThenTwoIds GOT MAP: = " + map.get("user_uid") + ", serial string = " + map.get("serial_string"));
+        System.err.println("testOneThenTwoIds After get with one id: " + map.get("user_uid") + ", serial string = " + map.get("serial_string"));
+        JSONObject jsonObject = new JSONObject();
+         jsonObject.putAll(map);
+         System.err.println("testOneThenTwoIds:\n" + jsonObject.toString(2));
 
         checkUserAgainstMap(map, user);
-        // now reget with both the first and second key
+        // now re-get with both the first and second key
         map = getDBSClient().getUser(umk2, user.getIdP());
         System.err.println("testOneThenTwoIds GOT MAP by umk: = " + map.get("user_uid") + ", serial string = " + map.get("serial_string"));
 
@@ -180,6 +194,11 @@ public class DBServiceUserIDTests extends RemoteDBServiceTest {
         checkUserAgainstMap(map, user);
         // final bit of this is to check that giving just first key in the future will return the right user.
         map = getDBSClient().getUser(key1, user.getIdP());
+        System.err.println("testOneThenTwoIds: After getting with 2 ids = " + user.getIdentifierString() + ", serial string = " + user.getSerialString());
+        jsonObject = new JSONObject();
+        jsonObject.putAll(map);
+        System.err.println("testOneThenTwoIds:\n" + jsonObject.toString(2));
+
         // user.setUserMultiKey(key1);
         checkUserAgainstMap(map, user);
         return user;
@@ -337,9 +356,9 @@ public class DBServiceUserIDTests extends RemoteDBServiceTest {
         // First, try and save it
         try {
             getDBSClient().getUser(umk, user.getIdP());
-            assert true;
-        } catch (Throwable t) {
             assert false : "Error: was able to specify values for all ids. This is not allowed";
+        } catch (Throwable t) {
+            assert true;
         }
         // ok, so now we stick this user in storage directly. The store should allow for
         // multiple ids, the AbstractDBService (which has the logic to disambiguate them) does not.
@@ -456,15 +475,12 @@ public class DBServiceUserIDTests extends RemoteDBServiceTest {
     @Test
     public void testGetArchiveUser() throws Exception {
         UserMultiKey umk = createUMK();
-        UserMultiKey eppnKey = new UserMultiKey(umk.getEppn());
-        UserMultiKey eptidKey = new UserMultiKey(umk.getEptid());
-        UserMultiKey openIdKey = new UserMultiKey(umk.getOpenID());
         UserMultiKey ruKey = new UserMultiKey(umk.getRemoteUserName());
 
         User user = newUser();
         user.setUserMultiKey(ruKey);
         // First test: the getUser command here will not get the user by its unique ID, but by the 6+ parameters that
-        // define it. At this point we have made a user and updated the ruKey. Getting the user should return a completele
+        // define it. At this point we have made a user and updated the ruKey. Getting the user should return a completely
         // new user.
         XMLMap map = getDBSClient().getUser(user);
         assert !user.getIdentifierString().equals(map.get(userKeys.identifier())) : "User ids match and should not";
@@ -476,7 +492,7 @@ public class DBServiceUserIDTests extends RemoteDBServiceTest {
 
         // Now we are ready to actually check this user.
         String x = getRandomString();
-        User user2 = (User) user.clone(); // so we can check it did get archived right later
+        User referenceUser =  user.clone(); // so we can check it did get archived right later
         user.setLastName("last-" + x);
         user.setFirstName("first-" + x);
         user.setEmail(user.getFirstName() + "." + user.getLastName() + "@foo-" + x + ".edu");
@@ -484,11 +500,12 @@ public class DBServiceUserIDTests extends RemoteDBServiceTest {
         map = getDBSClient().getUser(user);  // This will update this, archive the current version and update the serial string.
         User user3 = getUserStore().get(user.getIdentifier());
         checkUserAgainstMap(map, user3); // giggle test to make sure it really is right.
-        XMLMap amap = getDBSClient().getLastArchivedUser(user.getIdentifier());
+        XMLMap archiveMap = getDBSClient().getLastArchivedUser(user.getIdentifier());
         user.setSerialIdentifier(user3.getSerialIdentifier());
-        checkUserAgainstMap(amap, user2);
-        checkUserAgainstMap(map, user);
-        // now we change things that are not identifiers and show that the fields all update correctly.
+        checkUserAgainstMap(archiveMap, referenceUser); // so what's in the archive and previous user match
+        checkUserAgainstMap(map, user); // Updated user and store match.
+        // Last step that we have a new and old version of the user is to archive it here and show that when we get it
+        // back from the DB service, it is the same user.
         getArchivedUserStore().archiveUser(user.getIdentifier());
         map = getDBSClient().getLastArchivedUser(user.getIdentifier());
 

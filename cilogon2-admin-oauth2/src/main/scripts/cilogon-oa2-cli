@@ -10,22 +10,26 @@ DEFAULT_CONFIG=$CILOGON_ROOT/etc/admin-cfg.xml
 DEFAULT_TARGET=cil-oa2
 cliJar=$CILOGON_ROOT/lib/cilogon-oa2-cli.jar
 logFile=$CILOGON_ROOT/var/log/cilogon-oa2-cli.log
+DEFAULT_ENV=$CILOGON_ROOT/etc/cli.properties
+
 
 # End of user serviceable parts.
 
 if [[  "$1" = "--help" || $# -gt 2 ]];then
-  echo "cilogon-oa2-cli [configName configFile"]
+  echo "cilogon-oa2-cli [configName configFile environment"]
   echo "Start the cilogon for OAuth2 command line admin too with the"
   echo "given configuration name in the given configuration file (full path)."
   echo "No arguments means to use the config named '$DEFAULT_TARGET' in the file  '$DEFAULT_CONFIG'"
+  echo "and the default properties file at '$DEFAULT_ENV'"
   echo "One argument is assumed to be the configuration name in the default config file."
   exit 1
 fi
 
 target=${1:-$DEFAULT_TARGET}
 adminCfg=${2:-$DEFAULT_CONFIG}
+env=${3:-$DEFAULT_ENV}
 
-java -jar $cliJar   -cfg $adminCfg -name $target -log $logFile -v
+java -jar $cliJar   -cfg $adminCfg -name $target -log $logFile -set_env $env -v
 
 if [ $? != 0 ]; then
   exit 1

@@ -1,5 +1,6 @@
 package test;
 
+import edu.uiuc.ncsa.security.util.TemplateTest;
 import org.cilogon.d2.DBServiceTests;
 import org.cilogon.d2.DBServiceUserIDTests;
 import org.cilogon.d2.DBServiceUserTests;
@@ -18,6 +19,7 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses(value = {
+        TemplateTest.class,
 
         /* Uncomment these to test which of them you want/need. */
        DBServiceTests.class,

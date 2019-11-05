@@ -277,7 +277,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
         EduPersonTargetedID eptid = null;
         EduPersonPrincipleName eppn = null;
         OpenID openid = null;
-        OpenIDConnect ocid = null;
+        OpenIDConnect oidc = null;
         if (!isEmpty(x)) remoteUser = new RemoteUserName(x);
 
         x = getParam(request, userKeys.eppn(), true);
@@ -290,9 +290,11 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
         if (!isEmpty(x)) openid = new OpenID(x);
 
         x = getParam(request, userKeys.oidc(), true);
-        if (!isEmpty(x)) ocid = new OpenIDConnect(x);
-
-        UserMultiKey names = new UserMultiKey(remoteUser, eppn, eptid, openid, ocid);
+        if (!isEmpty(x)) oidc = new OpenIDConnect(x);
+        if(remoteUser!=null && eppn !=null && eptid != null && openid != null && oidc != null){
+            throw new IllegalStateException("Error: Cannot have all ids specified.");
+        }
+        UserMultiKey names = new UserMultiKey(remoteUser, eppn, eptid, openid, oidc);
         return names;
     }
 
@@ -321,6 +323,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
         // case 2, use remote user to see if user has been updated or not.
 
         UserMultiKey names = getNames(request);
+
         ServletDebugUtil.trace(this,"no user uid. searching for umk:" + names);
         String idp = getParam(request, userKeys.idp());
         if (idp == null || idp.length() == 0) {
@@ -352,12 +355,15 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
 
                 TwoFactorInfo tfi = get2FStore().get(user.getIdentifier());
                 ServletDebugUtil.trace(this,"found user " + user);
-                ServletDebugUtil.trace(this,"saving user");
-
-                getUserStore().save(user);
-                ServletDebugUtil.trace(this,"user after save = "+ user);
+                if(user.isUseUSinDN()!=useUSinDN) {
+                    ServletDebugUtil.trace(this,"saving user");
+                    // only actually save this if this changes.
+                    getUserStore().save(user);
+                    ServletDebugUtil.trace(this,"user after save = "+ user);
+                }
 
                 writeUser(user, tfi, STATUS_OK, response);
+                return;
             } catch (UserNotFoundException x) {
                 ServletDebugUtil.trace(this,"No user found, creating a new user");
 
@@ -385,13 +391,16 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
                 getUserStore().save(user);
                 ServletDebugUtil.trace(this,"saved user " + user);
                 writeUser(user, null, STATUS_OK, response);
+                return;
             }
         }
         try {
             // check that the user is valid and if something has changed, archive the user's old information.
             // user id's are immutable, so this will not create a new one, though it will create a new archived user id.
             ServletDebugUtil.trace(this,"Checking and maybe archiving user");
-
+           if(firstName == null){
+               System.err.println("got a null first name");
+           }
             checkAndArchiveUser(response,
                     names,
                     idp,
@@ -1055,6 +1064,10 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
      * @throws IOException
      */
     protected void writeMessage(HttpServletResponse response, int statusCode) throws IOException {
+        if(statusCode != STATUS_OK) {
+            // track in debugging when a non-succes is returned.
+            ServletDebugUtil.trace(this, "Serializing error of " + statusCode + " (0x" + Long.toHexString(statusCode).toUpperCase() + ")");
+        }
         writeMessage(response, Integer.toString(statusCode));
     }
 

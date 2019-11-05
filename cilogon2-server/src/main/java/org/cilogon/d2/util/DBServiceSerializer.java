@@ -99,7 +99,7 @@ public class DBServiceSerializer {
      * @throws IOException
      */
     protected void doUserSerialization(PrintWriter w, User user) throws IOException {
-        ServletDebugUtil.dbg(this, "in douserSer: user=" + user);
+        ServletDebugUtil.trace(this, "in doUserSer: user=" + user);
         if (user.hasRemoteUser()) {
             print(w, userKeys.remoteUser(), user.getRemoteUser());
         }
@@ -122,7 +122,12 @@ public class DBServiceSerializer {
         print(w, userKeys.userID(), user.getIdentifier());
         print(w, userKeys.email(), user.getEmail());
         print(w, userKeys.serialString(), user.getSerialString());
-        print(w, distinguishedNameField, user.getDN(null, true));
+        try {
+            print(w, distinguishedNameField, user.getDN(null, true));
+        }catch(Exception x){
+            ServletDebugUtil.trace(this, "No DN can be computed for user with id \"" + user.getIdentifierString() + "\"");
+            // rock on. If this is a completely new user, this cannot be computed, so return nothing.
+        }
         print(w, userKeys.creationTimestamp(), user.getCreationTime());
         print(w, userKeys.affiliation(), user.getAffiliation());
         print(w, userKeys.displayName(), user.getDisplayName());

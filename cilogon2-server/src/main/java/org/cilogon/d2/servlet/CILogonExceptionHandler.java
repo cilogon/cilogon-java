@@ -3,6 +3,7 @@ package org.cilogon.d2.servlet;
 import edu.uiuc.ncsa.security.core.exceptions.TransactionNotFoundException;
 import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
 import edu.uiuc.ncsa.security.servlet.ExceptionHandler;
+import edu.uiuc.ncsa.security.servlet.ServletDebugUtil;
 import org.cilogon.d2.storage.UserNotFoundException;
 import org.cilogon.d2.util.DBServiceException;
 
@@ -34,7 +35,7 @@ public class CILogonExceptionHandler implements ExceptionHandler {
 
     @Override
     public void handleException(Throwable t, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        t.printStackTrace();
+        ServletDebugUtil.error(this, t.getMessage(), t);
         if (t instanceof UserNotFoundException) {
             dbServlet.writeMessage(response, STATUS_USER_NOT_FOUND_ERROR);
             return;
@@ -51,10 +52,9 @@ public class CILogonExceptionHandler implements ExceptionHandler {
         if(t instanceof EPTIDMismatchException){
             dbServlet.writeMessage(response, STATUS_EPTID_MISMATCH);
         }
+        ServletDebugUtil.trace(this,"Got an error of \"" + t.getMessage() + "\", returning generic error code.");
         dbServlet.writeMessage(response, STATUS_INTERNAL_ERROR);
+        // and log it too...
         dbServlet.error("There was an internal error: " + t.getMessage());
-        if (dbServlet.isDebugOn()) {
-            t.printStackTrace();
-        }
     }
 }

@@ -60,14 +60,24 @@ public class CILSQLUserStore extends SQLStore<User> implements UserStore {
         return user;
     }
 
+    /**
+     * This will find the name from the PersonName and, if there is one, return an SQL snippet of the form
+     * <code>key=?</code> to be added to the select statement.
+     * @param personName
+     * @param key
+     * @return
+     */
     protected String selectSnippet(PersonName personName, String key) {
         if (personName == null) return null;
         if (personName.getName() == null || personName.getName().length() == 0) return null;
-        return key + "=?";
+        String out =  key + "=?";
+        ServletDebugUtil.trace(this,"in selectSnippet, snippet = \"" + out + "\"");
+        return out;
     }
 
     @Override
     public Collection<User> get(UserMultiKey userMultiKey, String idP) {
+        ServletDebugUtil.trace(this, "getting user for multi-key=" + userMultiKey + ", and idp=" + idP);
         if (userMultiKey.isTrivial()) throw new UserNotFoundException("Error: no user for trivial identifier");
         // so one of these is ok.
         UserKeys userKeys = (UserKeys) converter.keys;
@@ -113,6 +123,7 @@ public class CILSQLUserStore extends SQLStore<User> implements UserStore {
         }
 
         selectStmt = selectStmt + " AND " + userKeys.idp() + "=?";
+        ServletDebugUtil.trace(this, "select statement=\"" + selectStmt + "\"");
         Connection c = getConnection();
         User user = null;
         ArrayList<User> users = new ArrayList<>();
@@ -131,6 +142,7 @@ public class CILSQLUserStore extends SQLStore<User> implements UserStore {
                 user = create(false);
                 ColumnMap map = rsToMap(rs);
                 populate(map, user);
+                ServletDebugUtil.trace(this,"Adding user = " + user);
                 users.add(user);
             }
             rs.close();
@@ -284,10 +296,10 @@ public class CILSQLUserStore extends SQLStore<User> implements UserStore {
         update(user, false);
     }
 
-    public void update(User user, boolean noNewSerialID) {
-        ServletDebugUtil.trace(this,"user id = " + user.getIdentifierString() + ", serial string=" + user.getSerialString() + ", noNewSerialID=" + noNewSerialID);
+    public void update(User user, boolean keepSerialID) {
+        ServletDebugUtil.trace(this,"user id = " + user.getIdentifierString() + ", serial string=" + user.getSerialString() + ", keepSerialID=" + keepSerialID);
         // Fix for CIL-69: Any changes to the user (IDP, first name, last name, email) must change the serial identifier too.
-        if (!noNewSerialID) {
+        if (!keepSerialID) {
             Identifier serialString = getUserProvider().newIdentifier();
             user.setSerialIdentifier(serialString); // or subsequent calls have wrong serial string!
             ServletDebugUtil.trace(this,"setting serial string for user id = " + user.getIdentifierString() + ", serial string=" + user.getSerialString());
