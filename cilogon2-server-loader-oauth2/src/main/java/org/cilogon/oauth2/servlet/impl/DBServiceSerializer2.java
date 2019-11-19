@@ -5,7 +5,6 @@ import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.clients.OA2Client;
 import edu.uiuc.ncsa.security.core.util.Iso8601;
 import edu.uiuc.ncsa.security.delegation.storage.ClientApprovalKeys;
 import edu.uiuc.ncsa.security.delegation.storage.ClientKeys;
-import org.cilogon.d2.storage.User;
 import org.cilogon.d2.twofactor.TwoFactorSerializationKeys;
 import org.cilogon.d2.util.DBServiceSerializer;
 import org.cilogon.d2.util.IDPKeys;
@@ -54,15 +53,11 @@ public class DBServiceSerializer2 extends DBServiceSerializer {
 
     }
 
-    @Override
+/*    @Override
     protected void doUserSerialization(PrintWriter w, User user) throws IOException {
         super.doUserSerialization(w, user);
         UserKeys uk =  userKeys;
-        print(w, uk.affiliation(), user.getAffiliation());
-        print(w, uk.displayName(), user.getDisplayName());
-        print(w, uk.organizationalUnit(), user.getOrganizationalUnit());
-
-    }
+    }*/
 
     public void serialize(PrintWriter w, OA2ServiceTransaction oa2ServiceTransaction, int statusCode) throws IOException {
         writeMessage(w, statusCode);
