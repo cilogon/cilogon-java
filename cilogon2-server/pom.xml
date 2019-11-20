@@ -5,7 +5,7 @@
     <parent>
         <artifactId>cilogon2</artifactId>
         <groupId>edu.uiuc.ncsa.security</groupId>
-        <version>4.2-SNAPSHOT</version>
+        <version>4.4-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -22,13 +22,13 @@
         <dependency>
             <artifactId>oa4mp-server-api</artifactId>
             <groupId>edu.uiuc.ncsa.myproxy</groupId>
-            <version>4.2-SNAPSHOT</version>
+            <version>4.4-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>edu.uiuc.ncsa.myproxy</groupId>
             <artifactId>myproxy-logon</artifactId>
-            <version>4.2-SNAPSHOT</version>
+            <version>4.4-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>commons-codec</groupId>
@@ -49,7 +49,7 @@
         <dependency>
             <groupId>edu.uiuc.ncsa.security.delegation</groupId>
             <artifactId>ncsa-security-delegation-common</artifactId>
-            <version>4.2-SNAPSHOT</version>
+            <version>4.4-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>net.freeutils</groupId>
@@ -59,14 +59,14 @@
         <dependency>
             <artifactId>ncsa-security-util</artifactId>
             <groupId>edu.uiuc.ncsa.security</groupId>
-            <version>4.2-SNAPSHOT</version>
+            <version>4.4-SNAPSHOT</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
         <dependency>
             <artifactId>ncsa-security-delegation-common</artifactId>
             <groupId>edu.uiuc.ncsa.security.delegation</groupId>
-            <version>4.2-SNAPSHOT</version>
+            <version>4.4-SNAPSHOT</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>

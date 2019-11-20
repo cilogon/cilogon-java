@@ -64,6 +64,7 @@ public class DBService2 extends AbstractDBService {
     public static final int STATUS_NO_REGISTERED_CALLBACKS = 0x1000B;
     public static final int STATUS_UNKNOWN_CLIENT = 0x1000D;
     public static final int STATUS_UNAPPROVED_CLIENT = 0x1000F;
+    public static final int STATUS_NO_SCOPES = 0x10011;
 
 
     @Override
