@@ -1,5 +1,6 @@
 package org.cilogon.d2.storage;
 
+import edu.uiuc.ncsa.security.core.Identifiable;
 import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.Store;
 import edu.uiuc.ncsa.security.storage.data.MapConverter;
@@ -24,7 +25,8 @@ public interface UserStore extends Store<User> {
      * Save the current user but do <b>not</b> change the serial identifier. Note that this circumvents
      * the contract for {@link Store#update(edu.uiuc.ncsa.security.core.Identifiable)} for this interface,
      * which, because of issue CIL-69 requires it in most cases. This is in effect an internal call that
-     * allows for administrative updates.
+     * allows for administrative updates. If <code>noNewSerialID = false</code>, then the effect is the same
+     * as calling {@link #update(Identifiable)} and a new serial id is created.
      *
      * @param noNewSerialID
      */

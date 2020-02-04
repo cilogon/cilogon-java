@@ -1,3 +1,5 @@
 # Created by .ignore support plugin (hsz.mobi)
 libraries/*
 libraries/**
+# Default ignored files
+/workspace.xml

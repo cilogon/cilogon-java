@@ -111,7 +111,7 @@ public class UserClaimSource extends BasicClaimsSourceImpl implements OA2Scopes 
                 claims.put(CERT_SUBJECT_DN, user.getDN((AbstractCILServiceTransaction) t, false));
             } catch (Throwable ttt) {
                 // Should never happen, but just in case...
-                logger.warn("Unable to determine user's DN for user " + user.getIdentifierString() + ". Message is " + ttt.getMessage());
+                logger.info("Unable to determine user's DN for user " + user.getIdentifierString() + ". Message is " + ttt.getMessage());
             }
             claims.put(IDP, user.getIdP());
             claims.put(IDP_NAME, user.getIDPName());

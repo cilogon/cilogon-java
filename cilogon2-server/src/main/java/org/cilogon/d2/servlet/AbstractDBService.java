@@ -134,7 +134,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
 
     @Override
     protected void doIt(HttpServletRequest request, HttpServletResponse response) throws Throwable {
-        ServletDebugUtil.trace(this,"doIt: request = \""+ request.getRequestURL().toString()
+        ServletDebugUtil.trace(this, "doIt: request = \"" + request.getRequestURL().toString()
                 + "\", query = \"" + request.getQueryString() + "\"");
         String action = getParam(request, ACTION_PARAMETER);
         doAction(request, response, action);
@@ -291,44 +291,47 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
 
         x = getParam(request, userKeys.oidc(), true);
         if (!isEmpty(x)) oidc = new OpenIDConnect(x);
-        if(remoteUser!=null && eppn !=null && eptid != null && openid != null && oidc != null){
+        if (remoteUser != null && eppn != null && eptid != null && openid != null && oidc != null) {
             throw new IllegalStateException("Error: Cannot have all ids specified.");
         }
         UserMultiKey names = new UserMultiKey(remoteUser, eppn, eptid, openid, oidc);
         return names;
     }
 
+
+    protected void getUserbyUID(HttpServletRequest request, HttpServletResponse response, String useruidString) throws IOException {
+        Identifier uid = newID(useruidString);
+        try {
+            User user = getUserStore().get(uid);
+            ServletDebugUtil.trace(this, "Got user by id. uid=" + user.getIdentifierString() + ", serial string = " + user.getSerialString());
+
+            TwoFactorInfo tfi = get2FStore().get(uid);
+            writeUser(user, tfi, STATUS_OK, response);
+            return;
+        } catch (UserNotFoundException x) {
+            writeMessage(response, STATUS_USER_NOT_FOUND_ERROR);
+            return;
+        }
+    }
+
+
     protected void getUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
         printAllParameters(request);
-        ServletDebugUtil.trace(this,"staring get user");
+        ServletDebugUtil.trace(this, "starting get user");
         String useruidString = getParam(request, userKeys.identifier(), true);
         // case 1: a user id is supplied. Return information about the user.
         if (useruidString != null) {
-            ServletDebugUtil.trace(this,"user uid string = " + useruidString + ", getting user");
-
-            Identifier uid = newID(useruidString);
-            try {
-                User user = getUserStore().get(uid);
-                ServletDebugUtil.trace(this, "Got user by id. uid=" + user.getIdentifierString() + ", serial string = " + user.getSerialString());
-
-                TwoFactorInfo tfi = get2FStore().get(uid);
-                writeUser(user, tfi, STATUS_OK, response);
-                return;
-            } catch (UserNotFoundException x) {
-                writeMessage(response, STATUS_USER_NOT_FOUND_ERROR);
-                return;
-            }
+            getUserbyUID(request, response, useruidString);
+            return;
         }
 
-        // case 2, use remote user to see if user has been updated or not.
-
-        UserMultiKey names = getNames(request);
-
-        ServletDebugUtil.trace(this,"no user uid. searching for umk:" + names);
         String idp = getParam(request, userKeys.idp());
         if (idp == null || idp.length() == 0) {
             throw new DBServiceException(STATUS_NO_IDENTITY_PROVIDER);
         }
+        UserMultiKey names = getNames(request);
+        ServletDebugUtil.trace(this, "no user uid. multi-id =" + names);
+
         String email = getParam(request, userKeys.email(), true);
         String firstName = getParam(request, userKeys.firstName(), true);
         String lastName = getParam(request, userKeys.lastName(), true);
@@ -341,12 +344,57 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
 
         String useUSinDNString = getParam(request, userKeys.useUSinDN(), true);
         Boolean useUSinDN = parseUseUSinDNString(useUSinDNString);
-        if(useUSinDNString == null) {
+        if (useUSinDNString == null) {
             getMyLogger().warn("No us_idp flag set for this request, assuming IDP is US");
             useUSinDN = Boolean.TRUE;
         }
+
+        if (!names.isTrivial()) {
+            // CIL-540
+            // case 1.5 -- if the request has IDP and one of eptid, eppn or oidc, then this is sufficient to identify the user.
+
+            try {
+                User user = findUser(names, idp);
+                // if found
+                updateUser(user,
+                        response,
+                        idp,
+                        email,
+                        firstName,
+                        lastName,
+                        idpDisplayName,
+                        names,
+                        affiliation,
+                        attr_json,
+                        displayName,
+                        organizationalUnit,
+                        useUSinDN);
+
+            } catch (UserNotFoundException unf) {
+                // user has been uniquely identified. Make a new user and populate the object with whatever
+                // was sent. There is no requirement for anything else.
+                makeNewUser(response,
+                        idp,
+                        email,
+                        firstName,
+                        lastName,
+                        idpDisplayName,
+                        names,
+                        affiliation,
+                        attr_json,
+                        displayName,
+                        organizationalUnit,
+                        useUSinDN);
+            }
+            return;
+        }
+
+
+        // case 2, use remote user to see if user has been updated or not.
+
+
         if (isEmpty(idpDisplayName) && isEmpty(firstName) && isEmpty(lastName) && isEmpty(email)) {
-            ServletDebugUtil.trace(this,"Some value is empty, finding user by umk and idp");
+            ServletDebugUtil.trace(this, "Some value is empty, finding user by umk and idp");
 
             try {
                 User user = findUser(names, idp);
@@ -354,53 +402,37 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
                 user.setUseUSinDN(useUSinDN);
 
                 TwoFactorInfo tfi = get2FStore().get(user.getIdentifier());
-                ServletDebugUtil.trace(this,"found user " + user);
-                if(user.isUseUSinDN()!=useUSinDN) {
-                    ServletDebugUtil.trace(this,"saving user");
+                ServletDebugUtil.trace(this, "found user " + user);
+                if (user.isUseUSinDN() != useUSinDN) {
+                    ServletDebugUtil.trace(this, "saving user");
                     // only actually save this if this changes.
                     getUserStore().save(user);
-                    ServletDebugUtil.trace(this,"user after save = "+ user);
+                    ServletDebugUtil.trace(this, "user after save = " + user);
                 }
 
                 writeUser(user, tfi, STATUS_OK, response);
                 return;
             } catch (UserNotFoundException x) {
-                ServletDebugUtil.trace(this,"No user found, creating a new user");
-
-                // spec says to create a new user if none is found for the given identifier.
-                User user = getUserStore().create(true);
-                ServletDebugUtil.trace(this,"created user " + user);
-
-                if (affiliation != null) {
-                    user.setAffiliation(affiliation);
-                }
-                if (displayName != null) {
-                    user.setDisplayName(displayName);
-                }
-                if (organizationalUnit != null) {
-                    user.setOrganizationalUnit(organizationalUnit);
-                }
-
-                if(!isEmpty(attr_json)){
-                    user.setAttr_json(attr_json);
-                }
-                user.setUserMultiKey(names);
-                user.setIdP(idp);
-                user.setUseUSinDN(useUSinDN);
-
-                getUserStore().save(user);
-                ServletDebugUtil.trace(this,"saved user " + user);
-                writeUser(user, null, STATUS_OK, response);
+                makeNewUser(response, idp,
+                        email,
+                        firstName,
+                        lastName,
+                        idpDisplayName,
+                        names, affiliation,
+                        attr_json,
+                        displayName,
+                        organizationalUnit,
+                        useUSinDN);
                 return;
             }
         }
         try {
             // check that the user is valid and if something has changed, archive the user's old information.
             // user id's are immutable, so this will not create a new one, though it will create a new archived user id.
-            ServletDebugUtil.trace(this,"Checking and maybe archiving user");
-           if(firstName == null){
-               System.err.println("got a null first name");
-           }
+            ServletDebugUtil.trace(this, "Checking and maybe archiving user");
+            if (firstName == null) {
+                System.err.println("got a null first name");
+            }
             checkAndArchiveUser(response,
                     names,
                     idp,
@@ -416,7 +448,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
         } catch (UserNotFoundException unfx) {
 
             // case 3: no such user, create one.
-            ServletDebugUtil.trace(this,"'case 3' no user found so searching for id to create one");
+            ServletDebugUtil.trace(this, "'case 3' no user found so searching for id to create one");
 
             info("WRITING NEW USER");
             User user3 = null;
@@ -437,10 +469,10 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
                             organizationalUnit);
                     user3.setUseUSinDN(useUSinDN);
                     user3.setAttr_json(attr_json);
-                    ServletDebugUtil.trace(this,"created user " + user3);
+                    ServletDebugUtil.trace(this, "created user " + user3);
 
                     //CIL-503 fix:
-                    getUserStore().update(user3,true);
+                    getUserStore().update(user3, true);
                     gotOne = true;
                 } catch (InvalidUserIdException iuidx) {
                     // keep retying.
@@ -458,6 +490,114 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
             writeUser(user3, tfi, STATUS_NEW_USER, response);
             info("DONE WRITING NEW USER, ID = " + user3.getIdentifier());
         }
+    }
+
+    /**
+     * Populates a user object and saves it. It takes more time to check if fields are set than to just save
+     * it every time.
+     *
+     * @param user
+     * @param response
+     * @param idp
+     * @param names
+     * @param affiliation
+     * @param attr_json
+     * @param displayName
+     * @param organizationalUnit
+     * @param useUSinDN
+     * @throws IOException
+     */
+    private void updateUser(User user,
+                            HttpServletResponse response,
+                            String idp,
+                            String email,
+                            String firstName,
+                            String lastName,
+                            String idpDisplayName,
+                            UserMultiKey names,
+                            String affiliation,
+                            String attr_json,
+                            String displayName,
+                            String organizationalUnit,
+                            Boolean useUSinDN) throws IOException {
+        boolean keepSerialID = true; // default for no serious updates.
+        if (email != null) {
+            user.setEmail(email);
+        }
+        if (firstName != null) {
+            user.setFirstName(firstName);
+        }
+        if (lastName != null) {
+            user.setLastName(lastName);
+        }
+        if (idpDisplayName != null) {
+            user.setIDPName(idpDisplayName);
+        }
+        if (affiliation != null) {
+            user.setAffiliation(affiliation);
+        }
+        if (displayName != null) {
+            user.setDisplayName(displayName);
+        }
+        if (organizationalUnit != null) {
+            user.setOrganizationalUnit(organizationalUnit);
+        }
+
+        if (!isEmpty(attr_json)) {
+            user.setAttr_json(attr_json);
+        }
+        user.setUserMultiKey(names);
+        user.setIdP(idp);
+        user.setUseUSinDN(useUSinDN);
+        getUserStore().update(user, true); // force that there is no new serial string produced.
+
+        //getUserStore().save(user);
+        ServletDebugUtil.trace(this, "saved user " + user);
+        writeUser(user, null, STATUS_OK, response);
+    }
+
+    /**
+     * Create a new user in the store and populate the object.
+     *
+     * @param response
+     * @param idp
+     * @param names
+     * @param affiliation
+     * @param attr_json
+     * @param displayName
+     * @param organizationalUnit
+     * @param useUSinDN
+     * @throws IOException
+     */
+    private void makeNewUser(HttpServletResponse response, String idp,
+                             String email,
+                             String firstName,
+                             String lastName,
+                             String idpDisplayName,
+                             UserMultiKey names,
+                             String affiliation,
+                             String attr_json,
+                             String displayName,
+                             String organizationalUnit,
+                             Boolean useUSinDN) throws IOException {
+        ServletDebugUtil.trace(this, "No user found, creating a new user");
+
+        // spec says to create a new user if none is found for the given identifier.
+        User user = getUserStore().create(true);
+        ServletDebugUtil.trace(this, "created user " + user);
+        updateUser(user,
+                response,
+                idp,
+                email,
+                firstName,
+                lastName,
+                idpDisplayName,
+                names,
+                affiliation,
+                attr_json,
+                displayName,
+                organizationalUnit,
+                useUSinDN);
     }
 
 
@@ -519,17 +659,17 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
      */
     public void getPortalParameter(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         AuthorizationGrant ag = getTokenForge().getAuthorizationGrant(getParam(request, getServiceEnvironment().getConstants().get(ServiceConstantKeys.TOKEN_KEY)), null);
-        if(ag == null){
+        if (ag == null) {
             getMyLogger().warn("No token found. Cannot retrieve transaction");
             throw new DBServiceException(STATUS_TRANSACTION_NOT_FOUND);
         }
         try {
             DateUtils.checkTimestamp(ag.getToken());
-        }catch(Throwable t){
+        } catch (Throwable t) {
             getMyLogger().warn("Expired or bad token.");
             throw new DBServiceException(STATUS_TRANSACTION_NOT_FOUND);
         }
-        ServiceTransaction t =  getTransaction(ag);
+        ServiceTransaction t = getTransaction(ag);
         if (t == null) {
             getMyLogger().warn("Did not find portal parameters for transaction w/token =" + ag);
             throw new DBServiceException(STATUS_TRANSACTION_NOT_FOUND);
@@ -649,7 +789,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
         if (useUSinDNString != null) {
             user.setUseUSinDN(parseUseUSinDNString(useUSinDNString));
         }
-        getUserStore().update(user,true);
+        getUserStore().update(user, true);
         ServletDebugUtil.trace(this, "stored user. uid=" + user.getIdentifierString() + ", serial string = " + user.getSerialString());
 
         writeUser(user, STATUS_NEW_USER, response);
@@ -816,7 +956,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
                                        String memberOf) throws IOException {
 
         User oldUser = findUser(userMultiKey, idp);
-        ServletDebugUtil.trace(this,"get&Archive: found user=" + oldUser);
+        ServletDebugUtil.trace(this, "get&Archive: found user=" + oldUser);
         TwoFactorInfo tfi = get2FStore().get(oldUser.getIdentifier());
         if (oldUser.compare(idpDisplayName, firstName, lastName, email)) {
             info("No change to user \"" + oldUser.getIdentifier() + "\", returning");
@@ -846,7 +986,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
                 saveUser = true;
             }
             if (saveUser) {
-                ServletDebugUtil.trace(this,"get&Archive: Saving user, no update");
+                ServletDebugUtil.trace(this, "get&Archive: Saving user, no update");
 
                 getUserStore().update(oldUser, true); // force that there is no new serial string produced.
             }
@@ -854,11 +994,11 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
             return;
         }
         info("Archiving user \"" + oldUser.getIdentifier() + "\", returning");
-        ServletDebugUtil.trace(this,"get&Archive: archiving user");
+        ServletDebugUtil.trace(this, "get&Archive: archiving user");
 
 
         getArchivedUserStore().archiveUser(oldUser.getIdentifier());
-        ServletDebugUtil.trace(this,"get&Archive: after archiving user " + oldUser);
+        ServletDebugUtil.trace(this, "get&Archive: after archiving user " + oldUser);
 
         // Now update to the new values and save it.
         oldUser.setIDPName(idpDisplayName);
@@ -871,11 +1011,11 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
         if (useUSinDN != null) {
             oldUser.setUseUSinDN(useUSinDN);
         }
-        if(!isEmpty(memberOf)){
+        if (!isEmpty(memberOf)) {
             oldUser.setAttr_json(memberOf);
         }
         getUserStore().update(oldUser);
-        ServletDebugUtil.trace(this,"get&Archive: updated user =" + oldUser);
+        ServletDebugUtil.trace(this, "get&Archive: updated user =" + oldUser);
 
 
         writeUser(oldUser, tfi, STATUS_USER_UPDATED, response);
@@ -1064,7 +1204,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
      * @throws IOException
      */
     protected void writeMessage(HttpServletResponse response, int statusCode) throws IOException {
-        if(statusCode != STATUS_OK) {
+        if (statusCode != STATUS_OK) {
             // track in debugging when a non-succes is returned.
             ServletDebugUtil.trace(this, "Serializing error of " + statusCode + " (0x" + Long.toHexString(statusCode).toUpperCase() + ")");
         }
