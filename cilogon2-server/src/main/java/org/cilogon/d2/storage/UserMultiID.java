@@ -13,7 +13,7 @@ import java.util.Iterator;
  * <p>Created by Jeff Gaynor<br>
  * on 5/6/14 at  9:32 AM
  */
-public class UserMultiKey implements Iterable<PersonName>, Serializable {
+public class UserMultiID implements Iterable<PersonName>, Serializable {
     EduPersonPrincipleName eppn;
     EduPersonTargetedID eptid;
     OpenID openID;
@@ -39,35 +39,36 @@ public class UserMultiKey implements Iterable<PersonName>, Serializable {
     }
 
 
-    public UserMultiKey(RemoteUserName remoteUserName) {
+    public UserMultiID(RemoteUserName remoteUserName) {
         this(remoteUserName, null, null, null, null);
     }
 
-    public UserMultiKey(EduPersonPrincipleName eppn) {
+    public UserMultiID(EduPersonPrincipleName eppn) {
         this(null, eppn, null, null, null);
     }
 
-    public UserMultiKey(EduPersonTargetedID eptid) {
-        this(null, null, eptid, null,null);
+    public UserMultiID(EduPersonTargetedID eptid) {
+        this(null, null, eptid, null, null);
     }
 
-    public UserMultiKey(OpenID openID) {
+    public UserMultiID(OpenID openID) {
         this(null, null, null, openID, null);
     }
 
-    public UserMultiKey(OpenID openID, OpenIDConnect openIDConnect) {
-          this(null, null, null, openID, openIDConnect);
-      }
+    public UserMultiID(OpenID openID, OpenIDConnect openIDConnect) {
+        this(null, null, null, openID, openIDConnect);
+    }
 
-    public UserMultiKey(OpenIDConnect openIDConnect) {
+    public UserMultiID(OpenIDConnect openIDConnect) {
         this(null, null, null, null, openIDConnect);
     }
 
-    public UserMultiKey( EduPersonPrincipleName eppn, EduPersonTargetedID eptid) {
-      this(null,eppn,eptid,null, null);
+    public UserMultiID(EduPersonPrincipleName eppn, EduPersonTargetedID eptid) {
+        this(null, eppn, eptid, null, null);
     }
-    public UserMultiKey(RemoteUserName remoteUserName, EduPersonPrincipleName eppn, EduPersonTargetedID eptid, OpenID openID,
-                        OpenIDConnect openIDConnect) {
+
+    public UserMultiID(RemoteUserName remoteUserName, EduPersonPrincipleName eppn, EduPersonTargetedID eptid, OpenID openID,
+                       OpenIDConnect openIDConnect) {
         this.eppn = eppn;
         this.eptid = eptid;
         this.openID = openID;
@@ -133,15 +134,15 @@ public class UserMultiKey implements Iterable<PersonName>, Serializable {
     }
 
     protected boolean checkEquals(PersonName p1, PersonName p2) {
-        if(p1 == null){
-            if(p2!=null && (p2.getName()==null || p2.getName().equals(""))){
-                 return true;
+        if (p1 == null) {
+            if (p2 != null && (p2.getName() == null || p2.getName().equals(""))) {
+                return true;
             }
             return false;
         }
-        if(p2 == null){
-            if(p1!=null && (p1.getName()==null || p1.getName().equals(""))){
-                 return true;
+        if (p2 == null) {
+            if (p1 != null && (p1.getName() == null || p1.getName().equals(""))) {
+                return true;
             }
             return false;
         }
@@ -154,14 +155,94 @@ public class UserMultiKey implements Iterable<PersonName>, Serializable {
     @Override
     public boolean equals(Object obj) {
         if (obj == null) return false;
-        if (!(obj instanceof UserMultiKey)) return false;
-        UserMultiKey umk = (UserMultiKey) obj;
+        if (!(obj instanceof UserMultiID)) return false;
+        UserMultiID umk = (UserMultiID) obj;
         if (!checkEquals(getRemoteUserName(), umk.getRemoteUserName())) return false;
         if (!checkEquals(getEppn(), umk.getEppn())) return false;
         if (!checkEquals(getEptid(), umk.getEptid())) return false;
         if (!checkEquals(getOpenID(), umk.getOpenID())) return false;
         if (!checkEquals(getOpenIDConnect(), umk.getOpenIDConnect())) return false;
         return true;
+    }
+
+    private UserMultiID() {
+    }
+
+    String which(PersonName oldName, PersonName newName) {
+        String x = null;
+        if (oldName != null) {
+            x = oldName.getName();
+        }
+        String newValue = null;
+        if (newName != null) {
+            newValue = newName.getName();
+        }
+        if (x == null) {
+            if (newValue == null) {
+                return null;
+            } else {
+                return newValue;
+            }
+        } else {
+            if (newValue == null) {
+                return x;
+            } else {
+                // What this means is that a new value can replace an old one as an update.
+                return newValue;
+            }
+        }
+    }
+
+    public boolean keepSerialString(UserMultiID newID) {
+        // these are done in order because there e.g. eppn is immutable, but eptid is not.
+        // ALSO in the DBService there is a userLogic call that is invoke for the findUser function
+        // that ferrets oout edge cases and throws exceptions, so by assumption, this has been checked and is
+        // sane at this point and we only have to determine if something changed. 
+        if (hasEPPN() && !getEppn().equals(newID.getEppn())) return false;
+        if (!hasEPPN() && hasEPTID() && !getEptid().equals(newID.getEptid())) return false; // eppn unchanged, eptid can change.
+//        if (hasOpenID() && !getOpenID().equals(newID.getOpenID())) return false;
+  //      if (hasRemoteUser() && !getRemoteUserName().equals(newID.getRemoteUserName())) return false;
+
+        return true;
+    }
+
+    /**
+     * Centralizing checking if a newid should update this. This can be a rat's nest since we may effectively
+     * get multiple user names with different calls.
+     *
+     * @param newid
+     * @return
+     */
+    public UserMultiID union(UserMultiID newid) {
+
+        UserMultiID out = new UserMultiID();
+        String v = which(getRemoteUserName(), newid.getRemoteUserName());
+        if (v != null) {
+            RemoteUserName r = new RemoteUserName(v);
+            out.setRemoteUserName(r);
+        }
+        v = which(getEppn(), newid.getEppn());
+        if (v != null) {
+            EduPersonPrincipleName eppn = new EduPersonPrincipleName(v);
+            out.setEppn(eppn);
+        }
+        v = which(getEptid(), newid.getEptid());
+        if (v != null) {
+            EduPersonTargetedID eptid = new EduPersonTargetedID(v);
+            out.setEptid(eptid);
+        }
+        v = which(getOpenID(), newid.getOpenID());
+        if (v != null) {
+            OpenID openID = new OpenID(v);
+            out.setOpenID(openID);
+        }
+        v = which(getOpenIDConnect(), newid.getOpenIDConnect());
+        if (v != null) {
+            OpenIDConnect openIDConnect = new OpenIDConnect(v);
+            out.setOpenIDConnect(openIDConnect);
+        }
+
+        return out;
     }
 
     public boolean hasEPPN() {

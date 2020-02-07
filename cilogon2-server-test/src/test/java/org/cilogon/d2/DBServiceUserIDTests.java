@@ -6,8 +6,7 @@ import net.sf.json.JSONObject;
 import org.cilogon.d2.storage.EduPersonPrincipleName;
 import org.cilogon.d2.storage.RemoteUserName;
 import org.cilogon.d2.storage.User;
-import org.cilogon.d2.storage.UserMultiKey;
-import org.cilogon.d2.storage.impl.mysql.MySQLSequence;
+import org.cilogon.d2.storage.UserMultiID;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -27,10 +26,10 @@ public class DBServiceUserIDTests extends RemoteDBServiceTest {
     @Test
     public void testEPPN() throws Exception {
         // Get a set of keys.
-        UserMultiKey umk = createUMK();
+        UserMultiID umk = createUMK();
 
         User user = newUser();
-        UserMultiKey newUmk = new UserMultiKey(umk.getEppn());
+        UserMultiID newUmk = new UserMultiID(umk.getEppn());
         user.setUserMultiKey(newUmk);
         getUserStore().save(user);
         Collection<User> users = getUserStore().get(newUmk, user.getIdP());
@@ -44,10 +43,10 @@ public class DBServiceUserIDTests extends RemoteDBServiceTest {
     @Test
     public void testEPTID() throws Exception {
         // Get a set of keys.
-        UserMultiKey umk = createUMK();
+        UserMultiID umk = createUMK();
 
         User user = newUser();
-        UserMultiKey newUmk = new UserMultiKey(umk.getEptid());
+        UserMultiID newUmk = new UserMultiID(umk.getEptid());
         user.setUserMultiKey(newUmk);
         getUserStore().save(user);
         Collection<User> users = getUserStore().get(newUmk, user.getIdP());
@@ -61,16 +60,16 @@ public class DBServiceUserIDTests extends RemoteDBServiceTest {
     @Test
     public void testEPTID2() throws Exception {
         // Get a set of keys.
-        UserMultiKey umk = createUMK();
+        UserMultiID umk = createUMK();
         RemoteUserName ru = umk.getRemoteUserName();
         User user = newUser(); //saved
-        UserMultiKey eptid = new UserMultiKey(umk.getEptid());
-        user.setUserMultiKey(new UserMultiKey(ru));
+        UserMultiID eptid = new UserMultiID(umk.getEptid());
+        user.setUserMultiKey(new UserMultiID(ru));
         getUserStore().save(user);
         // This puts a new user with a remote user fireld (legacy case) in the store. Now we try and get the user
         // with *both* the remote user and an eptid
 
-        user.setUserMultiKey(new UserMultiKey(ru, null, eptid.getEptid(), null, null));
+        user.setUserMultiKey(new UserMultiID(ru, null, eptid.getEptid(), null, null));
         XMLMap userMap = getDBSClient().getUser(user);
         Collection<User> users = getUserStore().get(eptid, user.getIdP());
         assert users.size() == 1 : "Incorrect number of users found. Expected one and got " + users.size();
@@ -86,10 +85,10 @@ public class DBServiceUserIDTests extends RemoteDBServiceTest {
     @Test
     public void testOpenID() throws Exception {
         // Get a set of keys.
-        UserMultiKey umk = createUMK();
+        UserMultiID umk = createUMK();
 
         User user = newUser();
-        UserMultiKey newUmk = new UserMultiKey(umk.getOpenID());
+        UserMultiID newUmk = new UserMultiID(umk.getOpenID());
         user.setUserMultiKey(newUmk);
         getUserStore().save(user);
         Collection<User> users = getUserStore().get(newUmk, user.getIdP());
@@ -103,10 +102,10 @@ public class DBServiceUserIDTests extends RemoteDBServiceTest {
     @Test
     public void testOpenIDConnect() throws Exception {
         // Get a set of keys.
-        UserMultiKey umk = createUMK();
+        UserMultiID umk = createUMK();
 
         User user = newUser();
-        UserMultiKey newUmk = new UserMultiKey(umk.getOpenIDConnect());
+        UserMultiID newUmk = new UserMultiID(umk.getOpenIDConnect());
         user.setUserMultiKey(newUmk);
         getUserStore().save(user);
         Collection<User> users = getUserStore().get(newUmk, user.getIdP());
@@ -125,9 +124,9 @@ public class DBServiceUserIDTests extends RemoteDBServiceTest {
 
     @Test
     public void testEPPNThenTwo() throws Exception {
-        UserMultiKey umk = createUMK(getRandomString());
-        UserMultiKey eppnKey = new UserMultiKey(umk.getEppn());
-        UserMultiKey umk2 = new UserMultiKey(umk.getEppn(), umk.getEptid());
+        UserMultiID umk = createUMK(getRandomString());
+        UserMultiID eppnKey = new UserMultiID(umk.getEppn());
+        UserMultiID umk2 = new UserMultiID(umk.getEppn(), umk.getEptid());
         User user = testOneThenTwoIds(eppnKey, umk2);
         user = getUserStore().get(user.getIdentifier());
         assert user.getePPN().equals(umk2.getEppn());
@@ -137,9 +136,9 @@ public class DBServiceUserIDTests extends RemoteDBServiceTest {
 
     @Test
     public void testOpenIDThenTwo() throws Exception {
-        UserMultiKey umk = createUMK(getRandomString());
-        UserMultiKey eppnKey = new UserMultiKey(umk.getOpenID());
-        UserMultiKey umk2 = new UserMultiKey(umk.getOpenID(), umk.getOpenIDConnect());
+        UserMultiID umk = createUMK(getRandomString());
+        UserMultiID eppnKey = new UserMultiID(umk.getOpenID());
+        UserMultiID umk2 = new UserMultiID(umk.getOpenID(), umk.getOpenIDConnect());
         User user = testOneThenTwoIds(eppnKey, umk2);
         user = getUserStore().get(user.getIdentifier());
         assert user.getOpenID().equals(umk2.getOpenID());
@@ -164,42 +163,31 @@ public class DBServiceUserIDTests extends RemoteDBServiceTest {
      * @param umk2
      * @throws Exception
      */
-    public User testOneThenTwoIds(UserMultiKey key1, UserMultiKey umk2) throws Exception {
+    public User testOneThenTwoIds(UserMultiID key1, UserMultiID umk2) throws Exception {
         User user = newUser();
-        System.err.println("testOneThenTwoIds: user for id = " + user.getIdentifierString() + ", serial string = " + user.getSerialString());
         printUserNice("testOneThenTwoIds:", user);
-        MySQLSequence.printit = true;
         user.setUserMultiKey(key1);
         getUserStore().update(user,true); // otherwise the next step returns a different user id.
-        System.err.println("testOneThenTwoIds POST SAVE: user id = " + user.getIdentifierString() + ", serial string = " + user.getSerialString());
 
         XMLMap map = getDBSClient().getUser(user.getUserMultiKey(),
                 user.getIdP(), user.getIDPName(), user.getFirstName(), user.getLastName(), user.getEmail(),
                 user.getAffiliation(),
                 user.getDisplayName(),
                 user.getOrganizationalUnit());
-        System.err.println("testOneThenTwoIds After get with one id: " + map.get("user_uid") + ", serial string = " + map.get("serial_string"));
         JSONObject jsonObject = new JSONObject();
          jsonObject.putAll(map);
-         System.err.println("testOneThenTwoIds:\n" + jsonObject.toString(2));
 
         checkUserAgainstMap(map, user);
         // now re-get with both the first and second key
         map = getDBSClient().getUser(umk2, user.getIdP());
-        System.err.println("testOneThenTwoIds GOT MAP by umk: = " + map.get("user_uid") + ", serial string = " + map.get("serial_string"));
 
         user.setUserMultiKey(umk2);
-        MySQLSequence.printit = false;
 
         checkUserAgainstMap(map, user);
         // final bit of this is to check that giving just first key in the future will return the right user.
         map = getDBSClient().getUser(key1, user.getIdP());
-        System.err.println("testOneThenTwoIds: After getting with 2 ids = " + user.getIdentifierString() + ", serial string = " + user.getSerialString());
         jsonObject = new JSONObject();
         jsonObject.putAll(map);
-        System.err.println("testOneThenTwoIds:\n" + jsonObject.toString(2));
-
-        // user.setUserMultiKey(key1);
         checkUserAgainstMap(map, user);
         return user;
     }
@@ -212,8 +200,8 @@ public class DBServiceUserIDTests extends RemoteDBServiceTest {
      */
     @Test
     public void testEPTIDThenTwo() throws Exception {
-        UserMultiKey umk = createUMK();
-        UserMultiKey eptidKey = new UserMultiKey(umk.getEptid());
+        UserMultiID umk = createUMK();
+        UserMultiID eptidKey = new UserMultiID(umk.getEptid());
         User user = newUser();
         user.setUserMultiKey(eptidKey);
         getUserStore().update(user,true); // otherwise the next step returns a different user id.
@@ -229,7 +217,7 @@ public class DBServiceUserIDTests extends RemoteDBServiceTest {
 
         checkUserAgainstMap(map, user);
         // now reget with both eppn and eptid
-        UserMultiKey umk2 = new UserMultiKey(umk.getEppn(), umk.getEptid());
+        UserMultiID umk2 = new UserMultiID(umk.getEppn(), umk.getEptid());
         map = getDBSClient().getUser(umk2, user.getIdP());
         // Backend regression check
         User user2 = getUserStore().get(user.getIdentifier());
@@ -252,17 +240,17 @@ public class DBServiceUserIDTests extends RemoteDBServiceTest {
     @Test
     public void testTwoIDs() throws Exception {
         // Get a set of keys.
-        UserMultiKey umk = createUMK();
+        UserMultiID umk = createUMK();
 
         User user = newUser();
-        UserMultiKey newUmk = new UserMultiKey(umk.getEppn(), umk.getEptid());
+        UserMultiID newUmk = new UserMultiID(umk.getEppn(), umk.getEptid());
         user.setUserMultiKey(newUmk);
         getUserStore().save(user);
         Collection<User> users = getUserStore().get(newUmk, user.getIdP());
         assert users.size() == 1 : "Incorrect number of users found. Expected one and got " + users.size();
         assert user.equals(users.iterator().next());
         // Now reget with just EPTID. Since that is globally unique, this should always work.
-        UserMultiKey newUmk2 = new UserMultiKey(umk.getEptid());
+        UserMultiID newUmk2 = new UserMultiID(umk.getEptid());
         users = getUserStore().get(newUmk2, user.getIdP());
         assert users.size() == 1 : "Incorrect number of users found. Expected one and got " + users.size();
         assert user.equals(users.iterator().next());
@@ -281,7 +269,7 @@ public class DBServiceUserIDTests extends RemoteDBServiceTest {
     @Test
     public void testSameEPPNs() throws Exception {
         // Get a set of keys.
-        ArrayList<UserMultiKey> umks = new ArrayList<>();
+        ArrayList<UserMultiID> umks = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             umks.add(createUMK());
         }
@@ -295,7 +283,7 @@ public class DBServiceUserIDTests extends RemoteDBServiceTest {
             newUsers.add(user);
 
             // all have the same EPPN, but different eptids
-            UserMultiKey newUmk = new UserMultiKey(umks.get(0).getEppn(), umks.get(i).getEptid());
+            UserMultiID newUmk = new UserMultiID(umks.get(0).getEppn(), umks.get(i).getEptid());
             Date date = new Date(currentTime - (i + 1) * oneYear); // have these spaced one year apart.
             user.setCreationTime(date);
             user.setUserMultiKey(newUmk);
@@ -303,7 +291,7 @@ public class DBServiceUserIDTests extends RemoteDBServiceTest {
             user = newUser();
             user.setIdP(idp);
         }
-        UserMultiKey newUmk = new UserMultiKey(umks.get(0).getEppn());
+        UserMultiID newUmk = new UserMultiID(umks.get(0).getEppn());
 
         Collection<User> users = getUserStore().get(newUmk, idp);
 
@@ -321,14 +309,14 @@ public class DBServiceUserIDTests extends RemoteDBServiceTest {
     @Test
     public void testEPTIDWins() throws Exception {
         // Get a set of keys.
-        UserMultiKey umk = createUMK();
+        UserMultiID umk = createUMK();
 
         User user = newUser();
-        UserMultiKey newUmk = new UserMultiKey(umk.getEppn(), umk.getEptid());
+        UserMultiID newUmk = new UserMultiID(umk.getEppn(), umk.getEptid());
         user.setUserMultiKey(newUmk);
         getUserStore().save(user);
-        UserMultiKey umkNoEPPN = new UserMultiKey(umk.getEptid());
-        UserMultiKey umkNewEPPN = new UserMultiKey(new EduPersonPrincipleName("eppn:" + getRandomString()), umk.getEptid());
+        UserMultiID umkNoEPPN = new UserMultiID(umk.getEptid());
+        UserMultiID umkNewEPPN = new UserMultiID(new EduPersonPrincipleName("eppn:" + getRandomString()), umk.getEptid());
 
         Collection<User> users = getUserStore().get(umkNoEPPN, user.getIdP());
         assert users.size() == 1 : "Incorrect number of users found. Expected one and got " + users.size();
@@ -350,7 +338,7 @@ public class DBServiceUserIDTests extends RemoteDBServiceTest {
      */
     @Test
     public void testAll() throws Exception {
-        UserMultiKey umk = createUMK();
+        UserMultiID umk = createUMK();
         User user = newUser();
         user.setUserMultiKey(umk);
         // First, try and save it
@@ -390,12 +378,12 @@ public class DBServiceUserIDTests extends RemoteDBServiceTest {
      */
     @Test
     public void testKeyUniqueness() throws Exception {
-        UserMultiKey umk = createUMK();
-        UserMultiKey eppnKey = new UserMultiKey(umk.getEppn());
-        UserMultiKey eptidKey = new UserMultiKey(umk.getEptid());
-        UserMultiKey openIdKey = new UserMultiKey(umk.getOpenID());
-        UserMultiKey openIdConnectKey = new UserMultiKey(umk.getOpenIDConnect());
-        UserMultiKey ruKey = new UserMultiKey(umk.getRemoteUserName());
+        UserMultiID umk = createUMK();
+        UserMultiID eppnKey = new UserMultiID(umk.getEppn());
+        UserMultiID eptidKey = new UserMultiID(umk.getEptid());
+        UserMultiID openIdKey = new UserMultiID(umk.getOpenID());
+        UserMultiID openIdConnectKey = new UserMultiID(umk.getOpenIDConnect());
+        UserMultiID ruKey = new UserMultiID(umk.getRemoteUserName());
 
         String otherIDP = "idp:other:" + getRandomString();
         checkIDPUniqueness(eppnKey, otherIDP);
@@ -416,7 +404,7 @@ public class DBServiceUserIDTests extends RemoteDBServiceTest {
     }
 
     // used only in previous method
-    private void checkIDPUniqueness(UserMultiKey eppnKey, String otherIDP) throws Exception {
+    private void checkIDPUniqueness(UserMultiID eppnKey, String otherIDP) throws Exception {
         User eppnUser = newUser();
         eppnUser.setUserMultiKey(eppnKey);
         getUserStore().save(eppnUser);
@@ -438,12 +426,12 @@ public class DBServiceUserIDTests extends RemoteDBServiceTest {
      */
     @Test
     public void testIDPChange() throws Exception {
-        UserMultiKey umk = createUMK();
-        UserMultiKey eppnKey = new UserMultiKey(umk.getEppn());
-        UserMultiKey eptidKey = new UserMultiKey(umk.getEptid());
-        UserMultiKey openIdKey = new UserMultiKey(umk.getOpenID());
-        UserMultiKey openIdConnectKey = new UserMultiKey(umk.getOpenIDConnect());
-        UserMultiKey ruKey = new UserMultiKey(umk.getRemoteUserName());
+        UserMultiID umk = createUMK();
+        UserMultiID eppnKey = new UserMultiID(umk.getEppn());
+        UserMultiID eptidKey = new UserMultiID(umk.getEptid());
+        UserMultiID openIdKey = new UserMultiID(umk.getOpenID());
+        UserMultiID openIdConnectKey = new UserMultiID(umk.getOpenIDConnect());
+        UserMultiID ruKey = new UserMultiID(umk.getRemoteUserName());
 
         String badIdp = "fake:idp";
         // now we save a user with the right id, then try to get it with a different idp.
@@ -455,7 +443,7 @@ public class DBServiceUserIDTests extends RemoteDBServiceTest {
     }
 
     // useronly in previous method.
-    private void checkGetUser(UserMultiKey key, String badIdp) throws Exception {
+    private void checkGetUser(UserMultiID key, String badIdp) throws Exception {
         User user = newUser();
         user.setUserMultiKey(key);
         getUserStore().save(user);
@@ -474,8 +462,8 @@ public class DBServiceUserIDTests extends RemoteDBServiceTest {
      */
     @Test
     public void testGetArchiveUser() throws Exception {
-        UserMultiKey umk = createUMK();
-        UserMultiKey ruKey = new UserMultiKey(umk.getRemoteUserName());
+        UserMultiID umk = createUMK();
+        UserMultiID ruKey = new UserMultiID(umk.getRemoteUserName());
 
         User user = newUser();
         user.setUserMultiKey(ruKey);
@@ -491,7 +479,7 @@ public class DBServiceUserIDTests extends RemoteDBServiceTest {
         // check equality will always fail.
 
         // Now we are ready to actually check this user.
-        String x = getRandomString();
+         String x = getRandomString();
         User referenceUser =  user.clone(); // so we can check it did get archived right later
         user.setLastName("last-" + x);
         user.setFirstName("first-" + x);

@@ -16,7 +16,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.cilogon.d2.servlet.AbstractDBService;
 import org.cilogon.d2.storage.IdentityProvider;
 import org.cilogon.d2.storage.User;
-import org.cilogon.d2.storage.UserMultiKey;
+import org.cilogon.d2.storage.UserMultiID;
 import org.cilogon.d2.twofactor.TwoFactorInfo;
 import org.cilogon.d2.twofactor.TwoFactorSerializationKeys;
 
@@ -137,7 +137,7 @@ public class DBServiceClient {
 
     DBServiceSerializer serializer;
 
-    public XMLMap getUser(UserMultiKey umk, String idp) {
+    public XMLMap getUser(UserMultiID umk, String idp) {
         return doGet(AbstractDBService.GET_USER, createUserRequest(umk, idp));
     }
 
@@ -166,7 +166,7 @@ public class DBServiceClient {
         return x == null || 0 == x.length();
     }
 
-    protected String[][] createUserRequest(UserMultiKey umk,
+    protected String[][] createUserRequest(UserMultiID umk,
                                            String idp) {
         return createUserRequest(umk, idp, null, null, null, null, null, null, null);
 
@@ -183,7 +183,7 @@ public class DBServiceClient {
      * @param email
      * @return
      */
-    protected String[][] createUserRequest(UserMultiKey umk,
+    protected String[][] createUserRequest(UserMultiID umk,
                                            String idp,
                                            String idpDisplayName,
                                            String firstName,
@@ -249,7 +249,7 @@ public class DBServiceClient {
         return pairwiseStringArray(arrayList);
     }
 
-    public XMLMap updateUser(UserMultiKey umk,
+    public XMLMap updateUser(UserMultiID umk,
                              String idp,
                              String idpDisplayName,
                              String firstName,
@@ -282,7 +282,7 @@ public class DBServiceClient {
                 user.getOrganizationalUnit());
     }
 
-    public XMLMap getUser(UserMultiKey umk,
+    public XMLMap getUser(UserMultiID umk,
                           String idp,
                           String idpDisplayName,
                           String firstName,
@@ -298,7 +298,7 @@ public class DBServiceClient {
         return doGet(AbstractDBService.GET_USER, new String[][]{{userKeys.identifier(), userUid.toString()}});
     }
 
-    public XMLMap createUser(UserMultiKey umk,
+    public XMLMap createUser(UserMultiID umk,
                              String idp,
                              String idpDisplayName,
                              String firstName,
@@ -323,7 +323,7 @@ public class DBServiceClient {
         return tfi;
     }
 
-    public Identifier getUserId(UserMultiKey umk, String idp) throws IOException {
+    public Identifier getUserId(UserMultiID umk, String idp) throws IOException {
         Map<String, Object> map = getUser(umk, idp);
         return BasicIdentifier.newID(map.get(userKeys.identifier()).toString());
     }
@@ -348,7 +348,7 @@ public class DBServiceClient {
 
     }
 
-    public boolean hasUser(UserMultiKey umk, String idp) {
+    public boolean hasUser(UserMultiID umk, String idp) {
         try {
             Map m = doGet(AbstractDBService.HAS_USER, createUserRequest(umk, idp));
             return (Long) m.get(AbstractDBService.STATUS_KEY) == AbstractDBService.STATUS_USER_EXISTS;

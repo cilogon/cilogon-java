@@ -70,7 +70,7 @@ public class UserFileStore extends FileStore<User> implements UserStore {
     }
 
     @Override
-    public User createAndRegisterUser(UserMultiKey userMultiKey,
+    public User createAndRegisterUser(UserMultiID userMultiKey,
                                       String idP,
                                       String idPDisplayName,
                                       String firstName,
@@ -141,7 +141,7 @@ public class UserFileStore extends FileStore<User> implements UserStore {
     }
 
     @Override
-    public Collection<User> get(UserMultiKey userMultiKey, String idP) {
+    public Collection<User> get(UserMultiID userMultiKey, String idP) {
         HashMap<Identifier, User> users = new HashMap<>();
         Iterator<PersonName> it = userMultiKey.iterator();
         while (it.hasNext()) {
@@ -190,7 +190,7 @@ public class UserFileStore extends FileStore<User> implements UserStore {
 
 
     @Override
-    public Identifier getUserID(UserMultiKey userMultiKey, String idP) {
+    public Identifier getUserID(UserMultiID userMultiKey, String idP) {
         Collection<User> users = get(userMultiKey, idP);
         if (users.size() == 1) return users.iterator().next().getIdentifier();
         throw new NotImplementedException("Error: getUserID for more than one found user id is nto yet ready.");

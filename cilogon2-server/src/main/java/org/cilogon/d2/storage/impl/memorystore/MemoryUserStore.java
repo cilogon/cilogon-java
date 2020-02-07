@@ -23,7 +23,7 @@ import java.util.Map;
 public class MemoryUserStore extends MemoryStore<User> implements UserStore {
 
     @Override
-    public User createAndRegisterUser(UserMultiKey userMultiKey,
+    public User createAndRegisterUser(UserMultiID userMultiKey,
                                       String idP,
                                       String idPDisplayName,
                                       String firstName,
@@ -71,7 +71,7 @@ public class MemoryUserStore extends MemoryStore<User> implements UserStore {
     }
 
     @Override
-    public Collection<User> get(UserMultiKey userMultiKey, String idP) {
+    public Collection<User> get(UserMultiID userMultiKey, String idP) {
         HashMap<Identifier, User> users = new HashMap<>();
         fromIndex(userMultiKey.getRemoteUserName(), idP, ruIndex, users);
         fromIndex(userMultiKey.getEppn(), idP, eppnIndex, users);
@@ -83,7 +83,7 @@ public class MemoryUserStore extends MemoryStore<User> implements UserStore {
     }
 
     @Override
-    public Identifier getUserID(UserMultiKey userMultiKey, String idP) {
+    public Identifier getUserID(UserMultiID userMultiKey, String idP) {
         Collection<User> users = get(userMultiKey, idP);
         if (users.size() == 1) return users.iterator().next().getIdentifier();
         throw new UserNotFoundException("Error: could not uniquely resolve user.");

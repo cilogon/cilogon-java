@@ -65,11 +65,11 @@ public class UserStoreTest extends TestBase {
         System.out.println("\nnext value from incrementable \"" + incrementable.getClass().getSimpleName() + "\" is " + (start + count));
     }
 
-    protected UserMultiKey createRU(String x) {
+    protected UserMultiID createRU(String x) {
         return RemoteDBServiceTest.createRU(x);
     }
 
-    protected UserMultiKey createUMK(String x) {
+    protected UserMultiID createUMK(String x) {
         return RemoteDBServiceTest.createUMK(x);
     }
 
@@ -99,7 +99,7 @@ public class UserStoreTest extends TestBase {
         IdentityProvider idp = new IdentityProvider(newID(URI.create("urn:identity/prov/" + getRandomString())));
         identityProviderStore.register(idp);
         String random = getRandomString();
-        UserMultiKey umk = createUMK(random);
+        UserMultiID umk = createUMK(random);
         User bob = userStore.createAndRegisterUser(umk, idp.getIdentifierString(), "idp display name", "bob", "smith", "bob@smith.com",
                 "affiliation-" + random, "displayName-" + random, "orgUnit-" + random);
         bob.setePPN(umk.getEppn());
@@ -119,7 +119,7 @@ public class UserStoreTest extends TestBase {
         assert bob.equals(bob2) : "Failed object equality check when testing for ePPN, ePTID and openID.";
     }
 
-    protected User getSingleUser(UserStore userStore, UserMultiKey umk, IdentityProvider idp) throws Exception {
+    protected User getSingleUser(UserStore userStore, UserMultiID umk, IdentityProvider idp) throws Exception {
         Collection<User> users = userStore.get(umk, idp.getIdentifierString());
         assert users.size() == 1 : "Error: unexpected or no users found. ";
         return users.iterator().next();
@@ -130,7 +130,7 @@ public class UserStoreTest extends TestBase {
         User bob = null;
         IdentityProvider idp = new IdentityProvider(newID(URI.create("urn:identity/prov/" + getRandomString())));
         String r = getRandomString();
-        UserMultiKey umk = createRU(r);
+        UserMultiID umk = createRU(r);
         identityProviderStore.register(idp);
         bob = userStore.createAndRegisterUser(umk, idp.getIdentifierString(), "idp display name", "bob", "smith", "bob@smith.com",
                 "affiliation" + r, "display" + r, "urn:ou:" + r);
@@ -257,7 +257,7 @@ public class UserStoreTest extends TestBase {
         userStore.remove(vulnavia);
 
 
-        UserMultiKey umk = new UserMultiKey(
+        UserMultiID umk = new UserMultiID(
                 new RemoteUserName(""),
                 new EduPersonPrincipleName("vulnavia.phibes@ligo.org"),
                 new EduPersonTargetedID("test:ligo/user/vulnavia.phibes"),
@@ -283,7 +283,7 @@ public class UserStoreTest extends TestBase {
 
         // test the robot
 
-        umk = new UserMultiKey(
+        umk = new UserMultiID(
                 new RemoteUserName("test:ligo/user/anton.phibes"),
                 new EduPersonPrincipleName("anton.phibes@ligo.org"),
                 new EduPersonTargetedID("test:ligo/user/anton.phibes"),
@@ -368,7 +368,7 @@ public class UserStoreTest extends TestBase {
         RemoteUserName remoteUser = new RemoteUserName("https://idp.fnal.gov/idp/shibboleth!https://cilogon.org/shibboleth!CJtWNa2SKrwXb0NHzPGlWwr7uTE=");
         EduPersonTargetedID eptid = new EduPersonTargetedID("https://idp.fnal.gov/idp/shibboleth!https://cilogon.org/shibboleth!6258095E940C4172B7E4096063C3C447A91B0F14");
         EduPersonPrincipleName eppn = new EduPersonPrincipleName("boomerangfish@gmail.com");
-        UserMultiKey umk = new UserMultiKey(remoteUser, eppn, eptid, null, null);
+        UserMultiID umk = new UserMultiID(remoteUser, eppn, eptid, null, null);
 
         User peopleUser = userStore.createAndRegisterUser(
                 umk,
@@ -399,7 +399,7 @@ public class UserStoreTest extends TestBase {
         RemoteUserName remoteUser = new RemoteUserName("https://idp.fnal.gov/idp/shibboleth!https://cilogon.org/shibboleth!CJtWNa2SKrwXb0NHzPGlWwr7uTE=");
         EduPersonTargetedID eptid = new EduPersonTargetedID("https://idp.fnal.gov/idp/shibboleth!https://cilogon.org/shibboleth!6258095E940C4172B7E4096063C3C447A91B0F14");
         EduPersonPrincipleName eppn = new EduPersonPrincipleName("kreymer@fnal.gov");
-        UserMultiKey umk = new UserMultiKey(remoteUser, eppn, eptid, null, null);
+        UserMultiID umk = new UserMultiID(remoteUser, eppn, eptid, null, null);
 
         User peopleUser = userStore.createAndRegisterUser(
                 umk,
@@ -445,7 +445,7 @@ public class UserStoreTest extends TestBase {
           /*
            User[
            uid="http://cilogon.org/serverA/users/18351",
-           key=UserMultiKey[
+           key=UserMultiID[
               remoteUser=https://idp.fnal.gov/idp/shibboleth!https://cilogon.org/shibboleth!CJtWNa2SKrwXb0NHzPGlWwr7uTE=,
               eptid=https://idp.fnal.gov/idp/shibboleth!https://cilogon.org/shibboleth!6258095E940C4172B7E4096063C3C447A91B0F14,
               eppn=kreymer@fnal.gov],
@@ -463,7 +463,7 @@ public class UserStoreTest extends TestBase {
         RemoteUserName remoteUser = new RemoteUserName("https://idp.fnal.gov/idp/shibboleth!https://cilogon.org/shibboleth!CJtWNa2SKrwXb0NHzPGlWwr7uTE=");
         EduPersonTargetedID eptid = new EduPersonTargetedID("https://idp.fnal.gov/idp/shibboleth!https://cilogon.org/shibboleth!6258095E940C4172B7E4096063C3C447A91B0F14");
         EduPersonPrincipleName eppn = new EduPersonPrincipleName("kreymer@fnal.gov");
-        UserMultiKey umk = new UserMultiKey(remoteUser, eppn, eptid, null, null);
+        UserMultiID umk = new UserMultiID(remoteUser, eppn, eptid, null, null);
 
 
         User robotUser = userStore.createAndRegisterUser(
@@ -561,7 +561,7 @@ public class UserStoreTest extends TestBase {
         IdentityProvider idp = new IdentityProvider(newID(URI.create("urn:identity/prov/" + getRandomString())));
         identityProviderStore.register(idp);
         String random = getRandomString();
-        UserMultiKey umk = createUMK(random);
+        UserMultiID umk = createUMK(random);
         User bob = userStore.createAndRegisterUser(umk, idp.getIdentifierString(), "idp display name", "bob", "smith", "bob@smith.com",
                 "affiliation-" + random, "displayName-" + random, "orgUnit-" + random);
         // so at this point this user should not have this set:

@@ -152,21 +152,21 @@ public abstract class RemoteDBServiceTest extends TestBase {
     }
 
     /**
-     * Create a new UserMultiKey that only has a remote user in it. This is exactly our legacy tests.
+     * Create a new UserMultiID that only has a remote user in it. This is exactly our legacy tests.
      *
      * @param x
      * @return
      */
-    public static UserMultiKey createRU(String x) {
-        return new UserMultiKey(new RemoteUserName(x));
+    public static UserMultiID createRU(String x) {
+        return new UserMultiID(new RemoteUserName(x));
     }
 
-    public static UserMultiKey createUMK() {
+    public static UserMultiID createUMK() {
         return createUMK(getRandomString());
     }
 
     /**
-     * This will create a new complete UserMultiKey using all parameters, just appending the string
+     * This will create a new complete UserMultiID using all parameters, just appending the string
      * to eppn:, eptid: etc. to get valid uris. You should not be able to specify all of these. This is
      * just basically a list of all possible ones for testing and each test takes what it needs,
      * e.g. search by eppn.
@@ -174,8 +174,8 @@ public abstract class RemoteDBServiceTest extends TestBase {
      * @param x
      * @return
      */
-    public static UserMultiKey createUMK(String x) {
-        return new UserMultiKey(new RemoteUserName("remoteUser:" + x),
+    public static UserMultiID createUMK(String x) {
+        return new UserMultiID(new RemoteUserName("remoteUser:" + x),
                 new EduPersonPrincipleName("eppn:" + x),
                 new EduPersonTargetedID("eptid:" + x),
                 new OpenID("openid:" + x),

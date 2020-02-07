@@ -6,7 +6,7 @@ import edu.uiuc.ncsa.security.core.util.BeanUtils;
 import edu.uiuc.ncsa.security.storage.XMLMap;
 import org.cilogon.d2.servlet.AbstractDBService;
 import org.cilogon.d2.storage.User;
-import org.cilogon.d2.storage.UserMultiKey;
+import org.cilogon.d2.storage.UserMultiID;
 import org.cilogon.d2.twofactor.TwoFactorInfo;
 import org.cilogon.d2.twofactor.TwoFactorSerializationKeys;
 import org.cilogon.d2.util.DBServiceException;
@@ -57,7 +57,7 @@ public class DBServiceUserTests extends RemoteDBServiceTest {
      */
     @Test
     public void testGetNewUser() throws Exception {
-        UserMultiKey umk = createRU("remote-user-" + getRandomString());
+        UserMultiID umk = createRU("remote-user-" + getRandomString());
         String idp = "test-idp-" + getRandomString();
         // create a new user.
         XMLMap map = getDBSClient().getUser(umk, idp);
@@ -138,7 +138,7 @@ public class DBServiceUserTests extends RemoteDBServiceTest {
         String firstname = "first+name"+badChars;
         String lastname = "last+name"+badChars;
         String email = "email@domain+name://///" + getRandomString();
-        UserMultiKey umk = createRU("remote+user"+badChars);
+        UserMultiID umk = createRU("remote+user"+badChars);
         String idp = "test+idp+" + getRandomString();
         String idpName = "test//idp/" + getRandomString();
         String affiliation = "affiliation" + badChars;
@@ -194,6 +194,7 @@ public class DBServiceUserTests extends RemoteDBServiceTest {
 
         // API dictates that any call for the user that does not just use the id requires all 6 parameters
         m = getDBSClient().getUser(user);
+        assert m.containsKey(t2k.info()) : "Getting user with remote-user that has two factor does not return two factor information.";
         checkUserAgainstMap(m, user, true);
         assert m.get(t2k.info()).toString().equals(tfi.getInfo());
 

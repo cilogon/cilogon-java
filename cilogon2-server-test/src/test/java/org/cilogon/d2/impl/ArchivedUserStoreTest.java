@@ -7,7 +7,7 @@ import org.cilogon.d2.CILTestStoreProviderI2;
 import org.cilogon.d2.ServiceTestUtils;
 import org.cilogon.d2.storage.ArchivedUser;
 import org.cilogon.d2.storage.User;
-import org.cilogon.d2.storage.UserMultiKey;
+import org.cilogon.d2.storage.UserMultiID;
 import org.cilogon.d2.storage.UserStore;
 import org.cilogon.d2.util.ArchivedUserStore;
 import org.junit.Test;
@@ -207,12 +207,12 @@ public class ArchivedUserStoreTest extends TestBase {
     }
 
     public void testNewIDs(CILTestStoreProviderI2 provider) throws Exception {
-        UserMultiKey umk = createUMK();
-        UserMultiKey ruKey = new UserMultiKey(umk.getRemoteUserName());
-        UserMultiKey eppnKey = new UserMultiKey(umk.getEppn());
-        UserMultiKey eptidKey = new UserMultiKey(umk.getEptid());
-        UserMultiKey openIdKey = new UserMultiKey(umk.getOpenID());
-        UserMultiKey oidcKey = new UserMultiKey(umk.getOpenIDConnect());
+        UserMultiID umk = createUMK();
+        UserMultiID ruKey = new UserMultiID(umk.getRemoteUserName());
+        UserMultiID eppnKey = new UserMultiID(umk.getEppn());
+        UserMultiID eptidKey = new UserMultiID(umk.getEptid());
+        UserMultiID openIdKey = new UserMultiID(umk.getOpenID());
+        UserMultiID oidcKey = new UserMultiID(umk.getOpenIDConnect());
 
         User user = provider.newUser();
 
@@ -227,7 +227,7 @@ public class ArchivedUserStoreTest extends TestBase {
 
     }
 
-    private void checkArchivedKey(CILTestStoreProviderI2 provider, UserMultiKey multiKey, User user, boolean doSerialIDsMatch) throws Exception {
+    private void checkArchivedKey(CILTestStoreProviderI2 provider, UserMultiID multiKey, User user, boolean doSerialIDsMatch) throws Exception {
         ArchivedUser lastAUser;
         user.setUserMultiKey(multiKey);
         provider.getUserStore().update(user);

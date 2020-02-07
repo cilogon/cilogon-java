@@ -34,7 +34,7 @@ public class UserConverter<T extends User> extends MapConverter<T> {
         user.setIDPName(map.getString(uk().idpDisplayName()));
         user.setLastName(map.getString(uk().lastName()));
         user.setSerialIdentifier(newID(map.getString(uk().serialString())));
-        UserMultiKey userMultiKey = new UserMultiKey(
+        UserMultiID userMultiKey = new UserMultiID(
                 new RemoteUserName(map.getString(uk().remoteUser())),
                 new EduPersonPrincipleName(map.getString(uk().eppn())),
                 new EduPersonTargetedID(map.getString(uk().eptid())),

@@ -296,7 +296,7 @@ public class DBService2 extends AbstractDBService {
 
     protected void doClaims(CILogonOA2ServiceEnvironment env, CILOA2ServiceTransaction t) {
          /*
-        This is the first place we can get claims for the user. We requrie the user, some existing claims
+        This is the first place we can get claims for the user. We require the user, some existing claims
         (which we append to) and the transaction.
         This is a side effect of this call.
          */
@@ -305,8 +305,7 @@ public class DBService2 extends AbstractDBService {
             // This gets us the basic claims.
             UserClaimSource userClaimSource = new UserClaimSource(getMyLogger());
             userClaimSource.setOa2SE((OA2SE) getServiceEnvironment());
-            JSONObject claims = claimsUtil.processAuthorizationClaims(null, t);
-
+            JSONObject claims = claimsUtil.processAuthorizationClaims(null);
             userClaimSource.process(claims, t);
             t.setClaims(claims);
         } catch (Throwable throwable) {

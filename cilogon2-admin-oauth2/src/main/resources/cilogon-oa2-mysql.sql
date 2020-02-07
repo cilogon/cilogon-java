@@ -21,8 +21,7 @@
 # Backup, backup, backup first.
 
 
-CREATE USER 'cilogon'@'localhost'
-  IDENTIFIED BY 'PUT PASSWORD HERE';
+CREATE USER 'cilogon'@'localhost' IDENTIFIED BY 'PUT PASSWORD HERE';
 
 CREATE DATABASE ciloa2
 DEFAULT CHARACTER SET utf8;
@@ -34,6 +33,10 @@ WITH GRANT OPTION;
 GRANT ALL PRIVILEGES ON ciloa2.transactions TO 'cilogon'@'localhost'
 WITH GRANT OPTION;
 GRANT ALL PRIVILEGES ON ciloa2.client_approvals TO 'cilogon'@'localhost'
+WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON ciloa2.adminClients TO 'cilogon'@'localhost'
+WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON ciloa2.permissions TO 'cilogon'@'localhost'
 WITH GRANT OPTION;
 GRANT ALL PRIVILEGES ON ciloa2.user TO 'cilogon'@'localhost'
 WITH GRANT OPTION;
@@ -50,27 +53,59 @@ WITH GRANT OPTION;
 COMMIT;
 
 CREATE TABLE ciloa2.clients (
-  client_id     VARCHAR(255) PRIMARY KEY,
-  public_key    TEXT,
-  name          TEXT,
-  home_url      TEXT,
-  error_url     TEXT,
-  email         TEXT,
-  proxy_limited BOOLEAN,
-  creation_ts   TIMESTAMP,
-  rt_lifetime bigint,
-  callback_uri  TEXT
-);
+ client_id          VARCHAR(255) PRIMARY KEY,
+  public_key         TEXT,
+  name               TEXT,
+  home_url           TEXT,
+  error_url          TEXT,
+  issuer             TEXT,
+  ldap               TEXT,
+  email              TEXT,
+  scopes             TEXT,
+  proxy_limited      BOOLEAN,
+  public_client      BOOLEAN,
+  creation_ts        timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  last_modified_ts   timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  rt_lifetime        bigint,
+  callback_uri       TEXT,
+  sign_tokens        BOOLEAN,
+  cfg                TEXT
+  );
 
 CREATE TABLE ciloa2.client_approvals (
   client_id   VARCHAR(255) PRIMARY KEY,
   approver    TEXT,
   approved    BOOLEAN,
+  status      TEXT,
   approval_ts TIMESTAMP
 );
 
+CREATE TABLE ciloa2.adminClients (
+  admin_id          VARCHAR(255) PRIMARY KEY,
+  name              TEXT,
+  secret            TEXT,
+  email             TEXT,
+  creation_ts        timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  last_modified_ts   timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  vo                TEXT,
+  max_clients       BIGINT,
+  issuer            TEXT,
+  config            TEXT
+);
+
+CREATE TABLE ciloa2.permissions (
+  permission_id VARCHAR(255) PRIMARY KEY,
+  admin_id      VARCHAR(255),
+  client_id     VARCHAR(255),
+  can_approve   BOOLEAN,
+  can_create    BOOLEAN,
+  can_read      BOOLEAN,
+  can_remove    BOOLEAN,
+  can_write     BOOLEAN,
+  creation_ts   TIMESTAMP
+);
 CREATE TABLE ciloa2.transactions (
-  temp_token          VARCHAR(255) PRIMARY KEY,
+ temp_token          VARCHAR(255) PRIMARY KEY,
   temp_token_valid    BOOLEAN,
   callback_uri        TEXT,
   certreq             TEXT,
@@ -81,9 +116,14 @@ CREATE TABLE ciloa2.transactions (
   refresh_token       TEXT,
   refresh_token_valid BOOLEAN,
   expires_in          BIGINT,
+  states              TEXT,
   certificate         TEXT,
   username            TEXT,
   myproxyUsername     TEXT,
+  access_token_valid tinyint(1) DEFAULT NULL,
+  auth_time timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  nonce text,
+  scopes text,
   UNIQUE INDEX verifier (verifier_token(255)),
   UNIQUE INDEX accessToken (access_token(255)),
   UNIQUE INDEX refreshToken (refresh_token(255)),
@@ -104,9 +144,15 @@ CREATE TABLE ciloa2.user (
   remote_user      TEXT,
   email            TEXT,
   serial_string    TEXT,
+  affiliation      TEXT,
+  attr_json        TEXT,
+  display_name     TEXT,
+  ou               TEXT,
+  loa              TEXT,
   eppn             TEXT,
   eptid            TEXT,
   open_id          TEXT,
+  us_idp           BOOLEAN,
   oidc             TEXT,
   create_time      TIMESTAMP,
   INDEX eppn (eppn(255)),
@@ -118,20 +164,26 @@ CREATE TABLE ciloa2.user (
 CREATE TABLE ciloa2.old_user (
   archived_user_id VARCHAR(255) PRIMARY KEY,
   archive_time     TIMESTAMP,
+    create_time      timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   user_uid         TEXT NOT NULL,
-  first_name       TEXT,
+ first_name       TEXT,
   last_name        TEXT,
   idp              TEXT,
   idp_display_name TEXT,
   remote_user      TEXT,
   email            TEXT,
   serial_string    TEXT,
+  affiliation      TEXT,
+  attr_json        TEXT,
+  display_name     TEXT,
+  ou               TEXT,
+  loa              TEXT,
   eppn             TEXT,
   eptid            TEXT,
   open_id          TEXT,
-  oidc             TEXT,
-  create_time      TIMESTAMP
-);
+  us_idp           BOOLEAN,
+  oidc             TEXT
+    );
 
 CREATE TABLE ciloa2.identity_provider (
   idp_uid VARCHAR(255) PRIMARY KEY

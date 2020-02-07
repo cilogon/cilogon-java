@@ -82,12 +82,15 @@ public class DBServiceSerializer {
 
     public void serialize(PrintWriter w, User user, TwoFactorInfo tfi, int statusCode) throws IOException {
         writeMessage(w, statusCode);
-
-        doUserSerialization(w, user);
         // do nothing if the tfi doesn't exist or is empty.
+
         if (!(tfi == null || tfi.getInfo() == null || tfi.getInfo().length() == 0)) {
-            print(w, tfKeys.info(), tfi.getInfo());
+            System.out.println("ADBService.serialize, tfi = " + tfi);
+             print(w, tfKeys.info(), tfi.getInfo());
+            System.out.println("ADBService.serialize, WROTE TFI");
         }
+        doUserSerialization(w, user);
+
 
     }
 

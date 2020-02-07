@@ -22,18 +22,18 @@ import static edu.uiuc.ncsa.security.core.util.BeanUtils.checkNoNulls;
 public class User extends IdentifiableImpl {
     public static final long serialVersionUID = 0xCafeD00dL;
 
-    public UserMultiKey getUserMultiKey() {
+    public UserMultiID getUserMultiKey() {
         if (userMultiKey == null) {
-            userMultiKey = new UserMultiKey(getRemoteUser(), getePPN(), getePTID(), getOpenID(), getOpenIDConnect());
+            userMultiKey = new UserMultiID(getRemoteUser(), getePPN(), getePTID(), getOpenID(), getOpenIDConnect());
         }
         return userMultiKey;
     }
 
-    public void setUserMultiKey(UserMultiKey userMultiKey) {
+    public void setUserMultiKey(UserMultiID userMultiKey) {
         this.userMultiKey = userMultiKey;
     }
 
-    UserMultiKey userMultiKey;
+    UserMultiID userMultiKey;
 
     /**
      * Returns a completely new user whose information is identical to this user.
@@ -67,7 +67,7 @@ public class User extends IdentifiableImpl {
         u2.idP = idP;
         u2.iDPName = iDPName;
         u2.lastName = lastName;
-        UserMultiKey userMultiKey2 = new UserMultiKey(getRemoteUser(), getePPN(), getePTID(), getOpenID(), getOpenIDConnect());
+        UserMultiID userMultiKey2 = new UserMultiID(getRemoteUser(), getePPN(), getePTID(), getOpenID(), getOpenIDConnect());
         u2.setUserMultiKey(userMultiKey2);
         u2.serialIdentifier = serialIdentifier;
         u2.affiliation = affiliation;

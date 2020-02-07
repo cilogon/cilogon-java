@@ -28,7 +28,7 @@ import java.util.*;
  */
 public class CILSQLUserStore extends SQLStore<User> implements UserStore {
     @Override
-    public User createAndRegisterUser(UserMultiKey userMultiKey,
+    public User createAndRegisterUser(UserMultiID userMultiKey,
                                       String idP,
                                       String idPDisplayName,
                                       String firstName,
@@ -76,7 +76,7 @@ public class CILSQLUserStore extends SQLStore<User> implements UserStore {
     }
 
     @Override
-    public Collection<User> get(UserMultiKey userMultiKey, String idP) {
+    public Collection<User> get(UserMultiID userMultiKey, String idP) {
         ServletDebugUtil.trace(this, "getting user for multi-key=" + userMultiKey + ", and idp=" + idP);
         if (userMultiKey.isTrivial()) throw new UserNotFoundException("Error: no user for trivial identifier");
         // so one of these is ok.
@@ -158,7 +158,7 @@ public class CILSQLUserStore extends SQLStore<User> implements UserStore {
     }
 
     @Override
-    public Identifier getUserID(UserMultiKey userMultiKey, String idP) {
+    public Identifier getUserID(UserMultiID userMultiKey, String idP) {
         Collection<User> users = get(userMultiKey, idP);
         if (users.size() == 1) {
             return users.iterator().next().getIdentifier();

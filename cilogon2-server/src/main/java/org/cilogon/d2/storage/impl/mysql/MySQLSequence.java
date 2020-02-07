@@ -25,7 +25,6 @@ public class MySQLSequence extends Sequence {
         return (MySQLSequenceTable) getSequenceTable();
     }
 
-    public static boolean printit = false;  // debugging only since setting a breakpoint stalls the call indefinitely.
     @Override
     public long nextValue() {
         long value = -1;
@@ -51,11 +50,7 @@ public class MySQLSequence extends Sequence {
             destroyConnection(c);
             throw new CILogonException("Error getting next value in sequence", e);
         }
-        if(printit){
-            System.err.println("MySQlSeq value=" + value);
-            GeneralException ge = new GeneralException();
-            ge.printStackTrace();
-        }
+
         return value;
     }
 }

@@ -40,7 +40,7 @@ public interface UserStore extends Store<User> {
      * @return
      */
     //  public User get(String remoteUser, String idP);
-    public Collection<User> get(UserMultiKey userMultiKey, String idP);
+    public Collection<User> get(UserMultiID userMultiKey, String idP);
 
     /**
      * Create a user from all the given possible information. Some of this might
@@ -55,7 +55,7 @@ public interface UserStore extends Store<User> {
      * @param email
      * @return
      */
-    public User createAndRegisterUser(UserMultiKey userMultiKey,
+    public User createAndRegisterUser(UserMultiID userMultiKey,
                                       String idP,
                                       String idPDisplayName,
                                       String firstName,
@@ -73,7 +73,7 @@ public interface UserStore extends Store<User> {
      * @param idP
      * @return
      */
-    public Identifier getUserID(UserMultiKey userMultiKey, String idP);
+    public Identifier getUserID(UserMultiID userMultiKey, String idP);
 
     /**
      * Create a user, optionally with a new serial string. The default behavior for this store

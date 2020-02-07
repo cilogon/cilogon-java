@@ -19,53 +19,52 @@ public class CILOA2ServiceTransaction extends OA2ServiceTransaction implements A
     }
 
     String affiliation;
-       String displayName;
-       String organizationalUnit;
-       String loa;
+    String displayName;
+    String organizationalUnit;
+    String loa;
 
-       public String getLoa() {
-           return loa;
-       }
+    public String getLoa() {
+        return loa;
+    }
 
-       public void setLoa(String loa) {
-           this.loa = loa;
-       }
+    public void setLoa(String loa) {
+        this.loa = loa;
+    }
 
-       public String getAffiliation() {
-           return affiliation;
-       }
+    public String getAffiliation() {
+        return affiliation;
+    }
 
-       public void setAffiliation(String affiliation) {
-           this.affiliation = affiliation;
-       }
+    public void setAffiliation(String affiliation) {
+        this.affiliation = affiliation;
+    }
 
 
-       public String getDisplayName() {
-           return displayName;
-       }
+    public String getDisplayName() {
+        return displayName;
+    }
 
-       public void setDisplayName(String displayName) {
-           this.displayName = displayName;
-       }
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
 
-       public String getOrganizationalUnit() {
-           return organizationalUnit;
-       }
+    public String getOrganizationalUnit() {
+        return organizationalUnit;
+    }
 
-       public void setOrganizationalUnit(String organizationalUnit) {
-           this.organizationalUnit = organizationalUnit;
-       }
-
+    public void setOrganizationalUnit(String organizationalUnit) {
+        this.organizationalUnit = organizationalUnit;
+    }
 
 
     @Override
     public String toString() {
         String x = super.toString();
-           x = x.substring(0,x.length()-1);
-           x = x + ",OU="+getOrganizationalUnit();
-           x = x + ",display name="+getDisplayName();
-           x = x + ",affiliation="+getAffiliation();
-           x = x + ",LOA="+getLoa() + "]";
-           return x;
+        x = x.substring(0, x.length() - 1);
+        x = x + ",OU=" + getOrganizationalUnit();
+        x = x + ",display name=" + getDisplayName();
+        x = x + ",affiliation=" + getAffiliation();
+        x = x + ",LOA=" + getLoa() + "]";
+        return x;
     }
 }

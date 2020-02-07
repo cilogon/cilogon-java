@@ -270,7 +270,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
     }
 
     // have to do this a lot, so put it all here.
-    UserMultiKey getNames(HttpServletRequest request) throws UnsupportedEncodingException {
+    UserMultiID getNames(HttpServletRequest request) throws UnsupportedEncodingException {
         String x = getParam(request, userKeys.remoteUser(), true);
 
         RemoteUserName remoteUser = null;
@@ -294,7 +294,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
         if (remoteUser != null && eppn != null && eptid != null && openid != null && oidc != null) {
             throw new IllegalStateException("Error: Cannot have all ids specified.");
         }
-        UserMultiKey names = new UserMultiKey(remoteUser, eppn, eptid, openid, oidc);
+        UserMultiID names = new UserMultiID(remoteUser, eppn, eptid, openid, oidc);
         return names;
     }
 
@@ -329,8 +329,8 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
         if (idp == null || idp.length() == 0) {
             throw new DBServiceException(STATUS_NO_IDENTITY_PROVIDER);
         }
-        UserMultiKey names = getNames(request);
-        ServletDebugUtil.trace(this, "no user uid. multi-id =" + names);
+        UserMultiID userMultiKey = getNames(request);
+        ServletDebugUtil.trace(this, "no user uid. multi-id =" + userMultiKey);
 
         String email = getParam(request, userKeys.email(), true);
         String firstName = getParam(request, userKeys.firstName(), true);
@@ -349,12 +349,12 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
             useUSinDN = Boolean.TRUE;
         }
 
-        if (!names.isTrivial()) {
+         if (!userMultiKey.isTrivial()) {
             // CIL-540
             // case 1.5 -- if the request has IDP and one of eptid, eppn or oidc, then this is sufficient to identify the user.
-
+            User user = null;
             try {
-                User user = findUser(names, idp);
+                user = findUser(userMultiKey, idp);
                 // if found
                 updateUser(user,
                         response,
@@ -363,29 +363,33 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
                         firstName,
                         lastName,
                         idpDisplayName,
-                        names,
+                        userMultiKey,
                         affiliation,
                         attr_json,
                         displayName,
                         organizationalUnit,
                         useUSinDN);
-
-            } catch (UserNotFoundException unf) {
+            } catch (Throwable unf) {
+                unf.printStackTrace();
                 // user has been uniquely identified. Make a new user and populate the object with whatever
                 // was sent. There is no requirement for anything else.
-                makeNewUser(response,
+                user = makeNewUser(response,
                         idp,
                         email,
                         firstName,
                         lastName,
                         idpDisplayName,
-                        names,
+                        userMultiKey,
                         affiliation,
                         attr_json,
                         displayName,
                         organizationalUnit,
                         useUSinDN);
             }
+            TwoFactorInfo tfi = get2FStore().get(user.getIdentifier());
+            System.out.println("ADBService, tfi =" + tfi );
+            System.out.println("ADBService, writing user" + tfi );
+            writeUser(user, tfi, STATUS_OK, response);
             return;
         }
 
@@ -397,7 +401,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
             ServletDebugUtil.trace(this, "Some value is empty, finding user by umk and idp");
 
             try {
-                User user = findUser(names, idp);
+                User user = findUser(userMultiKey, idp);
 
                 user.setUseUSinDN(useUSinDN);
 
@@ -418,7 +422,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
                         firstName,
                         lastName,
                         idpDisplayName,
-                        names, affiliation,
+                        userMultiKey, affiliation,
                         attr_json,
                         displayName,
                         organizationalUnit,
@@ -434,7 +438,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
                 System.err.println("got a null first name");
             }
             checkAndArchiveUser(response,
-                    names,
+                    userMultiKey,
                     idp,
                     idpDisplayName,
                     firstName,
@@ -458,7 +462,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
 
                 if (gotOne) break;
                 try {
-                    user3 = getUserStore().createAndRegisterUser(names,
+                    user3 = getUserStore().createAndRegisterUser(userMultiKey,
                             idp,
                             idpDisplayName,
                             firstName,
@@ -499,7 +503,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
      * @param user
      * @param response
      * @param idp
-     * @param names
+     * @param entityID
      * @param affiliation
      * @param attr_json
      * @param displayName
@@ -514,7 +518,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
                             String firstName,
                             String lastName,
                             String idpDisplayName,
-                            UserMultiKey names,
+                            UserMultiID entityID,
                             String affiliation,
                             String attr_json,
                             String displayName,
@@ -522,17 +526,24 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
                             Boolean useUSinDN) throws IOException {
         boolean keepSerialID = true; // default for no serious updates.
         if (email != null) {
+            keepSerialID = keepSerialID && email.equals(user.getEmail());
             user.setEmail(email);
         }
         if (firstName != null) {
+            keepSerialID = keepSerialID && firstName.equals(user.getFirstName());
+
             user.setFirstName(firstName);
         }
         if (lastName != null) {
+            keepSerialID = keepSerialID && lastName.equals(user.getLastName());
+
             user.setLastName(lastName);
         }
         if (idpDisplayName != null) {
+            keepSerialID = keepSerialID && idpDisplayName.equals(user.getIDPName());
             user.setIDPName(idpDisplayName);
         }
+
         if (affiliation != null) {
             user.setAffiliation(affiliation);
         }
@@ -546,14 +557,18 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
         if (!isEmpty(attr_json)) {
             user.setAttr_json(attr_json);
         }
-        user.setUserMultiKey(names);
+
+        UserMultiID newID = user.getUserMultiKey().union(entityID);
+
+        if (!newID.equals(user.getUserMultiKey())) {
+            keepSerialID = user.getUserMultiKey().keepSerialString(newID);
+            user.setUserMultiKey(newID);
+        }
         user.setIdP(idp);
         user.setUseUSinDN(useUSinDN);
-        getUserStore().update(user, true); // force that there is no new serial string produced.
-
-        //getUserStore().save(user);
+        // Again, the second argument in the next call  means
+        getUserStore().update(user, keepSerialID); // force that there is no new serial string produced.
         ServletDebugUtil.trace(this, "saved user " + user);
-        writeUser(user, null, STATUS_OK, response);
     }
 
     /**
@@ -569,12 +584,12 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
      * @param useUSinDN
      * @throws IOException
      */
-    private void makeNewUser(HttpServletResponse response, String idp,
+    private User makeNewUser(HttpServletResponse response, String idp,
                              String email,
                              String firstName,
                              String lastName,
                              String idpDisplayName,
-                             UserMultiKey names,
+                             UserMultiID names,
                              String affiliation,
                              String attr_json,
                              String displayName,
@@ -584,6 +599,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
 
         // spec says to create a new user if none is found for the given identifier.
         User user = getUserStore().create(true);
+        getUserStore().register(user); // or you will get an unregistered object exception.
         ServletDebugUtil.trace(this, "created user " + user);
         updateUser(user,
                 response,
@@ -598,11 +614,12 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
                 displayName,
                 organizationalUnit,
                 useUSinDN);
+        return user;
     }
 
 
     protected void getUserID(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        UserMultiKey userMultiKey = getNames(request);
+        UserMultiID userMultiKey = getNames(request);
         String idp = getParam(request, userKeys.idp());
         Identifier userid = null;
         userid = getUserStore().getUserID(userMultiKey, idp);
@@ -758,7 +775,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
      */
 
     protected void createUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        UserMultiKey names = getNames(request);
+        UserMultiID names = getNames(request);
         String idp = getParam(request, userKeys.idp());
         try {
             getUserStore().getUserID(names, idp);
@@ -809,7 +826,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
         String useruidString = getParam(request, userKeys.identifier(), true);
         boolean hasUser = false;
         if (isEmpty(useruidString)) {
-            UserMultiKey userMultiKey = getNames(request);
+            UserMultiID userMultiKey = getNames(request);
             String idp = getParam(request, userKeys.idp());
             try {
                 getUserStore().get(userMultiKey, idp);
@@ -824,7 +841,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
         writeMessage(response, hasUser ? STATUS_USER_EXISTS : STATUS_USER_NOT_FOUND); // these are not error, just info.
     }
 
-    protected User findUser(UserMultiKey userMultiKey, String idp) throws IOException {
+    protected User findUser(UserMultiID userMultiKey, String idp) throws IOException {
         Collection<User> users = getUserStore().get(userMultiKey, idp);
         boolean idpFail = false;
         User user = null;
@@ -861,7 +878,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
      * @param k
      * @return
      */
-    protected void userLogic(User u, UserMultiKey k) {
+    protected void userLogic(User u, UserMultiID k) {
         // case 0. All of the ids are set. This should be flagged as an error condition.
         if (k.hasRemoteUser() && k.hasEPTID() && k.hasEPPN() && k.hasOpenID()) {
             throw new IllegalArgumentException("Error: All ids, eppn, eptid, openid and remote user are set. Request rejected.");
@@ -910,6 +927,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
                     }
                 }
             }
+            // NOTE if both EPTID and EPPN were sent, this should prefer EPPN. Hence no return in the ePTID case.
         }
 
         // case 3: EPPN (which is not unique) is sent, but not EPTID
@@ -943,7 +961,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
      */
 
     protected void checkAndArchiveUser(HttpServletResponse response,
-                                       UserMultiKey userMultiKey,
+                                       UserMultiID userMultiKey,
                                        String idp,
                                        String idpDisplayName,
                                        String firstName,
@@ -1055,7 +1073,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
     }
 
     public void updateUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        UserMultiKey userMultiKey = getNames(request);
+        UserMultiID userMultiKey = getNames(request);
         String idp = getParam(request, userKeys.idp());
         // The rest of these might be missing.
         String email = getParam(request, userKeys.email(), true);
@@ -1206,7 +1224,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
     protected void writeMessage(HttpServletResponse response, int statusCode) throws IOException {
         if (statusCode != STATUS_OK) {
             // track in debugging when a non-succes is returned.
-            ServletDebugUtil.trace(this, "Serializing error of " + statusCode + " (0x" + Long.toHexString(statusCode).toUpperCase() + ")");
+            ServletDebugUtil.trace(this, "Serialization error of " + statusCode + " (0x" + Long.toHexString(statusCode).toUpperCase() + ")");
         }
         writeMessage(response, Integer.toString(statusCode));
     }
