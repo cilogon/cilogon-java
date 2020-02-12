@@ -18,7 +18,6 @@ import org.cilogon.oauth2.servlet.storage.CILOA2ServiceTransaction;
 
 import javax.servlet.http.HttpServletRequest;
 
-import static org.cilogon.oauth2.servlet.claims.UserClaimSource.CILogonClaims.*;
 
 /**
  * This actually introspects the user database and does not require an LDAP configuration.
@@ -33,18 +32,16 @@ public class UserClaimSource extends BasicClaimsSourceImpl implements OA2Scopes 
     }
 
 
-    public interface CILogonClaims extends OA2Claims {
-        String IDP = "idp";
-        String IDP_NAME = "idp_name";
-        String EPPN = "eppn";
-        String EPTID = "eptid";
-        String OPENID = "openid";
-        String OIDC = "oidc";
-        String OU = "ou";
-        String AFFILIATION = "affiliation";
-        String AUTHENTICATION_CONTEXT_CLASS_REFERENCE = "acr";
-        String CERT_SUBJECT_DN = "cert_subject_dn";
-    }
+    String IDP = "idp";
+    String IDP_NAME = "idp_name";
+    String EPPN = "eppn";
+    String EPTID = "eptid";
+    String OPENID = "openid";
+    String OIDC = "oidc";
+    String OU = "ou";
+    String AFFILIATION = "affiliation";
+    String AUTHENTICATION_CONTEXT_CLASS_REFERENCE = "acr";
+    String CERT_SUBJECT_DN = "cert_subject_dn";
 
 
     public CILogonOA2ServiceEnvironment getServiceEnvironment() {
@@ -57,7 +54,7 @@ public class UserClaimSource extends BasicClaimsSourceImpl implements OA2Scopes 
     /**
      * *****************************
      * *
-     *         KEEP THIS!          *
+     * KEEP THIS!          *
      * *
      * *****************************
      */
@@ -98,8 +95,8 @@ public class UserClaimSource extends BasicClaimsSourceImpl implements OA2Scopes 
             claims.put(OA2Claims.EMAIL, user.getEmail());
         }
         if (t.getScopes().contains(SCOPE_PROFILE)) {
-            claims.put(OA2Claims.GIVEN_NAME,convertFromUTF7ToUTF8(user.getFirstName()));
-            claims.put(OA2Claims.FAMILY_NAME,convertFromUTF7ToUTF8(user.getLastName()));
+            claims.put(OA2Claims.GIVEN_NAME, convertFromUTF7ToUTF8(user.getFirstName()));
+            claims.put(OA2Claims.FAMILY_NAME, convertFromUTF7ToUTF8(user.getLastName()));
         }
 
         // Fixes CIL-210
@@ -146,7 +143,7 @@ public class UserClaimSource extends BasicClaimsSourceImpl implements OA2Scopes 
                     JSONObject json = JSONObject.fromObject(rawJSON);
                     // CIL-532 fix -- put in ALL of the values in the JSON attribute field and let the
                     // configuration select them rather than having this in the code.
-                    for(Object key : json.keySet()){
+                    for (Object key : json.keySet()) {
                         claims.put(key.toString(), json.getString(key.toString()));
                     }
 /*                   Old way was to select only the acr explicitly.
@@ -155,7 +152,7 @@ public class UserClaimSource extends BasicClaimsSourceImpl implements OA2Scopes 
                     }
 */
                 } catch (Exception x) {
-                    ServletDebugUtil.trace(this,"Error: was not able to parse the attr_json field into elements. Message=\"" + x.getMessage() + "\". Processing will continue...");
+                    ServletDebugUtil.trace(this, "Error: was not able to parse the attr_json field into elements. Message=\"" + x.getMessage() + "\". Processing will continue...");
                     // rock on, no acr.
                 }
             }
