@@ -319,9 +319,11 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
         printAllParameters(request);
         ServletDebugUtil.trace(this, "starting get user");
         String useruidString = getParam(request, userKeys.identifier(), true);
+        ServletDebugUtil.trace(this, "useruidString = " + useruidString);
         // case 1: a user id is supplied. Return information about the user.
         if (useruidString != null) {
             getUserbyUID(request, response, useruidString);
+            // Note the last call writes the response, so nothing further needs to be done.
             return;
         }
 

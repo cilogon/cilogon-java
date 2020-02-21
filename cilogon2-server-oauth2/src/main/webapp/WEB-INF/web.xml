@@ -87,6 +87,7 @@
         <url-pattern>/oidc-cm</url-pattern>
     </servlet-mapping>
 
+<!--
     <servlet>
           <servlet-name>revoke</servlet-name>
           <servlet-class>edu.uiuc.ncsa.myproxy.oa4mp.oauth2.servlet.RevocationServlet</servlet-class>
@@ -95,7 +96,26 @@
           <servlet-name>revoke</servlet-name>
           <url-pattern>/revoke</url-pattern>
       </servlet-mapping>
+-->
+    <servlet>
+         <servlet-name>revoke</servlet-name>
+         <servlet-class>edu.uiuc.ncsa.myproxy.oa4mp.oauth2.servlet.RFC7009</servlet-class>
+         <load-on-startup>0</load-on-startup>
+     </servlet>
+     <servlet-mapping>
+         <servlet-name>revoke</servlet-name>
+         <url-pattern>/revoke</url-pattern>
+     </servlet-mapping>
 
+    <servlet>
+         <servlet-name>introspect</servlet-name>
+         <servlet-class>edu.uiuc.ncsa.myproxy.oa4mp.oauth2.servlet.RFC7662</servlet-class>
+         <load-on-startup>0</load-on-startup>
+     </servlet>
+     <servlet-mapping>
+         <servlet-name>introspect</servlet-name>
+         <url-pattern>/introspect</url-pattern>
+     </servlet-mapping>
 
     <servlet>
         <servlet-name>getCert</servlet-name>
@@ -128,6 +148,8 @@
         <servlet-name>userInfo</servlet-name>
         <url-pattern>/userinfo</url-pattern>
     </servlet-mapping>
+
+
 
     <resource-ref>
         <description>
