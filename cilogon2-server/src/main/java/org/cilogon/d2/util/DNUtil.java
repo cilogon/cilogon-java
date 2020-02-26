@@ -140,22 +140,20 @@ public class DNUtil {
 
     // Fix for CIL-320: getting DN should not depend on transaction state.
     protected static String getDefaultDN(User user, boolean returnEmail) {
-        String baseString = "/DC=org/DC=cilogon" + (user.isUseUSinDN() ? "/C=US" : "") + "/O=%s/CN=%s %s %s";
-
+        String baseString = "/DC=org/DC=cilogon" + (user.isUseUSinDN() ? "/C=US" : "") + "/O=%s/CN=%s %s";
+        if(user.getFirstName() != null)
         if (returnEmail) {
             baseString = baseString + " email=%s";
             return String.format(baseString,
                     toUTF7(user.getIDPName()),
-                    toUTF7(user.getFirstName()),
-                    toUTF7(user.getLastName()),
+                    toUTF7(user.getCertName()),
                     user.getSerialString(),
                     user.getEmail());
 
         }
         return String.format(baseString,
                 toUTF7(user.getIDPName()),
-                toUTF7(user.getFirstName()),
-                toUTF7(user.getLastName()),
+                toUTF7(user.getCertName()),
                 user.getSerialString());
     }
 

@@ -20,7 +20,7 @@ import java.util.StringTokenizer;
 
 /**
  * This will read SAML attributes that are sent in the header from the IDP then stored in an attribute that
- * is send. At the right time, this attribute is read and parsed into information about the user and
+ * is sent. At the right time, this attribute is read and parsed into information about the user and
  * returned as a set of claims. NOTE that this is created by introspection (hence the no arg constructor)
  * and hence never seem to be used in the code base. Several clients, however, require it.
  * <p>Created by Jeff Gaynor<br>

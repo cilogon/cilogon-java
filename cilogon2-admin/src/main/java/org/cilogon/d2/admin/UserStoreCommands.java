@@ -8,7 +8,6 @@ import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
 import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
 import edu.uiuc.ncsa.security.util.cli.BasicSorter;
 import edu.uiuc.ncsa.security.util.cli.InputLine;
-import net.sf.json.JSONObject;
 import org.cilogon.d2.storage.*;
 import org.cilogon.d2.util.ArchivedUserStore;
 
@@ -235,13 +234,4 @@ public class UserStoreCommands extends StoreCommands2 {
         clearEntries();
     }
 
-    @Override
-    protected void addEntry(Identifiable identifiable, JSONObject json) {
-
-    }
-
-    @Override
-    protected void removeEntry(Identifiable identifiable, JSONObject json) {
-
-    }
 }

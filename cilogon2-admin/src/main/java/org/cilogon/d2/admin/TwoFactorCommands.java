@@ -6,7 +6,6 @@ import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.Store;
 import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
 import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
-import net.sf.json.JSONObject;
 import org.cilogon.d2.twofactor.TwoFactorInfo;
 import org.cilogon.d2.twofactor.TwoFactorStore;
 
@@ -85,13 +84,4 @@ public class TwoFactorCommands extends StoreCommands2 {
         sayi("     info:" + (tfi.getInfo() == null ? "(null)" : tfi.getInfo()));
     }
 
-    @Override
-    protected void addEntry(Identifiable identifiable, JSONObject json) {
-
-    }
-
-    @Override
-    protected void removeEntry(Identifiable identifiable, JSONObject json) {
-
-    }
 }

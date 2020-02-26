@@ -103,9 +103,12 @@ public class UserClaimSource extends BasicClaimsSourceImpl implements OA2Scopes 
 
         if (t.getScopes().contains(SCOPE_CILOGON_INFO)) {
 
-            // CIL-371, CIL-444 cert subject does not contain the email, hence the "false" flag.
+            // CIL-3
+            // 71, CIL-444 cert subject does not contain the email, hence the "false" flag.
             try {
-                claims.put(CERT_SUBJECT_DN, user.getDN((AbstractCILServiceTransaction) t, false));
+                if(user.canGetCert()) {
+                    claims.put(CERT_SUBJECT_DN, user.getDN((AbstractCILServiceTransaction) t, false));
+                }
             } catch (Throwable ttt) {
                 // Should never happen, but just in case...
                 logger.info("Unable to determine user's DN for user " + user.getIdentifierString() + ". Message is " + ttt.getMessage());
@@ -159,6 +162,7 @@ public class UserClaimSource extends BasicClaimsSourceImpl implements OA2Scopes 
         }
         return claims;
     }
+
 
     @Override
     public boolean isRunAtAuthorization() {

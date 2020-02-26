@@ -158,6 +158,7 @@ public class User extends IdentifiableImpl {
 
     /**
      * This is used in cases where the member of information is sent via a call to the getUser DB endpoint.
+     *
      * @return
      */
     public String getAttr_json() {
@@ -169,6 +170,7 @@ public class User extends IdentifiableImpl {
     }
 
     String attr_json;
+
     public boolean isUseUSinDN() {
         return useUSinDN;
     }
@@ -188,9 +190,20 @@ public class User extends IdentifiableImpl {
         return serialString;
     }
 
+    public boolean canGetCert() {
+        boolean canGetCert = isNotTrivial(getFirstName()) && isNotTrivial(getLastName());
+        canGetCert = canGetCert || isNotTrivial(getDisplayName());
+        canGetCert = canGetCert && isNotTrivial(getEmail());
+
+        return canGetCert;
+    }
+
+    boolean isNotTrivial(String x) {
+        return (x != null && !x.isEmpty());
+    }
 
     public void setSerialString(String serialString) {
-        ServletDebugUtil.trace(this, "Setting user serial string to "+ serialString, new GeneralException());
+        ServletDebugUtil.trace(this, "Setting user serial string to " + serialString, new GeneralException());
         if (this.serialString == null) {
             // syntax check. Simple but catches a lot of errors.
             if (0 != serialString.split("[A-Za-z]+[0-9]+").length) {
@@ -238,6 +251,20 @@ public class User extends IdentifiableImpl {
 
     Identifier serialIdentifier;
 
+    /**
+     * Only call this if {@link #canGetCert()} is true.
+     *
+     * @return
+     */
+    public String getCertName() {
+        if (isNotTrivial(getFirstName()) && isNotTrivial(getLastName())) {
+            return getFirstName() + " " + getLastName();
+        }
+        if (isNotTrivial(getDisplayName())) {
+            return getDisplayName();
+        }
+        return null;
+    }
 
     public String getDN(AbstractCILServiceTransaction transaction, boolean returnEmail) {
         return DNUtil.getDN(this, transaction, returnEmail);

@@ -86,7 +86,7 @@ public class DBServiceSerializer {
 
         if (!(tfi == null || tfi.getInfo() == null || tfi.getInfo().length() == 0)) {
             System.out.println("ADBService.serialize, tfi = " + tfi);
-             print(w, tfKeys.info(), tfi.getInfo());
+            print(w, tfKeys.info(), tfi.getInfo());
             System.out.println("ADBService.serialize, WROTE TFI");
         }
         doUserSerialization(w, user);
@@ -118,28 +118,37 @@ public class DBServiceSerializer {
         if (user.hasOpenIDConnect()) {
             print(w, userKeys.oidc(), user.getOpenIDConnect());
         }
-        print(w, userKeys.idp(), user.getIdP());
-        print(w, userKeys.idpDisplayName(), user.getIDPName());
-        print(w, userKeys.firstName(), user.getFirstName());
-        print(w, userKeys.lastName(), user.getLastName());
-        print(w, userKeys.userID(), user.getIdentifier());
-        print(w, userKeys.email(), user.getEmail());
-        print(w, userKeys.serialString(), user.getSerialString());
+        onlyPrintIfNotTrivial(w, userKeys.idp(), user.getIdP());
+        onlyPrintIfNotTrivial(w, userKeys.idpDisplayName(), user.getIDPName());
+        onlyPrintIfNotTrivial(w, userKeys.firstName(), user.getFirstName());
+        onlyPrintIfNotTrivial(w, userKeys.lastName(), user.getLastName());
+        onlyPrintIfNotTrivial(w, userKeys.userID(), user.getIdentifierString());
+        onlyPrintIfNotTrivial(w, userKeys.email(), user.getEmail());
+        onlyPrintIfNotTrivial(w, userKeys.serialString(), user.getSerialString());
+        onlyPrintIfNotTrivial(w, userKeys.affiliation(), user.getAffiliation());
+        onlyPrintIfNotTrivial(w, userKeys.displayName(), user.getDisplayName());
+        onlyPrintIfNotTrivial(w, userKeys.organizationalUnit(), user.getOrganizationalUnit());
+        onlyPrintIfNotTrivial(w, userKeys.creationTimestamp(), Iso8601.date2String(user.getCreationTime()));
+
         try {
-            print(w, distinguishedNameField, user.getDN(null, true));
-        }catch(Exception x){
+            if(user.canGetCert()) {
+                print(w, distinguishedNameField, user.getDN(null, true));
+            }
+        } catch (Exception x) {
             ServletDebugUtil.trace(this, "No DN can be computed for user with id \"" + user.getIdentifierString() + "\"");
             // rock on. If this is a completely new user, this cannot be computed, so return nothing.
         }
-        print(w, userKeys.creationTimestamp(), user.getCreationTime());
-        print(w, userKeys.affiliation(), user.getAffiliation());
-        print(w, userKeys.displayName(), user.getDisplayName());
-        print(w, userKeys.organizationalUnit(), user.getOrganizationalUnit());
+
         if (user.getAttr_json() != null && !user.getAttr_json().isEmpty()) {
             print(w, userKeys.attr_json(), user.getAttr_json());
         }
     }
 
+    protected void onlyPrintIfNotTrivial(PrintWriter w, String key, String value) throws IOException {
+        if (value != null && !value.isEmpty()) {
+            print(w, key, value);
+        }
+    }
 
     public void serialize(PrintWriter w, User user, int statusCode) throws IOException {
         writeMessage(w, statusCode);
@@ -328,7 +337,7 @@ public class DBServiceSerializer {
         if (head.equals(distinguishedNameField)) {
             // check that is returns the same thing or something got messed up in the serialization
             if (!(user.getDN(null, true).toString().equals(tail)))
-                throw new CILogonException("Error: the DN's don't match. Returned=\"" + tail + "\", computed=\"" + user.getDN(null,true) + "\".");
+                throw new CILogonException("Error: the DN's don't match. Returned=\"" + tail + "\", computed=\"" + user.getDN(null, true) + "\".");
         }
     }
 
@@ -374,7 +383,7 @@ public class DBServiceSerializer {
         if (head.equals(STATUS_KEY)) {
             // Even return  codes are ok and informational.
             if (Integer.parseInt(tail) % 2 == 0) return;
-            ServletDebugUtil.trace(this, "Got unrecognized response of head=\"" + head + "\" tail=\""  + tail + "\"");
+            ServletDebugUtil.trace(this, "Got unrecognized response of head=\"" + head + "\" tail=\"" + tail + "\"");
             throw new DBServiceException(tail);
         }
     }

@@ -332,6 +332,10 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
             throw new DBServiceException(STATUS_NO_IDENTITY_PROVIDER);
         }
         UserMultiID userMultiKey = getNames(request);
+        if (userMultiKey.isTrivial()) {
+            writeMessage(response, STATUS_MISSING_ARGUMENT);
+            return;
+        }
         ServletDebugUtil.trace(this, "no user uid. multi-id =" + userMultiKey);
 
         String email = getParam(request, userKeys.email(), true);
@@ -351,10 +355,12 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
             useUSinDN = Boolean.TRUE;
         }
 
-         if (!userMultiKey.isTrivial()) {
+        if (!userMultiKey.isTrivial()) {
             // CIL-540
             // case 1.5 -- if the request has IDP and one of eptid, eppn or oidc, then this is sufficient to identify the user.
             User user = null;
+            int status = STATUS_OK;
+
             try {
                 user = findUser(userMultiKey, idp);
                 // if found
@@ -371,6 +377,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
                         displayName,
                         organizationalUnit,
                         useUSinDN);
+                status = STATUS_USER_UPDATED;
             } catch (Throwable unf) {
                 unf.printStackTrace();
                 // user has been uniquely identified. Make a new user and populate the object with whatever
@@ -387,11 +394,10 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
                         displayName,
                         organizationalUnit,
                         useUSinDN);
+                status = STATUS_NEW_USER;
             }
             TwoFactorInfo tfi = get2FStore().get(user.getIdentifier());
-            System.out.println("ADBService, tfi =" + tfi );
-            System.out.println("ADBService, writing user" + tfi );
-            writeUser(user, tfi, STATUS_OK, response);
+            writeUser(user, tfi, status, response);
             return;
         }
 
@@ -419,7 +425,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
                 writeUser(user, tfi, STATUS_OK, response);
                 return;
             } catch (UserNotFoundException x) {
-                makeNewUser(response, idp,
+                User user = makeNewUser(response, idp,
                         email,
                         firstName,
                         lastName,
@@ -429,6 +435,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
                         displayName,
                         organizationalUnit,
                         useUSinDN);
+                writeUser(user, STATUS_NEW_USER, response);
                 return;
             }
         }
