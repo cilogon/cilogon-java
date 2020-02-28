@@ -326,17 +326,19 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
             // Note the last call writes the response, so nothing further needs to be done.
             return;
         }
+        UserMultiID userMultiKey = getNames(request);
+
+        ServletDebugUtil.trace(this, "no user uid: Multi-id isTrivial? " + userMultiKey.isTrivial() + " = " + userMultiKey);
+
+        if (userMultiKey.isTrivial()) {
+            ServletDebugUtil.trace(this, "trivial multi-id =" + userMultiKey);
+            throw new DBServiceException(STATUS_MISSING_ARGUMENT);
+        }
 
         String idp = getParam(request, userKeys.idp());
         if (idp == null || idp.length() == 0) {
             throw new DBServiceException(STATUS_NO_IDENTITY_PROVIDER);
         }
-        UserMultiID userMultiKey = getNames(request);
-        if (userMultiKey.isTrivial()) {
-            writeMessage(response, STATUS_MISSING_ARGUMENT);
-            return;
-        }
-        ServletDebugUtil.trace(this, "no user uid. multi-id =" + userMultiKey);
 
         String email = getParam(request, userKeys.email(), true);
         String firstName = getParam(request, userKeys.firstName(), true);
@@ -364,7 +366,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
             try {
                 user = findUser(userMultiKey, idp);
                 // if found
-                updateUser(user,
+                boolean keepSerialID = updateUser(user,
                         response,
                         idp,
                         email,
@@ -377,7 +379,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
                         displayName,
                         organizationalUnit,
                         useUSinDN);
-                status = STATUS_USER_UPDATED;
+                status = (keepSerialID) ? STATUS_OK : STATUS_USER_UPDATED;
             } catch (Throwable unf) {
                 unf.printStackTrace();
                 // user has been uniquely identified. Make a new user and populate the object with whatever
@@ -518,21 +520,23 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
      * @param displayName
      * @param organizationalUnit
      * @param useUSinDN
+     * @return keepSerialID
      * @throws IOException
      */
-    private void updateUser(User user,
-                            HttpServletResponse response,
-                            String idp,
-                            String email,
-                            String firstName,
-                            String lastName,
-                            String idpDisplayName,
-                            UserMultiID entityID,
-                            String affiliation,
-                            String attr_json,
-                            String displayName,
-                            String organizationalUnit,
-                            Boolean useUSinDN) throws IOException {
+    private boolean updateUser(User user,
+                               HttpServletResponse response,
+                               String idp,
+                               String email,
+                               String firstName,
+                               String lastName,
+                               String idpDisplayName,
+                               UserMultiID entityID,
+                               String affiliation,
+                               String attr_json,
+                               String displayName,
+                               String organizationalUnit,
+                               Boolean useUSinDN) throws IOException {
+        boolean cangetCert = user.canGetCert();
         boolean keepSerialID = true; // default for no serious updates.
         if (email != null) {
             keepSerialID = keepSerialID && email.equals(user.getEmail());
@@ -540,12 +544,10 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
         }
         if (firstName != null) {
             keepSerialID = keepSerialID && firstName.equals(user.getFirstName());
-
             user.setFirstName(firstName);
         }
         if (lastName != null) {
             keepSerialID = keepSerialID && lastName.equals(user.getLastName());
-
             user.setLastName(lastName);
         }
         if (idpDisplayName != null) {
@@ -557,7 +559,14 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
             user.setAffiliation(affiliation);
         }
         if (displayName != null) {
-            user.setDisplayName(displayName);
+            boolean dnChanged = !displayName.equals(user.getDisplayName());
+            if (dnChanged) {
+                user.setDisplayName(displayName);
+            }
+            // Oy veh! We need both first and lat name to compute the cert DN later, so if one of those is missing
+            // AND the DN changed,
+            boolean x = !((isEmpty(user.getFirstName()) || isEmpty(user.getLastName())) && dnChanged);
+            keepSerialID = keepSerialID && x;
         }
         if (organizationalUnit != null) {
             user.setOrganizationalUnit(organizationalUnit);
@@ -576,8 +585,15 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
         user.setIdP(idp);
         user.setUseUSinDN(useUSinDN);
         // Again, the second argument in the next call  means
-        getUserStore().update(user, keepSerialID); // force that there is no new serial string produced.
         ServletDebugUtil.trace(this, "saved user " + user);
+        if ((!cangetCert && user.canGetCert()) || (!user.canGetCert())) {
+            getUserStore().update(user, true); // force that there is no new serial string produced.
+            // user could not get a cert before but can no, don't change serial string, use current.
+            return true;
+        }
+        // If we get here, then the user has been able to create certs and something may or may not have changed.
+        getUserStore().update(user, keepSerialID);
+        return keepSerialID;
     }
 
     /**

@@ -30,14 +30,21 @@ public class UserMultiID implements Iterable<PersonName>, Serializable {
     OpenIDConnect openIDConnect;
 
     /**
-     * Returns if this has only null elements as its constituent keys.
+     * Returns if this has only null or empty elements.
      *
      * @return
      */
     public boolean isTrivial() {
-        return eppn == null && eptid == null && remoteUserName == null && openID == null && openIDConnect == null;
+        return isTrivial(eppn) &&
+               isTrivial(eptid) &&
+               isTrivial(remoteUserName) &&
+               isTrivial(openID) &&
+               isTrivial(openIDConnect);
     }
 
+    boolean isTrivial(PersonName personName) {
+        return personName == null || personName.isEmpty();
+    }
 
     public UserMultiID(RemoteUserName remoteUserName) {
         this(remoteUserName, null, null, null, null);
@@ -199,9 +206,10 @@ public class UserMultiID implements Iterable<PersonName>, Serializable {
         // that ferrets oout edge cases and throws exceptions, so by assumption, this has been checked and is
         // sane at this point and we only have to determine if something changed. 
         if (hasEPPN() && !getEppn().equals(newID.getEppn())) return false;
-        if (!hasEPPN() && hasEPTID() && !getEptid().equals(newID.getEptid())) return false; // eppn unchanged, eptid can change.
+        if (!hasEPPN() && hasEPTID() && !getEptid().equals(newID.getEptid()))
+            return false; // eppn unchanged, eptid can change.
 //        if (hasOpenID() && !getOpenID().equals(newID.getOpenID())) return false;
-  //      if (hasRemoteUser() && !getRemoteUserName().equals(newID.getRemoteUserName())) return false;
+        //      if (hasRemoteUser() && !getRemoteUserName().equals(newID.getRemoteUserName())) return false;
 
         return true;
     }

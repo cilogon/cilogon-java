@@ -7,6 +7,7 @@ import edu.uiuc.ncsa.myproxy.oa4mp.server.ServiceEnvironmentImpl;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.admin.adminClient.AdminClientStore;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.admin.permissions.PermissionsStore;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.servlet.AuthorizationServletConfig;
+import edu.uiuc.ncsa.qdl.config.QDLEnvironment;
 import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
 import edu.uiuc.ncsa.security.delegation.server.issuers.AGIssuer;
 import edu.uiuc.ncsa.security.delegation.server.issuers.ATIssuer;
@@ -78,7 +79,8 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
                                         boolean isUtilServletEnabled,
                                         boolean isOIDCEnabled,
                                         Provider<JSONStore> jsonStoreProvider,
-                                        CMConfigs cmConfigs
+                                        CMConfigs cmConfigs,
+                                        QDLEnvironment qe
                                         ) {
         super(logger,
                 tsp,
@@ -112,7 +114,8 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
                 isUtilServletEnabled,
                 isOIDCEnabled,
                 jsonStoreProvider,
-                cmConfigs
+                cmConfigs,
+                qe
                 );
         ciLogonSE = new CILogonSEImpl(usp, ausp, idpsp, incp, tfsp, isComputeFNAL);
         if(claimSource instanceof UserClaimSource){

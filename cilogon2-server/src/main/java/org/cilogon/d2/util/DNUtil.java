@@ -26,7 +26,7 @@ public class DNUtil {
     protected static final int OPENID_CASE = 11;
 
     public static boolean isComputeFNAL() {
-        ServletDebugUtil.dbg(DNUtil.class, "computeFNAL=" + computeFNAL);
+        ServletDebugUtil.trace(DNUtil.class, "computeFNAL=" + computeFNAL);
         return computeFNAL;
     }
 
@@ -38,7 +38,7 @@ public class DNUtil {
 
 
     protected static int getCase(User user) {
-        ServletDebugUtil.dbg(DNUtil.class, "in getCase");
+        ServletDebugUtil.trace(DNUtil.class, "in getCase");
         if (user.hasOpenID() || user.hasOpenIDConnect())
             return OPENID_CASE;
 
@@ -46,7 +46,7 @@ public class DNUtil {
         if (user.getIdP() != null && user.getIdP().matches(LIGO_IDP)) return LIGO_CASE;
         // Fix for CIL-234
         if (user.getePPN() != null && user.getePPN().getName().toLowerCase().endsWith("fnal.gov")) return FNL_CASE;
-        ServletDebugUtil.dbg(DNUtil.class, "returning default case");
+        ServletDebugUtil.trace(DNUtil.class, "returning default case");
 
         return DEFAULT_CASE;
     }
@@ -88,7 +88,7 @@ public class DNUtil {
             int i = 0;
             while (st.hasMoreTokens()) {
                 cns[i++] = st.nextToken();
-                DebugUtil.dbg(DNUtil.class, "OA2DNUtil.getLIGODN: cns[i]==" + cns[i - 1]); // cause we incremented
+                DebugUtil.trace(DNUtil.class, "OA2DNUtil.getLIGODN: cns[i]==" + cns[i - 1]); // cause we incremented
             }
 
             if (cns.length == 3 && cns[0].equals("Robots")) {
@@ -136,12 +136,12 @@ public class DNUtil {
                 "format from organizational unit=\"" + user.getOrganizationalUnit() + "\"");
 */
 
+
     }
 
     // Fix for CIL-320: getting DN should not depend on transaction state.
     protected static String getDefaultDN(User user, boolean returnEmail) {
         String baseString = "/DC=org/DC=cilogon" + (user.isUseUSinDN() ? "/C=US" : "") + "/O=%s/CN=%s %s";
-        if(user.getFirstName() != null)
         if (returnEmail) {
             baseString = baseString + " email=%s";
             return String.format(baseString,
@@ -178,7 +178,6 @@ public class DNUtil {
 
             CharsetEncoder encoder = utf7.newEncoder();
             ByteBuffer bbuf = encoder.encode(CharBuffer.wrap(inString));
-            //byte[] rawBytes = inString.getBytes(utf7);
             byte[] converted = new byte[bbuf.limit()];
             System.arraycopy(bbuf.array(),0,converted,0,converted.length);
             System.out.println(bbuf.limit());
@@ -213,7 +212,6 @@ public class DNUtil {
     }
 
     public static void main(String[] args){
-        //String input = "/DC=org/DC=cilogon/C=US/O=Google/CN=+MNUw6yAVMOowxjDqIBU- +MNUw6yAVMOo- A299626 email=boomerangfish@gmail.com";
         String input = "フル―リテリ―";
         String testString = "+MNUw6yAVMOowxjDqIBU-";
         System.out.println("original = \"" + input + "\"");
@@ -223,7 +221,7 @@ public class DNUtil {
 
     }
     protected static String getFNLDN(User user, boolean returnEmail) {
-        DebugUtil.dbg(DNUtil.class, "OA2DNUtil.getFNLDN: user=" + user);
+        DebugUtil.trace(DNUtil.class, "OA2DNUtil.getFNLDN: user=" + user);
         if (user.getOrganizationalUnit() == null) {
             throw new GeneralException("Error: No organizational unit has been specified for this user. DN cannot be generated.");
         }
@@ -233,11 +231,11 @@ public class DNUtil {
         int i = 0;
         while (st.hasMoreTokens()) {
             cns[i++] = st.nextToken();
-            DebugUtil.dbg(DNUtil.class, "OA2DNUtil.getFNLDN: cns[i]==" + cns[i - 1]); // cause we incremented
+            DebugUtil.trace(DNUtil.class, "OA2DNUtil.getFNLDN: cns[i]==" + cns[i - 1]); // cause we incremented
         }
         String eppn = user.getePPN().getName();
         if(eppn == null || eppn.isEmpty()){
-            DebugUtil.dbg(DNUtil.class, "OA2DNUtil.getFNLDN: Missing EPPN, cannot create the DN."); // cause we incremented
+            DebugUtil.trace(DNUtil.class, "OA2DNUtil.getFNLDN: Missing EPPN, cannot create the DN."); // cause we incremented
             throw new GeneralException("Error: Missing EPPN, cannot create the correct DN");
         }
         String id = "UID:" + eppn.substring(0, eppn.indexOf("@"));
@@ -253,14 +251,14 @@ public class DNUtil {
                         toUTF7(user.getLastName()),
                         id,
                         user.getEmail());
-                DebugUtil.dbg(DNUtil.class, "OA2DNUtil.getFNLDN: people case=" + rc);
+                DebugUtil.trace(DNUtil.class, "OA2DNUtil.getFNLDN: people case=" + rc);
                 return rc;
             }
             rc = String.format(baseString,
                     toUTF7(user.getFirstName()),
                     toUTF7(user.getLastName()),
                     id);
-            DebugUtil.dbg(DNUtil.class, "OA2DNUtil.getFNLDN: people case=" + rc);
+            DebugUtil.trace(DNUtil.class, "OA2DNUtil.getFNLDN: people case=" + rc);
             return rc;
 
 
@@ -279,7 +277,7 @@ public class DNUtil {
                         toUTF7(user.getLastName()),
                         id,
                         user.getEmail());
-                DebugUtil.dbg(DNUtil.class, "OA2DNUtil.getFNLDN: robot case=" + rc);
+                DebugUtil.trace(DNUtil.class, "OA2DNUtil.getFNLDN: robot case=" + rc);
                 return rc;
 
             }
@@ -289,7 +287,7 @@ public class DNUtil {
                     toUTF7(user.getFirstName()),
                     toUTF7(user.getLastName()),
                     id);
-            DebugUtil.dbg(DNUtil.class, "OA2DNUtil.getFNLDN: robot case=" + rc);
+            DebugUtil.trace(DNUtil.class, "OA2DNUtil.getFNLDN: robot case=" + rc);
             return rc;
 
         }
