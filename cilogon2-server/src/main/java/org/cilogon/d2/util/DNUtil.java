@@ -131,29 +131,40 @@ public class DNUtil {
                 toUTF7(user.getFirstName()),
                 toUTF7(user.getLastName()),
                 name);
-/*
-        throw new GeneralException("Error: computing LIGO DN. Could not determine proper " +
-                "format from organizational unit=\"" + user.getOrganizationalUnit() + "\"");
-*/
-
-
     }
 
+    /**
+     * Each component of the name needs to be utf-7 encoded.
+     * @param names
+     * @return
+     */
+     private static String encodeCertName(String[] names){
+         if(names == null || names.length == 0){
+             throw new NFWException("Error: missing cert name.");
+         }
+        String out = "";
+
+        for(String x : names){
+            out = out + (out.equals("")?"":" ") + toUTF7(x); // pad with a blank between if not the first one
+        }
+        return out;
+     }
     // Fix for CIL-320: getting DN should not depend on transaction state.
+    // Fix for CIL-540: Allow display name too.
     protected static String getDefaultDN(User user, boolean returnEmail) {
         String baseString = "/DC=org/DC=cilogon" + (user.isUseUSinDN() ? "/C=US" : "") + "/O=%s/CN=%s %s";
         if (returnEmail) {
             baseString = baseString + " email=%s";
             return String.format(baseString,
                     toUTF7(user.getIDPName()),
-                    toUTF7(user.getCertName()),
+                    encodeCertName(user.getCertName()),
                     user.getSerialString(),
                     user.getEmail());
 
         }
         return String.format(baseString,
                 toUTF7(user.getIDPName()),
-                toUTF7(user.getCertName()),
+                encodeCertName(user.getCertName()),
                 user.getSerialString());
     }
 

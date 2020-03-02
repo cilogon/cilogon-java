@@ -256,12 +256,17 @@ public class User extends IdentifiableImpl {
      *
      * @return
      */
-    public String getCertName() {
+    public String[] getCertName() {
         if (isNotTrivial(getFirstName()) && isNotTrivial(getLastName())) {
-            return getFirstName() + " " + getLastName();
+            String[] out = new String[2];
+            out[0] = getFirstName();
+            out[1] = getLastName();
+            return out;
         }
         if (isNotTrivial(getDisplayName())) {
-            return getDisplayName();
+            String[] out = new String[1];
+            out[0] = getDisplayName();
+            return out;
         }
         return null;
     }

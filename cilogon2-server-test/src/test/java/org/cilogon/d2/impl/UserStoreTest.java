@@ -340,6 +340,7 @@ public class UserStoreTest extends TestBase {
 
     /**
      * This takes a known user in the database and checks that the computed DN has not changed.
+     *
      * @param userStore
      * @throws Exception
      */
@@ -358,7 +359,7 @@ public class UserStoreTest extends TestBase {
         status    0
         uid    http://cilogon.org/serverD/users/1
      */
-    String refDN = "/DC=org/DC=cilogon/C=US/O=Google/CN=+MNUw6yAVMOowxjDqIBU- +MNUw6yAVMOo- D3170 email=boomerangfish@gmail.com";
+        String refDN = "/DC=org/DC=cilogon/C=US/O=Google/CN=+MNUw6yAVMOowxjDqIBU- +MNUw6yAVMOo- D3170 email=boomerangfish@gmail.com";
         String firstName = "フル―リテリ―";
         String lastName = "フル―リ";
         String email = "boomerangfish@gmail.com";
@@ -384,10 +385,11 @@ public class UserStoreTest extends TestBase {
         peopleUser.setUseUSinDN(true);
         String dn = DNUtil.getDN(peopleUser, null, true);
         System.out.println("reference DN = \"" + refDN);
-         System.out.println("computed UTF7 DN = \"" + dn + "\"");
-         System.out.println("Are these equal up to serial string?");
-         userStore.remove(peopleUser.getIdentifier());
+        System.out.println("computed UTF7 DN = \"" + dn + "\"");
+        System.out.println("Are these equal up to serial string?");
+        userStore.remove(peopleUser.getIdentifier());
     }
+
     public void testUTF7(UserStore userStore) throws Exception {
         // test is to send new information for a user.
         String firstName = "Дмитрий";
