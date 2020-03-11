@@ -536,37 +536,49 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
                                String displayName,
                                String organizationalUnit,
                                Boolean useUSinDN) throws IOException {
+        User.DN_State oldDNState = user.getDNState();
+        User.DN_State newDNState = new User.DN_State();
+
         boolean cangetCert = user.canGetCert();
         boolean keepSerialID = true; // default for no serious updates.
         if (email != null) {
-            keepSerialID = keepSerialID && email.equals(user.getEmail());
-            user.setEmail(email);
+            boolean ok = email.equals(user.getEmail());
+            if (ok) {
+                newDNState.setEmail(ok);
+                user.setEmail(email);
+            }
         }
         if (firstName != null) {
-            keepSerialID = keepSerialID && firstName.equals(user.getFirstName());
-            user.setFirstName(firstName);
+            boolean ok = firstName.equals(user.getFirstName());
+            if(ok) {
+                newDNState.setFirstName(ok);
+                user.setFirstName(firstName);
+            }
         }
         if (lastName != null) {
-            keepSerialID = keepSerialID && lastName.equals(user.getLastName());
-            user.setLastName(lastName);
+            boolean ok =  lastName.equals(user.getLastName());
+            if(ok){
+                    newDNState.setLastName(ok);
+                user.setLastName(lastName);
+            }
         }
         if (idpDisplayName != null) {
-            keepSerialID = keepSerialID && idpDisplayName.equals(user.getIDPName());
-            user.setIDPName(idpDisplayName);
+            boolean ok = idpDisplayName.equals(user.getIDPName());
+            if(ok){
+              newDNState.setIDPName(ok);
+                user.setIDPName(idpDisplayName);
+            }
         }
 
         if (affiliation != null) {
             user.setAffiliation(affiliation);
         }
         if (displayName != null) {
-            boolean dnChanged = !displayName.equals(user.getDisplayName());
-            if (dnChanged) {
+            boolean ok = !displayName.equals(user.getDisplayName());
+            if (ok) {
+                newDNState.setDisplayName(ok);
                 user.setDisplayName(displayName);
             }
-            // Oy veh! We need both first and lat name to compute the cert DN later, so if one of those is missing
-            // AND the DN changed,
-            boolean x = !((isEmpty(user.getFirstName()) || isEmpty(user.getLastName())) && dnChanged);
-            keepSerialID = keepSerialID && x;
         }
         if (organizationalUnit != null) {
             user.setOrganizationalUnit(organizationalUnit);

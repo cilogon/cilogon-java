@@ -28,10 +28,16 @@ public class UserKeys extends SerializationKeys {
     public String oidc = "oidc";
     public String useUSinDN = "us_idp";
     public String attr_json = "attr_json";
+    public String state = "state";
 
     public String useUSinDN(String... x) {
         if (0 < x.length) useUSinDN = x[0];
         return useUSinDN;
+    }
+
+    public String state(String... x) {
+        if (0 < x.length) state = x[0];
+        return state;
     }
 
     public String attr_json(String... x) {

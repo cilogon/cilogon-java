@@ -7,6 +7,8 @@ import edu.uiuc.ncsa.security.core.util.BeanUtils;
 import edu.uiuc.ncsa.security.core.util.DateUtils;
 import edu.uiuc.ncsa.security.core.util.IdentifiableImpl;
 import edu.uiuc.ncsa.security.servlet.ServletDebugUtil;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import org.cilogon.d2.util.AbstractCILServiceTransaction;
 import org.cilogon.d2.util.DNUtil;
 import org.cilogon.d2.util.SerialStrings;
@@ -191,11 +193,7 @@ public class User extends IdentifiableImpl {
     }
 
     public boolean canGetCert() {
-        boolean canGetCert = isNotTrivial(getFirstName()) && isNotTrivial(getLastName());
-        canGetCert = canGetCert || isNotTrivial(getDisplayName());
-        canGetCert = canGetCert && isNotTrivial(getEmail());
-
-        return canGetCert;
+        return getDNState().canGetDN();
     }
 
     boolean isNotTrivial(String x) {
@@ -251,28 +249,165 @@ public class User extends IdentifiableImpl {
 
     Identifier serialIdentifier;
 
+    public static class DN_State {
+        JSONArray array;
+
+        public DN_State() {
+            JSONArray array = new JSONArray();
+            for (int i = 0; i < DN_STATE_LENGTH; i++) {
+                array.set(i, DN_STATE_NULL);
+            }
+        }
+
+        public boolean allZero() {
+            for (int i = 0; i < array.size(); i++) {
+                if (array.getInt(i) != 0) return false;
+            }
+            return true;
+        }
+
+        public DN_State(JSONArray array) {
+            this.array = array;
+        }
+
+        public int getState() {
+            // vector of [M,D,F,L]
+            return array.getInt(DN_STATE_IDP_NAME) * 16
+                    + array.getInt(DN_STATE_EMAIL_INDEX) * 8
+                    + array.getInt(DN_STATE_DISPLAY_NAME_INDEX) * 4
+                    + array.getInt(DN_STATE_FIRST_NAME_INDEX) * 2
+                    + array.getInt(DN_STATE_LAST_NAME_INDEX);
+        }
+
+        protected void setIt(int index, boolean ok) {
+            array.set(index, ok ? 1 : 0);
+
+        }
+
+        public void setIDPName(boolean ok){
+            setIt(DN_STATE_IDP_NAME, ok);
+        }
+        public void setEmail(boolean ok) {
+            setIt(DN_STATE_EMAIL_INDEX, ok);
+        }
+
+        public void setDisplayName(boolean ok) {
+            setIt(DN_STATE_DISPLAY_NAME_INDEX, ok);
+        }
+
+        public void setFirstName(boolean ok) {
+            setIt(DN_STATE_FIRST_NAME_INDEX, ok);
+        }
+
+        public void setLastName(boolean ok) {
+            setIt(DN_STATE_LAST_NAME_INDEX, ok);
+        }
+
+        public String[] getDNNames(User user) {
+            if (getState() == 28) {
+                return new String[]{user.getDisplayName()};
+            }
+            if (getState() == 27) {
+                return new String[]{user.getFirstName(), user.getLastName()};
+            }
+            throw new IllegalStateException("Error: Could not determine which user names to return");
+        }
+
+        public boolean canGetDN() {
+            // correspond to [1,0,1,1] and [1,1,0,0] resp.
+            return getState() == 11 || getState() == 12;
+        }
+
+        public boolean equals(JSONArray newArray) {
+
+            if (newArray == null || array.size() != newArray.size()) return false;
+            for (int i = 0; i < array.size(); i++) {
+                if (array.getInt(i) != newArray.getInt(i)) return false;
+            }
+            return true;
+        }
+    }
+
     /**
      * Only call this if {@link #canGetCert()} is true.
      *
      * @return
      */
     public String[] getCertName() {
-        if (isNotTrivial(getFirstName()) && isNotTrivial(getLastName())) {
-            String[] out = new String[2];
-            out[0] = getFirstName();
-            out[1] = getLastName();
-            return out;
-        }
-        if (isNotTrivial(getDisplayName())) {
-            String[] out = new String[1];
-            out[0] = getDisplayName();
-            return out;
-        }
-        return null;
+        return getDNState().getDNNames(this);
     }
 
     public String getDN(AbstractCILServiceTransaction transaction, boolean returnEmail) {
         return DNUtil.getDN(this, transaction, returnEmail);
+    }
+
+    /**
+     * A general JSON object for storing state about a user. Since we are getting more and more types of
+     * users with often custom information it makes sense to have a <i>soft</i> structure to hold it (vs. changing the
+     * user API generally for every special case).
+     *
+     * @return
+     */
+    public JSONObject getState() {
+        if (state == null) {
+            state = new JSONObject();
+        }
+        return state;
+    }
+
+    public void setState(JSONObject state) {
+        this.state = state;
+    }
+
+    JSONObject state;
+    String DN_STATE = "dn_state";
+    public static int DN_STATE_LENGTH = 5;
+    public static int DN_STATE_NULL = 0;
+    public int DN_STATE_SET = 1;
+    public int DN_STATE_CHANGED = 2;
+
+    public static int DN_STATE_EMAIL_INDEX = 0;
+    public static int DN_STATE_DISPLAY_NAME_INDEX = 1;
+    public static int DN_STATE_FIRST_NAME_INDEX = 2;
+    public static int DN_STATE_LAST_NAME_INDEX = 3;
+    public static int DN_STATE_IDP_NAME = 4;
+
+    DN_State dnState = null;
+
+    public DN_State getDNState() {
+        if (dnState == null) {
+            JSONArray array;
+            if (getState().containsKey(DN_STATE)) {
+                array = getState().getJSONArray(DN_STATE);
+            } else {
+                // completely new one.
+                array = new JSONArray();
+                // if the email and idp name are not set, cannot create one. 
+                if (isNotTrivial(getEmail()) && isNotTrivial(getIDPName())) {
+                    array.set(DN_STATE_EMAIL_INDEX, 1);
+                    array.set(DN_STATE_IDP_NAME, 1);
+                    if (isNotTrivial(getFirstName()) && isNotTrivial(getLastName())) {
+                        array.set(DN_STATE_FIRST_NAME_INDEX, 1);
+                        array.set(DN_STATE_LAST_NAME_INDEX, 1);
+                    } else {
+                        // This gives preference to setting the first and last name as the way to compute the DN
+                        if (isNotTrivial(getDisplayName())) {
+                            array.set(DN_STATE_DISPLAY_NAME_INDEX, 1);
+                        }
+                    }
+                } else {
+                    for (int i = 0; i < DN_STATE_LENGTH; i++) {
+                        array.set(i, DN_STATE_NULL);
+                    }
+                }
+            }
+            dnState = new DN_State(array);
+        }
+        return dnState;
+    }
+
+    public void setDNState(DN_State dnState) {
+        getState().put(DN_STATE, dnState.array);
     }
 
     public String toString() {

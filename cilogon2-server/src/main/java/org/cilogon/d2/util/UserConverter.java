@@ -4,6 +4,7 @@ import edu.uiuc.ncsa.security.core.IdentifiableProvider;
 import edu.uiuc.ncsa.security.storage.data.ConversionMap;
 import edu.uiuc.ncsa.security.storage.data.MapConverter;
 import edu.uiuc.ncsa.security.storage.data.SerializationKeys;
+import net.sf.json.JSONObject;
 import org.cilogon.d2.storage.*;
 
 import static edu.uiuc.ncsa.security.core.util.BasicIdentifier.newID;
@@ -48,6 +49,7 @@ public class UserConverter<T extends User> extends MapConverter<T> {
         user.setOrganizationalUnit(map.getString(uk().organizationalUnit()));
         user.setUseUSinDN(map.getBoolean(uk().useUSinDN()));
         user.setAttr_json(map.getString(uk().attr_json()));
+        user.setState(JSONObject.fromObject(map.getString(uk().state())));
         return user;
     }
 
@@ -72,6 +74,7 @@ public class UserConverter<T extends User> extends MapConverter<T> {
         map.put(uk().organizationalUnit(), user.getOrganizationalUnit());
         map.put(uk().useUSinDN(), user.isUseUSinDN());
         map.put(uk().attr_json(), replaceNull(user.getAttr_json()));
+        map.put(uk().state(), user.getState().toString());
     }
 
     protected String replaceNull(PersonName x) {

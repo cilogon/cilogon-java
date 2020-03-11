@@ -84,6 +84,7 @@ public class ArchivedUsersTable extends Table {
                 getUsersTable().userKeys().creationTimestamp() + "," +
                 getUsersTable().userKeys().useUSinDN() + "," +
                 getUsersTable().userKeys().attr_json() + "," +
+                getUsersTable().userKeys().state() + "," +
                 "CURRENT_TIMESTAMP FROM " + getUsersTable().getFQTablename() + " where " + getUsersTable().userKeys().identifier() + " = ?";
     }
 

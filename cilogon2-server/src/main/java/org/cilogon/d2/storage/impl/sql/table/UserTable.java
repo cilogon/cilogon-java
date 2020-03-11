@@ -35,6 +35,7 @@ public class UserTable extends Table {
         getColumnDescriptor().add(new ColumnDescriptorEntry(userKeys().creationTimestamp(), TIMESTAMP));
         getColumnDescriptor().add(new ColumnDescriptorEntry(userKeys().useUSinDN(), Types.BOOLEAN));
         getColumnDescriptor().add(new ColumnDescriptorEntry(userKeys().attr_json(), LONGVARCHAR));
+        getColumnDescriptor().add(new ColumnDescriptorEntry(userKeys().state(), LONGVARCHAR));
     }
 
 

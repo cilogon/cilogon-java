@@ -16,6 +16,7 @@ import org.cilogon.d2.util.DNUtil;
 import org.cilogon.d2.util.Incrementable;
 import org.junit.Test;
 
+import java.math.BigInteger;
 import java.net.URI;
 import java.util.Collection;
 import java.util.Map;
@@ -422,6 +423,12 @@ public class UserStoreTest extends TestBase {
 
     public static void main(String[] args) {
         try {
+            byte[] bytes = new byte[] { 0x1 };
+               BigInteger bi = new BigInteger(bytes);
+            int decimal = Integer.parseInt("11100",2);
+            String hexStr = Integer.toString(decimal,16);
+               System.out.println(hexStr);
+
             String firstName = "Дмитрий";
             String lastName = "Шостакович+源";  // Russian - Japanese last name...
             String email = "Шоста@和楽器.com";
