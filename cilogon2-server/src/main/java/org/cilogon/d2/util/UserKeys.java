@@ -13,22 +13,35 @@ public class UserKeys extends SerializationKeys {
         identifier(userID);
     }
 
+    public String attr_json = "attr_json";
     public String creationTimestamp = "create_time";
     public String email = "email";
-    public String firstName = "first_name";
-    public String idp = "idp";
-    public String lastName = "last_name";
-    public String idpDisplayName = "idp_display_name";
-    public String remoteUser = "remote_user";
-    public String serialString = "serial_string";
-    public String userID = "user_uid";
     public String eppn = "eppn";
     public String eptid = "eptid";
-    public String openID = "open_id";
+    public String firstName = "first_name";
+    public String idp = "idp";
+    public String idpDisplayName = "idp_display_name";
+    public String lastName = "last_name";
     public String oidc = "oidc";
-    public String useUSinDN = "us_idp";
-    public String attr_json = "attr_json";
+    public String openID = "open_id";
+    public String remoteUser = "remote_user";
+    public String serialString = "serial_string";
     public String state = "state";
+    public String userID = "user_uid";
+    public String useUSinDN = "us_idp";
+    public String pairwiseid = "pairwise_id";
+    public String subjectid = "subject_id";
+
+    public String pairwiseId(String... x) {
+        if (0 < x.length) pairwiseid = x[0];
+        return pairwiseid;
+    }
+
+
+    public String subjectId(String... x) {
+        if (0 < x.length) subjectid = x[0];
+        return subjectid;
+    }
 
     public String useUSinDN(String... x) {
         if (0 < x.length) useUSinDN = x[0];

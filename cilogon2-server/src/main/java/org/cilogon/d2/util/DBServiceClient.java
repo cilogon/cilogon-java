@@ -15,6 +15,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.cilogon.d2.servlet.AbstractDBService;
 import org.cilogon.d2.storage.IdentityProvider;
+import org.cilogon.d2.storage.PersonName;
 import org.cilogon.d2.storage.User;
 import org.cilogon.d2.storage.UserMultiID;
 import org.cilogon.d2.twofactor.TwoFactorInfo;
@@ -52,10 +53,10 @@ public class DBServiceClient {
     }
 
 
-    Pool< HttpClient> clientPool = new Pool<HttpClient>() {
+    Pool<HttpClient> clientPool = new Pool<HttpClient>() {
         @Override
         public HttpClient create() {
-            return  new DefaultHttpClient();
+            return new DefaultHttpClient();
         }
 
 
@@ -65,6 +66,10 @@ public class DBServiceClient {
         }
     };
 
+
+    public XMLMap doGet(String action, XMLMap map){
+          return doGet(action, createRequest(map));
+    }
 
     protected XMLMap doGet(String action, String[][] args) {
         String getString = host() + "?" + AbstractDBService.ACTION_PARAMETER + "=" + action;
@@ -172,6 +177,23 @@ public class DBServiceClient {
 
     }
 
+    protected String[][] createRequest(XMLMap map) {
+        ArrayList<String> arrayList = new ArrayList<>();
+        for (String key : map.keySet()) {
+            Object value = map.get(key);
+            if (value != null) {
+                arrayList.add(key);
+                if (value instanceof PersonName) {
+                    arrayList.add(((PersonName) value).getName());
+                } else {
+                    arrayList.add(value.toString());
+                }
+            }
+        }
+        return pairwiseStringArray(arrayList);
+
+    }
+
     /**
      * Create a request from whatever information is provided.
      *
@@ -234,15 +256,15 @@ public class DBServiceClient {
             arrayList.add(userKeys.email());
             arrayList.add(email);
         }
-        if(!isEmpty(affilation)){
+        if (!isEmpty(affilation)) {
             arrayList.add(userKeys.affiliation());
             arrayList.add(affilation);
         }
-        if(!isEmpty(displayName)){
+        if (!isEmpty(displayName)) {
             arrayList.add(userKeys.displayName());
             arrayList.add(displayName);
         }
-        if(!isEmpty(organizationalUnit)){
+        if (!isEmpty(organizationalUnit)) {
             arrayList.add(userKeys.organizationalUnit());
             arrayList.add(organizationalUnit);
         }

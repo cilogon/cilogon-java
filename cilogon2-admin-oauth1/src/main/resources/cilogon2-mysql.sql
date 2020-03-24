@@ -88,7 +88,7 @@ CREATE TABLE oauth.transactions (
   INDEX accessToken (access_token(255))
 );
 
-CREATE TABLE oauth.user (
+CREATE TABLE user (
   user_uid         VARCHAR(255) PRIMARY KEY,
   first_name       TEXT,
   last_name        TEXT,
@@ -97,6 +97,8 @@ CREATE TABLE oauth.user (
   remote_user      TEXT,
   email            TEXT,
   serial_string    TEXT,
+  subject_id       TEXT,
+  pairwise_id      TEXT,
   eppn             TEXT,
   eptid            TEXT,
   open_id          TEXT,

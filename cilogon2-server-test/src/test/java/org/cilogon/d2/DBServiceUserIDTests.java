@@ -146,7 +146,7 @@ public class DBServiceUserIDTests extends RemoteDBServiceTest {
     }
 
     void printUserNice(String header, User user) throws Exception {
-        XMLMap map =  new XMLMap();
+        XMLMap map = new XMLMap();
         getUserStore().getMapConverter().toMap(user, map);
         JSONObject j = new JSONObject();
         j.putAll(map);
@@ -154,6 +154,7 @@ public class DBServiceUserIDTests extends RemoteDBServiceTest {
         System.err.println(j.toString(2));
 
     }
+
     /**
      * This test covers the case where one ID is given, then later a pair are given
      * (such as eppn then eppn,eptid or openid then openid, oidc). This ensures that the system can
@@ -167,7 +168,7 @@ public class DBServiceUserIDTests extends RemoteDBServiceTest {
         User user = newUser();
         printUserNice("testOneThenTwoIds:", user);
         user.setUserMultiKey(key1);
-        getUserStore().update(user,true); // otherwise the next step returns a different user id.
+        getUserStore().update(user, true); // otherwise the next step returns a different user id.
 
         XMLMap map = getDBSClient().getUser(user.getUserMultiKey(),
                 user.getIdP(), user.getIDPName(), user.getFirstName(), user.getLastName(), user.getEmail(),
@@ -175,7 +176,7 @@ public class DBServiceUserIDTests extends RemoteDBServiceTest {
                 user.getDisplayName(),
                 user.getOrganizationalUnit());
         JSONObject jsonObject = new JSONObject();
-         jsonObject.putAll(map);
+        jsonObject.putAll(map);
 
         checkUserAgainstMap(map, user);
         // now re-get with both the first and second key
@@ -204,7 +205,7 @@ public class DBServiceUserIDTests extends RemoteDBServiceTest {
         UserMultiID eptidKey = new UserMultiID(umk.getEptid());
         User user = newUser();
         user.setUserMultiKey(eptidKey);
-        getUserStore().update(user,true); // otherwise the next step returns a different user id.
+        getUserStore().update(user, true); // otherwise the next step returns a different user id.
         XMLMap map = getDBSClient().getUser(user.getUserMultiKey(),
                 user.getIdP(),
                 user.getIDPName(),
@@ -287,7 +288,7 @@ public class DBServiceUserIDTests extends RemoteDBServiceTest {
             Date date = new Date(currentTime - (i + 1) * oneYear); // have these spaced one year apart.
             user.setCreationTime(date);
             user.setUserMultiKey(newUmk);
-            getUserStore().update(user,true);
+            getUserStore().update(user, true);
             user = newUser();
             user.setIdP(idp);
         }
@@ -456,16 +457,22 @@ public class DBServiceUserIDTests extends RemoteDBServiceTest {
     }
 
     /**
+     * <h1>Updated 2020-03-24T15:45:49.545Z</h1>
+     * This test is now disabled since we are aiming to remove archiving users from the database. This means that
+     * there will be no further testing of these components and if they break because of code changes it will
+     * be silent.
      * Test that archiving a user with identifiers faithfully stores them.
      *
      * @throws Exception
      */
-    @Test
-    public void testGetArchiveUser() throws Exception {
+    //@Test
+    //public void testGetArchiveUser() throws Exception {
+    public void OLDTEST() throws Exception {
+
         UserMultiID umk = createUMK();
         UserMultiID ruKey = new UserMultiID(umk.getRemoteUserName());
 
-        User user = newUser();
+        User user = newUser(); // creates and registers this user.
         user.setUserMultiKey(ruKey);
         // First test: the getUser command here will not get the user by its unique ID, but by the 6+ parameters that
         // define it. At this point we have made a user and updated the ruKey. Getting the user should return a completely
@@ -479,8 +486,8 @@ public class DBServiceUserIDTests extends RemoteDBServiceTest {
         // check equality will always fail.
 
         // Now we are ready to actually check this user.
-         String x = getRandomString();
-        User referenceUser =  user.clone(); // so we can check it did get archived right later
+        String x = getRandomString();
+        User referenceUser = user.clone(); // so we can check it did get archived right later
         user.setLastName("last-" + x);
         user.setFirstName("first-" + x);
         user.setEmail(user.getFirstName() + "." + user.getLastName() + "@foo-" + x + ".edu");

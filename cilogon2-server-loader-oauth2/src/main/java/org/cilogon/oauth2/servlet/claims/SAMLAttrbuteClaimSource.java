@@ -135,7 +135,7 @@ public class SAMLAttrbuteClaimSource extends BasicClaimsSourceImpl {
                 claims.put(OA2Claims.IS_MEMBER_OF, group.toJSON()); // or the JSON object tries to turn it into something weird.
                 // parse into a group structure
             } else {
-                // parse into a JSON array since SAML support multiple values for any attribute,
+                // parse into a JSON array since SAML supports multiple values for any attribute,
                 String values = saml.getString(key);
                 if (values.indexOf(SHIBBOLETH_LIST_DELIMITER) < 0) {
                     // A single value.

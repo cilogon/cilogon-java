@@ -51,6 +51,8 @@ public class ArchivedUsersTable extends Table {
                 getUsersTable().userKeys().eptid() + "," +
                 getUsersTable().userKeys().openID() + "," +
                 getUsersTable().userKeys().oidc() + "," +
+                getUsersTable().userKeys().subjectId() + "," +
+                getUsersTable().userKeys().pairwiseId() + "," +
                 getUsersTable().userKeys().idp() + "," +
                 getUsersTable().userKeys().idpDisplayName() + "," +
                 getUsersTable().userKeys().identifier() + "," +
@@ -64,6 +66,7 @@ public class ArchivedUsersTable extends Table {
                 getUsersTable().userKeys().creationTimestamp() + "," +
                 getUsersTable().userKeys().useUSinDN() + "," +
                 getUsersTable().userKeys().attr_json() + "," +
+                getUsersTable().userKeys().state() + "," +
                 auKeys().archivedTimestampColumn() + ")" +
                 "select ?," +
                 getUsersTable().userKeys().remoteUser() + "," +
@@ -71,6 +74,8 @@ public class ArchivedUsersTable extends Table {
                 getUsersTable().userKeys().eptid() + "," +
                 getUsersTable().userKeys().openID() + "," +
                 getUsersTable().userKeys().oidc() + "," +
+                getUsersTable().userKeys().subjectId() + "," +
+                getUsersTable().userKeys().pairwiseId() + "," +
                 getUsersTable().userKeys().idp() + "," +
                 getUsersTable().userKeys().idpDisplayName() + "," +
                 getUsersTable().userKeys().identifier() + "," +

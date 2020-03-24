@@ -49,22 +49,22 @@ import static edu.uiuc.ncsa.security.oauth_2_0.OA2Constants.AUTHORIZATION_TIME;
 public class DBService2 extends AbstractDBService {
     public static final String GET_CLIENT = "getClient";
     public static final int GET_CLIENT_CASE = 710;
-    public static final int STATUS_NO_CLIENT_FOUND = 0xFFFF;
+    public static final int STATUS_NO_CLIENT_FOUND = 0xFFFF; //65535
 
     public static final String SET_TRANSACTION_STATE = "setTransactionState";
     public static final int SET_TRANSACTION_STATE_CASE = 720;
-    public static final int STATUS_TRANSACTION_NOT_FOUND = 0x10001;
-    public static final int STATUS_EXPIRED_TOKEN = 0x10003;
+    public static final int STATUS_TRANSACTION_NOT_FOUND = 0x10001; //65537
+    public static final int STATUS_EXPIRED_TOKEN = 0x10003; //65539
 
     public static final String CREATE_TRANSACTION_STATE = "createTransaction";
     public static final int CREATE_TRANSACTION_STATE_CASE = 730;
-    public static final int STATUS_CREATE_TRANSACTION_FAILED = 0x10005;
-    public static final int STATUS_UNKNOWN_CALLBACK = 0x10007;
-    public static final int STATUS_MISSING_CLIENT_ID = 0x10009;
-    public static final int STATUS_NO_REGISTERED_CALLBACKS = 0x1000B;
-    public static final int STATUS_UNKNOWN_CLIENT = 0x1000D;
-    public static final int STATUS_UNAPPROVED_CLIENT = 0x1000F;
-    public static final int STATUS_NO_SCOPES = 0x10011;
+    public static final int STATUS_CREATE_TRANSACTION_FAILED = 0x10005; // 65541
+    public static final int STATUS_UNKNOWN_CALLBACK = 0x10007; // 65543
+    public static final int STATUS_MISSING_CLIENT_ID = 0x10009; //65545
+    public static final int STATUS_NO_REGISTERED_CALLBACKS = 0x1000B; // 65547
+    public static final int STATUS_UNKNOWN_CLIENT = 0x1000D; // 65549
+    public static final int STATUS_UNAPPROVED_CLIENT = 0x1000F; // 65551
+    public static final int STATUS_NO_SCOPES = 0x10011; //65553
 
 
     @Override
@@ -97,9 +97,6 @@ public class DBService2 extends AbstractDBService {
                 createTransaction(request, response);
                 return;
         }
-        ServletDebugUtil.trace(this, "action NOT FOUND, invoking super ");
-
-
         super.doAction(request, response, action);
     }
 

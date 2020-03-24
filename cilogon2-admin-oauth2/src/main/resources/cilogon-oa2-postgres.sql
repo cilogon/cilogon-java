@@ -61,7 +61,7 @@ create table ciloa2.permissions  (
 
 CREATE TABLE ciloa2.user (
   user_uid         TEXT PRIMARY KEY,
- first_name       TEXT,
+  first_name       TEXT,
   last_name        TEXT,
   idp              TEXT,
   idp_display_name TEXT,
@@ -69,14 +69,18 @@ CREATE TABLE ciloa2.user (
   email            TEXT,
   serial_string    TEXT,
   attr_json        TEXT,
+  affiliation      TEXT,
   display_name     TEXT,
   ou               TEXT,
   loa              TEXT,
+  subject_id       TEXT,
+  pairwise_id      TEXT,
   eppn             TEXT,
   eptid            TEXT,
   open_id          TEXT,
   us_idp           BOOLEAN,
   oidc             TEXT,
+  state            TEXT,
   create_time      TIMESTAMP
 );
 
@@ -127,11 +131,14 @@ CREATE TABLE ciloa2.old_user (
   display_name     TEXT,
   ou               TEXT,
   loa              TEXT,
+  subject_id       TEXT,
+  pairwise_id      TEXT,
   eppn             TEXT,
   eptid            TEXT,
   open_id          TEXT,
   us_idp           BOOLEAN,
   oidc             TEXT,
+  state            TEXT,
   create_time      TIMESTAMP
 );
 

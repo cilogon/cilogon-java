@@ -2,6 +2,7 @@ package org.cilogon.d2.storage.impl.sql;
 
 import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.exceptions.GeneralException;
+import edu.uiuc.ncsa.security.core.util.DebugUtil;
 import edu.uiuc.ncsa.security.core.util.IdentifiableProviderImpl;
 import edu.uiuc.ncsa.security.storage.data.MapConverter;
 import edu.uiuc.ncsa.security.storage.sql.ConnectionPool;
@@ -46,6 +47,7 @@ public class CILSQLArchivedUserStore extends SQLStore<ArchivedUser> implements A
         Identifier archivedUserID = getAUP().newId();
         try {
             PreparedStatement stmt = c.prepareStatement(getArchivedUserTable().addArchiveUser());
+            DebugUtil.trace(this, "stmt = " + stmt);
             stmt.setString(1, archivedUserID.toString());  // this sets the id of the archived user entry
             stmt.setString(2, userID.toString()); // this sets the id to get the user from the user table
             stmt.execute();// just execute() since executeQuery(x) would throw an exception regardless of content of x as per JDBC spec.

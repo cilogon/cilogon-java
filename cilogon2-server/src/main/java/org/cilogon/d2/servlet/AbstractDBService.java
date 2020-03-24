@@ -89,27 +89,27 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
      odd values are for errors.
      */
 
-    public static final int STATUS_OK = 0x0;
-    public static final int STATUS_ACTION_NOT_FOUND = 0x1;
-    public static final int STATUS_NEW_USER = 0x2;
-    public static final int STATUS_USER_UPDATED = 0x4;
-    public static final int STATUS_USER_NOT_FOUND = 0x6;
-    public static final int STATUS_USER_EXISTS = 0x8;
+    public static final int STATUS_OK = 0x0; // 0
+    public static final int STATUS_ACTION_NOT_FOUND = 0x1; //1
+    public static final int STATUS_NEW_USER = 0x2; //2
+    public static final int STATUS_USER_UPDATED = 0x4; //4
+    public static final int STATUS_USER_NOT_FOUND = 0x6;  //6
+    public static final int STATUS_USER_EXISTS = 0x8; //8
     /*
      */
-    public static final int STATUS_USER_EXISTS_ERROR = 0xFFFA1;
-    public static final int STATUS_USER_NOT_FOUND_ERROR = 0xFFFA3;
-    public static final int STATUS_TRANSACTION_NOT_FOUND = 0xFFFA5;
-    public static final int STATUS_IDP_SAVE_FAILED = 0xFFFA7;
-    public static final int STATUS_DUPLICATE_ARGUMENT = 0xFFFF1;
-    public static final int STATUS_INTERNAL_ERROR = 0xFFFF3; // was "database failure"
-    public static final int STATUS_SAVE_IDP_FAILED = 0xFFFF5;
-    public static final int STATUS_MALFORMED_INPUT = 0xFFFF7;
-    public static final int STATUS_MISSING_ARGUMENT = 0xFFFF9;
-    public static final int STATUS_NO_REMOTE_USER = 0xFFFFB;
-    public static final int STATUS_NO_IDENTITY_PROVIDER = 0xFFFFD;
-    public static final int STATUS_CLIENT_NOT_FOUND = 0xFFFFF;
-    public static final int STATUS_EPTID_MISMATCH = 0x100001;
+    public static final int STATUS_USER_EXISTS_ERROR = 0xFFFA1; //1048481
+    public static final int STATUS_USER_NOT_FOUND_ERROR = 0xFFFA3; // 1048483
+    public static final int STATUS_TRANSACTION_NOT_FOUND = 0xFFFA5; //1048485
+    public static final int STATUS_IDP_SAVE_FAILED = 0xFFFA7; // 1048487
+    public static final int STATUS_DUPLICATE_ARGUMENT = 0xFFFF1; // 1048561
+    public static final int STATUS_INTERNAL_ERROR = 0xFFFF3; // 1048563 was "database failure"
+    public static final int STATUS_SAVE_IDP_FAILED = 0xFFFF5; // 1048565
+    public static final int STATUS_MALFORMED_INPUT = 0xFFFF7; // 1048567
+    public static final int STATUS_MISSING_ARGUMENT = 0xFFFF9; // 1048569
+    public static final int STATUS_NO_REMOTE_USER = 0xFFFFB; // 1048571
+    public static final int STATUS_NO_IDENTITY_PROVIDER = 0xFFFFD; // 1048573
+    public static final int STATUS_CLIENT_NOT_FOUND = 0xFFFFF; // 1048575
+    public static final int STATUS_EPTID_MISMATCH = 0x100001; // 1048577
 
 
     /**
@@ -536,50 +536,34 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
                                String displayName,
                                String organizationalUnit,
                                Boolean useUSinDN) throws IOException {
-        User.DN_State oldDNState = user.getDNState();
-        User.DN_State newDNState = new User.DN_State();
+        DNState newDNState = new DNState();
 
         boolean cangetCert = user.canGetCert();
-        boolean keepSerialID = true; // default for no serious updates.
-        if (email != null) {
-            boolean ok = email.equals(user.getEmail());
-            if (ok) {
-                newDNState.setEmail(ok);
-                user.setEmail(email);
-            }
+        if (email != null && !email.equals(user.getEmail())) {
+            newDNState.setEmail(true);
+            user.setEmail(email);
         }
-        if (firstName != null) {
-            boolean ok = firstName.equals(user.getFirstName());
-            if(ok) {
-                newDNState.setFirstName(ok);
-                user.setFirstName(firstName);
-            }
+        if (firstName != null && !firstName.equals(user.getFirstName())) {
+            newDNState.setFirstName(true);
+            user.setFirstName(firstName);
         }
-        if (lastName != null) {
-            boolean ok =  lastName.equals(user.getLastName());
-            if(ok){
-                    newDNState.setLastName(ok);
-                user.setLastName(lastName);
-            }
+        if (lastName != null && !lastName.equals(user.getLastName())) {
+            newDNState.setLastName(true);
+            user.setLastName(lastName);
         }
-        if (idpDisplayName != null) {
-            boolean ok = idpDisplayName.equals(user.getIDPName());
-            if(ok){
-              newDNState.setIDPName(ok);
-                user.setIDPName(idpDisplayName);
-            }
+        if (idpDisplayName != null && !idpDisplayName.equals(user.getIDPName())) {
+            newDNState.setIDPName(true);
+            user.setIDPName(idpDisplayName);
+        }
+        if (displayName != null && !displayName.equals(user.getDisplayName())) {
+            newDNState.setDisplayName(true);
+            user.setDisplayName(displayName);
         }
 
         if (affiliation != null) {
             user.setAffiliation(affiliation);
         }
-        if (displayName != null) {
-            boolean ok = !displayName.equals(user.getDisplayName());
-            if (ok) {
-                newDNState.setDisplayName(ok);
-                user.setDisplayName(displayName);
-            }
-        }
+
         if (organizationalUnit != null) {
             user.setOrganizationalUnit(organizationalUnit);
         }
@@ -589,9 +573,14 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
         }
 
         UserMultiID newID = user.getUserMultiKey().union(entityID);
+        DNState oldDNState = user.getDNState();
+        // This tells us if we have to change the serial string based in the user attribues.
+
+        boolean keepSerialString = oldDNState.keepSerialString(newDNState);
 
         if (!newID.equals(user.getUserMultiKey())) {
-            keepSerialID = user.getUserMultiKey().keepSerialString(newID);
+            // Only keep ithe serial string if everyone agrees we should.
+            keepSerialString = keepSerialString && user.getUserMultiKey().keepSerialString(newID);
             user.setUserMultiKey(newID);
         }
         user.setIdP(idp);
@@ -604,8 +593,8 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
             return true;
         }
         // If we get here, then the user has been able to create certs and something may or may not have changed.
-        getUserStore().update(user, keepSerialID);
-        return keepSerialID;
+        getUserStore().update(user, keepSerialString);
+        return keepSerialString;
     }
 
     /**

@@ -7,7 +7,6 @@ import edu.uiuc.ncsa.security.core.util.BeanUtils;
 import edu.uiuc.ncsa.security.core.util.DateUtils;
 import edu.uiuc.ncsa.security.core.util.IdentifiableImpl;
 import edu.uiuc.ncsa.security.servlet.ServletDebugUtil;
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.cilogon.d2.util.AbstractCILServiceTransaction;
 import org.cilogon.d2.util.DNUtil;
@@ -193,6 +192,17 @@ public class User extends IdentifiableImpl {
     }
 
     public boolean canGetCert() {
+        if( getDNState().canGetDN()){
+            return true; // already done
+        }
+
+        // problem is that updates may have made it possible to get a cert since the last time, so
+        // *have* to check if the answer is no.
+        getDNState().setFirstName(isNotTrivial(getFirstName()));
+        getDNState().setLastName(isNotTrivial(getLastName()));
+        getDNState().setDisplayName(isNotTrivial(getDisplayName()));
+        getDNState().setIDPName(isNotTrivial(getIDPName()));
+        getDNState().setEmail(isNotTrivial(getEmail()));
         return getDNState().canGetDN();
     }
 
@@ -249,85 +259,6 @@ public class User extends IdentifiableImpl {
 
     Identifier serialIdentifier;
 
-    public static class DN_State {
-        JSONArray array;
-
-        public DN_State() {
-            JSONArray array = new JSONArray();
-            for (int i = 0; i < DN_STATE_LENGTH; i++) {
-                array.set(i, DN_STATE_NULL);
-            }
-        }
-
-        public boolean allZero() {
-            for (int i = 0; i < array.size(); i++) {
-                if (array.getInt(i) != 0) return false;
-            }
-            return true;
-        }
-
-        public DN_State(JSONArray array) {
-            this.array = array;
-        }
-
-        public int getState() {
-            // vector of [M,D,F,L]
-            return array.getInt(DN_STATE_IDP_NAME) * 16
-                    + array.getInt(DN_STATE_EMAIL_INDEX) * 8
-                    + array.getInt(DN_STATE_DISPLAY_NAME_INDEX) * 4
-                    + array.getInt(DN_STATE_FIRST_NAME_INDEX) * 2
-                    + array.getInt(DN_STATE_LAST_NAME_INDEX);
-        }
-
-        protected void setIt(int index, boolean ok) {
-            array.set(index, ok ? 1 : 0);
-
-        }
-
-        public void setIDPName(boolean ok){
-            setIt(DN_STATE_IDP_NAME, ok);
-        }
-        public void setEmail(boolean ok) {
-            setIt(DN_STATE_EMAIL_INDEX, ok);
-        }
-
-        public void setDisplayName(boolean ok) {
-            setIt(DN_STATE_DISPLAY_NAME_INDEX, ok);
-        }
-
-        public void setFirstName(boolean ok) {
-            setIt(DN_STATE_FIRST_NAME_INDEX, ok);
-        }
-
-        public void setLastName(boolean ok) {
-            setIt(DN_STATE_LAST_NAME_INDEX, ok);
-        }
-
-        public String[] getDNNames(User user) {
-            if (getState() == 28) {
-                return new String[]{user.getDisplayName()};
-            }
-            if (getState() == 27) {
-                return new String[]{user.getFirstName(), user.getLastName()};
-            }
-            throw new IllegalStateException("Error: Could not determine which user names to return");
-        }
-
-        public boolean canGetDN() {
-            // correspond to [1,0,1,1] and [1,1,0,0] resp.
-            return getState() == 11 || getState() == 12;
-        }
-
-        public boolean equals(JSONArray newArray) {
-
-            if (newArray == null || array.size() != newArray.size()) return false;
-            for (int i = 0; i < array.size(); i++) {
-                if (array.getInt(i) != newArray.getInt(i)) return false;
-            }
-            return true;
-        }
-    }
-
     /**
      * Only call this if {@link #canGetCert()} is true.
      *
@@ -361,53 +292,33 @@ public class User extends IdentifiableImpl {
 
     JSONObject state;
     String DN_STATE = "dn_state";
-    public static int DN_STATE_LENGTH = 5;
-    public static int DN_STATE_NULL = 0;
-    public int DN_STATE_SET = 1;
-    public int DN_STATE_CHANGED = 2;
 
-    public static int DN_STATE_EMAIL_INDEX = 0;
-    public static int DN_STATE_DISPLAY_NAME_INDEX = 1;
-    public static int DN_STATE_FIRST_NAME_INDEX = 2;
-    public static int DN_STATE_LAST_NAME_INDEX = 3;
-    public static int DN_STATE_IDP_NAME = 4;
 
-    DN_State dnState = null;
+    DNState dnState = null;
 
-    public DN_State getDNState() {
+    public DNState getDNState() {
         if (dnState == null) {
-            JSONArray array;
             if (getState().containsKey(DN_STATE)) {
-                array = getState().getJSONArray(DN_STATE);
+                dnState = new DNState(getState().getInt(DN_STATE));
             } else {
-                // completely new one.
-                array = new JSONArray();
-                // if the email and idp name are not set, cannot create one. 
-                if (isNotTrivial(getEmail()) && isNotTrivial(getIDPName())) {
-                    array.set(DN_STATE_EMAIL_INDEX, 1);
-                    array.set(DN_STATE_IDP_NAME, 1);
-                    if (isNotTrivial(getFirstName()) && isNotTrivial(getLastName())) {
-                        array.set(DN_STATE_FIRST_NAME_INDEX, 1);
-                        array.set(DN_STATE_LAST_NAME_INDEX, 1);
-                    } else {
-                        // This gives preference to setting the first and last name as the way to compute the DN
-                        if (isNotTrivial(getDisplayName())) {
-                            array.set(DN_STATE_DISPLAY_NAME_INDEX, 1);
-                        }
+                // so this is completely new. Figure out if the user can get a cert here, before anything changes.
+                dnState = new DNState();
+                if(isNotTrivial(getEmail()) && isNotTrivial(getIDPName())){
+                    if(isNotTrivial(getFirstName()) && isNotTrivial(getLastName())){
+                        dnState.setStateValue(dnState.valid_flName);
                     }
-                } else {
-                    for (int i = 0; i < DN_STATE_LENGTH; i++) {
-                        array.set(i, DN_STATE_NULL);
+                }else{
+                    if(isNotTrivial(getDisplayName())){
+                        dnState.setStateValue(dnState.valid_dName);
                     }
                 }
             }
-            dnState = new DN_State(array);
         }
         return dnState;
     }
 
-    public void setDNState(DN_State dnState) {
-        getState().put(DN_STATE, dnState.array);
+    public void setDNState(DNState dnState) {
+        getState().put(DN_STATE, dnState.getStateValue());
     }
 
     public String toString() {
@@ -562,6 +473,20 @@ public class User extends IdentifiableImpl {
         return null;
     }
 
+    public SubjectID getSubjectID() {
+        if (hasSubjectID()) {
+            return getUserMultiKey().getSubjectID();
+        }
+        return null;
+    }
+
+    public PairwiseID getPairwiseID() {
+        if (hasPairwiseID()) {
+            return getUserMultiKey().getPairwiseID();
+        }
+        return null;
+    }
+
     public void setOpenIDConnect(OpenIDConnect openIDConnect) {
         userMultiKey.setOpenIDConnect(openIDConnect);
     }
@@ -589,6 +514,14 @@ public class User extends IdentifiableImpl {
     public boolean hasOpenID() {
         if (userMultiKey == null) return false;
         return userMultiKey.hasOpenID();
+    }
+    public boolean hasSubjectID() {
+        if (userMultiKey == null) return false;
+        return userMultiKey.hasSubjectID();
+    }
+    public boolean hasPairwiseID() {
+        if (userMultiKey == null) return false;
+        return userMultiKey.hasPairwiseID();
     }
 
     String affiliation;

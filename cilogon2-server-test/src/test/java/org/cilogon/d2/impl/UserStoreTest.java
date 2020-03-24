@@ -346,20 +346,7 @@ public class UserStoreTest extends TestBase {
      * @throws Exception
      */
     public void testUTF7RegressionTest(UserStore userStore) throws Exception {
-    /*
-    dn    /DC=org/DC=cilogon/C=US/O=Google/CN=+MNUw6yAVMOowxjDqIBU- +MNUw6yAVMOo- D3170 email=boomerangfish@gmail.com
-        emailaddr    boomerangfish@gmail.com
-        firstname    フル―リテリ―
-        idp    https://accounts.google.com/o/oauth2/auth
-        idpname    Google
-        lastname    フル―リ
-        loa    openid
-        oidcID    118253954935913583765
-        responseurl    https://dev.cilogon.org/
-        stage    logon
-        status    0
-        uid    http://cilogon.org/serverD/users/1
-     */
+
         String refDN = "/DC=org/DC=cilogon/C=US/O=Google/CN=+MNUw6yAVMOowxjDqIBU- +MNUw6yAVMOo- D3170 email=boomerangfish@gmail.com";
         String firstName = "フル―リテリ―";
         String lastName = "フル―リ";
@@ -451,24 +438,7 @@ public class UserStoreTest extends TestBase {
      * @throws Exception
      */
     public void testFNAL(UserStore userStore) throws Exception {
-          /*
-           User[
-           uid="http://cilogon.org/serverA/users/18351",
-           key=UserMultiID[
-              remoteUser=https://idp.fnal.gov/idp/shibboleth!https://cilogon.org/shibboleth!CJtWNa2SKrwXb0NHzPGlWwr7uTE=,
-              eptid=https://idp.fnal.gov/idp/shibboleth!https://cilogon.org/shibboleth!6258095E940C4172B7E4096063C3C447A91B0F14,
-              eppn=kreymer@fnal.gov],
-              IdP=https://idp.fnal.gov/idp/shibboleth",
-              first name="Arthur",
-              last name="Kreymer",
-              email="kreymer@fnal.gov",
-              idp display="Fermi National Accelerator Laboratory",
-              US IDP?="true",
-              ou=Robots:minos27.fnal.gov:cron,
-              affiliation=null,
-              displayName=Arthur E Kreymer",
-              attr_json=null]
-           */
+
         RemoteUserName remoteUser = new RemoteUserName("https://idp.fnal.gov/idp/shibboleth!https://cilogon.org/shibboleth!CJtWNa2SKrwXb0NHzPGlWwr7uTE=");
         EduPersonTargetedID eptid = new EduPersonTargetedID("https://idp.fnal.gov/idp/shibboleth!https://cilogon.org/shibboleth!6258095E940C4172B7E4096063C3C447A91B0F14");
         EduPersonPrincipleName eppn = new EduPersonPrincipleName("kreymer@fnal.gov");
@@ -488,11 +458,12 @@ public class UserStoreTest extends TestBase {
         );
         robotUser.setAttr_json(null);
         robotUser.setUseUSinDN(true);
-
         System.out.println("============ START FNAL TEST");
         System.out.println("============ Robots");
+
         DNUtil.setComputeFNAL(false);
         System.out.println("-> computeFNAL = false");
+        System.out.println("ca get cert:" + robotUser.canGetCert());
         System.out.println("get email=true: " + robotUser.getDN(null, true));
         System.out.println("get email=false: " + robotUser.getDN(null, false));
         DNUtil.setComputeFNAL(true);

@@ -45,7 +45,7 @@ public abstract class RemoteDBServiceTest extends TestBase {
 
     public DBServiceClient getDBSClient() {
         if (dbsClient == null) {
-            dbsClient = new DBServiceClient(getHost(), (String)getTSProvider().getConfigLoader().getConstants().get(ServiceConstantKeys.TOKEN_KEY));
+            dbsClient = new DBServiceClient(getHost(), (String) getTSProvider().getConfigLoader().getConstants().get(ServiceConstantKeys.TOKEN_KEY));
         }
         return dbsClient;
     }
@@ -80,11 +80,31 @@ public abstract class RemoteDBServiceTest extends TestBase {
         } else {
             assert map.get(userKeys.oidc()) == null : "open ID Connect fields do not match. Expected null and got \"" + map.get(userKeys.oidc()) + "\"";
         }
+        if (user.hasSubjectID()) {
+            assert user.getSubjectID().getName().equals(map.get(userKeys.subjectId())) : "Subject ID  fields don't match. Expected "
+                    + user.getSubjectID().getName() + " and got " + map.get(userKeys.subjectId());
+        } else {
+            assert map.get(userKeys.subjectId()) == null : "Subject ID  fields do not match. Expected null and got \""
+                    + map.get(userKeys.subjectId()) + "\"";
+        }
+        if (user.hasPairwiseID()) {
+            assert user.getPairwiseID().getName().equals(map.get(userKeys.pairwiseId())) : "Pairwise ID fields don't match. Expected " +
+                    user.getPairwiseID().getName() + " and got " + map.get(userKeys.pairwiseId());
+        } else {
+            assert map.get(userKeys.pairwiseId()) == null : "Pairwise ID fields do not match. Expected null and got \""
+                    + map.get(userKeys.pairwiseId()) + "\"";
+        }
 
-        assert user.getIdP().equals(map.get(userKeys.idp())) : "IDP's don't match";
-        assert user.getIDPName().equals(map.get(userKeys.idpDisplayName())) : "IDP display names don't match. Expected \"" + user.getIDPName() + "\" and got \"" + (map.get(userKeys.idpDisplayName())) + "\"";
-        assert user.getFirstName().equals(map.get(userKeys.firstName())) : "first names don't match";
-        assert user.getLastName().equals(map.get(userKeys.lastName())) : "last names don't match";
+        assert user.getIdP().equals(map.get(userKeys.idp())) : "IDP's don't match";  // required
+        if (!isEmpty(user.getIDPName())) {
+            assert user.getIDPName().equals(map.get(userKeys.idpDisplayName())) : "IDP display names don't match. Expected \"" + user.getIDPName() + "\" and got \"" + (map.get(userKeys.idpDisplayName())) + "\"";
+        }
+        if (!isEmpty(user.getFirstName())) {
+            assert user.getFirstName().equals(map.get(userKeys.firstName())) : "first names don't match";
+        }
+        if (!isEmpty(user.getLastName())) {
+            assert user.getLastName().equals(map.get(userKeys.lastName())) : "last names don't match";
+        }
         // Disabling this. The issue is that internally, updating the user has several saves written in to it as it is archived.
         // These update the serial string automatically and intercepting these would take a low-level re-write.
         if (checkSerialString) {
@@ -94,19 +114,52 @@ public abstract class RemoteDBServiceTest extends TestBase {
 
     }
 
-    void checkUserAgainstMap(XMLMap map, User user) {
+    protected boolean isEmpty(String x) {
+        return x == null || x.isEmpty();
+    }
+
+    protected void checkUserAgainstMap(XMLMap map, User user) {
         checkUserAgainstMap(map, user, true);
     }
 
-    boolean checkStatusKey(Map m, long value) {
-        if(m.containsKey(STATUS_KEY)){
+    /**
+     * Check the status in the map (the {@link #getDBSClient()} call always contains the status)
+     * and return if the requested status is there. See also
+     * <ul>
+     *     <li>{@link #getStatusKey(Map)} -- get the status key</li>
+     *     <li>{@link #responseOk(Map)} -- check that the response was "ok"</li>
+     *
+     * </ul>
+     *
+     * @param m
+     * @param value
+     * @return
+     */
+    protected boolean checkStatusKey(Map m, long value) {
+        if (m.containsKey(STATUS_KEY)) {
             return m.get(STATUS_KEY).equals(value);
-
         }
         return false;
     }
 
-    boolean responseOk(Map m) {
+    /**
+     * returns the values of the status key or -1 if there is no status.
+     * @param m
+     * @return
+     */
+    protected long getStatusKey(Map m) {
+        if (m.containsKey(STATUS_KEY)) {
+            return (long) m.get(STATUS_KEY);
+        }
+        return -1;
+    }
+
+    /**
+     * Only checks that the status response was "ok". 
+     * @param m
+     * @return
+     */
+    protected boolean responseOk(Map m) {
         return checkStatusKey(m, STATUS_OK);
     }
 
@@ -117,9 +170,7 @@ public abstract class RemoteDBServiceTest extends TestBase {
      * @return
      */
     public static CILTestStoreProviderI2 getTSProvider() {
-      //  return (CILTestStoreProvider) ServiceTestUtils.getPgStoreProvider();
         return (CILTestStoreProviderI2) ServiceTestUtils.getMySQLStoreProvider();
-        //return (CILTestStoreProvider) ServiceTestUtils.getMySQLStoreProvider();
     }
 
     TwoFactorStore get2FStore() throws Exception {
@@ -179,7 +230,9 @@ public abstract class RemoteDBServiceTest extends TestBase {
                 new EduPersonPrincipleName("eppn:" + x),
                 new EduPersonTargetedID("eptid:" + x),
                 new OpenID("openid:" + x),
-                new OpenIDConnect("oidc:" + x));
+                new OpenIDConnect("oidc:" + x),
+                new PairwiseID("pairwise-id:" + x),
+                new SubjectID("subject-id:" + x));
     }
 
     protected static User newUser(String firstName, String lastName) throws Exception {

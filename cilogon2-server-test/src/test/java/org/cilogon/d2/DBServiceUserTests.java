@@ -52,7 +52,8 @@ public class DBServiceUserTests extends RemoteDBServiceTest {
     }
 
     /**
-     * Test that we can create a new user by a call to the DB service.
+     * Test that we can create a new user by a call to the DB service with a <i>minimal</i>   call,
+     * i.e., remote user and the idp. This means no other information for the user is set.
      * @throws Exception
      */
     @Test

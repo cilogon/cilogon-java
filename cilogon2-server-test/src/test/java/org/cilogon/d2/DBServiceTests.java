@@ -8,7 +8,8 @@ import edu.uiuc.ncsa.security.storage.XMLMap;
 import org.cilogon.d2.servlet.AbstractDBService;
 import org.cilogon.d2.storage.*;
 import org.cilogon.d2.twofactor.TwoFactorInfo;
-import org.cilogon.d2.util.*;
+import org.cilogon.d2.util.DBServiceException;
+import org.cilogon.d2.util.DBServiceSerializer;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -64,45 +65,47 @@ public class DBServiceTests extends RemoteDBServiceTest {
     /**
      * Since CILogon 2.0, there are several new fields for a user. This test will change any of several items
      * and check that the contract for detecting changes has not been violated.
-     *
+     *  <h1>Updated 2020-03-24T15:45:49.545Z</h1>
+     *  This test is now disabled since we are aiming to remove archiving users from the database. This means that
+     *  there will be no further testing of these components and if they break because of code changes it will
+     *  be silent.
      * @throws Exception
      */
-    @Test
-    public void testArchiverUserTrigger() throws Exception {
-        User user = newUser();
+    //@Test
+    public void OLDTEST() throws Exception {
+    //public void testArchiverUserTrigger() throws Exception {
+        User user = newUser();   // This creates the user and stores it.
         // First off, the items that must trigger a user archive. idp display name, first name, last name, email
         User newUser = user.clone();
-        XMLMap auMap  = null;
-        XMLMap uMap  = null;
-        UserKeys userKeys = new UserKeys();
         try {
-            auMap = getDBSClient().getLastArchivedUser(user.getIdentifier());
+            getDBSClient().getLastArchivedUser(user.getIdentifier());
             assert false : "Was able to get an archived user for a completely new user.";
         } catch (Throwable t) {
-                    // Should be nothing here to start with.
+            // Should be nothing here to start with.
 
             assert true;
         }
-        long pre = getArchivedUserStore().getAllByUserId(user.getIdentifier()).size();
 
-        // Changing the first name should trigger an user archive event (AUE)
+        // Changing the first name should trigger an archive user event (AUE)
         newUser.setFirstName("Blarfo");
-        assert testAUChange(newUser, true): "First names is incorrect for the archived user.";
+        assert testAUChange(newUser, true) : "Changing first name did not archive user.";
 
         // And for the last name
         newUser.setLastName("Falafel");
-        assert testAUChange(newUser, true) : "Last name is incorrect for the archived user.";
+        assert testAUChange(newUser, true) : "Changing last name did not archived user.";
         // Changing the email should trigger an AUE.
         newUser.setEmail("fnord@fnu.edu");
-        assert testAUChange(newUser, true): "Email is incorrect for the archived user.";
+        assert testAUChange(newUser, true) : "Changing email did not archived user.";
 
         // Changing the IDP display name should trigger an AUE
         newUser.setIDPName("totally groovy idp name");
-        assert testAUChange(newUser, true) : "IDP display name incorrect for the archived user.";
+        assert testAUChange(newUser, true) : "Changing IDP display name did not archived user.";
+        
+        // Changing Display should trigger a new AUE
+        newUser.setDisplayName("Blarfo Q. Falafel IV");
+        assert testAUChange(newUser, true) : "Changing display name  did not archived user.";
+
         // The follow changes should NOT cause an AUE
-        // display name (different from IDP display name)
-        newUser.setDisplayName("blarfo falafel");
-        assert testAUChange(newUser, false) : "Display name change caused archived user event.";
 
         newUser.setAffiliation("test affiliation");
         assert testAUChange(newUser, false) : "Affiliation change caused archived user event.";
@@ -111,12 +114,12 @@ public class DBServiceTests extends RemoteDBServiceTest {
         assert testAUChange(newUser, false) : "Display name change caused archived user event.";
 
         newUser.setePPN(new EduPersonPrincipleName("eppn:test/1"));
-         assert testAUChange(newUser, false): "EPPN change caused archived user event.";
+        assert testAUChange(newUser, false) : "EPPN change caused archived user event.";
         // NOTE have to null out the EPPN, EPTID etc. after use since one failure mode on the server
         // is to reject any request with all of these set, since that is impossible in practice and
         // would probably represent a serious internal consistency issue.
 
-         newUser.setePPN(null);
+        newUser.setePPN(null);
 
         newUser.setePTID(new EduPersonTargetedID("eptid:test/1"));
         assert testAUChange(newUser, false) : "EPTID change caused archived user event.";
@@ -129,17 +132,29 @@ public class DBServiceTests extends RemoteDBServiceTest {
         newUser.setOpenIDConnect(new OpenIDConnect("openid:connect/test/1"));
         assert testAUChange(newUser, false) : "OpenID Connect change caused archived user event.";
         getUserStore().remove(user.getIdentifier());
- }
+    }
 
+    /**
+     * This will take a user that is supposed to change (the flag tells what to check for
+     * returned values are if isChanged == true, true if changed, false otherwise.
+     * if isChanged == false, true if UNCHANGED, false if otherwise.<br/>
+     * In otherwords, this returns true if the expected behavior was observed.
+     *
+     * @param user
+     * @param isChanged
+     * @return
+     * @throws Exception
+     */
     protected boolean testAUChange(User user, boolean isChanged) throws Exception {
         long pre = getArchivedUserStore().getAllByUserId(user.getIdentifier()).size();
         getDBSClient().getUser(user);
         long post = getArchivedUserStore().getAllByUserId(user.getIdentifier()).size();
-        if(isChanged){
-            return post  == pre + 1;
+        if (isChanged) {
+            return post == pre + 1;
         }
         return pre == post;
     }
+
     @Test
     public void testPortalParameter() throws Exception {
 
@@ -155,7 +170,7 @@ public class DBServiceTests extends RemoteDBServiceTest {
         getTransactionStore().save(t);
         //now its in the store. We have to get it.
         Map<String, Object> t2; // we can't actually recreate the transaction completely -- that is not the aim. So we use a hash map instead.
-        String tokenKey = (String)getTSProvider().getConfigLoader().getConstants().get(ServiceConstantKeys.TOKEN_KEY);
+        String tokenKey = (String) getTSProvider().getConfigLoader().getConstants().get(ServiceConstantKeys.TOKEN_KEY);
         t2 = getDBSClient().getPortalParameters(t.getAuthorizationGrant().getToken());
         assert t2.get(DBServiceSerializer.CILOGON_CALLBACK_URI).equals(t.getCallback().toString());
         assert t2.get(DBServiceSerializer.CILOGON_FAILURE_URI).equals(client.getErrorUri().toString());

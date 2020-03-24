@@ -104,7 +104,7 @@ public class ArchivedUserStoreTest extends TestBase {
      * (2) archive it
      * (3) get the most recent one from the archive
      * (4) invoke this method after saving a user and archiving it.
-     * This compares the
+     * This compares the supplied user with the user fields in the archived user.
      *
      * @param archivedUser
      * @param user

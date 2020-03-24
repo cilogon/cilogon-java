@@ -149,11 +149,14 @@ CREATE TABLE ciloa2.user (
   display_name     TEXT,
   ou               TEXT,
   loa              TEXT,
+  pairwise_id    TEXT,
+  subject_id       TEXT,
   eppn             TEXT,
   eptid            TEXT,
   open_id          TEXT,
   us_idp           BOOLEAN,
   oidc             TEXT,
+  state            TEXT,
   create_time      TIMESTAMP,
   INDEX eppn (eppn(255)),
   INDEX eptid (eptid(255)),
@@ -164,9 +167,9 @@ CREATE TABLE ciloa2.user (
 CREATE TABLE ciloa2.old_user (
   archived_user_id VARCHAR(255) PRIMARY KEY,
   archive_time     TIMESTAMP,
-    create_time      timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  create_time      timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   user_uid         TEXT NOT NULL,
- first_name       TEXT,
+  first_name       TEXT,
   last_name        TEXT,
   idp              TEXT,
   idp_display_name TEXT,
@@ -178,11 +181,14 @@ CREATE TABLE ciloa2.old_user (
   display_name     TEXT,
   ou               TEXT,
   loa              TEXT,
+  subject_id       TEXT,
+  pairwise_id      TEXT,
   eppn             TEXT,
   eptid            TEXT,
   open_id          TEXT,
   us_idp           BOOLEAN,
-  oidc             TEXT
+  oidc             TEXT,
+  state            TEXT
     );
 
 CREATE TABLE ciloa2.identity_provider (

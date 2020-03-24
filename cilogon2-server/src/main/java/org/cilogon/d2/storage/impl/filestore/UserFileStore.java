@@ -117,6 +117,8 @@ public class UserFileStore extends FileStore<User> implements UserStore {
         if (remoteUser instanceof EduPersonTargetedID) return toIdentifier((EduPersonTargetedID) remoteUser, idp);
         if (remoteUser instanceof OpenID) return toIdentifier((OpenID) remoteUser, idp);
         if (remoteUser instanceof OpenIDConnect) return toIdentifier((OpenIDConnect) remoteUser, idp);
+        if (remoteUser instanceof SubjectID) return toIdentifier((SubjectID) remoteUser, idp);
+        if (remoteUser instanceof PairwiseID) return toIdentifier((PairwiseID) remoteUser, idp);
         throw new NFWException("Error: This method must exist for java to compile, but if it is ever called, then something is wrong with Java's class inheritance resolution mechanism.");
     }
 
@@ -132,6 +134,16 @@ public class UserFileStore extends FileStore<User> implements UserStore {
 
     protected String toIdentifier(OpenIDConnect openIDConnect, String idp) {
         String x = uk().oidc() + ":" + openIDConnect.getName() + INFIX_STRING + idp;
+        return x;
+    }
+
+    protected String toIdentifier(SubjectID subjectID, String idp) {
+        String x = uk().subjectId() + ":" + subjectID.getName() + INFIX_STRING + idp;
+        return x;
+    }
+
+    protected String toIdentifier(PairwiseID pairwiseID, String idp) {
+        String x = uk().pairwiseId() + ":" + pairwiseID.getName() + INFIX_STRING + idp;
         return x;
     }
 

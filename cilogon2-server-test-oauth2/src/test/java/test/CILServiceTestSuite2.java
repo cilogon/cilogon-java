@@ -20,7 +20,7 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses(value = {
         TemplateTest.class,
-
+        SerialStringTests.class,
         /* Uncomment these to test which of them you want/need. */
        DBServiceTests.class,
         DBServiceUserIDTests.class,

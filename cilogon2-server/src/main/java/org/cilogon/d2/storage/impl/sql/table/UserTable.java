@@ -29,6 +29,8 @@ public class UserTable extends Table {
         getColumnDescriptor().add(new ColumnDescriptorEntry(userKeys().eptid(), LONGVARCHAR));
         getColumnDescriptor().add(new ColumnDescriptorEntry(userKeys().openID(), LONGVARCHAR));
         getColumnDescriptor().add(new ColumnDescriptorEntry(userKeys().oidc(), LONGVARCHAR));
+        getColumnDescriptor().add(new ColumnDescriptorEntry(userKeys().subjectId(), LONGVARCHAR));
+        getColumnDescriptor().add(new ColumnDescriptorEntry(userKeys().pairwiseId(), LONGVARCHAR));
         getColumnDescriptor().add(new ColumnDescriptorEntry(userKeys().affiliation(), LONGVARCHAR));
         getColumnDescriptor().add(new ColumnDescriptorEntry(userKeys().displayName(), LONGVARCHAR));
         getColumnDescriptor().add(new ColumnDescriptorEntry(userKeys().organizationalUnit(), LONGVARCHAR));
