@@ -80,6 +80,13 @@ public class DNUtil {
         if (name == null) {
             throw new NFWException("Error: LIGO user \"" + user.getIdentifierString() + "\" has neither the remote user nor EPPN set. Cannot create a DN");
         }
+        if(user.getFirstName() == null || user.getFirstName().isEmpty()){
+            throw new GeneralException("Error: LIGO user " + user.getIdentifierString() + " missing first name");
+        }
+        if(user.getLastName() == null || user.getLastName().isEmpty()){
+            throw new GeneralException("Error: LIGO user " + user.getIdentifierString() + " missing last name");
+        }
+
         if (user.getOrganizationalUnit() != null && !user.getOrganizationalUnit().isEmpty()) {
             // ONLY in this case is it possible that we have a robot DN
             // CIL-512 compute DN for robots too.
@@ -113,7 +120,7 @@ public class DNUtil {
                         cns[1],
                         cns[2],
                         toUTF7(user.getFirstName()),
-                                toUTF7(user.getLastName()),
+                        toUTF7(user.getLastName()),
                         id);
             }
         }
@@ -135,20 +142,22 @@ public class DNUtil {
 
     /**
      * Each component of the name needs to be utf-7 encoded.
+     *
      * @param names
      * @return
      */
-     private static String encodeCertName(String[] names){
-         if(names == null || names.length == 0){
-             throw new NFWException("Error: missing cert name.");
-         }
+    private static String encodeCertName(String[] names) {
+        if (names == null || names.length == 0) {
+            throw new NFWException("Error: missing cert name.");
+        }
         String out = "";
 
-        for(String x : names){
-            out = out + (out.equals("")?"":" ") + toUTF7(x); // pad with a blank between if not the first one
+        for (String x : names) {
+            out = out + (out.equals("") ? "" : " ") + toUTF7(x); // pad with a blank between if not the first one
         }
         return out;
-     }
+    }
+
     // Fix for CIL-320: getting DN should not depend on transaction state.
     // Fix for CIL-540: Allow display name too.
     protected static String getDefaultDN(User user, boolean returnEmail) {
@@ -177,12 +186,14 @@ public class DNUtil {
      * would be returned as
      * <br/><br/>
      * +BCgEPgRBBEIEMABAVIxpfVZo.com
+     *
      * @param inString
      * @return
      */
     protected static String toUTF7(String inString) {
         return oldUTF7(inString);
     }
+
     protected static String newUTF7(String inString) {
         try {
             UTF7Charset utf7 = new UTF7Charset();
@@ -190,31 +201,32 @@ public class DNUtil {
             CharsetEncoder encoder = utf7.newEncoder();
             ByteBuffer bbuf = encoder.encode(CharBuffer.wrap(inString));
             byte[] converted = new byte[bbuf.limit()];
-            System.arraycopy(bbuf.array(),0,converted,0,converted.length);
+            System.arraycopy(bbuf.array(), 0, converted, 0, converted.length);
             System.out.println(bbuf.limit());
-            String output =  new String(converted);
+            String output = new String(converted);
             // jcharset does not add a final "-" (which can be optional in certain cases according to RFC 2515) but we *always* expect one in DNs, so we add it in.
-            if(!output.endsWith("-")){
+            if (!output.endsWith("-")) {
                 output = output + "-";
             }
             return output;
-        }catch(CharacterCodingException cx){
+        } catch (CharacterCodingException cx) {
             throw new GeneralException("Bad character encoding for UTF 7", cx);
         }
     }
 
     /**
-     * Convert a string to UTF 7 if it has not been already converted. 
+     * Convert a string to UTF 7 if it has not been already converted.
+     *
      * @param inString
      * @return
      */
     protected static String oldUTF7(String inString) {
         // UTF 7 string start with + and end with -.
-        if(inString == null || inString.isEmpty()){
+        if (inString == null || inString.isEmpty()) {
             throw new IllegalArgumentException("Error: no DN to convert to UTF-7");
         }
         inString = inString.trim();
-        if(inString.endsWith("-") && inString.startsWith("+")){
+        if (inString.endsWith("-") && inString.startsWith("+")) {
             return inString;
         }
         UTF7Charset utf7 = new UTF7Charset();
@@ -222,15 +234,16 @@ public class DNUtil {
         return new String(rawBytes);
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         String input = "フル―リテリ―";
         String testString = "+MNUw6yAVMOowxjDqIBU-";
         System.out.println("original = \"" + input + "\"");
-        String encodedToUTF7String =  toUTF7(input);
+        String encodedToUTF7String = toUTF7(input);
         System.out.println("to UTF 7 = \"" + encodedToUTF7String + "\"");
         System.out.println("is expected conversion correct? " + testString.equals(encodedToUTF7String));
 
     }
+
     protected static String getFNLDN(User user, boolean returnEmail) {
         DebugUtil.trace(DNUtil.class, "OA2DNUtil.getFNLDN: user=" + user);
         if (user.getOrganizationalUnit() == null) {
@@ -245,14 +258,20 @@ public class DNUtil {
             DebugUtil.trace(DNUtil.class, "OA2DNUtil.getFNLDN: cns[i]==" + cns[i - 1]); // cause we incremented
         }
         String eppn = user.getePPN().getName();
-        if(eppn == null || eppn.isEmpty()){
+        if (eppn == null || eppn.isEmpty()) {
             DebugUtil.trace(DNUtil.class, "OA2DNUtil.getFNLDN: Missing EPPN, cannot create the DN."); // cause we incremented
             throw new GeneralException("Error: Missing EPPN, cannot create the correct DN");
         }
         String id = "UID:" + eppn.substring(0, eppn.indexOf("@"));
         String rc = null;
-        if (cns[0].equals("People")) {
+        if (user.getFirstName() == null || user.getFirstName().isEmpty()) {
+            throw new GeneralException("Error: FNAL user " + user.getIdentifierString() + " missing first name");
+        }
+        if (user.getLastName() == null || user.getLastName().isEmpty()) {
+            throw new GeneralException("Error: FNAL user " + user.getIdentifierString() + " missing last name");
+        }
 
+        if (cns[0].equals("People")) {
             String baseString = "/DC=org/DC=cilogon/C=US/O=Fermi National Accelerator Laboratory/OU=People/CN=%s %s/CN=%s";
             if (returnEmail) {
                 baseString = baseString + " email=%s";

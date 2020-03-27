@@ -144,7 +144,7 @@ public class UserStoreCommands extends StoreCommands2 {
             // do the saving here since we have to make a choice about serial identifiers.
             // returning anything other than false will cause a new serial id to be created every time.
             return false;
-        }catch(Throwable t){
+        } catch (Throwable t) {
             t.printStackTrace();
             throw t;
         }
@@ -210,9 +210,17 @@ public class UserStoreCommands extends StoreCommands2 {
         User user = (User) identifiable;
         sayi(getValue(user.getLastName()) + ", " + getValue(user.getFirstName()));
         sayi("user id=" + user.getIdentifier());
-        sayi("DN=" + user.getDN(null, false));
+        try {
+            if (user.canGetCert()) {
+                sayi("DN=" + user.getDN(null, false));
+            }
+        } catch (Throwable t) {
+            sayi("(could not compute DN)");
+
+        }
         sayi("remote user=" + user.getRemoteUser() + ", email=" + user.getEmail());
         sayi("idp=" + user.getIdP() + ", idp name=" + user.getIDPName());
+
         sayi("serial string =" + user.getSerialString());
     }
 

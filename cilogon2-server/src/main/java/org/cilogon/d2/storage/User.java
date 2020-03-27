@@ -25,7 +25,15 @@ public class User extends IdentifiableImpl {
 
     public UserMultiID getUserMultiKey() {
         if (userMultiKey == null) {
-            userMultiKey = new UserMultiID(getRemoteUser(), getePPN(), getePTID(), getOpenID(), getOpenIDConnect());
+            // Need an empty one. Easiest to construct one with a forced single null entry since the other are set null too.
+            userMultiKey = new UserMultiID((EduPersonTargetedID)null);
+                    /*getRemoteUser(),
+                    getePPN(),
+                    getePTID(),
+                    getOpenID(),
+                    getOpenIDConnect(),
+                    getPairwiseID(),
+                    getSubjectID()); */
         }
         return userMultiKey;
     }
@@ -68,7 +76,7 @@ public class User extends IdentifiableImpl {
         u2.idP = idP;
         u2.iDPName = iDPName;
         u2.lastName = lastName;
-        UserMultiID userMultiKey2 = new UserMultiID(getRemoteUser(), getePPN(), getePTID(), getOpenID(), getOpenIDConnect());
+        UserMultiID userMultiKey2 = new UserMultiID(getRemoteUser(), getePPN(), getePTID(), getOpenID(), getOpenIDConnect(),getPairwiseID(),getSubjectID());
         u2.setUserMultiKey(userMultiKey2);
         u2.serialIdentifier = serialIdentifier;
         u2.affiliation = affiliation;
@@ -192,7 +200,7 @@ public class User extends IdentifiableImpl {
     }
 
     public boolean canGetCert() {
-        if( getDNState().canGetDN()){
+        if (getDNState().canGetDN()) {
             return true; // already done
         }
 
@@ -203,10 +211,20 @@ public class User extends IdentifiableImpl {
         getDNState().setDisplayName(isNotTrivial(getDisplayName()));
         getDNState().setIDPName(isNotTrivial(getIDPName()));
         getDNState().setEmail(isNotTrivial(getEmail()));
+        // Or it won't be saved later.
+        if (getState().isNullObject()) {
+            // edge case
+            JSONObject json = new JSONObject();
+            json.put(DN_STATE, dnState.getStateValue());
+            setState(json);
+        } else {
+
+            getState().put(DN_STATE, dnState.getStateValue());
+        }
         return getDNState().canGetDN();
     }
 
-    boolean isNotTrivial(String x) {
+    public boolean isNotTrivial(String x) {
         return (x != null && !x.isEmpty());
     }
 
@@ -281,7 +299,7 @@ public class User extends IdentifiableImpl {
      */
     public JSONObject getState() {
         if (state == null) {
-            state = new JSONObject();
+            state = new JSONObject(); // darned irritating requirement from the JSON library or all puts throw an exception.
         }
         return state;
     }
@@ -290,7 +308,7 @@ public class User extends IdentifiableImpl {
         this.state = state;
     }
 
-    JSONObject state;
+    JSONObject state = new JSONObject();
     String DN_STATE = "dn_state";
 
 
@@ -303,12 +321,12 @@ public class User extends IdentifiableImpl {
             } else {
                 // so this is completely new. Figure out if the user can get a cert here, before anything changes.
                 dnState = new DNState();
-                if(isNotTrivial(getEmail()) && isNotTrivial(getIDPName())){
-                    if(isNotTrivial(getFirstName()) && isNotTrivial(getLastName())){
+                if (isNotTrivial(getEmail()) && isNotTrivial(getIDPName())) {
+                    if (isNotTrivial(getFirstName()) && isNotTrivial(getLastName())) {
                         dnState.setStateValue(dnState.valid_flName);
                     }
-                }else{
-                    if(isNotTrivial(getDisplayName())){
+                } else {
+                    if (isNotTrivial(getDisplayName())) {
                         dnState.setStateValue(dnState.valid_dName);
                     }
                 }
@@ -318,6 +336,7 @@ public class User extends IdentifiableImpl {
     }
 
     public void setDNState(DNState dnState) {
+        this.dnState = dnState;
         getState().put(DN_STATE, dnState.getStateValue());
     }
 
@@ -376,6 +395,8 @@ public class User extends IdentifiableImpl {
 //        if (!user.getRemoteUser().equals(getRemoteUser())) return false;
         if (!checkEquals(user.getePPN(), getePPN())) return false;
         if (!checkEquals(user.getePTID(), getePTID())) return false;
+        if (!checkEquals(user.getPairwiseID(), getPairwiseID())) return false;
+        if (!checkEquals(user.getSubjectID(), getSubjectID())) return false;
         if (!checkEquals(user.getOpenID(), getOpenID())) return false;
         if (!checkEquals(user.getOpenIDConnect(), getOpenIDConnect())) return false;
         if (!checkEquals(user.getAffiliation(), getAffiliation())) return false;
@@ -454,6 +475,13 @@ public class User extends IdentifiableImpl {
         userMultiKey.setEptid(ePTID);
     }
 
+    public void setPairwiseId(PairwiseID pairwiseID) {
+         userMultiKey.setPairwiseID(pairwiseID);
+     }
+
+    public void setSubjectId(SubjectID subjectID) {
+         userMultiKey.setSubjectID(subjectID);
+     }
     public OpenID getOpenID() {
         if (hasOpenID()) {
             return getUserMultiKey().getOpenID();
@@ -515,10 +543,12 @@ public class User extends IdentifiableImpl {
         if (userMultiKey == null) return false;
         return userMultiKey.hasOpenID();
     }
+
     public boolean hasSubjectID() {
         if (userMultiKey == null) return false;
         return userMultiKey.hasSubjectID();
     }
+
     public boolean hasPairwiseID() {
         if (userMultiKey == null) return false;
         return userMultiKey.hasPairwiseID();

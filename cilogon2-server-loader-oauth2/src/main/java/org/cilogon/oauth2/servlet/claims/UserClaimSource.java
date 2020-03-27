@@ -38,6 +38,8 @@ public class UserClaimSource extends BasicClaimsSourceImpl implements OA2Scopes 
     String EPTID = "eptid";
     String OPENID = "openid";
     String OIDC = "oidc";
+    String PAIRWISE_ID = "pairwise_id";
+    String SUBJECT_ID = "subject_id";
     String OU = "ou";
     String AFFILIATION = "affiliation";
     String AUTHENTICATION_CONTEXT_CLASS_REFERENCE = "acr";
@@ -106,7 +108,7 @@ public class UserClaimSource extends BasicClaimsSourceImpl implements OA2Scopes 
             // CIL-3
             // 71, CIL-444 cert subject does not contain the email, hence the "false" flag.
             try {
-                if(user.canGetCert()) {
+                if (user.canGetCert()) {
                     claims.put(CERT_SUBJECT_DN, user.getDN((AbstractCILServiceTransaction) t, false));
                 }
             } catch (Throwable ttt) {
@@ -121,6 +123,14 @@ public class UserClaimSource extends BasicClaimsSourceImpl implements OA2Scopes 
             if (user.hasEPTID()) {
                 claims.put(EPTID, user.getePTID().getName());
             }
+            if (user.hasPairwiseID()) {
+                // Fixes CIL-540
+                claims.put(PAIRWISE_ID, user.getPairwiseID().getName());
+            }
+            if (user.hasSubjectID()) {
+                // Fixes CIL-540
+                claims.put(SUBJECT_ID, user.getSubjectID().getName());
+            }
             if (user.hasOpenID()) {
                 claims.put(OPENID, user.getOpenID().getName());
             }
@@ -129,6 +139,7 @@ public class UserClaimSource extends BasicClaimsSourceImpl implements OA2Scopes 
                 // Fixes CIL-365
                 claims.put(OIDC, user.getOpenIDConnect().getName());
             }
+
 
             if (user.getOrganizationalUnit() != null) {
                 claims.put(OU, user.getOrganizationalUnit());

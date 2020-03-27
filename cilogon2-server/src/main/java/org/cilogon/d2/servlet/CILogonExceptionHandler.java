@@ -52,6 +52,12 @@ public class CILogonExceptionHandler implements ExceptionHandler {
         if(t instanceof EPTIDMismatchException){
             dbServlet.writeMessage(response, STATUS_EPTID_MISMATCH);
         }
+        if(t instanceof SubjectIDMismatchException){
+             dbServlet.writeMessage(response, STATUS_SUBJECT_ID_MISMATCH);
+         }
+        if(t instanceof PairwiseIDMismatchException){
+             dbServlet.writeMessage(response, STATUS_PAIRWISE_ID_MISMATCH);
+         }
         ServletDebugUtil.trace(this,"Got an error of \"" + t.getMessage() + "\", returning generic error code.");
         dbServlet.writeMessage(response, STATUS_INTERNAL_ERROR);
         // and log it too...

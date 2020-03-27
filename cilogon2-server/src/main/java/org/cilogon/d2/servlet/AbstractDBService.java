@@ -92,7 +92,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
     public static final int STATUS_OK = 0x0; // 0
     public static final int STATUS_ACTION_NOT_FOUND = 0x1; //1
     public static final int STATUS_NEW_USER = 0x2; //2
-    public static final int STATUS_USER_UPDATED = 0x4; //4
+    public static final int STATUS_USER_SERIAL_STRING_UPDATED = 0x4; //4
     public static final int STATUS_USER_NOT_FOUND = 0x6;  //6
     public static final int STATUS_USER_EXISTS = 0x8; //8
     /*
@@ -110,6 +110,8 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
     public static final int STATUS_NO_IDENTITY_PROVIDER = 0xFFFFD; // 1048573
     public static final int STATUS_CLIENT_NOT_FOUND = 0xFFFFF; // 1048575
     public static final int STATUS_EPTID_MISMATCH = 0x100001; // 1048577
+    public static final int STATUS_PAIRWISE_ID_MISMATCH = 0x100003; // 1048579
+    public static final int STATUS_SUBJECT_ID_MISMATCH = 0x100005; // 1048581
 
 
     /**
@@ -275,6 +277,8 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
 
         RemoteUserName remoteUser = null;
         EduPersonTargetedID eptid = null;
+        PairwiseID pairwiseID = null;
+        SubjectID subjectID = null;
         EduPersonPrincipleName eppn = null;
         OpenID openid = null;
         OpenIDConnect oidc = null;
@@ -286,15 +290,26 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
         x = getParam(request, userKeys.eptid(), true);
         if (!isEmpty(x)) eptid = new EduPersonTargetedID(x);
 
+        x = getParam(request, userKeys.pairwiseId(), true);
+        if (!isEmpty(x)) {
+            pairwiseID = new PairwiseID(x);
+        }
+
+        x = getParam(request, userKeys.subjectId(), true);
+        if (!isEmpty(x)) {
+            subjectID = new SubjectID(x);
+        }
+
         x = getParam(request, userKeys.openID(), true);
         if (!isEmpty(x)) openid = new OpenID(x);
 
         x = getParam(request, userKeys.oidc(), true);
         if (!isEmpty(x)) oidc = new OpenIDConnect(x);
-        if (remoteUser != null && eppn != null && eptid != null && openid != null && oidc != null) {
+
+        if (remoteUser != null && eppn != null && eptid != null && openid != null && oidc != null && pairwiseID != null && subjectID != null) {
             throw new IllegalStateException("Error: Cannot have all ids specified.");
         }
-        UserMultiID names = new UserMultiID(remoteUser, eppn, eptid, openid, oidc);
+        UserMultiID names = new UserMultiID(remoteUser, eppn, eptid, openid, oidc, pairwiseID, subjectID);
         return names;
     }
 
@@ -367,7 +382,6 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
                 user = findUser(userMultiKey, idp);
                 // if found
                 boolean keepSerialID = updateUser(user,
-                        response,
                         idp,
                         email,
                         firstName,
@@ -379,9 +393,10 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
                         displayName,
                         organizationalUnit,
                         useUSinDN);
-                status = (keepSerialID) ? STATUS_OK : STATUS_USER_UPDATED;
-            } catch (Throwable unf) {
-                unf.printStackTrace();
+                status = (keepSerialID) ? STATUS_OK : STATUS_USER_SERIAL_STRING_UPDATED;
+            } catch (EPTIDMismatchException | PairwiseIDMismatchException | SubjectIDMismatchException x) {
+                throw x;
+            } catch (UserNotFoundException unf) {
                 // user has been uniquely identified. Make a new user and populate the object with whatever
                 // was sent. There is no requirement for anything else.
                 user = makeNewUser(response,
@@ -512,7 +527,6 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
      * it every time.
      *
      * @param user
-     * @param response
      * @param idp
      * @param entityID
      * @param affiliation
@@ -524,7 +538,6 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
      * @throws IOException
      */
     private boolean updateUser(User user,
-                               HttpServletResponse response,
                                String idp,
                                String email,
                                String firstName,
@@ -538,7 +551,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
                                Boolean useUSinDN) throws IOException {
         DNState newDNState = new DNState();
 
-        boolean cangetCert = user.canGetCert();
+        boolean oldCanGetCert = user.canGetCert();
         if (email != null && !email.equals(user.getEmail())) {
             newDNState.setEmail(true);
             user.setEmail(email);
@@ -573,10 +586,27 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
         }
 
         UserMultiID newID = user.getUserMultiKey().union(entityID);
-        DNState oldDNState = user.getDNState();
+        DNState userDNState = user.getDNState();
         // This tells us if we have to change the serial string based in the user attribues.
 
-        boolean keepSerialString = oldDNState.keepSerialString(newDNState);
+        boolean keepSerialString = true;
+        if (!oldCanGetCert) {
+            if (newDNState.hasEmail() && newDNState.hasIDPName()) {
+                if (newDNState.hasFirstName() && newDNState.hasLastName()) {
+                    newDNState.setStateValue(newDNState.valid_flName); // unset the display name. Again, this is a policy decision.
+                    user.setDNState(newDNState); // use the setter or the underlying JSON state object is not altered.
+                    keepSerialString = true;
+                } else {
+                    if (newDNState.hasDisplayName()) {
+                        newDNState.setStateValue(newDNState.valid_dName); // Set only display name.
+                        user.setDNState(newDNState);
+                        keepSerialString = true;
+                    }
+                }
+            }
+        } else {
+            keepSerialString = userDNState.keepSerialString(newDNState);
+        }
 
         if (!newID.equals(user.getUserMultiKey())) {
             // Only keep ithe serial string if everyone agrees we should.
@@ -587,7 +617,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
         user.setUseUSinDN(useUSinDN);
         // Again, the second argument in the next call  means
         ServletDebugUtil.trace(this, "saved user " + user);
-        if ((!cangetCert && user.canGetCert()) || (!user.canGetCert())) {
+        if ((!oldCanGetCert && user.canGetCert()) || (!user.canGetCert())) {
             getUserStore().update(user, true); // force that there is no new serial string produced.
             // user could not get a cert before but can no, don't change serial string, use current.
             return true;
@@ -628,7 +658,6 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
         getUserStore().register(user); // or you will get an unregistered object exception.
         ServletDebugUtil.trace(this, "created user " + user);
         updateUser(user,
-                response,
                 idp,
                 email,
                 firstName,
@@ -873,8 +902,8 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
         User user = null;
         for (User currentUser : users) {
             if (!currentUser.getIdP().equals(idp)) {
-                if (currentUser.hasEPTID()) {
-                    // Fail immediately. EPTIDs are globally unique so the IDP must match.
+                if (currentUser.hasEPTID() || currentUser.hasPairwiseID() || currentUser.hasSubjectID()) {
+                    // Fail immediately. Pairwise id, subject ids and EPTIDs are globally unique so the IDP must match.
                     throw new GeneralException("Error: unexpected idp encountered. Expected idp=" + idp + ", got " + currentUser.getIdP() + " for key=" + userMultiKey);
                 }
                 idpFail = true;
@@ -939,6 +968,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
         }
 
         // case 2: Check the EPTID since that is always globally unique.
+        // NOTE if both EPTID or pairwise or subject  and EPPN were sent, this should prefer EPPN. Hence no return in other cases.
 
         if (k.hasEPTID()) {
             if (!u.hasEPTID()) {
@@ -953,7 +983,36 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
                     }
                 }
             }
-            // NOTE if both EPTID and EPPN were sent, this should prefer EPPN. Hence no return in the ePTID case.
+        }
+
+        if (k.hasPairwiseID()) {
+            if (!u.hasPairwiseID()) {
+                u.setPairwiseId(k.getPairwiseID());
+            }
+            if (k.hasEPPN()) {
+                u.setePPN(k.getEppn());
+                if (u.hasPairwiseID()) {
+                    if (!u.getPairwiseID().equals(k.getPairwiseID())) {
+                        throw new PairwiseIDMismatchException("Error: both the user and the requested key have different  pairwise IDs " +
+                                "This indicates an internally inconsistent state in this user.");
+                    }
+                }
+            }
+        }
+
+        if (k.hasSubjectID()) {
+            if (!u.hasSubjectID()) {
+                u.setSubjectId(k.getSubjectID());
+            }
+            if (k.hasEPPN()) {
+                u.setePPN(k.getEppn());
+                if (u.hasSubjectID()) {
+                    if (!u.getSubjectID().equals(k.getSubjectID())) {
+                        throw new SubjectIDMismatchException("Error: both the user and the requested key have different  subject IDs " +
+                                "This indicates an internally inconsistent state in this user.");
+                    }
+                }
+            }
         }
 
         // case 3: EPPN (which is not unique) is sent, but not EPTID
@@ -1062,7 +1121,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
         ServletDebugUtil.trace(this, "get&Archive: updated user =" + oldUser);
 
 
-        writeUser(oldUser, tfi, STATUS_USER_UPDATED, response);
+        writeUser(oldUser, tfi, STATUS_USER_SERIAL_STRING_UPDATED, response);
         return;
     }
 

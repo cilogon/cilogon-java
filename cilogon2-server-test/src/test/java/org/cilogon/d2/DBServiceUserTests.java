@@ -87,7 +87,7 @@ public class DBServiceUserTests extends RemoteDBServiceTest {
                 affiliation,
                 displayName,
                 organizationalUnit);
-        assert checkStatusKey(userMap, AbstractDBService.STATUS_USER_UPDATED);
+        assert checkStatusKey(userMap, AbstractDBService.STATUS_USER_SERIAL_STRING_UPDATED);
         // The user has been updated. We should have the updated user's information returned to us.
         // NOTE if you are getting screwy characters in this test back from the server it is probably because you
         // need to add the attribute of

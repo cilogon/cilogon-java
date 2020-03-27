@@ -16,10 +16,16 @@ public class DBServiceException extends CILogonException {
 
     public DBServiceException(String message) {
         super(message);
+        try{
+            statusCode = Integer.parseInt(message);
+        }catch(Throwable t){
+            // rock on. Should be parseable though
+        }
     }
 
     public DBServiceException(int message) {
         super(Integer.toString(message));
+        statusCode = message;
     }
 
     public DBServiceException(String message, Throwable cause) {

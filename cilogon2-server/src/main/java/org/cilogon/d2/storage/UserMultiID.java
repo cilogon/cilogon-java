@@ -292,6 +292,16 @@ public class UserMultiID implements Iterable<PersonName>, Serializable {
             EduPersonTargetedID eptid = new EduPersonTargetedID(v);
             out.setEptid(eptid);
         }
+        v = which(getPairwiseID(), newid.getPairwiseID());
+        if (v != null) {
+            PairwiseID pairwiseID = new PairwiseID(v);
+            out.setPairwiseID(pairwiseID);
+        }
+        v = which(getSubjectID(), newid.getSubjectID());
+        if (v != null) {
+            SubjectID subjectID = new SubjectID(v);
+            out.setSubjectID(subjectID);
+        }
         v = which(getOpenID(), newid.getOpenID());
         if (v != null) {
             OpenID openID = new OpenID(v);

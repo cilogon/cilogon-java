@@ -19,12 +19,13 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses(value = {
-        TemplateTest.class,
+        // Start with DB service tests
         SerialStringTests.class,
-        /* Uncomment these to test which of them you want/need. */
-       DBServiceTests.class,
+        DBServiceTests.class,
         DBServiceUserIDTests.class,
         DBServiceUserTests.class,
+        // Other tests
+        TemplateTest.class,
         TwoFactorStoreTest.class,
         TokenTest.class,
         UserStoreTest.class,

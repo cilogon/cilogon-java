@@ -50,6 +50,7 @@ public class DNState {
      */
 
     public int valid_flName = email + idpName + flName;
+    public int valid_All = email + idpName + flName + dName;
 
     public DNState() {
         bitSet = new BitSet();
@@ -146,22 +147,27 @@ public class DNState {
     public void setIDPName(boolean ok) {
         setIt(DN_STATE_IDP_NAME, ok);
     }
+    public boolean hasIDPName(){return bitSet.get(DN_STATE_IDP_NAME);}
 
     public void setEmail(boolean ok) {
         setIt(DN_STATE_EMAIL_INDEX, ok);
     }
+    public boolean hasEmail(){return bitSet.get(DN_STATE_EMAIL_INDEX);}
 
     public void setDisplayName(boolean ok) {
         setIt(DN_STATE_DISPLAY_NAME_INDEX, ok);
     }
+    public boolean hasDisplayName(){return bitSet.get(DN_STATE_DISPLAY_NAME_INDEX);}
 
     public void setFirstName(boolean ok) {
         setIt(DN_STATE_FIRST_NAME_INDEX, ok);
     }
+    public boolean hasFirstName(){return bitSet.get(DN_STATE_FIRST_NAME_INDEX);}
 
     public void setLastName(boolean ok) {
         setIt(DN_STATE_LAST_NAME_INDEX, ok);
     }
+    public boolean hasLastName(){return bitSet.get(DN_STATE_LAST_NAME_INDEX);}
 
     public String[] getDNNames(User user) {
         if (getStateValue() == valid_dName) {
@@ -175,7 +181,10 @@ public class DNState {
 
     public boolean canGetDN() {
         // correspond to [1,0,1,1] and [1,1,0,0] resp.
-        return getStateValue() == valid_flName || getStateValue() == valid_dName;
+        if(getStateValue() == valid_All){
+            throw new IllegalStateException("Error: Cannot have all values set at once.");
+        }
+        return getStateValue() == valid_flName || getStateValue() == valid_dName ;
     }
 
 }

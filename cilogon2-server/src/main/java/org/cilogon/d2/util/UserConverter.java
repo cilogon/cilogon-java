@@ -40,7 +40,9 @@ public class UserConverter<T extends User> extends MapConverter<T> {
                 new EduPersonPrincipleName(map.getString(uk().eppn())),
                 new EduPersonTargetedID(map.getString(uk().eptid())),
                 new OpenID(map.getString(uk().openID())),
-                new OpenIDConnect(map.getString(uk().oidc())));
+                new OpenIDConnect(map.getString(uk().oidc())),
+                new PairwiseID(map.getString(uk().pairwiseId())),
+                new SubjectID(map.getString(uk().subjectId())));
         user.setUserMultiKey(userMultiKey);
         user.setCreationTime(map.getDate(uk().creationTimestamp()));
         user.setIdentifier(newID(map.getString(uk().userID())));
@@ -61,6 +63,8 @@ public class UserConverter<T extends User> extends MapConverter<T> {
         map.put(uk().eptid(), replaceNull(user.getePTID()));
         map.put(uk().openID(), replaceNull(user.getOpenID()));
         map.put(uk().oidc(), replaceNull(user.getOpenIDConnect()));
+        map.put(uk().pairwiseId(), replaceNull(user.getPairwiseID()));
+        map.put(uk().subjectId(), replaceNull(user.getSubjectID()));
         map.put(uk().userID(), user.getIdentifierString());
         map.put(uk().idp(), replaceNull(user.getIdP()));
         map.put(uk().idpDisplayName(), replaceNull(user.getIDPName()));

@@ -118,6 +118,12 @@ public class DBServiceSerializer {
         if (user.hasOpenIDConnect()) {
             print(w, userKeys.oidc(), user.getOpenIDConnect());
         }
+        if (user.hasPairwiseID()) {
+            print(w, userKeys.pairwiseId(), user.getPairwiseID());
+        }
+        if (user.hasSubjectID()) {
+            print(w, userKeys.subjectId(), user.getSubjectID());
+        }
         onlyPrintIfNotTrivial(w, userKeys.idp(), user.getIdP());
         onlyPrintIfNotTrivial(w, userKeys.idpDisplayName(), user.getIDPName());
         onlyPrintIfNotTrivial(w, userKeys.firstName(), user.getFirstName());
@@ -331,6 +337,16 @@ public class DBServiceSerializer {
             }
         }
 
+        if (head.equals(userKeys.pairwiseId())) {
+                  if (tail != null) {
+                      user.setPairwiseId(new PairwiseID(tail));
+                  }
+              }
+        if (head.equals(userKeys.subjectId())) {
+                  if (tail != null) {
+                      user.setSubjectId(new SubjectID(tail));
+                  }
+              }
 
         if (head.equals(userKeys.serialString())) user.setSerialString(tail);
         if (head.equals(userKeys.identifier())) user.setIdentifier(BasicIdentifier.newID(tail));
