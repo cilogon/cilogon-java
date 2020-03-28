@@ -103,6 +103,18 @@ public class CILSQLUserStore extends SQLStore<User> implements UserStore {
             zzz = zzz + (gotOne ? " OR " : " ") + snippet;
             gotOne = true;
         }
+        snippet = selectSnippet(userMultiKey.getPairwiseID(), userKeys.pairwiseId());
+         if (snippet != null) {
+             foundIds.add(userMultiKey.getPairwiseID().getName());
+             zzz = zzz + (gotOne ? " OR " : " ") + snippet;
+             gotOne = true;
+         }
+        snippet = selectSnippet(userMultiKey.getSubjectID(), userKeys.subjectId());
+         if (snippet != null) {
+             foundIds.add(userMultiKey.getSubjectID().getName());
+             zzz = zzz + (gotOne ? " OR " : " ") + snippet;
+             gotOne = true;
+         }
         snippet = selectSnippet(userMultiKey.getOpenID(), userKeys.openID());
         if (snippet != null) {
             foundIds.add(userMultiKey.getOpenID().getName());

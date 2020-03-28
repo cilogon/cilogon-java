@@ -55,6 +55,9 @@ public class DNState {
     public DNState() {
         bitSet = new BitSet();
     }
+    public DNState(BitSet bitSet){
+        this.bitSet = bitSet;
+    }
 
     public DNState(int value) {
         setStateValue(value);
@@ -187,4 +190,7 @@ public class DNState {
         return getStateValue() == valid_flName || getStateValue() == valid_dName ;
     }
 
+    public BitSet getBitSet(){
+        return bitSet;
+    }
 }

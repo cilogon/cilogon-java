@@ -146,7 +146,7 @@ public class DNUtil {
      * @param names
      * @return
      */
-    private static String encodeCertName(String[] names) {
+    public static String encodeCertName(String[] names) {
         if (names == null || names.length == 0) {
             throw new NFWException("Error: missing cert name.");
         }

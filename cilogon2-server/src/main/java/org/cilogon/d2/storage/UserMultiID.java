@@ -20,13 +20,15 @@ public class UserMultiID implements Iterable<PersonName>, Serializable {
     RemoteUserName remoteUserName;
     SubjectID subjectID;
 
-    public boolean hasSubjectID(){
+    public boolean hasSubjectID() {
         return hasPN(subjectID);
     }
-    public boolean hasPairwiseID(){
+
+    public boolean hasPairwiseID() {
         return hasPN(pairwiseID);
 
     }
+
     public SubjectID getSubjectID() {
         return subjectID;
     }
@@ -62,10 +64,12 @@ public class UserMultiID implements Iterable<PersonName>, Serializable {
      */
     public boolean isTrivial() {
         return isTrivial(eppn) &&
-               isTrivial(eptid) &&
-               isTrivial(remoteUserName) &&
-               isTrivial(openID) &&
-               isTrivial(openIDConnect);
+                isTrivial(eptid) &&
+                isTrivial(pairwiseID) &&
+                isTrivial(subjectID) &&
+                isTrivial(remoteUserName) &&
+                isTrivial(openID) &&
+                isTrivial(openIDConnect);
     }
 
     boolean isTrivial(PersonName personName) {
@@ -74,38 +78,39 @@ public class UserMultiID implements Iterable<PersonName>, Serializable {
     }
 
     public UserMultiID(RemoteUserName remoteUserName) {
-        this(remoteUserName, null, null, null, null,null,null);
+        this(remoteUserName, null, null, null, null, null, null);
     }
 
     public UserMultiID(EduPersonPrincipleName eppn) {
-        this(null, eppn, null, null, null,null,null);
+        this(null, eppn, null, null, null, null, null);
     }
 
     public UserMultiID(EduPersonTargetedID eptid) {
-        this(null, null, eptid, null, null,null,null);
+        this(null, null, eptid, null, null, null, null);
     }
 
     public UserMultiID(OpenID openID) {
-        this(null, null, null, openID, null,null,null);
+        this(null, null, null, openID, null, null, null);
     }
 
     public UserMultiID(OpenID openID, OpenIDConnect openIDConnect) {
-        this(null, null, null, openID, openIDConnect,null,null);
+        this(null, null, null, openID, openIDConnect, null, null);
     }
 
     public UserMultiID(OpenIDConnect openIDConnect) {
-        this(null, null, null, null, openIDConnect, null,null);
+        this(null, null, null, null, openIDConnect, null, null);
     }
 
     public UserMultiID(EduPersonPrincipleName eppn, EduPersonTargetedID eptid) {
         this(null, eppn, eptid, null, null, null, null);
     }
+
     public UserMultiID(EduPersonPrincipleName eppn,
                        EduPersonTargetedID eptid,
                        PairwiseID pairwiseID,
                        SubjectID subjectID) {
-          this(null, eppn, eptid, null, null, pairwiseID, subjectID);
-      }
+        this(null, eppn, eptid, null, null, pairwiseID, subjectID);
+    }
 
     public UserMultiID(RemoteUserName remoteUserName,
                        EduPersonPrincipleName eppn,
@@ -124,16 +129,17 @@ public class UserMultiID implements Iterable<PersonName>, Serializable {
     }
 
     public UserMultiID(RemoteUserName remoteUserName,
-                          EduPersonPrincipleName eppn,
-                          EduPersonTargetedID eptid,
-                          OpenID openID,
-                          OpenIDConnect openIDConnect) {
-           this.eppn = eppn;
-           this.eptid = eptid;
-           this.openID = openID;
-           this.remoteUserName = remoteUserName;
-           this.openIDConnect = openIDConnect;
-       }
+                       EduPersonPrincipleName eppn,
+                       EduPersonTargetedID eptid,
+                       OpenID openID,
+                       OpenIDConnect openIDConnect) {
+        this.eppn = eppn;
+        this.eptid = eptid;
+        this.openID = openID;
+        this.remoteUserName = remoteUserName;
+        this.openIDConnect = openIDConnect;
+    }
+
     public void setEppn(EduPersonPrincipleName eppn) {
         this.eppn = eppn;
     }
@@ -169,7 +175,7 @@ public class UserMultiID implements Iterable<PersonName>, Serializable {
     @Override
     public Iterator<PersonName> iterator() {
         Iterator<PersonName> iterator = new Iterator<PersonName>() {
-            PersonName[] list = new PersonName[]{eppn, eptid, remoteUserName, openID, openIDConnect, pairwiseID,subjectID};
+            PersonName[] list = new PersonName[]{eppn, eptid, remoteUserName, openID, openIDConnect, pairwiseID, subjectID};
             int counter = 0; // overload value to show no iteration yet
 
             @Override
@@ -352,6 +358,14 @@ public class UserMultiID implements Iterable<PersonName>, Serializable {
         }
         if (hasEPTID()) {
             x = x + (gotOne ? "," : "") + "eptid=" + getEptid().getName();
+            gotOne = true;
+        }
+        if (hasPairwiseID()) {
+            x = x + (gotOne ? "," : "") + "pairwise_id=" + getPairwiseID().getName();
+            gotOne = true;
+        }
+        if (hasSubjectID()) {
+            x = x + (gotOne ? "," : "") + "subject_id=" + getSubjectID().getName();
             gotOne = true;
         }
         if (hasEPPN()) {

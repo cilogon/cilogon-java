@@ -34,6 +34,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.BitSet;
 import java.util.Collection;
 import java.util.LinkedList;
 
@@ -588,22 +589,30 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
         UserMultiID newID = user.getUserMultiKey().union(entityID);
         DNState userDNState = user.getDNState();
         // This tells us if we have to change the serial string based in the user attribues.
-
+        BitSet bs = new BitSet();
+        bs.or(userDNState.getBitSet());
+        bs.or(newDNState.getBitSet());
+        DNState resultant = new DNState(bs);
         boolean keepSerialString = true;
         if (!oldCanGetCert) {
-            if (newDNState.hasEmail() && newDNState.hasIDPName()) {
-                if (newDNState.hasFirstName() && newDNState.hasLastName()) {
+            // Case is that a bunch of new info was uploaded.
+            // We ONLY store one way to create a DN and use that in all subsequent calls.
+            // Here is where we ferret out which to use and set it up. This gets called at
+            // most once per user ever.
+            if (resultant.hasEmail() && resultant.hasIDPName()) {
+                if (resultant.hasFirstName() && resultant.hasLastName()) {
                     newDNState.setStateValue(newDNState.valid_flName); // unset the display name. Again, this is a policy decision.
                     user.setDNState(newDNState); // use the setter or the underlying JSON state object is not altered.
                     keepSerialString = true;
                 } else {
-                    if (newDNState.hasDisplayName()) {
+                    if (resultant.hasDisplayName()) {
                         newDNState.setStateValue(newDNState.valid_dName); // Set only display name.
                         user.setDNState(newDNState);
                         keepSerialString = true;
                     }
                 }
             }
+            // option B is that new there is finally enough information.
         } else {
             keepSerialString = userDNState.keepSerialString(newDNState);
         }

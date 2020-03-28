@@ -6,6 +6,7 @@ import org.cilogon.d2.storage.DNState;
 import org.cilogon.d2.storage.User;
 import org.cilogon.d2.storage.UserStore;
 import org.cilogon.d2.util.DBServiceException;
+import org.cilogon.d2.util.DNUtil;
 import org.cilogon.d2.util.UserConverter;
 import org.cilogon.d2.util.UserKeys;
 import org.junit.Test;
@@ -13,35 +14,15 @@ import org.junit.Test;
 import static org.cilogon.d2.servlet.AbstractDBService.*;
 
 /**
+ * A series of tests to show how DNs (distinguished names for certs) and serial strings
+ * are now handled in the wake of CIL-540 (which relaxed many requirements and necessitated a
+ * complete change in the logic of how it is all handled). Hard bits are that it all must be
+ * 100% backwards compatible so that no existing user should have any of their certs changed
+ * or updated needlessly.
  * <p>Created by Jeff Gaynor<br>
  * on 3/24/20 at  2:12 PM
  */
-public class SerialStringTests extends RemoteDBServiceTest {
-/*
-    @Test
-    public void testAll() throws Exception {
-        doTests((CILTestStoreProviderI2) ServiceTestUtils.getMySQLStoreProvider());
-        doTests((CILTestStoreProviderI2) ServiceTestUtils.getFsStoreProvider());
-        doTests((CILTestStoreProviderI2) ServiceTestUtils.getMemoryStoreProvider());
-        doTests((CILTestStoreProviderI2) ServiceTestUtils.getPgStoreProvider());
-    }
-
-
-    public void doTests(CILTestStoreProviderI2 provider) throws Exception {
-        githubUserRegressionTest(provider.getUserStore());
-        githubUserTest(provider.getUserStore());
-        incrementalUpdateTest(provider.getUserStore());
-        otherTest1(provider.getUserStore());
-        otherTest2(provider.getUserStore());
-        noChangeToDNAfterUpdates(provider.getUserStore());
-        noChangeToDNAfterUpdates2(provider.getUserStore());
-        FNALRegressionTest(provider.getUserStore());
-        LIGORegressionTest(provider.getUserStore());
-        eptidMismatchTest(provider.getUserStore());
-        subjectIDMismatchTest(provider.getUserStore());
-        pairwiseIDMismatchTest(provider.getUserStore());
-    }
-*/
+public class DNTests extends RemoteDBServiceTest {
 
     /**
      * Do a series of updates.
@@ -318,7 +299,7 @@ public class SerialStringTests extends RemoteDBServiceTest {
     //Next up check that DNs created do not change if the underlying data changes.
     // After that, check that pairwise and subject id all are treated just like EPTID and EPPN. These form a set
     @Test
-    public  void testEptidMismatch() throws Exception {
+    public void testEptidMismatch() throws Exception {
         String r = getRandomString();
         XMLMap userMap = new XMLMap();
 
@@ -389,7 +370,8 @@ public class SerialStringTests extends RemoteDBServiceTest {
         getDBSClient().removeUser(rMap.getIdentifier(userKeys.userID()));
 
     }
-          @Test
+
+    @Test
     public void testPairwiseIDMismatch() throws Exception {
         String r = getRandomString();
         XMLMap userMap = new XMLMap();
@@ -454,12 +436,14 @@ public class SerialStringTests extends RemoteDBServiceTest {
         userMap.put(userKeys.displayName(), "Terrence Fleury" + r);
         rMap = checkUpdated(userMap, oldSS, false);
         assert rMap.getString(distinguishedNameField).equals(oldDN);
+        assert rMap.getString(distinguishedNameField).contains(DNUtil.encodeCertName(new String[]{firstName, lastName}));
 
         // cleanup
         getDBSClient().removeUser(rMap.getIdentifier(userKeys.userID()));
     }
 
-    protected void testGithubUserRegression(UserStore userStore) throws Exception {
+    @Test
+    public void testGithubUserRegression(UserStore userStore) throws Exception {
         String r = getRandomString();
         XMLMap userMap = new XMLMap();
         String firstName = "TERRENCE";
@@ -482,7 +466,7 @@ public class SerialStringTests extends RemoteDBServiceTest {
         System.out.println(oldDN);
 
         // The test is to re-add this user with  partial information.
-         userMap = new XMLMap();
+        userMap = new XMLMap();
         userMap.put(userKeys.idp(), "http://github.com/login/oauth/authorize");
         userMap.put(userKeys.idpDisplayName(), "GitHub");
         userMap.put(userKeys.displayName(), displayName);
@@ -492,7 +476,6 @@ public class SerialStringTests extends RemoteDBServiceTest {
         userMap.put(userKeys.oidc(), oidc);
         userMap.put(userKeys.useUSinDN(), "1");  // not true in general, ok for test.
         rMap = getDBSClient().doGet(GET_USER, userMap);
-           assert rMap.containsKey(distinguishedNameField);
         assert rMap.containsKey(distinguishedNameField);
         System.out.println(rMap.getString(distinguishedNameField));
 
@@ -500,5 +483,199 @@ public class SerialStringTests extends RemoteDBServiceTest {
 
         // cleanup
         getDBSClient().removeUser(rMap.getIdentifier(userKeys.userID()));
+    }
+
+    @Test
+    public void testGHUserRegression2() throws Exception {
+
+        // Send partial data -- no email
+        String r = getRandomString();
+        XMLMap userMap = new XMLMap();
+        String firstName = "TERRENCE";
+        String lastName = "FLEURY";
+        // SO add a user with display name and first name, but no last name.
+        String oidc = System.currentTimeMillis() + r; // makes sure that this is a unique id
+        userMap.put(userKeys.idp(), "http://github.com/login/oauth/authorize");
+        userMap.put(userKeys.idpDisplayName(), "GitHub");
+        // Funny characters so that if the encoding is off, there will be an error to catch later
+        String displayName = "Tërrence` Flëury";
+        userMap.put(userKeys.displayName(), displayName);
+        userMap.put(userKeys.firstName(), firstName);
+        userMap.put(userKeys.lastName(), lastName);
+        userMap.put(userKeys.oidc(), oidc);
+        userMap.put(userKeys.useUSinDN(), "1");  // not true in general, ok for test.
+        XMLMap rMap = getDBSClient().doGet(GET_USER, userMap);
+        assert !rMap.containsKey(distinguishedNameField);
+        String oldSS = rMap.getString(userKeys.serialString);
+
+
+        // send complete data. Test is "does this create a DN and no imcrement serial string?
+        userMap = new XMLMap();
+        userMap.put(userKeys.idp(), "http://github.com/login/oauth/authorize");
+        userMap.put(userKeys.idpDisplayName(), "GitHub");
+        userMap.put(userKeys.displayName(), displayName);
+        userMap.put(userKeys.firstName(), firstName);
+        userMap.put(userKeys.lastName(), lastName);
+        userMap.put(userKeys.email(), "terrencegf@gmail.com");
+        userMap.put(userKeys.oidc(), oidc);
+        userMap.put(userKeys.useUSinDN(), "1");  // not true in general, ok for test.
+        rMap = getDBSClient().doGet(GET_USER, userMap);
+        assert rMap.containsKey(distinguishedNameField);
+        assert oldSS.equals(rMap.getString(userKeys.serialString()));
+        // check that the cert has the right names encoded
+        assert rMap.getString(distinguishedNameField).contains(DNUtil.encodeCertName(new String[]{firstName, lastName}));
+
+    }
+
+    @Test
+    public void testGithubRegression3() throws Exception {
+
+        // setup -- no email or last name, has all other info
+        String r = getRandomString();
+        XMLMap userMap = new XMLMap();
+        String firstName = "TERRENCE";
+        String lastName = "FLEURY";
+        // SO add a user with display name and first name, but no last name.
+        String oidc = System.currentTimeMillis() + r; // makes sure that this is a unique id
+        userMap.put(userKeys.idp(), "http://github.com/login/oauth/authorize");
+        userMap.put(userKeys.idpDisplayName(), "GitHub");
+        // Funny characters so that if the encoding is off, there will be an error to catch later
+        String displayName = "Tërrence` Flëury";
+        userMap.put(userKeys.displayName(), displayName);
+        userMap.put(userKeys.firstName(), firstName);
+        userMap.put(userKeys.oidc(), oidc);
+        userMap.put(userKeys.useUSinDN(), "1");  // not true in general, ok for test.
+        XMLMap rMap = getDBSClient().doGet(GET_USER, userMap);
+        assert !rMap.containsKey(distinguishedNameField);
+        String oldSS = rMap.getString(userKeys.serialString);
+
+
+        // add email and first name but still no last name. Should create a cert now with display name
+        userMap = new XMLMap();
+        userMap.put(userKeys.idp(), "http://github.com/login/oauth/authorize");
+        userMap.put(userKeys.idpDisplayName(), "GitHub");
+        userMap.put(userKeys.displayName(), displayName);
+        userMap.put(userKeys.firstName(), firstName);
+        userMap.put(userKeys.oidc(), oidc);
+        userMap.put(userKeys.email(), "terrencegf@gmail.com");
+        userMap.put(userKeys.useUSinDN(), "1");  // not true in general, ok for test.
+        rMap = getDBSClient().doGet(GET_USER, userMap);
+        assert rMap.containsKey(distinguishedNameField);
+        assert oldSS.equals(rMap.getString(userKeys.serialString()));
+        String oldDN = rMap.getString(distinguishedNameField);
+        assert oldDN.contains(DNUtil.encodeCertName(new String[]{displayName}));
+
+        System.out.println(rMap.getString(distinguishedNameField));
+
+        // Finally, update first name but nothing else. This should change nothing.
+        userMap = new XMLMap();
+        userMap.put(userKeys.idp(), "http://github.com/login/oauth/authorize");
+        userMap.put(userKeys.idpDisplayName(), "GitHub");
+        userMap.put(userKeys.firstName(), firstName + r);
+        userMap.put(userKeys.oidc(), oidc);
+        userMap.put(userKeys.useUSinDN(), "1");  // not true in general, ok for test.
+        rMap = getDBSClient().doGet(GET_USER, userMap);
+        assert rMap.containsKey(distinguishedNameField);
+        assert oldSS.equals(rMap.getString(userKeys.serialString()));
+        assert oldDN.equals(rMap.getString(distinguishedNameField));
+
+    }
+
+    /**
+     * Runs through a standard lifecycle for each id with updates and such
+     * @throws Exception
+     */
+    @Test
+    public void testAllIds() throws Exception {
+        lifecycleTest(userKeys.eptid());
+        lifecycleTest(userKeys.oidc());
+        lifecycleTest(userKeys.eppn());
+        lifecycleTest(userKeys.openID());
+        lifecycleTest(userKeys.pairwiseId());
+        lifecycleTest(userKeys.subjectId());
+    }
+
+    /**
+     * The id is EPTID, EPPN, etc. All of them get tested with this
+     * @param id
+     * @throws Exception
+     */
+    public void lifecycleTest(String id) throws Exception {
+        // setup -- no email or last name, has all other info
+        String r = getRandomString();
+        XMLMap userMap = new XMLMap();
+        String firstName = "TERRENCE";
+        String lastName = "FLEURY";
+        String idp = "http://random.com/login/oauth/authorize/" + r;
+        String idpName = "Random IDP " + id + " " + r;
+        // Funny characters so that if the encoding is off, there will be an error to catch later
+        String displayName = "Tërrence d`Flëury";
+        String email = "terrencegf@gmail.com";
+        String idValue = r + ":" + System.currentTimeMillis(); // makes sure that this is a unique id
+
+        // SO add a user with display name and first name, but no last name.
+        userMap.put(userKeys.idp(), idp);
+        userMap.put(userKeys.idpDisplayName(), idpName);
+
+        userMap.put(userKeys.displayName(), displayName);
+        userMap.put(userKeys.firstName(), firstName);
+        userMap.put(id, idValue);
+        userMap.put(userKeys.useUSinDN(), "1");  // not true in general, ok for test.
+        XMLMap rMap = getDBSClient().doGet(GET_USER, userMap);
+        assert !rMap.containsKey(distinguishedNameField);
+        String oldSS = rMap.getString(userKeys.serialString);
+
+        // add email and first name but still no last name. Should create a cert now with display name
+        userMap = new XMLMap();
+        userMap.put(userKeys.idp(), idp);
+        userMap.put(userKeys.idpDisplayName(), idpName);
+        userMap.put(userKeys.displayName(), displayName);
+        userMap.put(userKeys.firstName(), firstName);
+        userMap.put(id, idValue);
+        userMap.put(userKeys.email(), email);
+        userMap.put(userKeys.useUSinDN(), "1");  // not true in general, ok for test.
+        rMap = getDBSClient().doGet(GET_USER, userMap);
+        assert rMap.containsKey(distinguishedNameField);
+        assert oldSS.equals(rMap.getString(userKeys.serialString()));
+        String oldDN = rMap.getString(distinguishedNameField);
+        assert oldDN.contains(DNUtil.encodeCertName(new String[]{displayName}));
+
+        System.out.println(rMap.getString(distinguishedNameField));
+
+        // Finally, update first name but nothing else. This should change nothing.
+        userMap = new XMLMap();
+        userMap.put(userKeys.idp(), idp);
+        userMap.put(userKeys.idpDisplayName(), idpName);
+        userMap.put(userKeys.firstName(), firstName + r);
+        userMap.put(id, idValue);
+        userMap.put(userKeys.useUSinDN(), "1");  // not true in general, ok for test.
+        rMap = getDBSClient().doGet(GET_USER, userMap);
+        assert rMap.containsKey(distinguishedNameField);
+        assert oldSS.equals(rMap.getString(userKeys.serialString()));
+        assert oldDN.equals(rMap.getString(distinguishedNameField));
+
+        // add a last name. At this point, all fields for the user are filled in,
+        // but the display name should still be used and no changes to serial string should happen
+        userMap = new XMLMap();
+        userMap.put(userKeys.idp(), idp);
+        userMap.put(userKeys.idpDisplayName(), idpName);
+        userMap.put(userKeys.lastName(), lastName);
+        userMap.put(id, idValue);
+        userMap.put(userKeys.useUSinDN(), "1");  // not true in general, ok for test.
+        rMap = getDBSClient().doGet(GET_USER, userMap);
+        assert rMap.containsKey(distinguishedNameField);
+        assert oldSS.equals(rMap.getString(userKeys.serialString()));
+        assert oldDN.equals(rMap.getString(distinguishedNameField));
+
+        // Ditto, but only updatelast name (shows not used here)
+        userMap.put(userKeys.idp(), idp);
+        userMap.put(userKeys.idpDisplayName(), idpName);
+        userMap.put(userKeys.lastName(), lastName + r);
+        userMap.put(id, idValue);
+        userMap.put(userKeys.useUSinDN(), "1");  // not true in general, ok for test.
+        rMap = getDBSClient().doGet(GET_USER, userMap);
+        assert rMap.containsKey(distinguishedNameField);
+        assert oldSS.equals(rMap.getString(userKeys.serialString()));
+        assert oldDN.equals(rMap.getString(distinguishedNameField));
     }
 }

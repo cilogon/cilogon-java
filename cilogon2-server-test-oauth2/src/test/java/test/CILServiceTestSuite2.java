@@ -20,7 +20,7 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses(value = {
         // Start with DB service tests
-        SerialStringTests.class,
+        DNTests.class,
         DBServiceTests.class,
         DBServiceUserIDTests.class,
         DBServiceUserTests.class,
