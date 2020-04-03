@@ -20,19 +20,10 @@ public class CILOA2MPService extends OA2MPService {
             return new CILOA2MPService(clientEnvironment);
         }
     }
-    /**
-     * Note that this constant is identical to the one in CILogonScopeHandler. Can't share this constant
-     * between these modules though, so we repeat it here (and it is part of the spec any way, so it's not
-     * apt to change).
-     */
-    public static String SCOPE_CILOGON_INFO = "org.cilogon.userinfo";
-
+ 
     public CILOA2MPService(ClientEnvironment environment) {
         super(environment);
     }
 
-    @Override
-    public String getRequestedScopes() {
-        return super.getRequestedScopes() + " " + SCOPE_CILOGON_INFO;
-    }
+
 }

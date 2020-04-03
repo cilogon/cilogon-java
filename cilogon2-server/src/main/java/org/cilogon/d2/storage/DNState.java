@@ -179,7 +179,7 @@ public class DNState {
         if (getStateValue() == valid_flName) {
             return new String[]{user.getFirstName(), user.getLastName()};
         }
-        throw new IllegalStateException("Error: Could not determine which user names to return");
+        throw new IllegalStateException("Error: Could not determine which user names to return for user \"" + user.getIdentifierString() + "\"");
     }
 
     public boolean canGetDN() {

@@ -56,7 +56,6 @@ public class CILOA2ServiceTransaction extends OA2ServiceTransaction implements A
         this.organizationalUnit = organizationalUnit;
     }
 
-
     @Override
     public String toString() {
         String x = super.toString();

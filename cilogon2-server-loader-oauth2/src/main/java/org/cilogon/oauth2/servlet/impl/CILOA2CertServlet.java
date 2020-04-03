@@ -2,6 +2,10 @@ package org.cilogon.oauth2.servlet.impl;
 
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.OA2ServiceTransaction;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.servlet.OA2CertServlet;
+import edu.uiuc.ncsa.security.delegation.server.ServiceTransaction;
+import edu.uiuc.ncsa.security.oauth_2_0.OA2Errors;
+import edu.uiuc.ncsa.security.oauth_2_0.OA2GeneralError;
+import org.apache.http.HttpStatus;
 import org.cilogon.d2.storage.User;
 import org.cilogon.oauth2.servlet.loader.CILogonOA2ServiceEnvironment;
 import org.cilogon.oauth2.servlet.storage.CILOA2ServiceTransaction;
@@ -15,11 +19,16 @@ import static edu.uiuc.ncsa.security.core.util.BasicIdentifier.newID;
  * on 9/14/15 at  4:16 PM
  */
 public class CILOA2CertServlet extends OA2CertServlet {
+    String noDnMessage = "The user is missing information required for a cert.";
+
     @Override
     protected void checkMPConnection(OA2ServiceTransaction st) throws GeneralSecurityException {
         if (!hasMPConnection(st)) {
             CILOA2ServiceTransaction t = (CILOA2ServiceTransaction) st;
             User user = ((CILogonOA2ServiceEnvironment) getServiceEnvironment()).getUserStore().get(newID(t.getUsername()));
+            if(!user.canGetCert()){
+                throw new OA2GeneralError(OA2Errors.ACCESS_DENIED, noDnMessage, HttpStatus.SC_FORBIDDEN);
+            }
 
             String dn = user.getDN(t, true);
             if (t.getMyproxyUsername() != null && 0 < t.getMyproxyUsername().length()) {
@@ -33,5 +42,16 @@ public class CILOA2CertServlet extends OA2CertServlet {
             createMPConnection(st.getIdentifier(), dn, "", st.getLifetime(), ((CILOA2ServiceTransaction) st).getLoa());
         }
 
+    }
+
+    @Override
+    protected void doCertRequest(ServiceTransaction trans, String statusString) throws Throwable {
+        CILOA2ServiceTransaction t = (CILOA2ServiceTransaction) trans;
+        
+        User user = ((CILogonOA2ServiceEnvironment) getServiceEnvironment()).getUserStore().get(newID(t.getUsername()));
+        if(!user.canGetCert()){
+            throw new OA2GeneralError(OA2Errors.ACCESS_DENIED, noDnMessage , HttpStatus.SC_FORBIDDEN);
+        }
+        super.doCertRequest(trans, statusString);
     }
 }

@@ -79,7 +79,9 @@ public class UserClaimSource extends BasicClaimsSourceImpl implements OA2Scopes 
     public JSONObject process(JSONObject claims, ServiceTransaction transaction) throws UnsupportedScopeException {
         return process(claims, null, transaction);
     }
-
+       boolean isEmpty(String x){
+        return x == null || x.isEmpty();
+       }
     @Override
     protected JSONObject realProcessing(JSONObject claims, HttpServletRequest request, ServiceTransaction transaction) throws UnsupportedScopeException {
         if (getServiceEnvironment() == null) {
@@ -94,19 +96,29 @@ public class UserClaimSource extends BasicClaimsSourceImpl implements OA2Scopes 
         These scopes are honored as per CILogon's operational policies.
          */
         if (t.getScopes().contains(SCOPE_EMAIL)) {
-            claims.put(OA2Claims.EMAIL, user.getEmail());
+
+            if(!isEmpty(user.getEmail())) {
+                // Even if the scope is requested, the user might not have one.
+                claims.put(OA2Claims.EMAIL, user.getEmail());
+            }
         }
         if (t.getScopes().contains(SCOPE_PROFILE)) {
-            claims.put(OA2Claims.GIVEN_NAME, convertFromUTF7ToUTF8(user.getFirstName()));
-            claims.put(OA2Claims.FAMILY_NAME, convertFromUTF7ToUTF8(user.getLastName()));
+            if(!isEmpty(user.getFirstName())) {
+                claims.put(OA2Claims.GIVEN_NAME, convertFromUTF7ToUTF8(user.getFirstName()));
+            }
+            if(!isEmpty(user.getLastName())) {
+                claims.put(OA2Claims.FAMILY_NAME, convertFromUTF7ToUTF8(user.getLastName()));
+            }
+            if(!isEmpty(user.getDisplayName())){
+                claims.put(OA2Claims.NAME, convertFromUTF7ToUTF8(user.getDisplayName()));
+            }
         }
 
         // Fixes CIL-210
 
         if (t.getScopes().contains(SCOPE_CILOGON_INFO)) {
 
-            // CIL-3
-            // 71, CIL-444 cert subject does not contain the email, hence the "false" flag.
+            // CIL-371, CIL-444 cert subject does not contain the email, hence the "false" flag.
             try {
                 if (user.canGetCert()) {
                     claims.put(CERT_SUBJECT_DN, user.getDN((AbstractCILServiceTransaction) t, false));
@@ -141,33 +153,30 @@ public class UserClaimSource extends BasicClaimsSourceImpl implements OA2Scopes 
             }
 
 
-            if (user.getOrganizationalUnit() != null) {
+            if (!isEmpty(user.getOrganizationalUnit())) {
                 claims.put(OU, user.getOrganizationalUnit());
             }
-            if (user.getAffiliation() != null) {
+            if (!isEmpty(user.getAffiliation())) {
                 claims.put(AFFILIATION, user.getAffiliation());
             }
-            if (user.getDisplayName() != null) {
+            if (!isEmpty(user.getDisplayName())) {
                 claims.put(OA2Claims.NAME, user.getDisplayName());
             }
             // Fixes CIL-462
             String rawJSON = user.getAttr_json();
-            if (rawJSON != null && !rawJSON.isEmpty()) {
+            if (!isEmpty(rawJSON)) {
                 try {
                     JSONObject json = JSONObject.fromObject(rawJSON);
                     // CIL-532 fix -- put in ALL of the values in the JSON attribute field and let the
                     // configuration select them rather than having this in the code.
                     for (Object key : json.keySet()) {
-                        claims.put(key.toString(), json.getString(key.toString()));
+                        if(!isEmpty(key.toString())) {
+                            claims.put(key.toString(), json.getString(key.toString()));
+                        }
                     }
-/*                   Old way was to select only the acr explicitly.
-                    if (json.containsKey(AUTHENTICATION_CONTEXT_CLASS_REFERENCE)) {
-                        claims.put(AUTHENTICATION_CONTEXT_CLASS_REFERENCE, json.getString(AUTHENTICATION_CONTEXT_CLASS_REFERENCE));
-                    }
-*/
                 } catch (Exception x) {
                     ServletDebugUtil.trace(this, "Error: was not able to parse the attr_json field into elements. Message=\"" + x.getMessage() + "\". Processing will continue...");
-                    // rock on, no acr.
+                    // rock on, no recognizable json.
                 }
             }
         }
