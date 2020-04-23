@@ -46,8 +46,8 @@ public class IDPCommands extends StoreCommands2 {
         return isOk(readline());
     }
 
-    @Override
+/*    @Override
     protected void longFormat(Identifiable identifiable) {
         sayi(identifiable.getIdentifierString());
-    }
+    }*/
 }

@@ -197,7 +197,7 @@ public class ArchivedUserStoreCommands extends StoreCommands2 {
         say("Entering \"ls -u\" will list every archived user, but organized by user id.");
     }
 
-    @Override
+/*    @Override
     protected void longFormat(Identifiable identifiable) {
         if (identifiable == null) return;
 
@@ -210,7 +210,7 @@ public class ArchivedUserStoreCommands extends StoreCommands2 {
         usc.longFormat(user);
         boolean isActive = getUserStore().containsKey(user.getIdentifier());
         sayi("user is " + (isActive ? " " : "not ") + "currently active.");
-    }
+    }*/
 
     protected void showRestoreHelp() {
         sayi("This restores an archived user's record. Syntax:\n");

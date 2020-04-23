@@ -76,12 +76,12 @@ public class TwoFactorCommands extends StoreCommands2 {
         }
         return saveIt;
     }
-
+/*
     @Override
     protected void longFormat(Identifiable identifiable) {
         TwoFactorInfo tfi = (TwoFactorInfo) identifiable;
         sayi("object id:" + tfi.getIdentifierString());
         sayi("     info:" + (tfi.getInfo() == null ? "(null)" : tfi.getInfo()));
-    }
+    }*/
 
 }

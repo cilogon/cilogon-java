@@ -109,6 +109,6 @@
                     <version>2.10</version>
                 </plugin>
         </plugins>
-        <finalName>cil-oa2-client</finalName>
+        <finalName>cilogon-oa2-client</finalName>
     </build>
 </project>

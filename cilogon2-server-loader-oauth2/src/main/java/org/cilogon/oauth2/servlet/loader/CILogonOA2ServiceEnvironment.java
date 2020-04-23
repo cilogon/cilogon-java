@@ -73,14 +73,16 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
                                         boolean isComputeFNAL,
                                         Provider<PermissionsStore> permissionsStoreProvider,
                                         Provider<AdminClientStore> adminClientStoreProvider,
-                                     //   Provider<LDAPStore> mldap,
                                         JSONWebKeys jsonWebKeys,
                                         String issuer,
                                         boolean isUtilServletEnabled,
                                         boolean isOIDCEnabled,
                                         Provider<JSONStore> jsonStoreProvider,
                                         CMConfigs cmConfigs,
-                                        QDLEnvironment qe
+                                        QDLEnvironment qe,
+                                        boolean isScitokenEnabled,
+                                        boolean isRFC8693Enabled,
+                                        boolean isWLCGEnabled
                                         ) {
         super(logger,
                 tsp,
@@ -115,8 +117,10 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
                 isOIDCEnabled,
                 jsonStoreProvider,
                 cmConfigs,
-                qe
-                );
+                qe,
+                isScitokenEnabled,
+                isRFC8693Enabled,
+                isWLCGEnabled);
         ciLogonSE = new CILogonSEImpl(usp, ausp, idpsp, incp, tfsp, isComputeFNAL);
         if(claimSource instanceof UserClaimSource){
             ((UserClaimSource)claimSource).setOa2SE(this);

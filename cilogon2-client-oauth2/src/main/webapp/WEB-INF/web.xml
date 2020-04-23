@@ -89,7 +89,7 @@
 
     <context-param>
         <param-name>oa4mp:cil-oa2.client.config.name</param-name>
-        <param-value>cilogon2</param-value>
+        <param-value>cilogon-oa2</param-value>
     </context-param>
 
 

@@ -206,22 +206,17 @@ public class UserStoreCommands extends StoreCommands2 {
     }
 
     @Override
-    protected void longFormat(Identifiable identifiable) {
+    protected int longFormat(Identifiable identifiable) {
+        int width = super.longFormat(identifiable);
         User user = (User) identifiable;
-        sayi(getValue(user.getLastName()) + ", " + getValue(user.getFirstName()));
-        sayi("user id=" + user.getIdentifier());
         try {
             if (user.canGetCert()) {
-                sayi("DN=" + user.getDN(null, false));
+                say(formatLongLine("DN", user.getDN(null, false), width));
             }
         } catch (Throwable t) {
-            sayi("(could not compute DN)");
-
+            say(formatLongLine("DN", "(could not compute DN)", width));
         }
-        sayi("remote user=" + user.getRemoteUser() + ", email=" + user.getEmail());
-        sayi("idp=" + user.getIdP() + ", idp name=" + user.getIDPName());
-
-        sayi("serial string =" + user.getSerialString());
+        return width;
     }
 
     @Override

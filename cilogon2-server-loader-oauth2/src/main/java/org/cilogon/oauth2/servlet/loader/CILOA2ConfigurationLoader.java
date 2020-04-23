@@ -191,7 +191,10 @@ public class CILOA2ConfigurationLoader extends OA2ConfigurationLoader implements
                     isOIDCEnabled(),
                     getMultiJSONStoreProvider(),
                     getCmConfigs(),
-                    getQDLEnvironment());
+                    getQDLEnvironment(),
+                    isScitokenEnabled(),
+                    isRFC8693Enabled(),
+                    isWLCGEnabled());
             return  se;
         } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
             throw new GeneralException("Error: Could not create the runtime environment", e);
@@ -200,7 +203,7 @@ public class CILOA2ConfigurationLoader extends OA2ConfigurationLoader implements
 
     @Override
     public ClaimSource getClaimSource() throws ClassNotFoundException, IllegalAccessException, InstantiationException {
-        DebugUtil.dbg(this, ".getClaimSource starting");
+        DebugUtil.trace(this, ".getClaimSource starting");
         if (claimSource == null) {
             ClaimSourceConfiguration claimSourceConfiguration = new ClaimSourceConfiguration();
             claimSourceConfiguration.setEnabled(false);

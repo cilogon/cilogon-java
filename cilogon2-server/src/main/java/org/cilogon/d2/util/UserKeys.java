@@ -147,18 +147,26 @@ public class UserKeys extends SerializationKeys {
     @Override
     public List<String> allKeys() {
         List<String> allKeys = super.allKeys();
+        allKeys.add(affiliation());
+        allKeys.add(attr_json());
+        allKeys.add(creationTimestamp());
+        allKeys.add(displayName());
         allKeys.add(email());
-        allKeys.add(firstName());
-        allKeys.add(idp());
-        allKeys.add(lastName());
-        allKeys.add(idpDisplayName());
-        allKeys.add(remoteUser());
-        allKeys.add(serialString());
-        allKeys.add(userID());
         allKeys.add(eppn());
         allKeys.add(eptid());
-        allKeys.add(openID());
+        allKeys.add(firstName());
+        allKeys.add(idp());
+        allKeys.add(idpDisplayName());
+        allKeys.add(lastName());
         allKeys.add(oidc());
+        allKeys.add(openID());
+        allKeys.add(organizationalUnit());
+        allKeys.add(pairwiseId());
+        allKeys.add(remoteUser());
+        allKeys.add(serialString());
+        allKeys.add(state());
+        allKeys.add(subjectId());
+        allKeys.add(userID());
         allKeys.add(useUSinDN());
         return allKeys;
     }
