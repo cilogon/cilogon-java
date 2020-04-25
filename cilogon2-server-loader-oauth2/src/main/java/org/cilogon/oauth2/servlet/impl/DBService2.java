@@ -2,21 +2,26 @@ package org.cilogon.oauth2.servlet.impl;
 
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.OA2SE;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.OA2ServiceTransaction;
+import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.claims.IDTokenHandler;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.claims.OA2ClaimsUtil;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.servlet.OA2ClientUtils;
+import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.state.ScriptRuntimeEngineFactory;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.clients.OA2Client;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.clients.OA2ClientApprovalKeys;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.clients.OA2ClientKeys;
 import edu.uiuc.ncsa.security.core.Identifier;
+import edu.uiuc.ncsa.security.core.exceptions.GeneralException;
 import edu.uiuc.ncsa.security.core.exceptions.InvalidTimestampException;
 import edu.uiuc.ncsa.security.core.exceptions.NFWException;
 import edu.uiuc.ncsa.security.core.exceptions.UnknownClientException;
 import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
 import edu.uiuc.ncsa.security.core.util.DateUtils;
+import edu.uiuc.ncsa.security.core.util.DebugUtil;
 import edu.uiuc.ncsa.security.delegation.server.UnapprovedClientException;
 import edu.uiuc.ncsa.security.delegation.storage.Client;
 import edu.uiuc.ncsa.security.delegation.token.impl.AuthorizationGrantImpl;
 import edu.uiuc.ncsa.security.oauth_2_0.OA2Constants;
+import edu.uiuc.ncsa.security.oauth_2_0.jwt.JWTRunner;
 import edu.uiuc.ncsa.security.servlet.ServletDebugUtil;
 import net.sf.json.JSONObject;
 import org.cilogon.d2.servlet.AbstractDBService;
@@ -284,14 +289,42 @@ public class DBService2 extends AbstractDBService {
         t.setAuthGrantValid(true);
         t.setUsername(userUID.toString());
 
-        doClaims((CILogonOA2ServiceEnvironment) getServiceEnvironment(), t);
+        //doClaims((CILogonOA2ServiceEnvironment) getServiceEnvironment(), t);
+        doClaims2((CILogonOA2ServiceEnvironment) getServiceEnvironment(), t, req);
 
         getTransactionStore().save(t);
 
         writeTransaction(t, STATUS_OK, resp);
     }
 
+    protected void doClaims2(CILogonOA2ServiceEnvironment env, CILOA2ServiceTransaction t, HttpServletRequest request) {
+        JWTRunner jwtRunner = new JWTRunner(t, ScriptRuntimeEngineFactory.createRTE(env, t.getOA2Client().getConfig()));
+        IDTokenHandler idTokenHandler = new IDTokenHandler(env, t, request);
+        jwtRunner.addHandler(idTokenHandler);
+        try {
+            DebugUtil.trace(this,"Doing user claims");
+            UserClaimSource userClaimSource = new UserClaimSource(getMyLogger());
+            userClaimSource.setOa2SE((OA2SE) getServiceEnvironment());
+            userClaimSource.process(idTokenHandler.getClaims(), t);
+            DebugUtil.trace(this,"Done user claims" + idTokenHandler.getClaims().toString(1));
+
+            jwtRunner.doAuthClaims();
+        } catch (Throwable throwable) {
+            if (throwable instanceof RuntimeException) {
+                throw (RuntimeException) throwable;
+            }
+            getMyLogger().error("error processing claims: " + throwable.getMessage(), throwable);
+            if (DebugUtil.getDebugLevel() == DebugUtil.DEBUG_LEVEL_TRACE) {
+                throwable.printStackTrace();
+            }
+            throw new GeneralException("Error processing claims", throwable);
+        }
+
+    }
+
     protected void doClaims(CILogonOA2ServiceEnvironment env, CILOA2ServiceTransaction t) {
+
+
          /*
         This is the first place we can get claims for the user. We require the user, some existing claims
         (which we append to) and the transaction.
