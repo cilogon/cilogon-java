@@ -206,15 +206,15 @@ public class UserStoreCommands extends StoreCommands2 {
     }
 
     @Override
-    protected int longFormat(Identifiable identifiable) {
+    protected int longFormat(Identifiable identifiable, boolean isVerbose) {
         int width = super.longFormat(identifiable);
         User user = (User) identifiable;
         try {
             if (user.canGetCert()) {
-                say(formatLongLine("DN", user.getDN(null, false), width));
+                say(formatLongLine("DN", user.getDN(null, false), width, isVerbose));
             }
         } catch (Throwable t) {
-            say(formatLongLine("DN", "(could not compute DN)", width));
+            say(formatLongLine("DN", "(could not compute DN)", width, isVerbose));
         }
         return width;
     }
