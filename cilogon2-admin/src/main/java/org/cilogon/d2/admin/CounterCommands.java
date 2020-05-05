@@ -40,17 +40,25 @@ public class CounterCommands extends CommonCommands {
 
     protected void showNextValueHelp() {
         sayi("This will increment the counter and show the result. Syntax:");
-        sayi("\nnextValue\n");
+        sayi("\nnext_value\n");
 
     }
 
-    public void nextvalue(InputLine inputLine) {
+    public void next_value(InputLine inputLine) {
         if (showHelp(inputLine)) {
             showNextValueHelp();
             return;
         }
 
         sayi("next value is " + getIncrementable().nextValue());
+    }
+
+    @Override
+    public void print_help(InputLine inputLine) throws Exception {
+        super.print_help(inputLine);
+        say("--Counter specific commands");
+        sayi("next_value = show the next value. Note this does increment it in the store.");
+        sayi("reset = reset the counter to a new value. WARNING since ids are made using this, do not use it lightly!");;
     }
 
     protected void showResetHelp() {

@@ -6,6 +6,7 @@ import edu.uiuc.ncsa.security.core.util.AbstractEnvironment;
 import edu.uiuc.ncsa.security.core.util.ConfigurationLoader;
 import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
 import edu.uiuc.ncsa.security.util.cli.CLIDriver;
+import edu.uiuc.ncsa.security.util.cli.CommonCommands;
 import edu.uiuc.ncsa.security.util.cli.InputLine;
 import org.apache.commons.lang.StringUtils;
 import org.cilogon.d2.admin.*;
@@ -62,48 +63,88 @@ public class CILogonOA2Commands extends OA2Commands {
                 componentName.equals(TWO_FACTOR);
     }
 
+    UserStoreCommands userStoreCommands = null;
+
+    protected UserStoreCommands getUserStoreCommands(String indent) throws Exception {
+        if (userStoreCommands == null) {
+            userStoreCommands = new UserStoreCommands(getMyLogger(), indent, getCILogonSE().getUserStore(), getCILogonSE().getArchivedUserStore());
+
+        }
+        return userStoreCommands;
+    }
+
+    IDPCommands idpCommands = null;
+
+    protected IDPCommands getIdpCommands(String indent) throws Exception {
+        if (idpCommands == null) {
+            idpCommands = new IDPCommands(getMyLogger(), indent, getCILogonSE().getIDPStore());
+
+        }
+        return idpCommands;
+    }
+
+    CounterCommands counterCommands = null;
+
+    protected CounterCommands getCounterCommands(String indent) throws Exception {
+        if (counterCommands == null) {
+            counterCommands = new CounterCommands(getMyLogger(), indent, getCILogonSE().getIncrementable(), getCILogonSE().getUserStore());
+        }
+        return counterCommands;
+    }
+
+    ArchivedUserStoreCommands archivedUserStoreCommands = null;
+
+    protected ArchivedUserStoreCommands getArchivedUserStoreCommands(String indent) throws Exception {
+        if (archivedUserStoreCommands == null) {
+            archivedUserStoreCommands = new ArchivedUserStoreCommands(getMyLogger(), indent, getCILogonSE().getArchivedUserStore(), getCILogonSE().getUserStore());
+        }
+        return archivedUserStoreCommands;
+    }
+
+    TwoFactorCommands twoFactorCommands = null;
+
+    protected TwoFactorCommands getTwoFactorCommands(String indent) throws Exception {
+        if (twoFactorCommands == null) {
+            twoFactorCommands = new TwoFactorCommands(getMyLogger(), indent, getCILogonSE().getTwoFactorStore());
+        }
+        return twoFactorCommands;
+
+    }
+
+
     @Override
     protected void runComponent(String componentName) throws Exception {
         String indent = "  ";
-        if (componentName.equals(USERS)) {
-            UserStoreCommands usc = new UserStoreCommands(getMyLogger(), indent, getCILogonSE().getUserStore(), getCILogonSE().getArchivedUserStore());
-            CLIDriver cli = new CLIDriver(usc);
+        CommonCommands commands = null;
+        switch (componentName) {
+            case USERS:
+                commands = getUserStoreCommands(indent);
+                break;
+            case IDPS:
+                commands = getIdpCommands(indent);
+                break;
+            case COUNTER:
+                commands = getCounterCommands(indent);
+                break;
+            case ARCHIVED_USER:
+                commands = getArchivedUserStoreCommands(indent);
+                break;
+            case TWO_FACTOR:
+                commands = getTwoFactorCommands(indent);
+                break;
+            case COPY:
+                // older command component. Just make a new one every time.
+                commands = new CopyCommands(getMyLogger(), new CILogonOA2CopyTool(), new CILogonOA2CopyToolVerifier(), getConfigFile());
+                break;
+        }
+
+
+        if (commands != null) {
+            CLIDriver cli = new CLIDriver(commands);
             cli.start();
             return;
         }
 
-        if (componentName.equals(IDPS)) {
-            IDPCommands usc = new IDPCommands(getMyLogger(), indent, getCILogonSE().getIDPStore());
-            CLIDriver cli = new CLIDriver(usc);
-            cli.start();
-            return;
-        }
-
-        if (componentName.equals(COUNTER)) {
-            CounterCommands cc = new CounterCommands(getMyLogger(), indent, getCILogonSE().getIncrementable(), getCILogonSE().getUserStore());
-            CLIDriver cli = new CLIDriver(cc);
-            cli.start();
-            return;
-        }
-
-        if (componentName.equals(ARCHIVED_USER)) {
-            ArchivedUserStoreCommands usc = new ArchivedUserStoreCommands(getMyLogger(), indent, getCILogonSE().getArchivedUserStore(), getCILogonSE().getUserStore());
-            CLIDriver cli = new CLIDriver(usc);
-            cli.start();
-            return;
-        }
-        if (componentName.equals(TWO_FACTOR)) {
-            TwoFactorCommands tfc = new TwoFactorCommands(getMyLogger(), indent, getCILogonSE().getTwoFactorStore());
-            CLIDriver cli = new CLIDriver(tfc);
-            cli.start();
-            return;
-        }
-        if (componentName.equals(COPY)) {
-            CopyCommands cc = new CopyCommands(getMyLogger(), new CILogonOA2CopyTool(), new CILogonOA2CopyToolVerifier(), getConfigFile());
-            CLIDriver cli = new CLIDriver(cc);
-            cli.start();
-            return;
-        }
         super.runComponent(componentName);
     }
 

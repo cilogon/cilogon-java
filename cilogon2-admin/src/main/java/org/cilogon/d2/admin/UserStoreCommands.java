@@ -54,12 +54,12 @@ public class UserStoreCommands extends StoreCommands2 {
         return lastName + ", " + firstName + ", id=" + user.getIdentifierString();
     }
 
-/*
     @Override
-    public void create(InputLine inputLine) {
-        say("Unsupported in this version...");
+    public void print_help(InputLine inputLine) throws Exception {
+        super.print_help(inputLine);
+        say("--Archive specific:");
+        sayi("archive = archive a given user.");
     }
-*/
 
     @Override
     public String getName() {
@@ -207,14 +207,15 @@ public class UserStoreCommands extends StoreCommands2 {
 
     @Override
     protected int longFormat(Identifiable identifiable, boolean isVerbose) {
-        int width = super.longFormat(identifiable);
+        int width = super.longFormat(identifiable, isVerbose);
+        int realWidth = width - indentWidth();
         User user = (User) identifiable;
         try {
             if (user.canGetCert()) {
-                say(formatLongLine("DN", user.getDN(null, false), width, isVerbose));
+                say(formatLongLine("DN", user.getDN(null, false), realWidth, isVerbose));
             }
         } catch (Throwable t) {
-            say(formatLongLine("DN", "(could not compute DN)", width, isVerbose));
+            say(formatLongLine("DN", "(could not compute DN)", realWidth, isVerbose));
         }
         return width;
     }
