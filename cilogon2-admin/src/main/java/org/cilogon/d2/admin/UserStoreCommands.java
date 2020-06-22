@@ -11,6 +11,8 @@ import edu.uiuc.ncsa.security.util.cli.InputLine;
 import org.cilogon.d2.storage.*;
 import org.cilogon.d2.util.ArchivedUserStore;
 
+import java.io.IOException;
+
 /**
  * <p>Created by Jeff Gaynor<br>
  * on 5/23/13 at  9:47 AM
@@ -95,7 +97,7 @@ public class UserStoreCommands extends StoreCommands2 {
     }
 
     @Override
-    public boolean update(Identifiable identifiable) {
+    public boolean update(Identifiable identifiable) throws IOException {
         User user = (User) identifiable;
         String input = null;
         say("Update the values. A return accepts the existing or default value in []'s");
@@ -130,8 +132,7 @@ public class UserStoreCommands extends StoreCommands2 {
             boolean saveIt = isOk(readline());
             if (saveIt) {
                 if (!input.equals(user.getIdentifierString())) {
-                    sayi2("remove user with id=\"" + user.getIdentifier() + "\" [y/n]? ");
-                    if (isOk(readline())) {
+                    if (isOk(readline("remove user with id=\"" + user.getIdentifier() + "\" [y/n]? "))) {
                         getStore().remove(user.getIdentifier());
                         sayi(" user removed. Be sure to save any changes.");
                     }
@@ -150,7 +151,7 @@ public class UserStoreCommands extends StoreCommands2 {
         }
     }
 
-    protected String getPersonPrompt(String prompt, PersonName person) {
+    protected String getPersonPrompt(String prompt, PersonName person) throws IOException {
         String temp;
         if (person == null) {
             temp = getInput(prompt, null);
@@ -160,7 +161,7 @@ public class UserStoreCommands extends StoreCommands2 {
         return temp;
     }
 
-    protected void getOpenID(User user) {
+    protected void getOpenID(User user) throws IOException {
         String temp = getPersonPrompt("open id", user.getOpenID());
         if (!isEmpty(temp)) {
             user.setOpenID(new OpenID(temp));
@@ -169,7 +170,7 @@ public class UserStoreCommands extends StoreCommands2 {
         }
     }
 
-    protected void getOpenIDConnect(User user) {
+    protected void getOpenIDConnect(User user) throws IOException {
         String temp = getPersonPrompt("open id connect", user.getOpenIDConnect());
         if (!isEmpty(temp)) {
             user.setOpenIDConnect(new OpenIDConnect(temp));
@@ -178,7 +179,7 @@ public class UserStoreCommands extends StoreCommands2 {
         }
     }
 
-    protected void getEPTID(User user) {
+    protected void getEPTID(User user) throws IOException {
         String temp = getPersonPrompt("eptid", user.getePTID());
         if (!isEmpty(temp)) {
             user.setePTID(new EduPersonTargetedID(temp));
@@ -187,7 +188,7 @@ public class UserStoreCommands extends StoreCommands2 {
         }
     }
 
-    protected void getEPPN(User user) {
+    protected void getEPPN(User user) throws IOException {
         String temp = getPersonPrompt("eppn", user.getePPN());
         if (!isEmpty(temp)) {
             user.setePPN(new EduPersonPrincipleName(temp));
@@ -196,7 +197,7 @@ public class UserStoreCommands extends StoreCommands2 {
         }
     }
 
-    protected void getRemoteUser(User user) {
+    protected void getRemoteUser(User user) throws IOException {
         String temp = getPersonPrompt("remote user", user.getRemoteUser());
         if (!isEmpty(temp)) {
             user.setRemoteUser(new RemoteUserName(temp));
@@ -221,15 +222,14 @@ public class UserStoreCommands extends StoreCommands2 {
     }
 
     @Override
-    public void rm(InputLine inputLine) {
+    public void rm(InputLine inputLine) throws IOException {
         if (showHelp(inputLine)) {
             showRMHelp();
             return;
         }
         Identifiable x = findItem(inputLine);
 
-        sayi2("Archive user record before removing it? [y/n]:");
-        if (isOk(readline())) {
+        if (isOk(readline("Archive user record before removing it? [y/n]:"))) {
             Identifier auId = getArchivedUserStore().archiveUser(x.getIdentifier());
             sayi("User archive record create with id =\"" + auId + "\".");
         }

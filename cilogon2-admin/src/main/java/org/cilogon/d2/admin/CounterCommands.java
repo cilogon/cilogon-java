@@ -8,6 +8,8 @@ import org.cilogon.d2.storage.User;
 import org.cilogon.d2.storage.UserStore;
 import org.cilogon.d2.util.Incrementable;
 
+import java.io.IOException;
+
 /**
  * <p>Created by Jeff Gaynor<br>
  * on 10/30/13 at  4:05 PM
@@ -72,7 +74,7 @@ public class CounterCommands extends CommonCommands {
         say2("The checks are not airtight but should reasonably intercept most issues.");
     }
 
-    public void reset(InputLine inputLine) {
+    public void reset(InputLine inputLine) throws IOException {
         if (showHelp(inputLine)) {
             showResetHelp();
             return;
@@ -92,8 +94,7 @@ public class CounterCommands extends CommonCommands {
         long currentValue = getIncrementable().nextValue();
         sayi("This will reset the counter for the system. Be sure you really want to do this!");
         if (promptForValue) {
-            sayi2("Enter the new value for the system counter [" + currentValue + "]:");
-            String proposedValue = readline();
+            String proposedValue = readline("Enter the new value for the system counter [" + currentValue + "]:");
             if (isEmpty(proposedValue)) {
                 sayi("You hit return, so no changes will be done. Exiting...");
                 return;
@@ -105,8 +106,7 @@ public class CounterCommands extends CommonCommands {
                 return;
             }
         }
-        sayi2("Are you sure you want to change the counter to start at \"" + newValue + "\"? [y|n]:");
-        if (isOk(readline())) {
+        if (isOk(readline("Are you sure you want to change the counter to start at \"" + newValue + "\"? [y|n]:"))) {
             try {
                 getIncrementable().destroy();
                 if(!getIncrementable().createNew(newValue)){
@@ -115,8 +115,7 @@ public class CounterCommands extends CommonCommands {
                 }
             } catch (Throwable throwable) {
                 sayi("There was a problem. Message reads " + throwable.getMessage());
-                sayi2("Show stacktrace? [y|n]:");
-                if (isOk(readline())) {
+                if (isOk(readline("Show stacktrace? [y|n]:"))) {
                     throwable.printStackTrace();
                 }
                 say2("aborting...");
@@ -124,8 +123,7 @@ public class CounterCommands extends CommonCommands {
             }
 
         }
-        sayi2("Would you like to test it? [y|n]:");
-        if (isOk(readline())) {
+        if (isOk(readline("Would you like to test it? [y|n]:"))) {
             sayi("Testing consists of displaying the next value and creating (but not saving) a user record successfully.");
             try {
                 long value2 = getIncrementable().nextValue();
@@ -133,13 +131,11 @@ public class CounterCommands extends CommonCommands {
                     // checks that internally it took.
                     throw new IllegalStateException("Error: the expected next value was " + newValue + " and we got " + value2);
                 }
-                sayi2("The next value returned by the counter is " + value2 + ". Does this look right? [y|n]:");
-                if (!isOk(readline())) {
+                if (!isOk(readline("The next value returned by the counter is " + value2 + ". Does this look right? [y|n]:"))) {
                     say2("ok. You should go check this by some other means. There was an issue which was not detectable");
                     return;
                 }
-                sayi2("Now we will create a new user. Proceed? [y|n]:");
-                if (isOk(readline())) {
+                if (isOk(readline("Now we will create a new user. Proceed? [y|n]:"))) {
                     User user = getUserStore().create(true);
                     if (getUserStore().containsKey(user.getIdentifier())) {
                         throw new IllegalStateException("Error: The user with identifier \"" + user.getIdentifierString() + "\" already exists. This should not happen.");
@@ -149,8 +145,7 @@ public class CounterCommands extends CommonCommands {
                 }
             } catch (Throwable throwable) {
                 sayi("There was a problem. Message reads " + throwable.getMessage());
-                sayi2("Show stacktrace? [y|n]:");
-                if (isOk(readline())) {
+                if (isOk(readline("Show stacktrace? [y|n]:"))) {
                     throwable.printStackTrace();
                 }
                 sayi("aborting...");

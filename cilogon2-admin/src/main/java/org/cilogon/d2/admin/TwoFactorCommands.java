@@ -9,6 +9,8 @@ import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
 import org.cilogon.d2.twofactor.TwoFactorInfo;
 import org.cilogon.d2.twofactor.TwoFactorStore;
 
+import java.io.IOException;
+
 /**
  * <p>Created by Jeff Gaynor<br>
  * on 11/6/13 at  1:40 PM
@@ -42,7 +44,7 @@ public class TwoFactorCommands extends StoreCommands2 {
     }
 
     @Override
-    public boolean update(Identifiable identifiable) {
+    public boolean update(Identifiable identifiable) throws IOException {
         boolean saveIt = false;
         TwoFactorInfo tfi = (TwoFactorInfo) identifiable;
         String currentID = tfi.getIdentifierString();
@@ -76,12 +78,6 @@ public class TwoFactorCommands extends StoreCommands2 {
         }
         return saveIt;
     }
-/*
-    @Override
-    protected void longFormat(Identifiable identifiable) {
-        TwoFactorInfo tfi = (TwoFactorInfo) identifiable;
-        sayi("object id:" + tfi.getIdentifierString());
-        sayi("     info:" + (tfi.getInfo() == null ? "(null)" : tfi.getInfo()));
-    }*/
+
 
 }

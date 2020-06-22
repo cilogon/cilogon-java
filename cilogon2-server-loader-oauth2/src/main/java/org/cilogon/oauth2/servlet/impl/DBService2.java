@@ -44,8 +44,7 @@ import java.net.URLDecoder;
 import java.util.Date;
 
 import static edu.uiuc.ncsa.security.core.util.BasicIdentifier.newID;
-import static edu.uiuc.ncsa.security.oauth_2_0.OA2Constants.AUTHORIZATION_CODE;
-import static edu.uiuc.ncsa.security.oauth_2_0.OA2Constants.AUTHORIZATION_TIME;
+import static edu.uiuc.ncsa.security.oauth_2_0.OA2Constants.*;
 
 /**
  * <p>Created by Jeff Gaynor<br>
@@ -70,6 +69,7 @@ public class DBService2 extends AbstractDBService {
     public static final int STATUS_UNKNOWN_CLIENT = 0x1000D; // 65549
     public static final int STATUS_UNAPPROVED_CLIENT = 0x1000F; // 65551
     public static final int STATUS_NO_SCOPES = 0x10011; //65553
+    public static final int STATUS_MALFORMED_SCOPE = 0x10013; //65555
 
 
     @Override
@@ -146,6 +146,17 @@ public class DBService2 extends AbstractDBService {
             doError("No value for client id parameter was found.", STATUS_MISSING_CLIENT_ID, resp);
             return;
         }
+        if(!req.getParameterMap().containsKey(SCOPE)){
+            doError("No scopes found.", STATUS_NO_SCOPES, resp);
+        }else{
+            String values = req.getParameter(SCOPE);
+            if(-1 != values.indexOf(",")){
+                doError("No scopes found.", STATUS_MALFORMED_SCOPE, resp);
+
+            }
+
+        }
+
         Identifier client_id = null;
         try {
             client_id = BasicIdentifier.newID(clientID);

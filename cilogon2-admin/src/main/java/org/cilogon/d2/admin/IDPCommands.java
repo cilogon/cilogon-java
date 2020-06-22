@@ -7,6 +7,8 @@ import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
 import org.cilogon.d2.storage.IdentityProvider;
 import org.cilogon.d2.storage.IdentityProviderStore;
 
+import java.io.IOException;
+
 /**
  * <p>Created by Jeff Gaynor<br>
  * on 11/4/13 at  3:54 PM
@@ -39,15 +41,11 @@ public class IDPCommands extends StoreCommands2 {
     }
 
     @Override
-    public boolean update(Identifiable identifiable) {
+    public boolean update(Identifiable identifiable) throws IOException {
         info("Updating IDP =" + identifiable.getIdentifierString());
         getIDPStore().save(new IdentityProvider(identifiable.getIdentifier()));
-        sayi("save changes [y/n]?");
-        return isOk(readline());
+        return isOk(readline("save changes [y/n]?"));
     }
 
-/*    @Override
-    protected void longFormat(Identifiable identifiable) {
-        sayi(identifiable.getIdentifierString());
-    }*/
+
 }
