@@ -66,9 +66,13 @@
                 <input type="email" class="form-control" id="inputContactEmail"
                        name="${clientEmail}" value="${clientEmailValue}" required
                        aria-describedBy="contactEmailHelp"
-                       placeholder="Your email address"/>
-                <small id="contactEmailHelp" class="form-text text-muted">A client
-                    approval email will be sent to this address.
+                       placeholder="Your official university/organization email address"/>
+                <small id="contactEmailHelp" class="form-text text-muted">This
+                    email address is used for operational notices regarding your
+                    client and for validating your organizational (e.g., university)
+                    affiliation. You will receive a message at this address when
+                    your client is approved. The use of a mailing list address for
+                    your operations team is recommended.
                 </small>
             </div>
         </div>
