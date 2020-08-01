@@ -2,7 +2,6 @@ package org.cilogon.oauth2.servlet.impl;
 
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.OA2SE;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.OA2ServiceTransaction;
-import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.claims.IDTokenHandler;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.claims.OA2ClaimsUtil;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.servlet.OA2ClientUtils;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.state.ScriptRuntimeEngineFactory;
@@ -301,23 +300,32 @@ public class DBService2 extends AbstractDBService {
         t.setUsername(userUID.toString());
 
         //doClaims((CILogonOA2ServiceEnvironment) getServiceEnvironment(), t);
-        doClaims2((CILogonOA2ServiceEnvironment) getServiceEnvironment(), t, req);
-
+        try {
+            doClaims2((CILogonOA2ServiceEnvironment) getServiceEnvironment(), t, req);
+        }catch (Throwable throwable){
+            if(throwable instanceof RuntimeException ){
+                throw (RuntimeException)throwable;
+            }
+            getMyLogger().error("Could not get claims", throwable);
+            throw new GeneralException(throwable);
+        }
         getTransactionStore().save(t);
 
         writeTransaction(t, STATUS_OK, resp);
     }
 
-    protected void doClaims2(CILogonOA2ServiceEnvironment env, CILOA2ServiceTransaction t, HttpServletRequest request) {
-        JWTRunner jwtRunner = new JWTRunner(t, ScriptRuntimeEngineFactory.createRTE(env, t.getOA2Client().getConfig()));
-        IDTokenHandler idTokenHandler = new IDTokenHandler(env, t, request);
-        jwtRunner.addHandler(idTokenHandler);
+    protected void doClaims2(CILogonOA2ServiceEnvironment env, CILOA2ServiceTransaction t, HttpServletRequest request) throws Throwable {
         try {
             DebugUtil.trace(this,"Doing user claims");
             UserClaimSource userClaimSource = new UserClaimSource(getMyLogger());
             userClaimSource.setOa2SE((OA2SE) getServiceEnvironment());
-            userClaimSource.process(idTokenHandler.getClaims(), t);
-            DebugUtil.trace(this,"Done user claims" + idTokenHandler.getClaims().toString(1));
+            t.setUserMetaData(userClaimSource.process(t.getUserMetaData(), t));
+            DebugUtil.trace(this,"Done user claims" + t.getUserMetaData().toString(1));
+            DebugUtil.trace(this,"Starting  post_auth claims");
+            env.getTransactionStore().save(t); // make SURE the user claims get saved.
+
+            JWTRunner jwtRunner = new JWTRunner(t, ScriptRuntimeEngineFactory.createRTE(env, t.getOA2Client().getConfig()));
+            OA2ClientUtils.setupHandlers(jwtRunner, env, t, request);
 
             jwtRunner.doAuthClaims();
         } catch (Throwable throwable) {
@@ -348,7 +356,7 @@ public class DBService2 extends AbstractDBService {
             userClaimSource.setOa2SE((OA2SE) getServiceEnvironment());
             JSONObject claims = claimsUtil.processAuthorizationClaims(null);
             userClaimSource.process(claims, t);
-            t.setClaims(claims);
+            t.setUserMetaData(claims);
         } catch (Throwable throwable) {
             getMyLogger().error("Claims processing failed.", throwable);
             return;
