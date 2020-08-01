@@ -9,8 +9,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
     <title>CILogon OIDC/OAuth 2.0 Client Registration</title>
     <link rel="stylesheet"
@@ -66,9 +66,13 @@
                 <input type="email" class="form-control" id="inputContactEmail"
                        name="${clientEmail}" value="${clientEmailValue}" required
                        aria-describedBy="contactEmailHelp"
-                       placeholder="Your email address"/>
-                <small id="contactEmailHelp" class="form-text text-muted">A client
-                    approval email will be sent to this address.
+                       placeholder="Your official university/organization email address"/>
+                <small id="contactEmailHelp" class="form-text text-muted">This
+                    email address is used for operational notices regarding your
+                    client and for validating your organizational (e.g., university)
+                    affiliation. You will receive a message at this address when
+                    your client is approved. The use of a mailing list address for
+                    your operations team is recommended.
                 </small>
             </div>
         </div>
