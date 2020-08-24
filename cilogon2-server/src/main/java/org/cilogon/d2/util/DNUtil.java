@@ -3,6 +3,7 @@ package org.cilogon.d2.util;
 import edu.uiuc.ncsa.security.core.exceptions.GeneralException;
 import edu.uiuc.ncsa.security.core.exceptions.NFWException;
 import edu.uiuc.ncsa.security.core.util.DebugUtil;
+import edu.uiuc.ncsa.security.core.util.StringUtils;
 import edu.uiuc.ncsa.security.servlet.ServletDebugUtil;
 import net.freeutils.charset.UTF7Charset;
 import org.cilogon.d2.storage.User;
@@ -162,18 +163,25 @@ public class DNUtil {
     // Fix for CIL-540: Allow display name too.
     protected static String getDefaultDN(User user, boolean returnEmail) {
         String baseString = "/DC=org/DC=cilogon" + (user.isUseUSinDN() ? "/C=US" : "") + "/O=%s/CN=%s %s";
+        // CIL-793 fix. it is possible that the OAuth 1 code (which is still working) might be used and inject cruft for the
+        // user. Therefore, we check here and will reject the request no matter what if the name is trivial.
+        String name = encodeCertName(user.getCertName());
+        if(StringUtils.isTrivial(name)){
+            throw new NFWException("Error: user \"" + user.getIdentifierString() + "\" does not have a name. Cert request rejected.");
+        }
+
         if (returnEmail) {
             baseString = baseString + " email=%s";
             return String.format(baseString,
                     toUTF7(user.getIDPName()),
-                    encodeCertName(user.getCertName()),
+                    name,
                     user.getSerialString(),
                     user.getEmail());
 
         }
         return String.format(baseString,
                 toUTF7(user.getIDPName()),
-                encodeCertName(user.getCertName()),
+                name,
                 user.getSerialString());
     }
 
