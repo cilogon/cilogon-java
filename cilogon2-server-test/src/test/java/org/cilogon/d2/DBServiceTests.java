@@ -167,6 +167,7 @@ public class DBServiceTests extends RemoteDBServiceTest {
         client.setErrorUri(createToken("errorURI").toString());
         getClientStore().save(client);
         t.setClient(client);
+
         getTransactionStore().save(t);
         //now its in the store. We have to get it.
         Map<String, Object> t2; // we can't actually recreate the transaction completely -- that is not the aim. So we use a hash map instead.
