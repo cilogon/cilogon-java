@@ -224,7 +224,7 @@ $(document).ready(function() {
 
     $('form').submit(function() {
         $('input[type=radio][name=refreshTokensYesNo]').prop('disabled', true);
-        if ($('input[type=radio][name=${clientIsPublic}]').val() == 'no') {
+        if ($('input[type=radio][name=${clientIsPublic}]:checked').val() == 'no') {
             $('input[type=radio][name=${clientIsPublic}]').prop('disabled', true);
         }
         return true;
