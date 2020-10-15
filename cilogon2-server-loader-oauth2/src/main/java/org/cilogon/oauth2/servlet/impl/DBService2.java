@@ -324,7 +324,7 @@ public class DBService2 extends AbstractDBService {
             DebugUtil.trace(this,"Starting  post_auth claims");
             env.getTransactionStore().save(t); // make SURE the user claims get saved.
 
-            JWTRunner jwtRunner = new JWTRunner(t, ScriptRuntimeEngineFactory.createRTE(env, t.getOA2Client().getConfig()));
+            JWTRunner jwtRunner = new JWTRunner(t, ScriptRuntimeEngineFactory.createRTE(env, t, t.getOA2Client().getConfig()));
             OA2ClientUtils.setupHandlers(jwtRunner, env, t, request);
 
             jwtRunner.doAuthClaims();

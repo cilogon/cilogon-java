@@ -22,17 +22,17 @@ import java.util.StringTokenizer;
  * This will read SAML attributes that are sent in the header from the IDP then stored in an attribute that
  * is sent. At the right time, this attribute is read and parsed into information about the user and
  * returned as a set of claims. NOTE that this is created by introspection (hence the no arg constructor)
- * and hence never seem to be used in the code base. Several clients, however, require it.
+ * and hence never seems to be used in the code base. Several clients, however, require it.
  * <p>Created by Jeff Gaynor<br>
  * on 7/10/18 at  8:15 AM
  */
-public class SAMLAttrbuteClaimSource extends BasicClaimsSourceImpl {
-    public SAMLAttrbuteClaimSource(OA2SE oa2SE) {
+public class SAMLAttributeClaimSource extends BasicClaimsSourceImpl {
+    public SAMLAttributeClaimSource(OA2SE oa2SE) {
         super(oa2SE);
     }
 
     // KEEP -- this is only used during instantiation under introspection.
-    public SAMLAttrbuteClaimSource() {
+    public SAMLAttributeClaimSource() {
         super();
     }
 
@@ -181,7 +181,7 @@ public class SAMLAttrbuteClaimSource extends BasicClaimsSourceImpl {
 
     @Override
     public String toString() {
-        return "SAMLAttrbuteClaimSource{" +
+        return "SAMLAttributeClaimSource{" +
                 "SHIBBOLETH_MEMBER_OF_KEY='" + SHIBBOLETH_MEMBER_OF_KEY + '\'' +
                 ",runAtAuthTime=" + isRunAtAuthorization() +
                 ", service env =" + getOa2SE() +
@@ -207,7 +207,7 @@ public class SAMLAttrbuteClaimSource extends BasicClaimsSourceImpl {
         String x = "{\"acr\":\"urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport\",\"entitlement\":\"urn:mace:dir:entitlement:common-lib-terms\"}";
         System.out.println(x);
         JSONObject saml = JSONObject.fromObject(x);
-        SAMLAttrbuteClaimSource samlAttrbuteClaimSource = new SAMLAttrbuteClaimSource(null);
+        SAMLAttributeClaimSource samlAttrbuteClaimSource = new SAMLAttributeClaimSource(null);
         //JSONObject claims = samlAttrbuteClaimSource.process(new JSONObject(), null);
         JSONObject claims = new JSONObject();
         claims = samlAttrbuteClaimSource.getJsonObject(claims, saml);
@@ -234,7 +234,7 @@ public class SAMLAttrbuteClaimSource extends BasicClaimsSourceImpl {
         System.out.println("\nFrom group processor:");
         System.out.println(foo);
         System.out.println("\nFrom attr_json processor:");
-        SAMLAttrbuteClaimSource samlAttrbuteClaimSource = new SAMLAttrbuteClaimSource(null);
+        SAMLAttributeClaimSource samlAttrbuteClaimSource = new SAMLAttributeClaimSource(null);
 
         System.out.println(samlAttrbuteClaimSource.getJsonObject(new JSONObject(), saml).toString(2));
     }
