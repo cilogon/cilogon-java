@@ -88,6 +88,6 @@ public class IdentityProviderTest extends TestBase {
         assert !identityProviderStore.containsValue(firstIdp);
         assert !identityProviderStore.hasIdp(firstIdp.getIdentifierString());
         identityProviderStore.replaceAll(idps);
-        assert identityProviderStore.size() == idps.size();
+        assert identityProviderStore.size() == idps.size() : "expected " + identityProviderStore.size() + " entries and got " + idps.size();
     }
 }
