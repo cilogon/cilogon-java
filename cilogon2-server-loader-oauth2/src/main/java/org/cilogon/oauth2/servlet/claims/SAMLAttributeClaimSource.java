@@ -168,9 +168,10 @@ public class SAMLAttributeClaimSource extends BasicClaimsSourceImpl {
 
     @Override
     public JSONObject process(JSONObject claims, HttpServletRequest request, ServiceTransaction transaction) throws UnsupportedScopeException {
+ /*     Different control flow does send this, but we can and do ignore it anyway.
         if (request != null) {
             throw new IllegalArgumentException("Error: this is not supported for servlet requests.");
-        }
+        }*/
         return process(claims, transaction);
     }
 

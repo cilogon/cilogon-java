@@ -1317,7 +1317,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
      */
     protected void writeMessage(HttpServletResponse response, int statusCode) throws IOException {
         if (statusCode != STATUS_OK) {
-            // track in debugging when a non-succes is returned.
+            // track in debugging when a non-success is returned.
             ServletDebugUtil.trace(this, "Serialization error of " + statusCode + " (0x" + Long.toHexString(statusCode).toUpperCase() + ")");
         }
         writeMessage(response, Integer.toString(statusCode));
