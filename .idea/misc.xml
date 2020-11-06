@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CCaseConfig">
+    <option name="checkoutReserved" value="false" />
+    <option name="markExternalChangeAsUpToDate" value="true" />
+    <option name="checkInUseHijack" value="true" />
+    <option name="useUcmModel" value="true" />
+    <option name="synchOutside" value="false" />
+    <option name="isHistoryResticted" value="true" />
+    <option name="useIdenticalSwitch" value="true" />
+    <option name="synchActivitiesOnRefresh" value="true" />
+    <option name="lastScr" value="" />
+    <option name="scrTextFileName" value="" />
+    <option name="historyRevisionsNumber" value="4" />
+  </component>
+  <component name="ClearCaseSharedConfig">
+    <option name="myUseUcmModel" value="true" />
+  </component>
+  <component name="FrameworkDetectionExcludesConfiguration">
+    <file url="file://$PROJECT_DIR$/cilogon2-client-oauth2/overlays" />
+    <file url="file://$PROJECT_DIR$/cilogon2-server-oauth1/overlays" />
+    <file url="file://$PROJECT_DIR$/cilogon2-server-oauth2/overlays" />
+    <file url="file://$PROJECT_DIR$/cilogon2-server-test-oauth2/overlays" />
+    <file url="file://$PROJECT_DIR$/cilogon2-server-webapp/overlays" />
+    <file type="web" url="file://$PROJECT_DIR$/cilogon2-client-oauth1" />
+    <file type="web" url="file://$PROJECT_DIR$/cilogon2-client-oauth2" />
+    <file type="web" url="file://$PROJECT_DIR$/cilogon2-server-oauth1" />
+    <file type="web" url="file://$PROJECT_DIR$/cilogon2-server-oauth2" />
+    <file type="web" url="file://$PROJECT_DIR$/cilogon2-server-test-oauth2" />
+    <file type="web" url="file://$PROJECT_DIR$/cilogon2-server-webapp" />
+  </component>
+  <component name="IdProvider" IDEtalkID="215A14033C971CCE717D28767B12EEA0" />
+  <component name="JavadocGenerationManager">
+    <option name="OTHER_OPTIONS" value="" />
+  </component>
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/pom.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ModuleEditorState">
+    <option name="LAST_EDITED_MODULE_NAME" />
+    <option name="LAST_EDITED_TAB_NAME" />
+  </component>
+  <component name="ProjectReloadState">
+    <option name="STATE" value="0" />
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" default="false" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/classes" />
+  </component>
+</project>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <resourceExtensions />
+    <wildcardResourcePatterns>
+      <entry name="?*.properties" />
+      <entry name="?*.xml" />
+      <entry name="?*.gif" />
+      <entry name="?*.png" />
+      <entry name="?*.jpeg" />
+      <entry name="?*.jpg" />
+      <entry name="?*.html" />
+      <entry name="?*.dtd" />
+      <entry name="?*.tld" />
+      <entry name="?*.ftl" />
+    </wildcardResourcePatterns>
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="false">
+        <processorPath useClasspath="true" />
+      </profile>
+      <profile default="false" name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="cilogon2-admin" />
+        <module name="cilogon2-admin-oauth1" />
+        <module name="cilogon2-admin-oauth2" />
+        <module name="cilogon2-client-oauth1" />
+        <module name="cilogon2-client-oauth2" />
+        <module name="cilogon2-server" />
+        <module name="cilogon2-server-loader-oauth1" />
+        <module name="cilogon2-server-loader-oauth2" />
+        <module name="cilogon2-server-oauth1" />
+        <module name="cilogon2-server-oauth2" />
+        <module name="cilogon2-server-test" />
+        <module name="cilogon2-server-test-oauth1" />
+        <module name="cilogon2-server-test-oauth2" />
+        <module name="cilogon2-server-webapp" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="cilogon2" target="1.8" />
+      <module name="cilogon2-admin" target="1.8" />
+      <module name="cilogon2-admin-oauth1" target="1.8" />
+      <module name="cilogon2-admin-oauth2" target="1.8" />
+      <module name="cilogon2-client-oauth1" target="1.8" />
+      <module name="cilogon2-client-oauth2" target="1.8" />
+      <module name="cilogon2-server" target="1.8" />
+      <module name="cilogon2-server-loader-oauth1" target="1.8" />
+      <module name="cilogon2-server-loader-oauth2" target="1.8" />
+      <module name="cilogon2-server-oauth1" target="1.8" />
+      <module name="cilogon2-server-oauth2" target="1.8" />
+      <module name="cilogon2-server-test" target="1.8" />
+      <module name="cilogon2-server-test-oauth1" target="1.8" />
+      <module name="cilogon2-server-test-oauth2" target="1.8" />
+      <module name="cilogon2-server-webapp" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
