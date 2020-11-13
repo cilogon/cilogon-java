@@ -3,6 +3,8 @@ package org.cilogon.d2.util;
 import edu.uiuc.ncsa.security.core.util.DateUtils;
 import edu.uiuc.ncsa.security.core.util.DoubleHashMap;
 import edu.uiuc.ncsa.security.delegation.token.*;
+import edu.uiuc.ncsa.security.delegation.token.impl.OA1AccessTokenImpl;
+import edu.uiuc.ncsa.security.delegation.token.impl.OA1AuthorizationGrantImpl;
 import edu.uiuc.ncsa.security.util.TestBase;
 import org.cilogon.d2.CILTestStoreProviderI2;
 import org.junit.Test;
@@ -21,10 +23,10 @@ public  class TokenTest extends TestBase {
         assert token.getToken().substring(testServer.length() + 1).startsWith(component);
         DateUtils.getDate(token.getToken());
         String sharedSecret = null;
-        if (token instanceof AccessToken) {
-            sharedSecret = ((AccessToken) token).getSharedSecret();
-        } else if (token instanceof AuthorizationGrant) {
-            sharedSecret = ((AuthorizationGrant) token).getSharedSecret();
+        if (token instanceof OA1AccessTokenImpl) {
+            sharedSecret = ((OA1AccessTokenImpl) token).getSharedSecret();
+        } else if (token instanceof OA1AuthorizationGrantImpl) {
+            sharedSecret = ((OA1AuthorizationGrantImpl) token).getSharedSecret();
         }
         if (sharedSecret == null) return;
         assert ssComponent != null : "Error: test not correct. To test for a shared secret you must supply a component for the token.";

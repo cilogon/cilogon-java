@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Created-By: Apache Maven
+Archiver-Version: Plexus Archiver
+Built-By: ncsa
+Build-Jdk: 1.8.0_231
+Build-Time: ${build.time}
+Application-Name: : OAuth 2/Open ID Connect server support for MyProxy
+Application-Version: : 5.0.1
+Application-Description: Build: #4,543 (2020-10-27T13:29:26.735-05:00)

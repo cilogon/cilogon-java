@@ -6,6 +6,8 @@ import edu.uiuc.ncsa.security.core.util.IdentifiableProviderImpl;
 import edu.uiuc.ncsa.security.delegation.server.storage.ClientStore;
 import edu.uiuc.ncsa.security.delegation.storage.Client;
 import edu.uiuc.ncsa.security.delegation.token.TokenForge;
+import edu.uiuc.ncsa.security.delegation.token.impl.OA1AccessTokenImpl;
+import edu.uiuc.ncsa.security.delegation.token.impl.OA1AuthorizationGrantImpl;
 import edu.uiuc.ncsa.security.storage.data.ConversionMap;
 import edu.uiuc.ncsa.security.storage.data.SerializationKeys;
 
@@ -36,12 +38,12 @@ public class CILServiceTransactionConverter<V extends CILogonServiceTransaction>
     public V fromMap(ConversionMap<String, Object> map, V v) {
         V st = super.fromMap(map, v);
         String tokenSS = map.getString(getCILK().accessTokenSS());
-        if (st.hasAccessToken()) {
-            st.getAccessToken().setSharedSecret(tokenSS);
+        if (st.hasAccessToken() && st.getAccessToken() instanceof OA1AccessTokenImpl) {
+            ((OA1AccessTokenImpl) st.getAccessToken()).setSharedSecret(tokenSS);
         }
         tokenSS = map.getString(getCILK().tempCredSS());
-        if (st.hasAuthorizationGrant()) {
-            st.getAuthorizationGrant().setSharedSecret(tokenSS);
+        if (st.hasAuthorizationGrant() && st.getAuthorizationGrant() instanceof OA1AuthorizationGrantImpl) {
+            ((OA1AuthorizationGrantImpl) st.getAuthorizationGrant()).setSharedSecret(tokenSS);
         }
         st.setComplete(map.getBoolean(getCILK().complete()));
         st.setLoa(map.getString(getCILK().LOA()));
@@ -55,8 +57,21 @@ public class CILServiceTransactionConverter<V extends CILogonServiceTransaction>
     @Override
     public void toMap(V t, ConversionMap<String, Object> map) {
         super.toMap(t, map);
-        map.put(getCILK().tempCredSS(), t.getAuthorizationGrant() == null ? null : t.getAuthorizationGrant().getSharedSecret());
-        map.put(getCILK().accessTokenSS(), t.getAccessToken() == null ? null : t.getAccessToken().getSharedSecret());
+        if (t.getAuthorizationGrant() == null) {
+            map.put(getCILK().tempCredSS(), null);
+
+        } else {
+            if (t.getAuthorizationGrant() instanceof OA1AuthorizationGrantImpl) {
+                map.put(getCILK().tempCredSS(), ((OA1AuthorizationGrantImpl)t.getAuthorizationGrant()).getSharedSecret());
+            }
+        }
+        if(t.getAccessToken() == null){
+            map.put(getCILK().accessTokenSS(), null );
+        }else{
+            if(t.getAccessToken() instanceof OA1AccessTokenImpl) {
+                map.put(getCILK().accessTokenSS(), ((OA1AccessTokenImpl)t.getAccessToken()).getSharedSecret());
+            }
+        }
         map.put(getCILK().complete(), t.isComplete());
         map.put(getCILK().LOA(), t.getLoa());
         map.put(getCILK().affiliation(), t.getAffiliation());
