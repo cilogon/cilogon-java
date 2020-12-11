@@ -157,6 +157,8 @@ public class CILOA2ConfigurationLoader extends OA2ConfigurationLoader implements
                     getTransactionStoreProvider(),
                     getClientStoreProvider(),
                     getMaxAllowedNewClientRequests(),
+                    getAGLifetime(),
+                    getATLifetime(),
                     getRTLifetime(),
                     getClientApprovalStoreProvider(),
                     getMyProxyFacadeProvider(),

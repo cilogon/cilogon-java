@@ -8,7 +8,6 @@ import edu.uiuc.ncsa.security.core.exceptions.GeneralException;
 import edu.uiuc.ncsa.security.core.exceptions.NFWException;
 import edu.uiuc.ncsa.security.core.exceptions.TransactionNotFoundException;
 import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
-import edu.uiuc.ncsa.security.core.util.DateUtils;
 import edu.uiuc.ncsa.security.delegation.server.ServiceTransaction;
 import edu.uiuc.ncsa.security.delegation.server.request.IssuerResponse;
 import edu.uiuc.ncsa.security.delegation.storage.Client;
@@ -744,12 +743,14 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
             getMyLogger().warn("No token found. Cannot retrieve transaction");
             throw new DBServiceException(STATUS_TRANSACTION_NOT_FOUND);
         }
-        try {
+        // Checking the timestamp fails as of version 5.0
+        
+/*        try {
             DateUtils.checkTimestamp(ag.getToken());
         } catch (Throwable t) {
             getMyLogger().warn("Expired or bad token.");
             throw new DBServiceException(STATUS_TRANSACTION_NOT_FOUND);
-        }
+        }*/
         ServiceTransaction t = getTransaction(ag);
         if (t == null) {
             getMyLogger().warn("Did not find portal parameters for transaction w/token =" + ag);

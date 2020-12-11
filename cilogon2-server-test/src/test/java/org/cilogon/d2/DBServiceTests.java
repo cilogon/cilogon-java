@@ -4,6 +4,7 @@ import edu.uiuc.ncsa.myproxy.oa4mp.server.ServiceConstantKeys;
 import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
 import edu.uiuc.ncsa.security.delegation.server.ServiceTransaction;
 import edu.uiuc.ncsa.security.delegation.storage.Client;
+import edu.uiuc.ncsa.security.delegation.token.impl.AuthorizationGrantImpl;
 import edu.uiuc.ncsa.security.storage.XMLMap;
 import org.cilogon.d2.servlet.AbstractDBService;
 import org.cilogon.d2.storage.*;
@@ -160,7 +161,11 @@ public class DBServiceTests extends RemoteDBServiceTest {
 
         Client client = (Client) getClientStore().create();
         ServiceTransaction t = (ServiceTransaction) getTransactionStore().create();
-        t.setAuthorizationGrant(getTSProvider().getSE().getTokenForge().getAuthorizationGrant());
+        // Make sure the authorization grant is not something random.
+        AuthorizationGrantImpl ag = new AuthorizationGrantImpl(t.getIdentifier().getUri());
+        t.setAuthorizationGrant(ag);
+
+        //t.setAuthorizationGrant(getTSProvider().getSE().getTokenForge().getAuthorizationGrant());
         t.setCallback(createToken("callbackURI"));
         client.setName("Test AbstractDBService portal name");
         client.setHomeUri(createToken("homeURI").toString());

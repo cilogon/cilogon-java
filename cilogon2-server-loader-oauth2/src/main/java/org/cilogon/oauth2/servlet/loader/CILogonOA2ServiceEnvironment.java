@@ -45,6 +45,8 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
                                         Provider<TransactionStore> tsp,
                                         Provider<ClientStore> csp,
                                         int maxAllowedNewClientRequests,
+                                        long agLifetime,
+                                        long atLifetime,
                                         long rtLifetime,
                                         Provider<ClientApprovalStore> casp,
                                         List<MyProxyFacadeProvider> mfp,
@@ -81,11 +83,13 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
                                         CMConfigs cmConfigs,
                                         QDLEnvironment qe,
                                         boolean isRFC8693Enabled
-                                        ) {
+    ) {
         super(logger,
                 tsp,
                 csp,
                 maxAllowedNewClientRequests,
+                agLifetime,
+                atLifetime,
                 rtLifetime,
                 casp,
                 mfp,
@@ -118,8 +122,8 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
                 qe,
                 isRFC8693Enabled);
         ciLogonSE = new CILogonSEImpl(usp, ausp, idpsp, incp, tfsp, isComputeFNAL);
-        if(claimSource instanceof UserClaimSource){
-            ((UserClaimSource)claimSource).setOa2SE(this);
+        if (claimSource instanceof UserClaimSource) {
+            ((UserClaimSource) claimSource).setOa2SE(this);
         }
     }
 
