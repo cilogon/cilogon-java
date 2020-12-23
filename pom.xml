@@ -31,6 +31,7 @@
         <module>cilogon2-server-loader-oauth1</module>
         <module>cilogon2-client-oauth1</module>
         <module>cilogon2-client-oauth2</module>
+        <module>cilogon-qdl</module>
     </modules>
 
     <build>

@@ -31,6 +31,9 @@ public class UserKeys extends SerializationKeys {
     public String useUSinDN = "us_idp";
     public String pairwiseid = "pairwise_id";
     public String subjectid = "subject_id";
+    public String organizationalUnit = "ou";
+    public String displayName = "display_name";
+    public String affiliation = "affiliation";
 
     public String pairwiseId(String... x) {
         if (0 < x.length) pairwiseid = x[0];
@@ -99,7 +102,6 @@ public class UserKeys extends SerializationKeys {
         return idp;
     }
 
-    String affiliation = "affiliation";
 
     public String affiliation(String... x) {
         if (0 < x.length) affiliation = x[0];
@@ -111,8 +113,7 @@ public class UserKeys extends SerializationKeys {
         return organizationalUnit;
     }
 
-    String organizationalUnit = "ou";
-    String displayName = "display_name";
+
 
     public String displayName(String... x) {
         if (0 < x.length) displayName = x[0];

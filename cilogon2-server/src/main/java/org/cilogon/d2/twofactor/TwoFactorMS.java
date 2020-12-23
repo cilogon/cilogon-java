@@ -22,4 +22,6 @@ public class TwoFactorMS extends MemoryStore<TwoFactorInfo> implements TwoFactor
     public XMLConverter<TwoFactorInfo> getXMLConverter() {
         return getMApConverter();
     }
+
+
 }

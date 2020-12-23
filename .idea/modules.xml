@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/cilogon-qdl/cilogon-qdl.iml" filepath="$PROJECT_DIR$/cilogon-qdl/cilogon-qdl.iml" />
       <module fileurl="file://$PROJECT_DIR$/cilogon2.iml" filepath="$PROJECT_DIR$/cilogon2.iml" />
       <module fileurl="file://$PROJECT_DIR$/cilogon2-admin/cilogon2-admin.iml" filepath="$PROJECT_DIR$/cilogon2-admin/cilogon2-admin.iml" />
       <module fileurl="file://$PROJECT_DIR$/cilogon2-admin-oauth1/cilogon2-admin-oauth1.iml" filepath="$PROJECT_DIR$/cilogon2-admin-oauth1/cilogon2-admin-oauth1.iml" />

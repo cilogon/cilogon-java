@@ -155,6 +155,7 @@ public class CILOA2ConfigurationLoader extends OA2ConfigurationLoader implements
             CILogonOA2ServiceEnvironment se = new CILogonOA2ServiceEnvironment(
                     (MyLoggingFacade) loggerProvider.get(),
                     getTransactionStoreProvider(),
+                    getTXStoreProvider(),
                     getClientStoreProvider(),
                     getMaxAllowedNewClientRequests(),
                     getAGLifetime(),

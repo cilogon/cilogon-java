@@ -46,9 +46,8 @@ GRANT ALL PRIVILEGES ON ciloa2.identity_provider TO 'cilogon'@'localhost'
 WITH GRANT OPTION;
 GRANT ALL PRIVILEGES ON ciloa2.uid_seq TO 'cilogon'@'localhost'
 WITH GRANT OPTION;
-GRANT ALL PRIVILEGES ON ciloa2.two_factor TO 'cilogon'@'localhost'
-WITH GRANT OPTION;
-
+GRANT ALL PRIVILEGES ON ciloa2.two_factor TO 'cilogon'@'localhost' WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON ciloa2.tx_records TO 'cilogon'@'localhost' WITH GRANT OPTION;
 
 COMMIT;
 
@@ -204,7 +203,24 @@ CREATE TABLE ciloa2.two_factor (
 CREATE TABLE ciloa2.uid_seq (
   nextval INT PRIMARY KEY AUTO_INCREMENT,
   dummy   TINYINT
-)
-  AUTO_INCREMENT =5;
+)   AUTO_INCREMENT =5;
+
+CREATE TABLE ciloa2.tx_records
+(
+    token_id   VARCHAR(255) PRIMARY KEY,
+    lifetime   bigint,
+    issued_at  bigint,
+    expires_at bigint,
+    parent_id  text,
+    token_type text,
+    valid      boolean,
+    scopes     text,
+    audience   text,
+    issuer     text,
+    resource   text,
+    INDEX parents (parent_id(255))
+);
+
+
 COMMIT;
 
