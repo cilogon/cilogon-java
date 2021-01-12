@@ -1,6 +1,7 @@
 package org.cilogon.qdl.module.storage;
 
 import edu.uiuc.ncsa.oa2.qdl.storage.StoreAccessModule;
+import edu.uiuc.ncsa.oa2.qdl.storage.StoreFacade;
 import edu.uiuc.ncsa.qdl.module.Module;
 import edu.uiuc.ncsa.qdl.state.State;
 import org.cilogon.qdl.module.CILStoreFacade;
@@ -22,8 +23,13 @@ public class CILStoreModule extends StoreAccessModule {
     @Override
     public Module newInstance(State state) {
         CILStoreModule storeModule = new CILStoreModule(URI.create("cilogon:/qdl/store"), "store");
-        CILStoreFacade facade= new CILStoreFacade();
-        doIt(storeModule, facade, state);
+        storeModule.storeFacade = newStoreFacade();
+        doIt(storeModule, state);
         return storeModule;
+    }
+
+    @Override
+    public StoreFacade newStoreFacade() {
+        return new CILStoreFacade();
     }
 }

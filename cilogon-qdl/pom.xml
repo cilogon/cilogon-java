@@ -63,6 +63,51 @@
         </dependency>
 
     </dependencies>
+    <profiles>
+        <profile>
+            <id>qdl</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <version>3.1.0</version>
+                        <configuration>
 
+                            <archive>
+                                <manifest>
+                                    <addClasspath>true</addClasspath>
+                                    <mainClass>edu.uiuc.ncsa.qdl.workspace.QDLWorkspace</mainClass>
+                                    <!--<mainClass>edu.uiuc.ncsa.qdl.gui.QDLGUIWorkspace</mainClass> -->
+                                </manifest>
+                                <manifestEntries>
+                                    <application-version>${pom.version}</application-version>
+                                    <application-name>${pom.name}</application-name>
+                                    <build-time>${timestamp}</build-time>
+                                    <implementation-version>${project.version}</implementation-version>
+                                    <implementation-build>${buildNumber}</implementation-build>
+                                </manifestEntries>
+                            </archive>
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
+                            <finalName>cil-qdl</finalName>
+
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>make-my-jar-with-dependencies</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>single</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                </plugins>
+
+            </build>
+        </profile>
+    </profiles>
 
 </project>

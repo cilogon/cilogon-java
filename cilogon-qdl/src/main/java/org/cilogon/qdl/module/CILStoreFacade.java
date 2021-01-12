@@ -21,19 +21,19 @@ public class CILStoreFacade extends StoreFacade {
     @Override
     protected QDLStoreAccessor createAccessor(String storeType) throws Exception {
         QDLStoreAccessor accessor = super.createAccessor(storeType);
-        if(accessor != null){
+        if (accessor != null) {
             return accessor;
 
         }
         CILogonOA2ServiceEnvironment se = (CILogonOA2ServiceEnvironment) getEnvironment();
-        switch(storeType){
+        switch (storeType) {
             case STORE_TYPE_USER_STORE:
-                accessor = new QDLStoreAccessor(storeType, se.getUserStore());
+                accessor = new QDLStoreAccessor(storeType, se.getUserStore(), se.getMyLogger());
                 accessor.setMapConverter(new UserStemMC(se.getUserStore().getMapConverter()));
                 break;
             case STORE_TYPE_2FACTOR_STORE:
-                      accessor = new QDLStoreAccessor(storeType, se.getTwoFactorStore());
-                      accessor.setMapConverter(new TwoFactorMC(se.getTwoFactorStore().getMapConverter()));
+                accessor = new QDLStoreAccessor(storeType, se.getTwoFactorStore(), se.getMyLogger());
+                accessor.setMapConverter(new TwoFactorMC(se.getTwoFactorStore().getMapConverter()));
                 break;
         }
         return accessor;
