@@ -24,6 +24,11 @@ public class DBServiceSerializer2 extends DBServiceSerializer {
         super(userKeys, idpKeys, tfk, cKeys, caKeys);
     }
 
+    public void writeMessage(PrintWriter w, DBService2.Err errResponse) throws IOException {
+        writeMessage(w, errResponse.code);
+        print(w, "error_description", errResponse.message);
+    }
+
     public void serialize(PrintWriter w, OA2Client oa2Client, int statusCode) throws IOException {
         writeMessage(w, statusCode);
         // Changed in the spec. from the default. See CIL-105
@@ -59,7 +64,11 @@ public class DBServiceSerializer2 extends DBServiceSerializer {
         UserKeys uk =  userKeys;
     }*/
 
-    public void serialize(PrintWriter w, OA2ServiceTransaction oa2ServiceTransaction, int statusCode) throws IOException {
-        writeMessage(w, statusCode);
+    public void serialize(PrintWriter w, OA2ServiceTransaction oa2ServiceTransaction, int status) throws IOException {
+        writeMessage(w, status);
+    }
+
+    public void serialize(PrintWriter w, OA2ServiceTransaction oa2ServiceTransaction, DBService2.Err errResponse) throws IOException {
+        writeMessage(w, errResponse);
     }
 }

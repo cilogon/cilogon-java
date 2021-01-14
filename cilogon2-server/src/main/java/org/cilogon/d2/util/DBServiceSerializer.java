@@ -61,6 +61,7 @@ public class DBServiceSerializer {
         print(w, STATUS_KEY, message);
     }
 
+
     public void writeMessage(PrintWriter w, int statusCode) throws IOException {
         print(w, STATUS_KEY, Integer.toString(statusCode));
     }
