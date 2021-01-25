@@ -85,7 +85,8 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
                                         Provider<JSONStore> jsonStoreProvider,
                                         CMConfigs cmConfigs,
                                         QDLEnvironment qe,
-                                        boolean isRFC8693Enabled
+                                        boolean isRFC8693Enabled,
+                                        boolean isqdlStrictAcls
     ) {
         super(logger,
                 tsp,
@@ -124,7 +125,8 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
                 jsonStoreProvider,
                 cmConfigs,
                 qe,
-                isRFC8693Enabled);
+                isRFC8693Enabled,
+                isqdlStrictAcls);
         ciLogonSE = new CILogonSEImpl(usp, ausp, idpsp, incp, tfsp, isComputeFNAL);
         if (claimSource instanceof UserClaimSource) {
             ((UserClaimSource) claimSource).setOa2SE(this);

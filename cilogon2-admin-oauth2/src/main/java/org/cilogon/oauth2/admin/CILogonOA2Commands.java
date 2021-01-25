@@ -217,20 +217,13 @@ public class CILogonOA2Commands extends OA2Commands {
 
     @Override
     public void useHelp() {
-        say("Choose the component you wish to use.");
-        say("you specify the component as use + name. Supported components to manage are:\n");
-        say("* " + CLIENTS + " - client records");
-        say("* " + CLIENT_APPROVALS + " - client approval records");
+        super.useHelp();
+        say("CILogon specific components:");
         say("* " + USERS + " - user records");
         say("* " + ARCHIVED_USER + " - archived user records");
         say("* " + COUNTER + " - the current counter (allows to reset it to a new value).");
         say("* " + TWO_FACTOR + " - two factor information");
         say("* " + IDPS + " - identity provider records.\n");
-        say("* " + ADMINS + " - administrative clients records.\n");
-        say("* " + KEYS + " - singing utilites for keys.\n");
-        say("* " + PERMISSIONS + " - permission management.\n");
-        say("e.g.\n\nuse " + CLIENTS + "\n\nwill call up the client management component.");
-        say("Type 'exit' when you wish to exit the component and return to the main menu");
     }
 
 }
