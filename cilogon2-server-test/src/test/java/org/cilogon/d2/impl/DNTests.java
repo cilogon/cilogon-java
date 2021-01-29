@@ -2,6 +2,7 @@ package org.cilogon.d2.impl;
 
 import edu.uiuc.ncsa.security.storage.XMLMap;
 import org.cilogon.d2.RemoteDBServiceTest;
+import org.cilogon.d2.servlet.StatusCodes;
 import org.cilogon.d2.storage.DNState;
 import org.cilogon.d2.storage.User;
 import org.cilogon.d2.storage.UserStore;
@@ -27,11 +28,11 @@ public class DNTests extends RemoteDBServiceTest {
     /**
      * Do a series of updates.
      * <ul>
-     *     <li>Initial creation of user returns {@link org.cilogon.d2.servlet.AbstractDBService#STATUS_NEW_USER}</li>
-     *     <li>Subsequent updates of information return {@link org.cilogon.d2.servlet.AbstractDBService#STATUS_OK}</li>
+     *     <li>Initial creation of user returns {@link StatusCodes#STATUS_NEW_USER}</li>
+     *     <li>Subsequent updates of information return {@link StatusCodes#STATUS_OK}</li>
      *     <li>No changes to serial string</li>
      *     <li>Changes to insufficient information do not trigger changes to serial string</li>
-     *     <li>When there is enough information, response is {@link org.cilogon.d2.servlet.AbstractDBService#STATUS_USER_SERIAL_STRING_UPDATED}</li>
+     *     <li>When there is enough information, response is {@link StatusCodes#STATUS_USER_SERIAL_STRING_UPDATED}</li>
      * </ul>
      *
      * @throws Exception
@@ -50,7 +51,7 @@ public class DNTests extends RemoteDBServiceTest {
 
         XMLMap rMap = getDBSClient().doGet(GET_USER, userMap);
         String oldSS = rMap.getString(userKeys.serialString());
-        assert getStatusKey(rMap) == STATUS_NEW_USER;
+        assert getStatusKey(rMap) == StatusCodes.STATUS_NEW_USER;
         assert !rMap.containsKey(distinguishedNameField) : unexpectedDNMessage;
 
         userMap.put(userKeys.email(), "bob" + r + "@bigstate.edu");
@@ -98,7 +99,7 @@ public class DNTests extends RemoteDBServiceTest {
      */
     private XMLMap checkUpdated(XMLMap userMap, String oldSS, boolean ssUpdate) {
         XMLMap rMap = getDBSClient().doGet(GET_USER, userMap);
-        assert getStatusKey(rMap) == (ssUpdate ? STATUS_USER_SERIAL_STRING_UPDATED : STATUS_OK); // user updated = serial string
+        assert getStatusKey(rMap) == (ssUpdate ? StatusCodes.STATUS_USER_SERIAL_STRING_UPDATED : StatusCodes.STATUS_OK); // user updated = serial string
         if (ssUpdate) {
             assert !rMap.getString(userKeys.serialString()).equals(oldSS);
         } else {
@@ -111,7 +112,7 @@ public class DNTests extends RemoteDBServiceTest {
     private XMLMap checkNoChange(XMLMap userMap, String oldSS) {
         XMLMap rMap;
         rMap = getDBSClient().doGet(GET_USER, userMap);
-        assert getStatusKey(rMap) == STATUS_OK; // user updated = serial string
+        assert getStatusKey(rMap) == StatusCodes.STATUS_OK; // user updated = serial string
         assert rMap.getString(userKeys.serialString()).equals(oldSS);
         assert !rMap.containsKey(distinguishedNameField) : unexpectedDNMessage + ":" + rMap.getString(distinguishedNameField);
         return rMap;
@@ -146,7 +147,7 @@ public class DNTests extends RemoteDBServiceTest {
         // (1)  oidc, idp, idpName
         XMLMap rMap = getDBSClient().doGet(GET_USER, userMap);
         String oldSS = rMap.getString(userKeys.serialString());
-        assert getStatusKey(rMap) == STATUS_NEW_USER;
+        assert getStatusKey(rMap) == StatusCodes.STATUS_NEW_USER;
         assert !rMap.containsKey(distinguishedNameField) : unexpectedDNMessage;
 
         // (2) add display name
@@ -182,7 +183,7 @@ public class DNTests extends RemoteDBServiceTest {
 
         // Should create a user and return it.
         XMLMap rMap = getDBSClient().doGet(GET_USER, userMap);
-        assert getStatusKey(rMap) == STATUS_NEW_USER;
+        assert getStatusKey(rMap) == StatusCodes.STATUS_NEW_USER;
         assert rMap.containsKey(distinguishedNameField) : missingDNMessage;
         String oldSS = rMap.getString(userKeys.serialString());
         String oldDN = rMap.getString(distinguishedNameField);
@@ -193,7 +194,7 @@ public class DNTests extends RemoteDBServiceTest {
 
         rMap = getDBSClient().doGet(GET_USER, userMap);
 //        oldSS = rMap.getString(userKeys.serialString());
-        assert getStatusKey(rMap) == STATUS_OK;
+        assert getStatusKey(rMap) == StatusCodes.STATUS_OK;
         assert rMap.containsKey(distinguishedNameField) : missingDNMessage;
         assert rMap.getString(distinguishedNameField).equals(oldDN);
         assert rMap.getString(userKeys.serialString()).equals(oldSS);
@@ -208,7 +209,7 @@ public class DNTests extends RemoteDBServiceTest {
         uc.fromMap(rMap, user);
         DNState state = user.getDNState();
         oldSS = rMap.getString(userKeys.serialString());
-        assert getStatusKey(rMap) == STATUS_OK; // the 1st and last names changed
+        assert getStatusKey(rMap) == StatusCodes.STATUS_OK; // the 1st and last names changed
         assert rMap.containsKey(distinguishedNameField) : missingDNMessage;
         assert rMap.getString(distinguishedNameField).equals(oldDN);
         assert rMap.getString(userKeys.serialString()).equals(oldSS);
@@ -240,7 +241,7 @@ public class DNTests extends RemoteDBServiceTest {
 
         // Should create a user and return it.
         XMLMap rMap = getDBSClient().doGet(GET_USER, userMap);
-        assert getStatusKey(rMap) == STATUS_NEW_USER;
+        assert getStatusKey(rMap) == StatusCodes.STATUS_NEW_USER;
         assert rMap.containsKey(distinguishedNameField) : missingDNMessage;
         String oldSS = rMap.getString(userKeys.serialString());
         String oldDN = rMap.getString(distinguishedNameField);
@@ -282,14 +283,14 @@ public class DNTests extends RemoteDBServiceTest {
         userMap.put(userKeys.displayName(), firstName + r + " " + lastName);
         XMLMap rMap = getDBSClient().doGet(GET_USER, userMap);
         String oldSS = rMap.getString(userKeys.serialString());
-        assert getStatusKey(rMap) == STATUS_NEW_USER;
+        assert getStatusKey(rMap) == StatusCodes.STATUS_NEW_USER;
         assert !rMap.containsKey(distinguishedNameField) : missingDNMessage;  // FNAL users require first and last name, so no DN is possible.
 
         userMap.put(userKeys.firstName, firstName);
         userMap.put(userKeys.lastName, lastName);
         rMap = getDBSClient().doGet(GET_USER, userMap);
         assert oldSS.equals(rMap.getString(userKeys.serialString()));
-        assert getStatusKey(rMap) == STATUS_OK;
+        assert getStatusKey(rMap) == StatusCodes.STATUS_OK;
         assert rMap.containsKey(distinguishedNameField) : missingDNMessage;  // FNAL users require first and last name, so no DN is possible.
         // cleanup
         getDBSClient().removeUser(rMap.getIdentifier(userKeys.userID()));
@@ -317,7 +318,7 @@ public class DNTests extends RemoteDBServiceTest {
         userMap.put(userKeys.displayName(), firstName + r + " " + lastName);
         // The test is to create a user
         XMLMap rMap = getDBSClient().doGet(GET_USER, userMap);
-        assert getStatusKey(rMap) == STATUS_NEW_USER;
+        assert getStatusKey(rMap) == StatusCodes.STATUS_NEW_USER;
         // change the eptid. Should get an error.
         userMap.put(userKeys.eptid(), "https://idp.bigstate.edu/idp/shibboleth/" + userKeys.eptid() + "42/" + r);
         try {
@@ -326,7 +327,7 @@ public class DNTests extends RemoteDBServiceTest {
         } catch (DBServiceException x) {
             // Note we cannot get a failure code directly using the doGet method. Normally this would just be
             // a returned value, but the doGet traps it and throws this exception.
-            assert x.getStatusCode() == STATUS_EPTID_MISMATCH : "status code is " + x.getStatusCode() + ", expected " + STATUS_EPTID_MISMATCH;
+            assert x.getStatusCode() == StatusCodes.STATUS_EPTID_MISMATCH : "status code is " + x.getStatusCode() + ", expected " + StatusCodes.STATUS_EPTID_MISMATCH;
         }
 
         // cleanup
@@ -353,7 +354,7 @@ public class DNTests extends RemoteDBServiceTest {
         userMap.put(userKeys.displayName(), firstName + r + " " + lastName);
         // The test is to create a user
         XMLMap rMap = getDBSClient().doGet(GET_USER, userMap);
-        assert getStatusKey(rMap) == STATUS_NEW_USER;
+        assert getStatusKey(rMap) == StatusCodes.STATUS_NEW_USER;
         // change the eptid. Should get an error.
         userMap.put(userKeys.subjectId(), "https://idp.bigstate.edu/idp/shibboleth/" + userKeys.subjectId() + "42/" + r);
         try {
@@ -362,7 +363,7 @@ public class DNTests extends RemoteDBServiceTest {
         } catch (DBServiceException x) {
             // Note we cannot get a failure code directly using the doGet method. Normally this would just be
             // a returned value, but the doGet traps it and throws this exception.
-            assert x.getStatusCode() == STATUS_SUBJECT_ID_MISMATCH : "status code is " + x.getStatusCode() + ", expected " + STATUS_SUBJECT_ID_MISMATCH;
+            assert x.getStatusCode() == StatusCodes.STATUS_SUBJECT_ID_MISMATCH : "status code is " + x.getStatusCode() + ", expected " + StatusCodes.STATUS_SUBJECT_ID_MISMATCH;
         }
 
 
@@ -390,7 +391,7 @@ public class DNTests extends RemoteDBServiceTest {
         userMap.put(userKeys.displayName(), firstName + r + " " + lastName);
         // The test is to create a user
         XMLMap rMap = getDBSClient().doGet(GET_USER, userMap);
-        assert getStatusKey(rMap) == STATUS_NEW_USER;
+        assert getStatusKey(rMap) == StatusCodes.STATUS_NEW_USER;
         // change the eptid. Should get an error.
         userMap.put(userKeys.pairwiseId(), "https://idp.bigstate.edu/idp/shibboleth/" + userKeys.pairwiseId() + "42/" + r);
         try {
@@ -399,7 +400,7 @@ public class DNTests extends RemoteDBServiceTest {
         } catch (DBServiceException x) {
             // Note we cannot get a failure code directly using the doGet method. Normally this would just be
             // a returned value, but the doGet traps it and throws this exception.
-            assert x.getStatusCode() == STATUS_PAIRWISE_ID_MISMATCH : "status code is " + x.getStatusCode() + ", expected " + STATUS_PAIRWISE_ID_MISMATCH;
+            assert x.getStatusCode() == StatusCodes.STATUS_PAIRWISE_ID_MISMATCH : "status code is " + x.getStatusCode() + ", expected " + StatusCodes.STATUS_PAIRWISE_ID_MISMATCH;
         }
 
         // cleanup

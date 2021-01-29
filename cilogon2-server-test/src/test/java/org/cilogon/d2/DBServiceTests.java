@@ -6,7 +6,7 @@ import edu.uiuc.ncsa.security.delegation.server.ServiceTransaction;
 import edu.uiuc.ncsa.security.delegation.storage.Client;
 import edu.uiuc.ncsa.security.delegation.token.impl.AuthorizationGrantImpl;
 import edu.uiuc.ncsa.security.storage.XMLMap;
-import org.cilogon.d2.servlet.AbstractDBService;
+import org.cilogon.d2.servlet.StatusCodes;
 import org.cilogon.d2.storage.*;
 import org.cilogon.d2.twofactor.TwoFactorInfo;
 import org.cilogon.d2.util.DBServiceException;
@@ -36,14 +36,14 @@ public class DBServiceTests extends RemoteDBServiceTest {
         try {
             m = getDBSClient().getLastArchivedUser(BasicIdentifier.newID("fake:user:id:123"));
         } catch (DBServiceException x) {
-            assert x.checkMessage(AbstractDBService.STATUS_USER_NOT_FOUND_ERROR);
+            assert x.checkMessage(StatusCodes.STATUS_USER_NOT_FOUND_ERROR);
         }
 
         User user = newUser();
         try {
             m = getDBSClient().getLastArchivedUser(user.getIdentifier());
         } catch (DBServiceException x) {
-            assert x.checkMessage(AbstractDBService.STATUS_USER_NOT_FOUND_ERROR);
+            assert x.checkMessage(StatusCodes.STATUS_USER_NOT_FOUND_ERROR);
         }
 
         // get the user for comparison
@@ -189,14 +189,14 @@ public class DBServiceTests extends RemoteDBServiceTest {
             //parseTransaction(doGet(AbstractDBService.GET_PORTAL_PARAMETER, new String[][]{{tokenKey, "foo"}}));
             assert false : "bad identifier should result in no transaction being found";
         } catch (DBServiceException x) {
-            assert x.checkMessage(AbstractDBService.STATUS_TRANSACTION_NOT_FOUND);
+            assert x.checkMessage(StatusCodes.STATUS_TRANSACTION_NOT_FOUND);
         }
         try {
             getDBSClient().getPortalParameters("");
             //parseTransaction(doGet(AbstractDBService.GET_PORTAL_PARAMETER, new String[][]{{}}));
             assert false : "Missing parameter";
         } catch (DBServiceException x) {
-            assert x.checkMessage(AbstractDBService.STATUS_TRANSACTION_NOT_FOUND);
+            assert x.checkMessage(StatusCodes.STATUS_TRANSACTION_NOT_FOUND);
         }
     }
 
@@ -234,7 +234,7 @@ public class DBServiceTests extends RemoteDBServiceTest {
         try {
             getDBSClient().addIdps(new ArrayList<IdentityProvider>());
         } catch (DBServiceException x) {
-            assert x.checkMessage(AbstractDBService.STATUS_IDP_SAVE_FAILED);
+            assert x.checkMessage(StatusCodes.STATUS_IDP_SAVE_FAILED);
         }
     }
 

@@ -27,7 +27,10 @@ public class CILOA2CertServlet extends OA2CertServlet {
             CILOA2ServiceTransaction t = (CILOA2ServiceTransaction) st;
             User user = ((CILogonOA2ServiceEnvironment) getServiceEnvironment()).getUserStore().get(newID(t.getUsername()));
             if(!user.canGetCert()){
-                throw new OA2GeneralError(OA2Errors.ACCESS_DENIED, noDnMessage, HttpStatus.SC_FORBIDDEN);
+                throw new OA2GeneralError(OA2Errors.ACCESS_DENIED,
+                        noDnMessage,
+                        HttpStatus.SC_FORBIDDEN,
+                        st.getRequestState());
             }
 
             String dn = user.getDN(t, true);
@@ -50,7 +53,10 @@ public class CILOA2CertServlet extends OA2CertServlet {
         
         User user = ((CILogonOA2ServiceEnvironment) getServiceEnvironment()).getUserStore().get(newID(t.getUsername()));
         if(!user.canGetCert()){
-            throw new OA2GeneralError(OA2Errors.ACCESS_DENIED, noDnMessage , HttpStatus.SC_FORBIDDEN);
+            throw new OA2GeneralError(OA2Errors.ACCESS_DENIED,
+                    noDnMessage ,
+                    HttpStatus.SC_FORBIDDEN,
+                    ((CILOA2ServiceTransaction) trans).getRequestState());
         }
         super.doCertRequest(trans, statusString);
     }

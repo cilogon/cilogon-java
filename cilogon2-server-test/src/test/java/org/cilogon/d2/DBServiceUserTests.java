@@ -4,7 +4,7 @@ import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
 import edu.uiuc.ncsa.security.core.util.BeanUtils;
 import edu.uiuc.ncsa.security.storage.XMLMap;
-import org.cilogon.d2.servlet.AbstractDBService;
+import org.cilogon.d2.servlet.StatusCodes;
 import org.cilogon.d2.storage.User;
 import org.cilogon.d2.storage.UserMultiID;
 import org.cilogon.d2.twofactor.TwoFactorInfo;
@@ -87,7 +87,7 @@ public class DBServiceUserTests extends RemoteDBServiceTest {
                 affiliation,
                 displayName,
                 organizationalUnit);
-        assert checkStatusKey(userMap, AbstractDBService.STATUS_USER_SERIAL_STRING_UPDATED);
+        assert checkStatusKey(userMap, StatusCodes.STATUS_USER_SERIAL_STRING_UPDATED);
         // The user has been updated. We should have the updated user's information returned to us.
         // NOTE if you are getting screwy characters in this test back from the server it is probably because you
         // need to add the attribute of
@@ -222,7 +222,7 @@ public class DBServiceUserTests extends RemoteDBServiceTest {
             // now it should fail ,since we just removed this user:
             getDBSClient().removeUser(user.getIdentifier());
         } catch (DBServiceException x) {
-            x.checkMessage(AbstractDBService.STATUS_USER_NOT_FOUND_ERROR);
+            x.checkMessage(StatusCodes.STATUS_USER_NOT_FOUND_ERROR);
         }
 
         // check in another way that it is gone
@@ -235,7 +235,7 @@ public class DBServiceUserTests extends RemoteDBServiceTest {
             // now try to remove a dud user.
             getDBSClient().removeUser(BasicIdentifier.newID("fake:user:123"));
         } catch (DBServiceException x) {
-            x.checkMessage(AbstractDBService.STATUS_USER_NOT_FOUND_ERROR);
+            x.checkMessage(StatusCodes.STATUS_USER_NOT_FOUND_ERROR);
         }
     }
 

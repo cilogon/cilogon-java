@@ -26,7 +26,8 @@ public class DBServiceSerializer2 extends DBServiceSerializer {
 
     public void writeMessage(PrintWriter w, DBService2.Err errResponse) throws IOException {
         writeMessage(w, errResponse.code);
-        print(w, "error_description", errResponse.message);
+        print(w, "error", errResponse.error);
+        print(w, "error_description", errResponse.description);
     }
 
     public void serialize(PrintWriter w, OA2Client oa2Client, int statusCode) throws IOException {

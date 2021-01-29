@@ -12,6 +12,7 @@ import edu.uiuc.ncsa.security.delegation.storage.ClientKeys;
 import edu.uiuc.ncsa.security.servlet.ServletDebugUtil;
 import edu.uiuc.ncsa.security.storage.XMLMap;
 import org.cilogon.d2.servlet.AbstractDBService;
+import org.cilogon.d2.servlet.StatusCodes;
 import org.cilogon.d2.storage.*;
 import org.cilogon.d2.twofactor.TwoFactorInfo;
 import org.cilogon.d2.twofactor.TwoFactorSerializationKeys;
@@ -163,20 +164,20 @@ public class DBServiceSerializer {
     }
 
     public void serialize(PrintWriter w, Collection<IdentityProvider> idps) throws IOException {
-        writeMessage(w, STATUS_OK);
+        writeMessage(w, StatusCodes.STATUS_OK);
         for (IdentityProvider idp : idps) {
             print(w, idpKeys.identifier(), idp.getIdentifier());
         }
     }
 
     public void serialize(PrintWriter w, Identifier userid) throws IOException {
-        writeMessage(w, STATUS_OK);
+        writeMessage(w, StatusCodes.STATUS_OK);
         print(w, userKeys.identifier(), userid);
     }
 
     public void serialize(PrintWriter w, ServiceTransaction t) throws IOException {
 
-        writeMessage(w, STATUS_OK);
+        writeMessage(w, StatusCodes.STATUS_OK);
         Client client = t.getClient();
 
         print(w, CILOGON_CALLBACK_URI, t.getCallback());

@@ -12,12 +12,9 @@ import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.exceptions.GeneralException;
 import edu.uiuc.ncsa.security.core.exceptions.InvalidTimestampException;
 import edu.uiuc.ncsa.security.core.exceptions.NFWException;
-import edu.uiuc.ncsa.security.core.exceptions.UnknownClientException;
 import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
 import edu.uiuc.ncsa.security.core.util.DateUtils;
 import edu.uiuc.ncsa.security.core.util.DebugUtil;
-import edu.uiuc.ncsa.security.delegation.server.UnapprovedClientException;
-import edu.uiuc.ncsa.security.delegation.storage.Client;
 import edu.uiuc.ncsa.security.delegation.token.impl.AuthorizationGrantImpl;
 import edu.uiuc.ncsa.security.oauth_2_0.OA2Constants;
 import edu.uiuc.ncsa.security.oauth_2_0.jwt.JWTRunner;
@@ -44,6 +41,7 @@ import java.util.Date;
 
 import static edu.uiuc.ncsa.security.core.util.BasicIdentifier.newID;
 import static edu.uiuc.ncsa.security.oauth_2_0.OA2Constants.*;
+import static org.cilogon.d2.servlet.StatusCodes.*;
 
 /**
  * <p>Created by Jeff Gaynor<br>
@@ -81,7 +79,7 @@ public class DBService2 extends AbstractDBService {
         clientKeys = new OA2ClientKeys();
         clientApprovalKeys = new OA2ClientApprovalKeys();
         serializer = new DBServiceSerializer2(userKeys, idpKeys, tfKeys, clientKeys, clientApprovalKeys);
-
+        setExceptionHandler(new CILOA2ExceptionHandler(this, getMyLogger()));
     }
 
     @Override
@@ -97,7 +95,6 @@ public class DBService2 extends AbstractDBService {
                 return;
             case CREATE_TRANSACTION_STATE_CASE:
                 ServletDebugUtil.trace(this, "creating transaction");
-
                 createTransaction(request, response);
                 return;
         }
@@ -114,7 +111,6 @@ public class DBService2 extends AbstractDBService {
         startWrite(response);
         ((DBServiceSerializer2) serializer).serialize(response.getWriter(), oa2ServiceTransaction, status);
         stopWrite(response);
-
     }
     protected void writeTransaction(OA2ServiceTransaction oa2ServiceTransaction, Err errResponse, HttpServletResponse response) throws IOException {
         startWrite(response);
@@ -124,7 +120,7 @@ public class DBService2 extends AbstractDBService {
 
     protected void doError(String message, int errorCode, HttpServletResponse resp) throws IOException {
         ServletDebugUtil.trace(this, "createTransaction failed: \"" + message + "\".");
-        writeTransaction(null, new Err(errorCode, message), resp);
+        writeTransaction(null, new Err(errorCode, "create_transaction_failed", message), resp);
     }
 
     protected void createTransaction(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -138,7 +134,6 @@ public class DBService2 extends AbstractDBService {
            be handled in the catch block below. This gives us the chance to check separately that
            all the right the parameters are sent along.
          */
-        Client client = null;
         if (!req.getParameterMap().containsKey(OA2Constants.CLIENT_ID)) {
             // missing parameter
             doError("No client id parameter was found.", STATUS_MISSING_ARGUMENT, resp);
@@ -179,14 +174,10 @@ public class DBService2 extends AbstractDBService {
             doError("Unapproved client.", STATUS_UNAPPROVED_CLIENT, resp);
             return;
         }
+        // Kept his next line, even though we don't explicitly do anything with the client.
+        // This checks that the client is correct and throws an exception if not.
+        getClient(req);
 
-        client = getClient(req); // This has got to work since we just checked it is there
-/*
-        try {
-            if (client == null) {
-                throw new UnknownClientException("No client for this identifier was found.");
-            }
-*/
 
         try {
             CILOA2ServiceTransaction transaction = (CILOA2ServiceTransaction) initUtil.doDelegation(req, resp);
@@ -202,43 +193,21 @@ public class DBService2 extends AbstractDBService {
             // CIL-570: Error codes need to be augmented so can tell why various initial errors happen.
             // There could be a lot more of these (such documenting protocol errors and such), but this
             // should do for most cases. If it needs to be revisted in the future, this is the place to check.
-            writeTransaction(null, figureOutErrorCode(t), resp);
+            writeTransaction(null, 42, resp);
         }
     }
 
     public static class Err{
-        public Err(int code, String message) {
+        public Err(int code, String error, String description) {
             this.code = code;
-            this.message = message;
+            this.error = error;
+            this.description = description;
         }
 
         int code;
-        String message;
+        String description;
+        String error;
     }
-    /*
-    Ugly having to pull it off the exception type, but it is the best we can do and not either break
-    encapsulation of have to rewrite a bunch of error handling to return the code.
-     */
-    protected Err figureOutErrorCode(Throwable t) {
-        if (t instanceof OA2ClientUtils.InvalidRedirectError) {
-            return new Err(STATUS_UNKNOWN_CALLBACK, "unknown callback");
-        }
-        if (t instanceof OA2ClientUtils.NoRegisteredRedirectError) {
-            return new Err(STATUS_NO_REGISTERED_CALLBACKS, "no registered callbacks");
-        }
-        if (t instanceof OA2ClientUtils.NoClientIDException) {
-            return new Err(STATUS_MISSING_CLIENT_ID, "client id is missing");
-        }
-        if (t instanceof UnknownClientException) {
-            return new Err(STATUS_UNKNOWN_CLIENT,"unknown client");
-        }
-        if (t instanceof UnapprovedClientException) {
-            return new Err(STATUS_UNAPPROVED_CLIENT, "client has not been approved");
-        }
-        // default case: Creating the error failed.
-        return new Err(STATUS_CREATE_TRANSACTION_FAILED, "creating transaction failed");
-    }
-
     protected void writeMessage(HttpServletResponse response, Err errResponse) throws IOException {
         startWrite(response);
         ((DBServiceSerializer2)serializer).writeMessage(response.getWriter(), errResponse);
@@ -249,8 +218,9 @@ public class DBService2 extends AbstractDBService {
     protected void setTransactionState(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String ag = req.getParameter(AUTHORIZATION_CODE);
         if (ag == null || ag.trim().length() == 0) {
-            getMyLogger().error("Warning. No auth code. Cannot complete call.");
-            writeMessage(resp, new Err(STATUS_MISSING_ARGUMENT, "missing argument"));
+            String description = "Warning. No auth code. Cannot complete call.";
+            getMyLogger().error(description);
+            writeMessage(resp, new Err(STATUS_MISSING_ARGUMENT, "missing_argument", description));
             return;
         }
         Identifier identifier = BasicIdentifier.newID(ag);
@@ -259,14 +229,17 @@ public class DBService2 extends AbstractDBService {
         try {
             DateUtils.checkTimestamp(ag); // if it is expired, then it will not be in the database anyway.
         } catch (InvalidTimestampException xx) {
-            getMyLogger().error("The auth grant \"" + ag + "\" is expired. No transaction found.");
-            writeTransaction(null, new Err(STATUS_EXPIRED_TOKEN, "token expired"), resp);
+            String description = "The auth grant \"" + ag + "\" is expired. No transaction found.";
+            getMyLogger().error(description);
+            writeTransaction(null, new Err(STATUS_EXPIRED_TOKEN, "token_expired", getMessage(STATUS_EXPIRED_TOKEN)), resp);
             return;
 
         }
         if (!getTransactionStore().containsKey(identifier)) {
             getMyLogger().error("The auth grant \"" + authGrant + "\" is not a key for this transaction. No transaction found.");
-            writeTransaction(null, new Err(STATUS_TRANSACTION_NOT_FOUND, "transaction not found"), resp);
+            writeTransaction(null, new Err(STATUS_TRANSACTION_NOT_FOUND,
+                    "transaction_not_found",
+                    getMessage(STATUS_TRANSACTION_NOT_FOUND)), resp);
             return;
         }
         Identifier userUID = newID(req.getParameter(userKeys.identifier()));
@@ -294,14 +267,15 @@ public class DBService2 extends AbstractDBService {
         try {
             t = (CILOA2ServiceTransaction) getTransaction(authGrant);
         } catch (Throwable throwable) {
-            getMyLogger().error("Getting the transaction for auth grant \"" + authGrant + "\" failed.", throwable);
-            writeTransaction(t, new Err(STATUS_TRANSACTION_NOT_FOUND, "transaction noot found"), resp);
+            String description =   "Getting the transaction for auth grant \"" + authGrant + "\" failed.";
+            getMyLogger().error(description, throwable);
+            writeTransaction(t, new Err(STATUS_TRANSACTION_NOT_FOUND, "transaction_not_found", getMessage(STATUS_TRANSACTION_NOT_FOUND)), resp);
             return;
         }
         if (t == null) {
             // no transaction means there is nothing that can be done.
             getMyLogger().error("Getting the transaction for auth grant \"" + authGrant + "\" failed. No transaction found.");
-            writeTransaction(t, new Err(STATUS_TRANSACTION_NOT_FOUND, "transaction noot found"), resp);
+            writeTransaction(t, new Err(STATUS_TRANSACTION_NOT_FOUND, "transaction_not_found", getMessage(STATUS_TRANSACTION_NOT_FOUND)), resp);
             return;
         }
         if (myproxyUsername == null) {
@@ -391,7 +365,7 @@ public class DBService2 extends AbstractDBService {
             // None of these have been archived. We *could* check if the user has a valid uid
             // in the store and return user not found if so and user not found error if not,
             // but that would be messier to use. If this is even an issue
-            writeMessage(resp, new Err(STATUS_NO_CLIENT_FOUND, "client not found"));
+            writeMessage(resp, new Err(STATUS_NO_CLIENT_FOUND, "client_not_found", getMessage(STATUS_CLIENT_NOT_FOUND)));
             return;
         }
         // the last of these is the last archived user. Note that the returned list is always sorted,

@@ -14,6 +14,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.cilogon.d2.servlet.AbstractDBService;
+import org.cilogon.d2.servlet.StatusCodes;
 import org.cilogon.d2.storage.IdentityProvider;
 import org.cilogon.d2.storage.PersonName;
 import org.cilogon.d2.storage.User;
@@ -354,7 +355,7 @@ public class DBServiceClient {
     public boolean removeUser(Identifier userUid) {
         Map m = doGet(AbstractDBService.REMOVE_USER, new String[][]{{userKeys.identifier(), userUid.toString()}});
         Long rc = (Long) m.get(AbstractDBService.STATUS_KEY);
-        if (rc == AbstractDBService.STATUS_OK || rc == AbstractDBService.STATUS_USER_NOT_FOUND) {
+        if (rc == StatusCodes.STATUS_OK || rc == StatusCodes.STATUS_USER_NOT_FOUND) {
             return true;
         }
         return false;
@@ -363,7 +364,7 @@ public class DBServiceClient {
     public boolean hasUser(Identifier id) {
         try {
             Map m = doGet(AbstractDBService.HAS_USER, new String[][]{{userKeys.identifier(), id.toString()}});
-            return (Long) m.get(AbstractDBService.STATUS_KEY) == AbstractDBService.STATUS_USER_EXISTS;
+            return (Long) m.get(AbstractDBService.STATUS_KEY) == StatusCodes.STATUS_USER_EXISTS;
         } catch (Exception x) {
         }
         return false;
@@ -373,7 +374,7 @@ public class DBServiceClient {
     public boolean hasUser(UserMultiID umk, String idp) {
         try {
             Map m = doGet(AbstractDBService.HAS_USER, createUserRequest(umk, idp));
-            return (Long) m.get(AbstractDBService.STATUS_KEY) == AbstractDBService.STATUS_USER_EXISTS;
+            return (Long) m.get(AbstractDBService.STATUS_KEY) == StatusCodes.STATUS_USER_EXISTS;
         } catch (Exception x) {
         }
         return false;

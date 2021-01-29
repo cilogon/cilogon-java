@@ -16,7 +16,7 @@ import org.cilogon.d2.util.UserKeys;
 import java.util.Map;
 
 import static org.cilogon.d2.servlet.AbstractDBService.STATUS_KEY;
-import static org.cilogon.d2.servlet.AbstractDBService.STATUS_OK;
+import static org.cilogon.d2.servlet.StatusCodes.STATUS_OK;
 
 /**
  * Periodically run this test. You must start up the service as indicated in the host string

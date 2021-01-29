@@ -32,7 +32,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.BitSet;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -88,30 +87,6 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
     The following codes are inherited from the original Perl code. Even values indicate a success,
      odd values are for errors.
      */
-
-    public static final int STATUS_OK = 0x0; // 0
-    public static final int STATUS_ACTION_NOT_FOUND = 0x1; //1
-    public static final int STATUS_NEW_USER = 0x2; //2
-    public static final int STATUS_USER_SERIAL_STRING_UPDATED = 0x4; //4
-    public static final int STATUS_USER_NOT_FOUND = 0x6;  //6
-    public static final int STATUS_USER_EXISTS = 0x8; //8
-    /*
-     */
-    public static final int STATUS_USER_EXISTS_ERROR = 0xFFFA1; //1048481
-    public static final int STATUS_USER_NOT_FOUND_ERROR = 0xFFFA3; // 1048483
-    public static final int STATUS_TRANSACTION_NOT_FOUND = 0xFFFA5; //1048485
-    public static final int STATUS_IDP_SAVE_FAILED = 0xFFFA7; // 1048487
-    public static final int STATUS_DUPLICATE_ARGUMENT = 0xFFFF1; // 1048561
-    public static final int STATUS_INTERNAL_ERROR = 0xFFFF3; // 1048563 was "database failure"
-    public static final int STATUS_SAVE_IDP_FAILED = 0xFFFF5; // 1048565
-    public static final int STATUS_MALFORMED_INPUT = 0xFFFF7; // 1048567
-    public static final int STATUS_MISSING_ARGUMENT = 0xFFFF9; // 1048569
-    public static final int STATUS_NO_REMOTE_USER = 0xFFFFB; // 1048571
-    public static final int STATUS_NO_IDENTITY_PROVIDER = 0xFFFFD; // 1048573
-    public static final int STATUS_CLIENT_NOT_FOUND = 0xFFFFF; // 1048575
-    public static final int STATUS_EPTID_MISMATCH = 0x100001; // 1048577
-    public static final int STATUS_PAIRWISE_ID_MISMATCH = 0x100003; // 1048579
-    public static final int STATUS_SUBJECT_ID_MISMATCH = 0x100005; // 1048581
 
 
     /**
@@ -192,7 +167,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
                 break;
             default:
                 info("Action \"" + action + "\" not found");
-                throw new DBServiceException(STATUS_ACTION_NOT_FOUND);
+                throw new DBServiceException(StatusCodes.STATUS_ACTION_NOT_FOUND);
         }
     }
 
@@ -227,7 +202,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
     private void set2FInfo(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String useruidString = getParam(request, tfKeys.identifier(), true);
         if (useruidString == null) {
-            writeMessage(response, STATUS_MISSING_ARGUMENT);
+            writeMessage(response, StatusCodes.STATUS_MISSING_ARGUMENT);
             return;
         }
         Identifier uid = newID(useruidString);
@@ -235,12 +210,12 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
         try {
             getUserStore().get(uid);
         } catch (UserNotFoundException ux) {
-            writeMessage(response, STATUS_USER_NOT_FOUND_ERROR); // this is not an error, just info.
+            writeMessage(response, StatusCodes.STATUS_USER_NOT_FOUND_ERROR); // this is not an error, just info.
             return;
         }
         TwoFactorInfo tfi = new TwoFactorInfo(uid, info);
         get2FStore().save(tfi);
-        writeMessage(response, STATUS_OK);
+        writeMessage(response, StatusCodes.STATUS_OK);
 
 
     }
@@ -248,13 +223,13 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
     private void get2FInfo(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String useruidString = getParam(request, tfKeys.identifier(), true);
         if (useruidString == null) {
-            writeMessage(response, STATUS_USER_NOT_FOUND_ERROR); // this is not an error, just info.
+            writeMessage(response, StatusCodes.STATUS_USER_NOT_FOUND_ERROR); // this is not an error, just info.
         }
         TwoFactorInfo tfi = get2FStore().get(newID(useruidString));
         if (tfi == null || tfi.getInfo() == null || tfi.getInfo().length() == 0) {
             setStatusOK(response); // this is not an error, just info.
         }
-        serializer.serialize(response.getWriter(), tfi, STATUS_OK);
+        serializer.serialize(response.getWriter(), tfi, StatusCodes.STATUS_OK);
 
     }
 
@@ -267,7 +242,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
             getUserStore().remove(user.getIdentifier());
             setStatusOK(response);
         } else {
-            writeMessage(response, STATUS_USER_NOT_FOUND_ERROR); // this is not an error, just info.
+            writeMessage(response, StatusCodes.STATUS_USER_NOT_FOUND_ERROR); // this is not an error, just info.
         }
     }
 
@@ -321,10 +296,10 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
             ServletDebugUtil.trace(this, "Got user by id. uid=" + user.getIdentifierString() + ", serial string = " + user.getSerialString());
 
             TwoFactorInfo tfi = get2FStore().get(uid);
-            writeUser(user, tfi, STATUS_OK, response);
+            writeUser(user, tfi, StatusCodes.STATUS_OK, response);
             return;
         } catch (UserNotFoundException x) {
-            writeMessage(response, STATUS_USER_NOT_FOUND_ERROR);
+            writeMessage(response, StatusCodes.STATUS_USER_NOT_FOUND_ERROR);
             return;
         }
     }
@@ -347,12 +322,12 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
 
         if (userMultiKey.isTrivial()) {
             ServletDebugUtil.trace(this, "trivial multi-id =" + userMultiKey);
-            throw new DBServiceException(STATUS_MISSING_ARGUMENT);
+            throw new DBServiceException(StatusCodes.STATUS_MISSING_ARGUMENT);
         }
 
         String idp = getParam(request, userKeys.idp());
         if (idp == null || idp.length() == 0) {
-            throw new DBServiceException(STATUS_NO_IDENTITY_PROVIDER);
+            throw new DBServiceException(StatusCodes.STATUS_NO_IDENTITY_PROVIDER);
         }
 
         String email = getParam(request, userKeys.email(), true);
@@ -376,7 +351,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
             // CIL-540
             // case 1.5 -- if the request has IDP and one of eptid, eppn or oidc, then this is sufficient to identify the user.
             User user = null;
-            int status = STATUS_OK;
+            int status = StatusCodes.STATUS_OK;
 
             try {
                 user = findUser(userMultiKey, idp);
@@ -393,7 +368,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
                         displayName,
                         organizationalUnit,
                         useUSinDN);
-                status = (keepSerialID) ? STATUS_OK : STATUS_USER_SERIAL_STRING_UPDATED;
+                status = (keepSerialID) ? StatusCodes.STATUS_OK : StatusCodes.STATUS_USER_SERIAL_STRING_UPDATED;
             } catch (EPTIDMismatchException | PairwiseIDMismatchException | SubjectIDMismatchException x) {
                 throw x;
             } catch (UserNotFoundException unf) {
@@ -411,7 +386,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
                         displayName,
                         organizationalUnit,
                         useUSinDN);
-                status = STATUS_NEW_USER;
+                status = StatusCodes.STATUS_NEW_USER;
             }
             TwoFactorInfo tfi = get2FStore().get(user.getIdentifier());
             writeUser(user, tfi, status, response);
@@ -439,7 +414,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
                     ServletDebugUtil.trace(this, "user after save = " + user);
                 }
 
-                writeUser(user, tfi, STATUS_OK, response);
+                writeUser(user, tfi, StatusCodes.STATUS_OK, response);
                 return;
             } catch (UserNotFoundException x) {
                 User user = makeNewUser(response, idp,
@@ -452,7 +427,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
                         displayName,
                         organizationalUnit,
                         useUSinDN);
-                writeUser(user, STATUS_NEW_USER, response);
+                writeUser(user, StatusCodes.STATUS_NEW_USER, response);
                 return;
             }
         }
@@ -517,7 +492,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
             }
             // it is possible that there might be some information already about this user. Check, just in case...
             TwoFactorInfo tfi = get2FStore().get(user3.getIdentifier());
-            writeUser(user3, tfi, STATUS_NEW_USER, response);
+            writeUser(user3, tfi, StatusCodes.STATUS_NEW_USER, response);
             info("DONE WRITING NEW USER, ID = " + user3.getIdentifier());
         }
     }
@@ -708,11 +683,11 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
                 return null;
             }
             info("Error: missing parameter for key \"" + key + "\"");
-            throw new DBServiceException(STATUS_MISSING_ARGUMENT);
+            throw new DBServiceException(StatusCodes.STATUS_MISSING_ARGUMENT);
         }
         if (1 < params.length) {
             info("Error: duplicate parameter for key \"" + key + "\"");
-            throw new DBServiceException(STATUS_DUPLICATE_ARGUMENT);
+            throw new DBServiceException(StatusCodes.STATUS_DUPLICATE_ARGUMENT);
         }
         return params[0];
 
@@ -741,7 +716,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
         AuthorizationGrant ag = getTokenForge().getAuthorizationGrant(getParam(request, getServiceEnvironment().getConstants().get(ServiceConstantKeys.TOKEN_KEY)), null);
         if (ag == null) {
             getMyLogger().warn("No token found. Cannot retrieve transaction");
-            throw new DBServiceException(STATUS_TRANSACTION_NOT_FOUND);
+            throw new DBServiceException(StatusCodes.STATUS_TRANSACTION_NOT_FOUND);
         }
         // Checking the timestamp fails as of version 5.0
         
@@ -754,7 +729,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
         ServiceTransaction t = getTransaction(ag);
         if (t == null) {
             getMyLogger().warn("Did not find portal parameters for transaction w/token =" + ag);
-            throw new DBServiceException(STATUS_TRANSACTION_NOT_FOUND);
+            throw new DBServiceException(StatusCodes.STATUS_TRANSACTION_NOT_FOUND);
         }
 
 
@@ -845,7 +820,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
         try {
             getUserStore().getUserID(names, idp);
             getMyLogger().warn("Create user fails: user exists for " + names + ", and idp=" + idp);
-            throw new DBServiceException(STATUS_USER_EXISTS_ERROR);
+            throw new DBServiceException(StatusCodes.STATUS_USER_EXISTS_ERROR);
         } catch (UserNotFoundException x) {
             // this is what we want. This means we are creating a user.
         }
@@ -874,7 +849,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
         getUserStore().update(user, true);
         ServletDebugUtil.trace(this, "stored user. uid=" + user.getIdentifierString() + ", serial string = " + user.getSerialString());
 
-        writeUser(user, STATUS_NEW_USER, response);
+        writeUser(user, StatusCodes.STATUS_NEW_USER, response);
     }
 
     protected Boolean parseUseUSinDNString(String useUSinDN) {
@@ -903,7 +878,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
             Identifier uid = newID(useruidString);
             hasUser = getUserStore().containsKey(uid);
         }
-        writeMessage(response, hasUser ? STATUS_USER_EXISTS : STATUS_USER_NOT_FOUND); // these are not error, just info.
+        writeMessage(response, hasUser ? StatusCodes.STATUS_USER_EXISTS : StatusCodes.STATUS_USER_NOT_FOUND); // these are not error, just info.
     }
 
     protected User findUser(UserMultiID userMultiKey, String idp) throws IOException {
@@ -1103,7 +1078,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
 
                 getUserStore().update(oldUser, true); // force that there is no new serial string produced.
             }
-            writeUser(oldUser, tfi, STATUS_OK, response);
+            writeUser(oldUser, tfi, StatusCodes.STATUS_OK, response);
             return;
         }
         info("Archiving user \"" + oldUser.getIdentifier() + "\", returning");
@@ -1131,7 +1106,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
         ServletDebugUtil.trace(this, "get&Archive: updated user =" + oldUser);
 
 
-        writeUser(oldUser, tfi, STATUS_USER_SERIAL_STRING_UPDATED, response);
+        writeUser(oldUser, tfi, StatusCodes.STATUS_USER_SERIAL_STRING_UPDATED, response);
         return;
     }
 
@@ -1213,7 +1188,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
 
         // Don't save an empty list. This would clear the entire list and is probably a mistake anyway
         if (idpStrings == null || idpStrings.length == 0) {
-            throw new DBServiceException(STATUS_IDP_SAVE_FAILED);
+            throw new DBServiceException(StatusCodes.STATUS_IDP_SAVE_FAILED);
         }
 
 
@@ -1225,31 +1200,6 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
         setStatusOK(response);
     }
 
-    /**
-     * A user method for debugging. This prints every parameter to the request
-     * to standard out.
-     * Usage: Call this at or about the first line of your method, passing in the name of the method and
-     * the HTTPRequest.
-     *
-     * @param methodName
-     * @param request
-     */
-    private void echoParams(String methodName, HttpServletRequest request) {
-        for (Object key : request.getParameterMap().keySet()) {
-            String[] params = (String[]) request.getParameterMap().get(key);
-            String param = "\"\"";
-            if (1 == params.length) {
-                param = params[0];
-                if (param.length() == 0) {
-                    param = "\"\"";
-                }
-            }
-            if (1 < params.length) {
-                param = Arrays.toString(params);
-            }
-            System.out.println(getClass().getSimpleName() + "." + methodName + ": key=" + key + ", value=" + param);
-        }
-    }
 
     public void getAllIdps(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Collection<IdentityProvider> idps = getIDPStore().values();
@@ -1291,7 +1241,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
      * @param response
      */
     protected void setStatusOK(HttpServletResponse response) throws IOException {
-        writeMessage(response, STATUS_OK);
+        writeMessage(response, StatusCodes.STATUS_OK);
     }
 
     public void getLastArchivedUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -1301,12 +1251,12 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
             // None of these have been archived. We *could* check if the user has a valid uid
             // in the store and return user not found if so and user not found error if not,
             // but that would be messier to use. If this is even an issue
-            writeMessage(response, STATUS_USER_NOT_FOUND_ERROR);
+            writeMessage(response, StatusCodes.STATUS_USER_NOT_FOUND_ERROR);
             return;
         }
         // the last of these is the last archived user. Note that the returned list is always sorted,
         // so we just grab the last one.
-        writeUser(lastOne.getUser(), STATUS_OK, response);
+        writeUser(lastOne.getUser(), StatusCodes.STATUS_OK, response);
     }
 
     /**
@@ -1317,12 +1267,13 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
      * @throws IOException
      */
     protected void writeMessage(HttpServletResponse response, int statusCode) throws IOException {
-        if (statusCode != STATUS_OK) {
+        if (statusCode != StatusCodes.STATUS_OK) {
             // track in debugging when a non-success is returned.
             ServletDebugUtil.trace(this, "Serialization error of " + statusCode + " (0x" + Long.toHexString(statusCode).toUpperCase() + ")");
         }
         writeMessage(response, Integer.toString(statusCode));
     }
+
 
     protected void writeMessage(HttpServletResponse response, String statusMessage) throws IOException {
         startWrite(response);
