@@ -46,9 +46,9 @@ public class StatusCodes {
             case STATUS_USER_NOT_FOUND:  //6
                 return  "user not found";
             case STATUS_USER_EXISTS: //8
-                return  "user already exists";
+                return  "user already exists"; // informational message
             case STATUS_USER_EXISTS_ERROR: //1048481
-                return "user already exists";
+                return "user already exists"; // actual error that the the user should not exist.
             case STATUS_USER_NOT_FOUND_ERROR: // 1048483
                 return "user not found";
             case STATUS_TRANSACTION_NOT_FOUND: //1048485
@@ -58,7 +58,7 @@ public class StatusCodes {
             case STATUS_DUPLICATE_ARGUMENT: // 1048561
                 return "duplicate argument";
             case STATUS_INTERNAL_ERROR: // 1048563 was "database failure"
-                return  "case internal error";
+                return  "internal error";
             case STATUS_SAVE_IDP_FAILED: // 1048565
                 return  "saving idp failed";
             case STATUS_MALFORMED_INPUT : // 1048567
@@ -72,7 +72,7 @@ public class StatusCodes {
             case STATUS_CLIENT_NOT_FOUND: // 1048575
                 return "client not found";
             case STATUS_EPTID_MISMATCH: // 1048577
-                return "UPTID mismatch";
+                return "EPTID mismatch";
             case STATUS_PAIRWISE_ID_MISMATCH: // 1048579
                 return "pairwise id mismatch";
             case STATUS_SUBJECT_ID_MISMATCH: // 1048581
@@ -82,13 +82,5 @@ public class StatusCodes {
         }
 
 
-    }
-    public static void main(String[] args){
-        try{
-          System.out.println(getMessage(0));
-          System.out.println(getMessage(1048581));
-        }catch (Throwable t){
-            t.printStackTrace();
-        }
     }
 }
