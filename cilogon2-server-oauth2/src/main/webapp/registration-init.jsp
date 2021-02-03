@@ -105,14 +105,14 @@
                 <legend class="col-form-label col-sm-2 pt-0">Client Type</legend>
                 <div class="col-sm-10">
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="${clientIsPublic}"
+                        <input class="form-check-input" type="radio" name="clientIsPublic"
                         id="confidential" value="no" checked="checked"
                         aria-describedby="clientIsPublicHelp"
                         />
                        <label class="form-check-label" for="confidential">Confidential</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="${clientIsPublic}"
+                        <input class="form-check-input" type="radio" name="clientIsPublic"
                         id="public" value="on"
                         />
                         <label class="form-check-label" for="public">Public</label>
@@ -201,9 +201,9 @@
 <script>
 $(document).ready(function() {
     $('input[type=radio][name=refreshTokensYesNo]').prop('disabled', false);
-    $('input[type=radio][name=${clientIsPublic}]').prop('disabled', false);
+    $('input[type=radio][name=clientIsPublic]').prop('disabled', false);
 
-    $('input[type=radio][name=${clientIsPublic}]').change(function() {
+    $('input[type=radio][name=clientIsPublic]').change(function() {
         if (this.value == "on") {
             $('#allscopes').collapse('hide');
             $('#openidscope').collapse('show');
@@ -224,8 +224,8 @@ $(document).ready(function() {
 
     $('form').submit(function() {
         $('input[type=radio][name=refreshTokensYesNo]').prop('disabled', true);
-        if ($('input[type=radio][name=${clientIsPublic}]:checked').val() == 'no') {
-            $('input[type=radio][name=${clientIsPublic}]').prop('disabled', true);
+        if ($('input[type=radio][name=clientIsPublic]:checked').val() == 'no') {
+            $('input[type=radio][name=clientIsPublic]').prop('disabled', true);
         }
         return true;
     });

@@ -36,49 +36,49 @@ public class StatusCodes {
     public static String getMessage(int status){
         switch(status){
             case STATUS_OK:
-                return "ok";
+                return "Status OK.";
             case STATUS_ACTION_NOT_FOUND: //1
-            return  "action not found";
+            return  "Action not found.";
             case STATUS_NEW_USER: //2
-                return "new user ok";
+                return "New user created.";
             case STATUS_USER_SERIAL_STRING_UPDATED: //4
-                return  "serial string update ok";
+                return "User data updated.";
             case STATUS_USER_NOT_FOUND:  //6
-                return  "user not found";
+                return "User not found.";
             case STATUS_USER_EXISTS: //8
-                return  "user already exists"; // informational message
+                return "User exists."; // informational message
             case STATUS_USER_EXISTS_ERROR: //1048481
-                return "user already exists"; // actual error that the the user should not exist.
+                return "User already exists."; // actual error that the the user should not exist.
             case STATUS_USER_NOT_FOUND_ERROR: // 1048483
-                return "user not found";
+                return "User not found.";
             case STATUS_TRANSACTION_NOT_FOUND: //1048485
-                return  "transaction not found";
+                return "Transaction not found.";
             case STATUS_IDP_SAVE_FAILED: // 1048487
-                return  "idp save failed";
+                return "Could not save IdPs.";
             case STATUS_DUPLICATE_ARGUMENT: // 1048561
-                return "duplicate argument";
+                return "Duplicate parameter.";
             case STATUS_INTERNAL_ERROR: // 1048563 was "database failure"
-                return  "internal error";
+                return "Internal error.";
             case STATUS_SAVE_IDP_FAILED: // 1048565
-                return  "saving idp failed";
+                return "Could not save IdP.";
             case STATUS_MALFORMED_INPUT : // 1048567
-                return "malformed input";
+                return "Malformed input.";
             case STATUS_MISSING_ARGUMENT: // 1048569
-                return  "missing argument";
+                return "Missing parameter.";
             case STATUS_NO_REMOTE_USER: // 1048571
-                return "no remote user";
+                return "Missing remote user.";
             case STATUS_NO_IDENTITY_PROVIDER: // 1048573
-                return "no identity provider";
+                return "Missing IdP.";
             case STATUS_CLIENT_NOT_FOUND: // 1048575
-                return "client not found";
+                return "Missing client.";
             case STATUS_EPTID_MISMATCH: // 1048577
-                return "EPTID mismatch";
+                return "EPTID mismatch.";
             case STATUS_PAIRWISE_ID_MISMATCH: // 1048579
-                return "pairwise id mismatch";
+                return "Pairwise ID mismatch.";
             case STATUS_SUBJECT_ID_MISMATCH: // 1048581
-                return "subject id mismatch";
+                return "Subject ID mismatch.";
             default:
-                return "unknown error 0x" + Integer.toHexString(status) + " = " + status;
+                return "Unknown error 0x" + Integer.toHexString(status) + " = " + status;
         }
 
 

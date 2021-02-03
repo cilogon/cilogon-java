@@ -54,7 +54,7 @@
 	    rows="2" readonly>${client.identifier}</textarea>
 	</div>
 	<div class="col-sm-1">
-	  <button type="button" class="btn" data-clipboard-target="#inputID">Copy</button>
+	  <button type="button" class="btn btn-primary mb-2" data-clipboard-target="#inputID">Copy</button>
 	</div>
       </div>
 
@@ -67,7 +67,7 @@
 	    readonly>${client.secret}</textarea>
 	</div>
 	<div class="col-sm-1">
-	  <button type="button" class="btn" data-clipboard-target="#inputSecret">Copy</button>
+	  <button type="button" class="btn btn-primary mb-2" data-clipboard-target="#inputSecret">Copy</button>
 	</div>
       </div>
 

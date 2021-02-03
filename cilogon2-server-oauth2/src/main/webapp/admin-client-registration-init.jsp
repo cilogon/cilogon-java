@@ -75,6 +75,7 @@
             </div>
         </div>
 
+        <!--
         <div class="form-group row">
             <label for="inputIssuer" class="col-sm-2 col-form-label">Issuer</label>
             <div class="col-sm-10">
@@ -87,6 +88,7 @@
                 </small>
             </div>
         </div>
+        -->
 
         <input type="hidden" id="status" name="${action}" value="${request}"/>
 
