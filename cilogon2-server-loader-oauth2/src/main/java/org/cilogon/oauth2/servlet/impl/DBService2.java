@@ -2,7 +2,6 @@ package org.cilogon.oauth2.servlet.impl;
 
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.OA2SE;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.OA2ServiceTransaction;
-import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.claims.OA2ClaimsUtil;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.servlet.OA2ClientUtils;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.state.ScriptRuntimeEngineFactory;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.clients.OA2Client;
@@ -17,9 +16,9 @@ import edu.uiuc.ncsa.security.core.util.DateUtils;
 import edu.uiuc.ncsa.security.core.util.DebugUtil;
 import edu.uiuc.ncsa.security.delegation.token.impl.AuthorizationGrantImpl;
 import edu.uiuc.ncsa.security.oauth_2_0.OA2Constants;
+import edu.uiuc.ncsa.security.oauth_2_0.OA2GeneralError;
 import edu.uiuc.ncsa.security.oauth_2_0.jwt.JWTRunner;
 import edu.uiuc.ncsa.security.servlet.ServletDebugUtil;
-import net.sf.json.JSONObject;
 import org.cilogon.d2.servlet.AbstractDBService;
 import org.cilogon.d2.storage.User;
 import org.cilogon.d2.storage.UserStore;
@@ -119,7 +118,7 @@ public class DBService2 extends AbstractDBService {
     }
 
     protected void doError(String message, int errorCode, HttpServletResponse resp) throws IOException {
-        ServletDebugUtil.trace(this, "createTransaction failed: \"" + message + "\".");
+        ServletDebugUtil.trace(this, "createTransaction failed: \"" + message + "\", code=" + errorCode);
         writeTransaction(null, new Err(errorCode, "create_transaction_failed", message), resp);
     }
 
@@ -151,7 +150,6 @@ public class DBService2 extends AbstractDBService {
             String values = req.getParameter(SCOPE);
             if(-1 != values.indexOf(",")){
                 doError("No scopes found.", STATUS_MALFORMED_SCOPE, resp);
-
             }
 
         }
@@ -186,14 +184,37 @@ public class DBService2 extends AbstractDBService {
             writeTransaction(transaction, STATUS_OK, resp);
             ServletDebugUtil.trace(this, "createTransaction: ******** DONE ******** ");
         } catch (Throwable t) {
-            // grab bag of errors from lower down in the stack.
-            getMyLogger().warn("Error creating transaction:\"" + t.getMessage() + "\"");
-            ServletDebugUtil.trace(this, "createTransaction failed. \"" + t.getMessage() + "\".", t);
-            ServletDebugUtil.warn(this, "Error creating transaction: \"" + t.getMessage() + "\".");
-            // CIL-570: Error codes need to be augmented so can tell why various initial errors happen.
-            // There could be a lot more of these (such documenting protocol errors and such), but this
-            // should do for most cases. If it needs to be revisted in the future, this is the place to check.
-            writeTransaction(null, 42, resp);
+            if(t instanceof OA2GeneralError){
+                // Something in OA4MP proper blew up. Try to bridge the gap here with message codes.
+
+                OA2GeneralError ge = (OA2GeneralError)t;
+                ServletDebugUtil.trace(this, "OA2GeneralError: " + ge.toString());
+                CILOA2ExceptionHandler.YAErr yaErr = CILOA2ExceptionHandler.lookupErrorCode(ge.getError());
+                if(yaErr.code == STATUS_INTERNAL_ERROR){
+                    yaErr.code = STATUS_CREATE_TRANSACTION_FAILED; // what we should return for all calls to this action
+                }
+                ServletDebugUtil.trace(this, "YAErr:" + yaErr.toString());
+                if(yaErr.hasMessage()){
+                    doError(yaErr.message, yaErr.code,resp );
+                }else{
+                    doError(ge.getDescription(),yaErr.code,resp );
+                }
+                return; // make sure to hop out here.
+            }else {
+                try {
+                    getExceptionHandler().handleException(t, req, resp);
+                } catch (Throwable xxx) {
+                    // Ummm if it ends up here, it means the exception handler itself blew up and there is not a lot
+                    // we can do except try to send something back.
+                    getMyLogger().warn("Unrecoverable error creating transaction:\"" + t.getMessage() + "\"");
+                    ServletDebugUtil.trace(this, "Unrecoverable error: createTransaction failed. \"" + t.getMessage() + "\".", t);
+                    ServletDebugUtil.warn(this, "Unrecoverable error: Error creating transaction: \"" + t.getMessage() + "\".");
+                    // CIL-570: Error codes need to be augmented so can tell why various initial errors happen.
+                    // There could be a lot more of these (such documenting protocol errors and such), but this
+                    // should do for most cases. If it needs to be revisted in the future, this is the place to check.
+                    writeTransaction(null, STATUS_INTERNAL_ERROR, resp);
+                }
+            }
         }
     }
 
@@ -209,7 +230,7 @@ public class DBService2 extends AbstractDBService {
         String error;
     }
     protected void writeMessage(HttpServletResponse response, Err errResponse) throws IOException {
-        startWrite(response);
+       startWrite(response);
         ((DBServiceSerializer2)serializer).writeMessage(response.getWriter(), errResponse);
         stopWrite(response);
     }
@@ -335,27 +356,6 @@ public class DBService2 extends AbstractDBService {
 
     }
 
-    protected void doClaims(CILogonOA2ServiceEnvironment env, CILOA2ServiceTransaction t) {
-
-
-         /*
-        This is the first place we can get claims for the user. We require the user, some existing claims
-        (which we append to) and the transaction.
-        This is a side effect of this call.
-         */
-        try {
-            OA2ClaimsUtil claimsUtil = new OA2ClaimsUtil(env, t);
-            // This gets us the basic claims.
-            UserClaimSource userClaimSource = new UserClaimSource(getMyLogger());
-            userClaimSource.setOa2SE((OA2SE) getServiceEnvironment());
-            JSONObject claims = claimsUtil.processAuthorizationClaims(null);
-            userClaimSource.process(claims, t);
-            t.setUserMetaData(claims);
-        } catch (Throwable throwable) {
-            getMyLogger().error("Claims processing failed.", throwable);
-            return;
-        }
-    }
 
     // Fixes CIL-105.
     protected void getClient(HttpServletRequest req, HttpServletResponse resp) throws IOException {

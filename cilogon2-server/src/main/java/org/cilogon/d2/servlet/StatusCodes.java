@@ -80,7 +80,6 @@ public class StatusCodes {
             default:
                 return "Unknown error 0x" + Integer.toHexString(status) + " = " + status;
         }
-
-
     }
+
 }
