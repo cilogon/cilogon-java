@@ -1086,7 +1086,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
 
 
         getArchivedUserStore().archiveUser(oldUser.getIdentifier());
-        ServletDebugUtil.trace(this, "get&Archive: after archiving user " + oldUser);
+        ServletDebugUtil.trace(this, "get & Archive: after archiving user " + oldUser);
 
         // Now update to the new values and save it.
         oldUser.setIDPName(idpDisplayName);
