@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="cilogon2-server-oauth1:war">
+    <output-path>$PROJECT_DIR$/cilogon2-server-oauth1/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>cilogon2-server-oauth1</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="oauth.war">
+      <element id="artifact" artifact-name="cilogon2-server-oauth1:war exploded" />
+    </root>
+  </artifact>
+</component>

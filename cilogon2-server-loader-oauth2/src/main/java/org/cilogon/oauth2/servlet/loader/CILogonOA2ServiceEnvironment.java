@@ -87,7 +87,8 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
                                         QDLEnvironment qe,
                                         boolean isRFC8693Enabled,
                                         boolean isqdlStrictAcls,
-                                        boolean safeGC
+                                        boolean safeGC,
+                                        boolean rfc8628Enabled
     ) {
         super(logger,
                 tsp,
@@ -128,7 +129,8 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
                 qe,
                 isRFC8693Enabled,
                 isqdlStrictAcls,
-                safeGC);
+                safeGC,
+                rfc8628Enabled);
         ciLogonSE = new CILogonSEImpl(usp, ausp, idpsp, incp, tfsp, isComputeFNAL);
         if (claimSource instanceof UserClaimSource) {
             ((UserClaimSource) claimSource).setOa2SE(this);

@@ -198,7 +198,8 @@ public class CILOA2ConfigurationLoader extends OA2ConfigurationLoader implements
                     getQDLEnvironment(),
                     isRFC8693Enabled(),
                     isQdlStrictACLS(),
-                    isSafeGC());
+                    isSafeGC(),
+                    isRFC8628Enabled());
             return  se;
         } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
             throw new GeneralException("Error: Could not create the runtime environment", e);
