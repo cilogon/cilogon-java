@@ -15,6 +15,7 @@ import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
 import edu.uiuc.ncsa.security.core.util.DateUtils;
 import edu.uiuc.ncsa.security.core.util.DebugUtil;
 import edu.uiuc.ncsa.security.delegation.token.impl.AuthorizationGrantImpl;
+import edu.uiuc.ncsa.security.delegation.token.impl.TokenUtils;
 import edu.uiuc.ncsa.security.oauth_2_0.OA2Constants;
 import edu.uiuc.ncsa.security.oauth_2_0.OA2GeneralError;
 import edu.uiuc.ncsa.security.oauth_2_0.jwt.JWTRunner;
@@ -178,7 +179,7 @@ public class DBService2 extends AbstractDBService {
 
 
         try {
-            CILOA2ServiceTransaction transaction = (CILOA2ServiceTransaction) initUtil.doDelegation(req, resp);
+            CILOA2ServiceTransaction transaction = (CILOA2ServiceTransaction) initUtil.doDelegation(req, resp, true);
             getTransactionStore().save(transaction);
             ServletDebugUtil.trace(this, "createTransaction: writing transaction. " + transaction);
             writeTransaction(transaction, STATUS_OK, resp);
@@ -238,11 +239,15 @@ public class DBService2 extends AbstractDBService {
     // Fixes CIL-101
     protected void setTransactionState(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String ag = req.getParameter(AUTHORIZATION_CODE);
+
         if (ag == null || ag.trim().length() == 0) {
             String description = "Warning. No auth code. Cannot complete call.";
             getMyLogger().error(description);
             writeMessage(resp, new Err(STATUS_MISSING_ARGUMENT, "missing_argument", description));
             return;
+        }
+        if(TokenUtils.isBase32(ag)){
+            ag = TokenUtils.b32DecodeToken(ag);
         }
         Identifier identifier = BasicIdentifier.newID(ag);
         AuthorizationGrantImpl authGrant = new AuthorizationGrantImpl(URI.create(ag));

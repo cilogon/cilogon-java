@@ -3,6 +3,7 @@ package org.cilogon.oauth2.servlet.loader;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.OA2SE;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.cm.CMConfigs;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.tx.TXStore;
+import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.vo.VOStore;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.MyProxyFacadeProvider;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.ServiceEnvironmentImpl;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.admin.adminClient.AdminClientStore;
@@ -45,6 +46,7 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
     public CILogonOA2ServiceEnvironment(MyLoggingFacade logger,
                                         Provider<TransactionStore> tsp,
                                         Provider<TXStore> txStoreProvider,
+                                        Provider<VOStore> voStoreProvider,
                                         Provider<ClientStore> csp,
                                         int maxAllowedNewClientRequests,
                                         long agLifetime,
@@ -93,6 +95,7 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
         super(logger,
                 tsp,
                 txStoreProvider,
+                voStoreProvider,
                 csp,
                 maxAllowedNewClientRequests,
                 agLifetime,

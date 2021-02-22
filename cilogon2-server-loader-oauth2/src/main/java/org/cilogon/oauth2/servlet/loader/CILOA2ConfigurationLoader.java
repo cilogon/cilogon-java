@@ -156,6 +156,7 @@ public class CILOA2ConfigurationLoader extends OA2ConfigurationLoader implements
                     (MyLoggingFacade) loggerProvider.get(),
                     getTransactionStoreProvider(),
                     getTXStoreProvider(),
+                    getVOStoreProvider(),
                     getClientStoreProvider(),
                     getMaxAllowedNewClientRequests(),
                     getAGLifetime(),
