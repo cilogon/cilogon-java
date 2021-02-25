@@ -17,6 +17,7 @@
         <url-pattern>/clients</url-pattern>
     </servlet-mapping>
 
+ <!-- RFC 8628 support. -->
 
     <servlet>
         <servlet-name>discovery</servlet-name>
@@ -26,12 +27,11 @@
         <servlet-name>discovery</servlet-name>
         <url-pattern>/.well-known/*</url-pattern>
     </servlet-mapping>
-
+    <!--  * below is critical for CIL-806   -->
     <servlet-mapping>
         <servlet-name>discovery</servlet-name>
-        <url-pattern>/certs</url-pattern>
+        <url-pattern>/certs/*</url-pattern>
     </servlet-mapping>
-
 
     <servlet>
         <servlet-name>util</servlet-name>
