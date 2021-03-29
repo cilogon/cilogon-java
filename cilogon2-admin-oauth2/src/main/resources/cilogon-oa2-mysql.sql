@@ -84,9 +84,10 @@ CREATE TABLE ciloa2.adminClients (
   name              TEXT,
   secret            TEXT,
   email             TEXT,
-  creation_ts        timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  last_modified_ts   timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  creation_ts       timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  last_modified_ts  timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   vo                TEXT,
+  vo_uri            TEXT,
   max_clients       BIGINT,
   issuer            TEXT,
   config            TEXT

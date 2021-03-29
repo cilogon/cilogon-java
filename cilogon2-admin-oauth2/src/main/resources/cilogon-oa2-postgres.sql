@@ -55,6 +55,7 @@ create table ciloa2.permissions  (
       email       text,
       secret      text,
       vo          text,
+      vo_uri      text,
       issuer      text,
       max_clients integer,
       creation_ts TIMESTAMP);
