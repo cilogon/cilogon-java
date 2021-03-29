@@ -3,6 +3,7 @@ package org.cilogon.oauth2.servlet.impl;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.OA2SE;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.OA2ServiceTransaction;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.servlet.OA2ClientUtils;
+import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.servlet.RFC8628Servlet;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.state.ScriptRuntimeEngineFactory;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.clients.OA2Client;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.clients.OA2ClientApprovalKeys;
@@ -35,6 +36,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URI;
 import java.net.URLDecoder;
 import java.util.Date;
@@ -68,6 +70,11 @@ public class DBService2 extends AbstractDBService {
     public static final int STATUS_NO_SCOPES = 0x10011; //65553
     public static final int STATUS_MALFORMED_SCOPE = 0x10013; //65555
 
+    public static final String CHECK_USER_CODE = "checkUserCode";
+    public static final int CHECK_USER_CODE_CASE = 740;
+    public static final String USER_CODE_PARAMETER = "userCode";
+    //public static final int STATUS_MISSING = 0x10013; //65555
+
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -97,8 +104,55 @@ public class DBService2 extends AbstractDBService {
                 ServletDebugUtil.trace(this, "creating transaction");
                 createTransaction(request, response);
                 return;
+            case CHECK_USER_CODE_CASE:
+                checkUserCode(request, response);
+                return;
         }
         super.doAction(request, response, action);
+    }
+
+    protected void checkUserCode(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        if (!request.getParameterMap().containsKey(USER_CODE_PARAMETER)) {
+            // missing parameter
+            doError("No user code parameter was found.", STATUS_MISSING_ARGUMENT, response);
+            return;
+        }
+        String userCode = request.getParameter(USER_CODE_PARAMETER);
+        CILogonOA2ServiceEnvironment se = (CILogonOA2ServiceEnvironment) getServiceEnvironment();
+        if (se.isRfc8628Enabled() && RFC8628Servlet.getCache().containsKey(userCode)) {
+            AuthorizationGrantImpl ag = new AuthorizationGrantImpl(URI.create(RFC8628Servlet.getCache().get(userCode)));
+            if (ag.isExpired()) {
+                writeUserCodeNotFound(response);
+                return;
+            }
+            CILOA2ServiceTransaction transaction = (CILOA2ServiceTransaction) se.getTransactionStore().get(ag);
+            if (transaction == null) {
+                // Then the pending transaction got garbage collected so it effectively timed out
+                writeUserCodeNotFound(response);
+                return;
+            }
+            startWrite(response);
+            PrintWriter printWriter = response.getWriter();
+            printWriter.println(STATUS_KEY + "=1");
+            printWriter.println(CLIENT_ID + "=");
+            printWriter.println("grant=" + TokenUtils.b32EncodeToken(ag.getToken()));
+            printWriter.flush();
+            printWriter.close();
+            stopWrite(response);
+            return;
+        }
+
+        writeUserCodeNotFound(response);
+
+    }
+
+    private void writeUserCodeNotFound(HttpServletResponse response) throws IOException {
+        startWrite(response);
+        PrintWriter printWriter = response.getWriter();
+        printWriter.println(STATUS_KEY + "=0");
+        printWriter.flush();
+        printWriter.close();
+        stopWrite(response);
     }
 
     protected void writeClient(OA2Client client, int statusCode, HttpServletResponse response) throws IOException {
@@ -112,6 +166,7 @@ public class DBService2 extends AbstractDBService {
         ((DBServiceSerializer2) serializer).serialize(response.getWriter(), oa2ServiceTransaction, status);
         stopWrite(response);
     }
+
     protected void writeTransaction(OA2ServiceTransaction oa2ServiceTransaction, Err errResponse, HttpServletResponse response) throws IOException {
         startWrite(response);
         ((DBServiceSerializer2) serializer).serialize(response.getWriter(), oa2ServiceTransaction, errResponse);
@@ -145,11 +200,11 @@ public class DBService2 extends AbstractDBService {
             doError("No value for client id parameter was found.", STATUS_MISSING_CLIENT_ID, resp);
             return;
         }
-        if(!req.getParameterMap().containsKey(SCOPE)){
+        if (!req.getParameterMap().containsKey(SCOPE)) {
             doError("No scopes found.", STATUS_NO_SCOPES, resp);
-        }else{
+        } else {
             String values = req.getParameter(SCOPE);
-            if(-1 != values.indexOf(",")){
+            if (-1 != values.indexOf(",")) {
                 doError("No scopes found.", STATUS_MALFORMED_SCOPE, resp);
             }
 
@@ -185,23 +240,23 @@ public class DBService2 extends AbstractDBService {
             writeTransaction(transaction, STATUS_OK, resp);
             ServletDebugUtil.trace(this, "createTransaction: ******** DONE ******** ");
         } catch (Throwable t) {
-            if(t instanceof OA2GeneralError){
+            if (t instanceof OA2GeneralError) {
                 // Something in OA4MP proper blew up. Try to bridge the gap here with message codes.
 
-                OA2GeneralError ge = (OA2GeneralError)t;
+                OA2GeneralError ge = (OA2GeneralError) t;
                 ServletDebugUtil.trace(this, "OA2GeneralError: " + ge.toString());
                 CILOA2ExceptionHandler.YAErr yaErr = CILOA2ExceptionHandler.lookupErrorCode(ge.getError());
-                if(yaErr.code == STATUS_INTERNAL_ERROR){
+                if (yaErr.code == STATUS_INTERNAL_ERROR) {
                     yaErr.code = STATUS_CREATE_TRANSACTION_FAILED; // what we should return for all calls to this action
                 }
                 ServletDebugUtil.trace(this, "YAErr:" + yaErr.toString());
-                if(yaErr.hasMessage()){
-                    doError(yaErr.message, yaErr.code,resp );
-                }else{
-                    doError(ge.getDescription(),yaErr.code,resp );
+                if (yaErr.hasMessage()) {
+                    doError(yaErr.message, yaErr.code, resp);
+                } else {
+                    doError(ge.getDescription(), yaErr.code, resp);
                 }
                 return; // make sure to hop out here.
-            }else {
+            } else {
                 try {
                     getExceptionHandler().handleException(t, req, resp);
                 } catch (Throwable xxx) {
@@ -219,7 +274,7 @@ public class DBService2 extends AbstractDBService {
         }
     }
 
-    public static class Err{
+    public static class Err {
         public Err(int code, String error, String description) {
             this.code = code;
             this.error = error;
@@ -230,9 +285,10 @@ public class DBService2 extends AbstractDBService {
         String description;
         String error;
     }
+
     protected void writeMessage(HttpServletResponse response, Err errResponse) throws IOException {
-       startWrite(response);
-        ((DBServiceSerializer2)serializer).writeMessage(response.getWriter(), errResponse);
+        startWrite(response);
+        ((DBServiceSerializer2) serializer).writeMessage(response.getWriter(), errResponse);
         stopWrite(response);
     }
 
@@ -246,7 +302,7 @@ public class DBService2 extends AbstractDBService {
             writeMessage(resp, new Err(STATUS_MISSING_ARGUMENT, "missing_argument", description));
             return;
         }
-        if(TokenUtils.isBase32(ag)){
+        if (TokenUtils.isBase32(ag)) {
             ag = TokenUtils.b32DecodeToken(ag);
         }
         Identifier identifier = BasicIdentifier.newID(ag);
@@ -293,7 +349,7 @@ public class DBService2 extends AbstractDBService {
         try {
             t = (CILOA2ServiceTransaction) getTransaction(authGrant);
         } catch (Throwable throwable) {
-            String description =   "Getting the transaction for auth grant \"" + authGrant + "\" failed.";
+            String description = "Getting the transaction for auth grant \"" + authGrant + "\" failed.";
             getMyLogger().error(description, throwable);
             writeTransaction(t, new Err(STATUS_TRANSACTION_NOT_FOUND, "transaction_not_found", getMessage(STATUS_TRANSACTION_NOT_FOUND)), resp);
             return;
@@ -322,9 +378,9 @@ public class DBService2 extends AbstractDBService {
         //doClaims((CILogonOA2ServiceEnvironment) getServiceEnvironment(), t);
         try {
             doClaims2((CILogonOA2ServiceEnvironment) getServiceEnvironment(), t, req);
-        }catch (Throwable throwable){
-            if(throwable instanceof RuntimeException ){
-                throw (RuntimeException)throwable;
+        } catch (Throwable throwable) {
+            if (throwable instanceof RuntimeException) {
+                throw (RuntimeException) throwable;
             }
             getMyLogger().error("Could not get claims", throwable);
             throw new GeneralException(throwable);
@@ -336,12 +392,12 @@ public class DBService2 extends AbstractDBService {
 
     protected void doClaims2(CILogonOA2ServiceEnvironment env, CILOA2ServiceTransaction t, HttpServletRequest request) throws Throwable {
         try {
-            DebugUtil.trace(this,"Doing user claims");
+            DebugUtil.trace(this, "Doing user claims");
             UserClaimSource userClaimSource = new UserClaimSource(getMyLogger());
             userClaimSource.setOa2SE((OA2SE) getServiceEnvironment());
             t.setUserMetaData(userClaimSource.process(t.getUserMetaData(), t));
-            DebugUtil.trace(this,"Done user claims" + t.getUserMetaData().toString(1));
-            DebugUtil.trace(this,"Starting  post_auth claims");
+            DebugUtil.trace(this, "Done user claims" + t.getUserMetaData().toString(1));
+            DebugUtil.trace(this, "Starting  post_auth claims");
             env.getTransactionStore().save(t); // make SURE the user claims get saved.
 
             JWTRunner jwtRunner = new JWTRunner(t, ScriptRuntimeEngineFactory.createRTE(env, t, t.getOA2Client().getConfig()));
@@ -381,9 +437,16 @@ public class DBService2 extends AbstractDBService {
 
     @Override
     protected int lookupCase(String x) {
-        if (x.equals(GET_CLIENT)) return GET_CLIENT_CASE;
-        if (x.equals(SET_TRANSACTION_STATE)) return SET_TRANSACTION_STATE_CASE;
-        if (x.equals(CREATE_TRANSACTION_STATE)) return CREATE_TRANSACTION_STATE_CASE;  // CIL-467 needs this
+        switch (x) {
+            case GET_CLIENT:
+                return GET_CLIENT_CASE;
+            case SET_TRANSACTION_STATE:
+                return SET_TRANSACTION_STATE_CASE;
+            case CREATE_TRANSACTION_STATE:
+                return CREATE_TRANSACTION_STATE_CASE;
+            case CHECK_USER_CODE:
+                return CHECK_USER_CODE_CASE;
+        }
         return super.lookupCase(x);
     }
 }
