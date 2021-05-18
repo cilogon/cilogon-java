@@ -2,6 +2,7 @@ package org.cilogon.d2.storage.impl.postgres;
 
 
 import edu.uiuc.ncsa.security.storage.sql.ConnectionPool;
+import edu.uiuc.ncsa.security.storage.sql.ConnectionRecord;
 import org.cilogon.d2.storage.Sequence;
 import org.cilogon.d2.util.CILogonException;
 
@@ -23,10 +24,11 @@ public class PostgresSequence extends Sequence {
     @Override
     public long nextValue() throws CILogonException {
           long value = -1;
-          Connection c = null;
+        ConnectionRecord cr = getConnection();
+        Connection c = cr.connection;
+
           Statement stmt = null;
           try {
-              c = getConnection();
               stmt = c.createStatement();
               stmt.execute(getSequenceTable().nextValueStatement());
               ResultSet rs = stmt.getResultSet();
@@ -34,9 +36,9 @@ public class PostgresSequence extends Sequence {
               value = rs.getInt(1);
               rs.close();
               stmt.close();
-              releaseConnection(c);
+              releaseConnection(cr);
           } catch (SQLException e) {
-              destroyConnection(c);
+              destroyConnection(cr);
               throw new CILogonException("Error getting next value in sequence", e);
           }
           return value;

@@ -2,6 +2,7 @@ package org.cilogon.d2.storage;
 
 import edu.uiuc.ncsa.security.core.exceptions.GeneralException;
 import edu.uiuc.ncsa.security.storage.sql.ConnectionPool;
+import edu.uiuc.ncsa.security.storage.sql.ConnectionRecord;
 import edu.uiuc.ncsa.security.storage.sql.SQLDatabase;
 import org.cilogon.d2.storage.impl.sql.table.SequenceTable;
 import org.cilogon.d2.util.Incrementable;
@@ -31,16 +32,19 @@ abstract public class Sequence extends SQLDatabase implements Incrementable {
     @Override
     public boolean createNew(long initialValue) {
         String x = sequenceTable.createTableStatement((int) initialValue);
-        Connection c = null;
+        ConnectionRecord cr = getConnection();
+        Connection c = cr.connection;
+
         Statement stmt = null;
         try {
-            c = getConnection();
+
+           
             stmt = c.createStatement();
             stmt.executeUpdate(x);
             stmt.close();
-            releaseConnection(c);
+            releaseConnection(cr);
         } catch (SQLException e) {
-            destroyConnection(c);
+            destroyConnection(cr);
             throw new GeneralException("Error creating a new incrementable.", e);
         }
         return true;
@@ -48,18 +52,20 @@ abstract public class Sequence extends SQLDatabase implements Incrementable {
 
     @Override
     public boolean destroy() {
-        Connection c = null;
         Statement stmt = null;
+        ConnectionRecord cr = getConnection();
+        Connection c = cr.connection;
+
         try {
-            c = getConnection();
+
             stmt = c.createStatement();
             // No "drop sequence if exists" until we upgrade from postgres 8.x to 9.x...
             String dropIt = getSequenceTable().dropStatement();
             stmt.executeUpdate(dropIt);
             stmt.close();
-            releaseConnection(c);
+            releaseConnection(cr);
         } catch (SQLException e) {
-            destroyConnection(c);
+            destroyConnection(cr);
             throw new GeneralException("Error destroying the sequence", e);
         }
         return true;

@@ -7,6 +7,7 @@ import edu.uiuc.ncsa.security.core.util.IdentifiableProviderImpl;
 import edu.uiuc.ncsa.security.servlet.ServletDebugUtil;
 import edu.uiuc.ncsa.security.storage.data.MapConverter;
 import edu.uiuc.ncsa.security.storage.sql.ConnectionPool;
+import edu.uiuc.ncsa.security.storage.sql.ConnectionRecord;
 import edu.uiuc.ncsa.security.storage.sql.SQLStore;
 import edu.uiuc.ncsa.security.storage.sql.internals.ColumnMap;
 import edu.uiuc.ncsa.security.storage.sql.internals.Table;
@@ -136,7 +137,9 @@ public class CILSQLUserStore extends SQLStore<User> implements UserStore {
 
         selectStmt = selectStmt + " AND " + userKeys.idp() + "=?";
         ServletDebugUtil.trace(this, "select statement=\"" + selectStmt + "\"");
-        Connection c = getConnection();
+        ConnectionRecord cr = getConnection();
+        Connection c = cr.connection;
+
         User user = null;
         ArrayList<User> users = new ArrayList<>();
 
@@ -159,10 +162,10 @@ public class CILSQLUserStore extends SQLStore<User> implements UserStore {
             }
             rs.close();
             stmt.close();
-            releaseConnection(c);
+            releaseConnection(cr);
 
         } catch (SQLException e) {
-            destroyConnection(c);
+            destroyConnection(cr);
             throw new CILogonException("Error getting user with ids = \"" + userMultiKey + "\" and identity provider =\"" + idP + "\"", e);
         }
         if (users.isEmpty()) throw new UserNotFoundException();
@@ -240,7 +243,9 @@ public class CILSQLUserStore extends SQLStore<User> implements UserStore {
      */
     public User get(String remoteUser, String idP) {
 
-        Connection c = getConnection();
+        ConnectionRecord cr = getConnection();
+        Connection c = cr.connection;
+
         User user = null;
         try {
             PreparedStatement stmt = c.prepareStatement(getUserTable().selectUserStatement());
@@ -255,14 +260,14 @@ public class CILSQLUserStore extends SQLStore<User> implements UserStore {
             } else {
                 rs.close();
                 stmt.close();
-                releaseConnection(c);
+                releaseConnection(cr);
                 throw new UserNotFoundException("Error: no user found for remoteUser=" + remoteUser + ", and idp=" + idP);
             }
             rs.close();
             stmt.close();
-            releaseConnection(c);
+            releaseConnection(cr);
         } catch (SQLException e) {
-            destroyConnection(c);
+            destroyConnection(cr);
             throw new CILogonException("Error getting user with remote user name = \"" + remoteUser + "\" and identity provider =\"" + idP + "\"", e);
         }
         return user;
@@ -271,16 +276,18 @@ public class CILSQLUserStore extends SQLStore<User> implements UserStore {
 
 
     public boolean remove(String remoteUser, String idP) {
-        Connection c = getConnection();
+        ConnectionRecord cr = getConnection();
+        Connection c = cr.connection;
+
         try {
             PreparedStatement stmt = c.prepareStatement(getUserTable().removeUserStatement());
             stmt.setString(1, remoteUser);
             stmt.setString(2, idP);
             stmt.executeUpdate();
             stmt.close();
-            releaseConnection(c);
+            releaseConnection(cr);
         } catch (SQLException e) {
-            destroyConnection(c);
+            destroyConnection(cr);
             return false;
         }
         // note that if there is no entry for this, then there is no SQL error and we return true in any case.
@@ -321,7 +328,8 @@ public class CILSQLUserStore extends SQLStore<User> implements UserStore {
     }
 
     public Identifier getUserID(String userKey, String personName, String idP) {
-        Connection c = getConnection();
+        ConnectionRecord cr = getConnection();
+        Connection c = cr.connection;
         Identifier rc = null;
         try {
             PreparedStatement stmt = c.prepareStatement(getUserTable().getUserIDStatement(userKey));
@@ -334,10 +342,10 @@ public class CILSQLUserStore extends SQLStore<User> implements UserStore {
             } // Finish up using the database, then decide what to do. Catch any real DB exceptions that happen.
             rs.close();
             stmt.close();
-            releaseConnection(c);
+            releaseConnection(cr);
 
         } catch (Exception e) {
-            destroyConnection(c);
+            destroyConnection(cr);
             throw new CILogonException("Error getting uid for remote user = " + personName + ", and IdP = " + idP, e);
         }
         if (rc == null) {

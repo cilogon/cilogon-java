@@ -14,8 +14,6 @@ import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.cilogon.d2.util.DNUtil;
 
 import javax.servlet.ServletException;
-import java.io.IOException;
-import java.sql.SQLException;
 
 /**
  * <p>Created by Jeff Gaynor<br>
@@ -53,7 +51,7 @@ public class CILOA2Bootstrapper extends AbstractBootstrapper {
             }
             DNUtil.setComputeFNAL(se.isComputeFNAL());
 
-            try {
+ /*           try {
                 mps.processStoreCheck(se.getUserStore());
                 mps.processStoreCheck(se.getArchivedUserStore());
                 mps.processStoreCheck(se.getIDPStore());
@@ -66,7 +64,7 @@ public class CILOA2Bootstrapper extends AbstractBootstrapper {
                 e.printStackTrace();
                 throw new ServletException("Could not update table", e);
             }
-            super.init();
+ */           super.init();
         }
     }
 

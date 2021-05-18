@@ -6,6 +6,7 @@ import edu.uiuc.ncsa.security.core.util.DebugUtil;
 import edu.uiuc.ncsa.security.core.util.IdentifiableProviderImpl;
 import edu.uiuc.ncsa.security.storage.data.MapConverter;
 import edu.uiuc.ncsa.security.storage.sql.ConnectionPool;
+import edu.uiuc.ncsa.security.storage.sql.ConnectionRecord;
 import edu.uiuc.ncsa.security.storage.sql.SQLStore;
 import edu.uiuc.ncsa.security.storage.sql.internals.Table;
 import org.cilogon.d2.storage.ArchivedUser;
@@ -43,7 +44,9 @@ public class CILSQLArchivedUserStore extends SQLStore<ArchivedUser> implements A
     }
 
     public Identifier archiveUser(Identifier userID) {
-        Connection c = getConnection();
+        ConnectionRecord cr = getConnection();
+        Connection c = cr.connection;
+
         Identifier archivedUserID = getAUP().newId();
         try {
             PreparedStatement stmt = c.prepareStatement(getArchivedUserTable().addArchiveUser());
@@ -52,9 +55,9 @@ public class CILSQLArchivedUserStore extends SQLStore<ArchivedUser> implements A
             stmt.setString(2, userID.toString()); // this sets the id to get the user from the user table
             stmt.execute();// just execute() since executeQuery(x) would throw an exception regardless of content of x as per JDBC spec.
             stmt.close();
-            releaseConnection(c);
+            releaseConnection(cr);
         } catch (SQLException e) {
-            destroyConnection(c);
+            destroyConnection(cr);
             throw new GeneralException("Error: Could not archive user.", e);
         }
         return archivedUserID;
@@ -62,7 +65,9 @@ public class CILSQLArchivedUserStore extends SQLStore<ArchivedUser> implements A
 
 
     public List<ArchivedUser> getAllByUserId(Identifier userId) {
-        Connection c = getConnection();
+        ConnectionRecord cr = getConnection();
+        Connection c = cr.connection;
+
         List<ArchivedUser> aUsers = new LinkedList<ArchivedUser>();
         try {
             PreparedStatement stmt = c.prepareStatement(getArchivedUserTable().getArchivedUser());
@@ -77,9 +82,9 @@ public class CILSQLArchivedUserStore extends SQLStore<ArchivedUser> implements A
             }
             rs.close();
             stmt.close();
-            releaseConnection(c);
+            releaseConnection(cr);
         } catch (SQLException e) {
-            destroyConnection(c);
+            destroyConnection(cr);
             throw new GeneralException("Error: Could not get all users by id", e);
         }
         return aUsers;

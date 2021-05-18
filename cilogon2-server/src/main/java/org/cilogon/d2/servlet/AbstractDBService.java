@@ -16,6 +16,7 @@ import edu.uiuc.ncsa.security.delegation.storage.ClientKeys;
 import edu.uiuc.ncsa.security.delegation.token.AuthorizationGrant;
 import edu.uiuc.ncsa.security.delegation.token.TokenForge;
 import edu.uiuc.ncsa.security.servlet.ServletDebugUtil;
+import edu.uiuc.ncsa.security.storage.sql.ConnectionRecord;
 import org.cilogon.d2.storage.*;
 import org.cilogon.d2.storage.impl.sql.CILSQLTransactionStore;
 import org.cilogon.d2.twofactor.TwoFactorInfo;
@@ -739,7 +740,9 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
                 String identifier = t.getIdentifierString();
                 info("Trying to get legacy info for client with identifier " + identifier);
                 CILSQLTransactionStore transactionStore = (CILSQLTransactionStore) getTransactionStore();
-                Connection c = transactionStore.getConnection();
+                ConnectionRecord cr =transactionStore.getConnection();
+                Connection c = cr.connection;
+
                 String statement = "SELECT portal_name,success_uri,error_uri from cilogon.a_transaction where temp_cred=?";
                 try {
                     PreparedStatement stmt = c.prepareStatement(statement);
@@ -759,7 +762,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
                     t.setClient(ac); //don't save this, since the identifier is not unique!
                     rs.close();
                     stmt.close();
-                    transactionStore.releaseConnection(c);
+                    transactionStore.releaseConnection(cr);
                     info("Got legacy client info for " + identifier);
                 } catch (SQLException sqlx) {
                     sqlx.printStackTrace();

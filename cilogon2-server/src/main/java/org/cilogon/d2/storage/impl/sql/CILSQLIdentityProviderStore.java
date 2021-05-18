@@ -2,6 +2,7 @@ package org.cilogon.d2.storage.impl.sql;
 
 import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.storage.sql.ConnectionPool;
+import edu.uiuc.ncsa.security.storage.sql.ConnectionRecord;
 import edu.uiuc.ncsa.security.storage.sql.SQLStore;
 import edu.uiuc.ncsa.security.storage.sql.internals.Table;
 import org.cilogon.d2.storage.IdentityProvider;
@@ -58,7 +59,9 @@ public class CILSQLIdentityProviderStore extends SQLStore<IdentityProvider> impl
 
 
     public boolean hasIdp(String idp) {
-        Connection c = getConnection();
+        ConnectionRecord cr = getConnection();
+        Connection c = cr.connection;
+
         try {
             PreparedStatement stmt = c.prepareStatement(getIdpTable().hasIdpStatement());
             stmt.setString(1, idp);
@@ -67,10 +70,10 @@ public class CILSQLIdentityProviderStore extends SQLStore<IdentityProvider> impl
             boolean rc = rs.next();
             rs.close();
             stmt.close();
-            releaseConnection(c);
+            releaseConnection(cr);
             return rc;
         } catch (SQLException e) {
-            destroyConnection(c);
+            destroyConnection(cr);
             throw new CILogonException("Error getting identity providers", e);
         }
     }
@@ -84,15 +87,16 @@ public class CILSQLIdentityProviderStore extends SQLStore<IdentityProvider> impl
     }
 
     public void add(IdentityProvider idp) {
-        Connection c = getConnection();
+        ConnectionRecord cr = getConnection();
+        Connection c = cr.connection;
         try {
             PreparedStatement stmt = c.prepareStatement(getIdpTable().createInsertStatement());
             stmt.setString(1, idp.getIdentifierString());
             stmt.execute();// just execute() since executeQuery(x) would throw an exception regardless of content of x as per JDBC spec.
             stmt.close();
-            releaseConnection(c);
+            releaseConnection(cr);
         } catch (SQLException e) {
-            destroyConnection(c);
+            destroyConnection(cr);
             throw new CILogonException("Error adding identity provider = \"" + idp + "\"", e);
         }
     }
@@ -108,7 +112,8 @@ public class CILSQLIdentityProviderStore extends SQLStore<IdentityProvider> impl
             idps.remove(idp);
         }
         // This whittles it down to something manageable.
-        Connection c = getConnection();
+        ConnectionRecord cr = getConnection();
+        Connection c = cr.connection;
         try {
             c.setAutoCommit(false);
             PreparedStatement stmt = c.prepareStatement(getIdpTable().createInsertStatement());
@@ -135,14 +140,14 @@ public class CILSQLIdentityProviderStore extends SQLStore<IdentityProvider> impl
             stmt.close();
             c.commit();
             c.setAutoCommit(true);
-            releaseConnection(c);
+            releaseConnection(cr);
         } catch (SQLException e) {
             try {
                 c.rollback();
             } catch (SQLException e1) {
                 e1.printStackTrace();
             }
-            destroyConnection(c);
+            destroyConnection(cr);
             throw new CILogonException("Error adding identity provider list", e);
         }
     }

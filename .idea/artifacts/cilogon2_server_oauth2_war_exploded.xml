@@ -51,6 +51,7 @@
           <element id="library" level="project" name="Maven: net.minidev:json-smart:2.3" />
           <element id="library" level="project" name="Maven: net.minidev:accessors-smart:1.2" />
           <element id="library" level="project" name="Maven: org.ow2.asm:asm:5.0.4" />
+          <element id="library" level="project" name="Maven: ch.obermuhlner:big-math:2.3.0" />
           <element id="library" level="project" name="Maven: edu.uiuc.ncsa.myproxy:oa4mp-server-loader-oauth2:5.1-SNAPSHOT" />
           <element id="library" level="project" name="Maven: com.typesafe:config:1.4.0" />
           <element id="library" level="project" name="Maven: edu.uiuc.ncsa.security.delegation:ncsa-security-oauth-1.0a:5.1-SNAPSHOT" />

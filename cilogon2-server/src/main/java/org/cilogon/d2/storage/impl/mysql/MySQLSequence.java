@@ -2,6 +2,7 @@ package org.cilogon.d2.storage.impl.mysql;
 
 import edu.uiuc.ncsa.security.core.exceptions.GeneralException;
 import edu.uiuc.ncsa.security.storage.sql.ConnectionPool;
+import edu.uiuc.ncsa.security.storage.sql.ConnectionRecord;
 import org.cilogon.d2.storage.Sequence;
 import org.cilogon.d2.util.CILogonException;
 
@@ -28,10 +29,11 @@ public class MySQLSequence extends Sequence {
     @Override
     public long nextValue() {
         long value = -1;
-        Connection c = null;
+        ConnectionRecord cr = getConnection();
+        Connection c = cr.connection;
         Statement stmt = null;
         try {
-            c = getConnection();
+
             stmt = c.createStatement();
             stmt.executeUpdate(getSequenceTable().nextValueStatement(), RETURN_GENERATED_KEYS);
             ResultSet rs = stmt.getGeneratedKeys();
@@ -40,14 +42,14 @@ public class MySQLSequence extends Sequence {
             } else {
                 rs.close();
                 stmt.close();
-                releaseConnection(c);
+                releaseConnection(cr);
                 throw new GeneralException("Error: Could not retrieve the next value. There was some issue with MySQL.");
             }
             rs.close();
             stmt.close();
-            releaseConnection(c);
+            releaseConnection(cr);
         } catch (SQLException e) {
-            destroyConnection(c);
+            destroyConnection(cr);
             throw new CILogonException("Error getting next value in sequence", e);
         }
 
