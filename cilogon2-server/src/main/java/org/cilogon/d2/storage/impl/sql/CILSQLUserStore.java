@@ -141,7 +141,8 @@ public class CILSQLUserStore extends SQLStore<User> implements UserStore {
         Connection c = cr.connection;
 
         User user = null;
-        ArrayList<User> users = new ArrayList<>();
+        ArrayList<User> users
+                = new ArrayList<>();
 
         try {
             PreparedStatement stmt = c.prepareStatement(selectStmt);
