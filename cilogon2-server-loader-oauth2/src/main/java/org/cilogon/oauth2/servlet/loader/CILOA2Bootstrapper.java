@@ -51,20 +51,7 @@ public class CILOA2Bootstrapper extends AbstractBootstrapper {
             }
             DNUtil.setComputeFNAL(se.isComputeFNAL());
 
- /*           try {
-                mps.processStoreCheck(se.getUserStore());
-                mps.processStoreCheck(se.getArchivedUserStore());
-                mps.processStoreCheck(se.getIDPStore());
-                mps.processStoreCheck(se.getTwoFactorStore());
-                mps.processStoreCheck(se.getAdminClientStore());
-                mps.processStoreCheck(se.getPermissionStore());
-                mps.storeUpdates();
-
-            } catch (IOException | SQLException e) {
-                e.printStackTrace();
-                throw new ServletException("Could not update table", e);
-            }
- */           super.init();
+           super.init();
         }
     }
 

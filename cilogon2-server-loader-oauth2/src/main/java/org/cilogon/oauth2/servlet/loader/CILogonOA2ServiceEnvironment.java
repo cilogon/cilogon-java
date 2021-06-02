@@ -91,7 +91,8 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
                                         boolean isRFC8693Enabled,
                                         boolean isqdlStrictAcls,
                                         boolean safeGC,
-                                        boolean rfc8628Enabled
+                                        boolean rfc8628Enabled,
+                                        boolean isNotifyOnNewACClient
     ) {
         super(logger,
                 tsp,
@@ -123,7 +124,6 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
                 isRefreshtokenEnabled,
                 isTwoFactorSupportEnabled,
                 maxClientRefreshTokenLifetime,
-                //mldap,
                 jsonWebKeys,
                 issuer,
                 isUtilServletEnabled,
@@ -134,7 +134,8 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
                 isRFC8693Enabled,
                 isqdlStrictAcls,
                 safeGC,
-                rfc8628Enabled);
+                rfc8628Enabled,
+                isNotifyOnNewACClient);
         ciLogonSE = new CILogonSEImpl(usp, ausp, idpsp, incp, tfsp, isComputeFNAL);
         if (claimSource instanceof UserClaimSource) {
             ((UserClaimSource) claimSource).setOa2SE(this);
