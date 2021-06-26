@@ -2,6 +2,7 @@ package org.cilogon.d2.servlet;
 
 import edu.uiuc.ncsa.myproxy.oa4mp.server.servlet.MyProxyDelegationServlet;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.servlet.OA4MPServletInitializer;
+import edu.uiuc.ncsa.security.core.util.DebugUtil;
 import org.cilogon.d2.util.CILogonSE;
 import org.cilogon.d2.util.DNUtil;
 
@@ -18,7 +19,9 @@ public class CILServletInitializer extends OA4MPServletInitializer {
     public void init() throws ServletException {
         MyProxyDelegationServlet mps = (MyProxyDelegationServlet) getServlet();
           try {
+              // for production CILogon.
               CILogonSE se = (CILogonSE)getEnvironment();
+              DebugUtil.setPrintTS(se.isPrintTSInDebug());
               mps.processStoreCheck(se.getUserStore());
               mps.processStoreCheck(se.getArchivedUserStore());
               mps.processStoreCheck(se.getIDPStore());

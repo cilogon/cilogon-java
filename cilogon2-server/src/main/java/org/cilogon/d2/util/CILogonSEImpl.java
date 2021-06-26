@@ -105,4 +105,9 @@ public class CILogonSEImpl implements CILogonSE {
     public boolean isComputeFNAL() {
         return computeFNAL;
     }
+
+    @Override
+    public boolean isPrintTSInDebug() {
+        return false;
+    }
 }

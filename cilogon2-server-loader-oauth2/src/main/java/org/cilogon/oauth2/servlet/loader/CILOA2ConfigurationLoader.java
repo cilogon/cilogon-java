@@ -41,6 +41,7 @@ import org.cilogon.oauth2.servlet.storage.CILOA2TransactionstoreProvider;
 import javax.inject.Provider;
 
 import static edu.uiuc.ncsa.myproxy.oa4mp.server.admin.transactions.OA4MPIdentifierProvider.TRANSACTION_ID;
+import static edu.uiuc.ncsa.security.core.configuration.Configurations.getFirstAttribute;
 
 /**
  * This handles the extensions to OA4MP and serves as a facade for the CILogon store loader.
@@ -201,13 +202,29 @@ public class CILOA2ConfigurationLoader extends OA2ConfigurationLoader implements
                     isQdlStrictACLS(),
                     isSafeGC(),
                     isRFC8628Enabled(),
-                    isNotifyOnACNewClient());
+                    isNotifyOnACNewClient(),
+                    isprintTSInDebug());
             return  se;
         } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
             throw new GeneralException("Error: Could not create the runtime environment", e);
         }
     }
 
+    @Override
+    public boolean isprintTSInDebug() {
+            if(printTSInDebug == null){
+                try {
+                    printTSInDebug = Boolean.parseBoolean(getFirstAttribute(cn, PRINT_TS_IN_DEBUG));
+                } catch (Throwable t) {
+                    // use default which is to doo safe garbage collection.
+                    // We let this be null to trigger pulling the value, if any, out of the
+                    // the configuration
+                    printTSInDebug = Boolean.FALSE; // ONLY CHANGE FOR CILOGON is to make the default false.
+                }
+                DebugUtil.trace(this, "print TS in debug? " + printTSInDebug);
+            }
+            return printTSInDebug;
+        }
     @Override
     public ClaimSource getClaimSource() throws ClassNotFoundException, IllegalAccessException, InstantiationException {
         DebugUtil.trace(this, ".getClaimSource starting");

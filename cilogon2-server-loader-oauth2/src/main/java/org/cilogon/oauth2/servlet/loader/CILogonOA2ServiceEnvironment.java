@@ -92,7 +92,8 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
                                         boolean isqdlStrictAcls,
                                         boolean safeGC,
                                         boolean rfc8628Enabled,
-                                        boolean isNotifyOnNewACClient
+                                        boolean isNotifyOnNewACClient,
+                                        boolean isPrintTSInDebug
     ) {
         super(logger,
                 tsp,
@@ -135,7 +136,8 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
                 isqdlStrictAcls,
                 safeGC,
                 rfc8628Enabled,
-                isNotifyOnNewACClient);
+                isNotifyOnNewACClient,
+                isPrintTSInDebug);
         ciLogonSE = new CILogonSEImpl(usp, ausp, idpsp, incp, tfsp, isComputeFNAL);
         if (claimSource instanceof UserClaimSource) {
             ((UserClaimSource) claimSource).setOa2SE(this);

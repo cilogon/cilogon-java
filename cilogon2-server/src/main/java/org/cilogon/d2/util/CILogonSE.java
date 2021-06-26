@@ -24,4 +24,6 @@ public interface CILogonSE {
     void setMaxUserIdRetries(int maxUserIdRetries);
 
     boolean isComputeFNAL();
+
+    boolean isPrintTSInDebug();
 }
