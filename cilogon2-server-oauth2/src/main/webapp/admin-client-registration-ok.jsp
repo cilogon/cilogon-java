@@ -30,7 +30,10 @@
     <p>
       An administrator will contact you once your registration request 
       has been approved. <b>You cannot use your admin client until it has 
-      been approved.</b>
+      been approved.</b> While waiting for approval, please 
+      <a target="_blank" href="https://www.cilogon.org/service/outages">join
+      the CILogon mailing list</a> to be notified of service updates and
+      outages.
     </p>
 
     <p>
