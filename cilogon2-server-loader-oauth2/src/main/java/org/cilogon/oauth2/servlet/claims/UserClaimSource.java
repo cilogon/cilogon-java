@@ -2,6 +2,7 @@ package org.cilogon.oauth2.servlet.claims;
 
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.claims.BasicClaimsSourceImpl;
 import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
+import edu.uiuc.ncsa.security.core.util.DebugUtil;
 import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
 import edu.uiuc.ncsa.security.delegation.server.ServiceTransaction;
 import edu.uiuc.ncsa.security.oauth_2_0.OA2Scopes;
@@ -17,6 +18,8 @@ import org.cilogon.oauth2.servlet.loader.CILogonOA2ServiceEnvironment;
 import org.cilogon.oauth2.servlet.storage.CILOA2ServiceTransaction;
 
 import javax.servlet.http.HttpServletRequest;
+
+import static edu.uiuc.ncsa.security.oauth_2_0.server.claims.OA2Claims.PREFERRED_USERNAME;
 
 
 /**
@@ -81,9 +84,11 @@ public class UserClaimSource extends BasicClaimsSourceImpl implements OA2Scopes 
     public JSONObject process(JSONObject claims, ServiceTransaction transaction) throws UnsupportedScopeException {
         return process(claims, null, transaction);
     }
-       boolean isEmpty(String x){
+
+    boolean isEmpty(String x) {
         return x == null || x.isEmpty();
-       }
+    }
+
     @Override
     protected JSONObject realProcessing(JSONObject claims, HttpServletRequest request, ServiceTransaction transaction) throws UnsupportedScopeException {
         if (getServiceEnvironment() == null) {
@@ -99,20 +104,29 @@ public class UserClaimSource extends BasicClaimsSourceImpl implements OA2Scopes 
          */
         if (t.getScopes().contains(SCOPE_EMAIL)) {
 
-            if(!isEmpty(user.getEmail())) {
+            if (!isEmpty(user.getEmail())) {
                 // Even if the scope is requested, the user might not have one.
                 claims.put(OA2Claims.EMAIL, user.getEmail());
             }
         }
         if (t.getScopes().contains(SCOPE_PROFILE)) {
-            if(!isEmpty(user.getFirstName())) {
+            if (!isEmpty(user.getFirstName())) {
                 claims.put(OA2Claims.GIVEN_NAME, convertFromUTF7ToUTF8(user.getFirstName()));
             }
-            if(!isEmpty(user.getLastName())) {
+            if (!isEmpty(user.getLastName())) {
                 claims.put(OA2Claims.FAMILY_NAME, convertFromUTF7ToUTF8(user.getLastName()));
             }
-            if(!isEmpty(user.getDisplayName())){
+            if (!isEmpty(user.getDisplayName())) {
                 claims.put(OA2Claims.NAME, convertFromUTF7ToUTF8(user.getDisplayName()));
+            }
+            //Fixes CIL-1019
+            if (!user.getAttr_json().isEmpty()) {
+                DebugUtil.trace(this,"has a json attrib");
+                JSONObject saml = JSONObject.fromObject(user.getAttr_json());
+                if (saml.containsKey(PREFERRED_USERNAME)) {
+                    claims.put(PREFERRED_USERNAME, saml.getString(PREFERRED_USERNAME));
+                    DebugUtil.trace(this,"asserting " + PREFERRED_USERNAME + ":\"" + saml.getString(PREFERRED_USERNAME));
+                }
             }
         }
 
@@ -172,7 +186,7 @@ public class UserClaimSource extends BasicClaimsSourceImpl implements OA2Scopes 
                     // CIL-532 fix -- put in ALL of the values in the JSON attribute field and let the
                     // configuration select them rather than having this in the code.
                     for (Object key : json.keySet()) {
-                        if(!isEmpty(key.toString())) {
+                        if (!isEmpty(key.toString())) {
                             claims.put(key.toString(), json.getString(key.toString()));
                         }
                     }

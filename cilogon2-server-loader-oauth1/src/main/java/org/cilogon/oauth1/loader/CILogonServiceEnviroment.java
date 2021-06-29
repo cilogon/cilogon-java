@@ -116,4 +116,8 @@ public class CILogonServiceEnviroment extends ServiceEnvironmentImpl implements 
         return ciLogonSE.isComputeFNAL();
     }
 
+    @Override
+    public boolean isPrintTSInDebug() {
+        return ciLogonSE.isPrintTSInDebug();
+    }
 }
