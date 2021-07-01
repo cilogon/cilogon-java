@@ -34,4 +34,5 @@ public class MultiUserStoreProvider extends MultiTypeProvider<UserStore> {
         }
         return defaultStore;
     }
+
 }
