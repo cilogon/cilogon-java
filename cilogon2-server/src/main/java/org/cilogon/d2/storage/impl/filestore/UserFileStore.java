@@ -9,6 +9,7 @@ import edu.uiuc.ncsa.security.storage.FileStore;
 import edu.uiuc.ncsa.security.storage.data.MapConverter;
 import org.cilogon.d2.storage.*;
 import org.cilogon.d2.storage.provider.UserProvider;
+import org.cilogon.d2.util.Incrementable;
 import org.cilogon.d2.util.UserKeys;
 
 import java.io.File;
@@ -22,6 +23,12 @@ import java.util.Iterator;
  * on 3/2/12 at  12:52 PM
  */
 public class UserFileStore extends FileStore<User> implements UserStore {
+    @Override
+    public Incrementable getIncrementable() {
+        return incrementable;
+    }
+
+    Incrementable incrementable;
 
     public UserFileStore(File file, UserProvider up, MapConverter converter, boolean removeEmptyFiles) {
         super(file, up, converter, removeEmptyFiles);
@@ -37,8 +44,10 @@ public class UserFileStore extends FileStore<User> implements UserStore {
                          File indexDirectory,
                          IdentifiableProviderImpl<User> up,
                          MapConverter converter,
-                         boolean removeEmptyFiles) {
+                         boolean removeEmptyFiles,
+                         Incrementable incrementable) {
         super(storeDirectory, indexDirectory, up, converter, removeEmptyFiles);
+        this.incrementable = incrementable;
     }
 
     @Override
@@ -178,7 +187,7 @@ public class UserFileStore extends FileStore<User> implements UserStore {
         User user = null;
         try {
             user = super.get(key);
-        }catch(Throwable t){
+        } catch (Throwable t) {
             // there was some other error getting the user
             throw new UserNotFoundException("User not found for identifier=\"" + key + "\"");
         }

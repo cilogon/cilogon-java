@@ -4,6 +4,7 @@ import edu.uiuc.ncsa.security.core.Identifiable;
 import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.Store;
 import edu.uiuc.ncsa.security.storage.data.MapConverter;
+import org.cilogon.d2.util.Incrementable;
 
 import java.util.Collection;
 
@@ -20,6 +21,8 @@ import java.util.Collection;
  * on Mar 12, 2010 at  12:55:02 PM
  */
 public interface UserStore extends Store<User> {
+    Incrementable getIncrementable();
+
 
     /**
      * Save the current user but do <b>not</b> change the serial identifier. Note that this circumvents

@@ -719,14 +719,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
             getMyLogger().warn("No token found. Cannot retrieve transaction");
             throw new DBServiceException(StatusCodes.STATUS_TRANSACTION_NOT_FOUND);
         }
-        // Checking the timestamp fails as of version 5.0
-        
-/*        try {
-            DateUtils.checkTimestamp(ag.getToken());
-        } catch (Throwable t) {
-            getMyLogger().warn("Expired or bad token.");
-            throw new DBServiceException(STATUS_TRANSACTION_NOT_FOUND);
-        }*/
+
         ServiceTransaction t = getTransaction(ag);
         if (t == null) {
             getMyLogger().warn("Did not find portal parameters for transaction w/token =" + ag);

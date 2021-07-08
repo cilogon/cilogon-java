@@ -7,6 +7,7 @@ import edu.uiuc.ncsa.security.storage.data.MapConverter;
 import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.cilogon.d2.storage.User;
 import org.cilogon.d2.storage.impl.filestore.UserFileStore;
+import org.cilogon.d2.util.Incrementable;
 
 import java.io.File;
 
@@ -16,17 +17,20 @@ import java.io.File;
  */
 public class CILFSUserStoreProvider extends FSProvider<UserFileStore> implements OA4MPConfigTags {
     IdentifiableProviderImpl<User> userProvider;
+    Incrementable incrementable;
 
-    public CILFSUserStoreProvider(ConfigurationNode config, IdentifiableProviderImpl<User> userProvider,
-                                  MapConverter converter
+    public CILFSUserStoreProvider(ConfigurationNode config,
+                                  IdentifiableProviderImpl<User> userProvider,
+                                  MapConverter converter,
+                                  Incrementable incrementable
                                   ) {
         super(config, FILE_STORE, USERS, converter);
         this.userProvider = userProvider;
-
+                                this.incrementable = incrementable;
     }
 
     @Override
     protected UserFileStore produce(File dataPath, File indexPath, boolean removeEmptyFiles) {
-        return new UserFileStore(dataPath,indexPath,userProvider, converter, removeEmptyFiles);
+        return new UserFileStore(dataPath,indexPath,userProvider, converter, removeEmptyFiles, incrementable);
     }
 }

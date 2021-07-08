@@ -24,7 +24,7 @@ import org.junit.runners.Suite;
         DBServiceTests.class,
         DBServiceUserIDTests.class,
         DBServiceUserTests.class,
-        // Other tests
+      // Other tests
         TemplateTest.class,
         TwoFactorStoreTest.class,
         TokenTest.class,

@@ -2,6 +2,7 @@ package org.cilogon.d2.storage.impl.sql;
 
 import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.cache.SimpleEntryImpl;
+import edu.uiuc.ncsa.security.core.exceptions.NotImplementedException;
 import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
 import edu.uiuc.ncsa.security.core.util.IdentifiableProviderImpl;
 import edu.uiuc.ncsa.security.servlet.ServletDebugUtil;
@@ -15,6 +16,7 @@ import org.cilogon.d2.storage.*;
 import org.cilogon.d2.storage.impl.sql.table.UserTable;
 import org.cilogon.d2.storage.provider.UserProvider;
 import org.cilogon.d2.util.CILogonException;
+import org.cilogon.d2.util.Incrementable;
 import org.cilogon.d2.util.UserKeys;
 
 import java.sql.Connection;
@@ -28,6 +30,13 @@ import java.util.*;
  * on Mar 12, 2010 at  3:41:37 PM
  */
 public class CILSQLUserStore extends SQLStore<User> implements UserStore {
+    Incrementable incrementable;
+
+    @Override
+    public Incrementable getIncrementable() {
+        return incrementable;
+    }
+
     @Override
     public User createAndRegisterUser(UserMultiID userMultiKey,
                                       String idP,
@@ -40,9 +49,10 @@ public class CILSQLUserStore extends SQLStore<User> implements UserStore {
                                       String organizationalUnit) {
         Identifier uid = null;
         User user = create(true);
-        ServletDebugUtil.trace(this,"created new user" + user);
+        ServletDebugUtil.trace(this, "created new user" + user);
 
         uid = user.getIdentifier();
+        System.err.println(this.getClass().getSimpleName() + ": start user uid = " + uid + " ss = " + user.getSerialIdentifier());
         user.setCreationTime(new Date());
         user.setIdP(idP);
         user.setSerialIdentifier(uid); // for a new user these are identical. This might change though over time.
@@ -54,16 +64,19 @@ public class CILSQLUserStore extends SQLStore<User> implements UserStore {
         user.setAffiliation(affiliation);
         user.setDisplayName(displayName);
         user.setOrganizationalUnit(organizationalUnit);
-        ServletDebugUtil.trace(this,"registering new user" + user);
+        ServletDebugUtil.trace(this, "registering new user" + user);
 
         register(user);
-        ServletDebugUtil.trace(this,"AFTER registering new user" + user);
+        ServletDebugUtil.trace(this, "AFTER registering new user" + user);
+        System.err.println(this.getClass().getSimpleName() + ": AFTER user uid = " + user.getIdentifier() + " ss = " + user.getSerialIdentifier());
+
         return user;
     }
 
     /**
      * This will find the name from the PersonName and, if there is one, return an SQL snippet of the form
      * <code>key=?</code> to be added to the select statement.
+     *
      * @param personName
      * @param key
      * @return
@@ -71,8 +84,8 @@ public class CILSQLUserStore extends SQLStore<User> implements UserStore {
     protected String selectSnippet(PersonName personName, String key) {
         if (personName == null) return null;
         if (personName.getName() == null || personName.getName().length() == 0) return null;
-        String out =  key + "=?";
-        ServletDebugUtil.trace(this,"in selectSnippet, snippet = \"" + out + "\"");
+        String out = key + "=?";
+        ServletDebugUtil.trace(this, "in selectSnippet, snippet = \"" + out + "\"");
         return out;
     }
 
@@ -105,17 +118,17 @@ public class CILSQLUserStore extends SQLStore<User> implements UserStore {
             gotOne = true;
         }
         snippet = selectSnippet(userMultiKey.getPairwiseID(), userKeys.pairwiseId());
-         if (snippet != null) {
-             foundIds.add(userMultiKey.getPairwiseID().getName());
-             zzz = zzz + (gotOne ? " OR " : " ") + snippet;
-             gotOne = true;
-         }
+        if (snippet != null) {
+            foundIds.add(userMultiKey.getPairwiseID().getName());
+            zzz = zzz + (gotOne ? " OR " : " ") + snippet;
+            gotOne = true;
+        }
         snippet = selectSnippet(userMultiKey.getSubjectID(), userKeys.subjectId());
-         if (snippet != null) {
-             foundIds.add(userMultiKey.getSubjectID().getName());
-             zzz = zzz + (gotOne ? " OR " : " ") + snippet;
-             gotOne = true;
-         }
+        if (snippet != null) {
+            foundIds.add(userMultiKey.getSubjectID().getName());
+            zzz = zzz + (gotOne ? " OR " : " ") + snippet;
+            gotOne = true;
+        }
         snippet = selectSnippet(userMultiKey.getOpenID(), userKeys.openID());
         if (snippet != null) {
             foundIds.add(userMultiKey.getOpenID().getName());
@@ -158,7 +171,7 @@ public class CILSQLUserStore extends SQLStore<User> implements UserStore {
                 user = create(false);
                 ColumnMap map = rsToMap(rs);
                 populate(map, user);
-                ServletDebugUtil.trace(this,"Adding user = " + user);
+                ServletDebugUtil.trace(this, "Adding user = " + user);
                 users.add(user);
             }
             rs.close();
@@ -185,8 +198,10 @@ public class CILSQLUserStore extends SQLStore<User> implements UserStore {
     public CILSQLUserStore(ConnectionPool connectionPool,
                            Table table,
                            IdentifiableProviderImpl<User> idp,
-                           MapConverter converter) {
+                           MapConverter converter,
+                           Incrementable incrementable) {
         super(connectionPool, table, idp, converter);
+        this.incrementable = incrementable;
     }
 
     protected UserProvider getUserProvider() {
@@ -222,7 +237,7 @@ public class CILSQLUserStore extends SQLStore<User> implements UserStore {
 
     @Override
     public User create(boolean newSerialString) {
-        User user = getUserProvider().get(true); // create with an identifier. decide about the serial string later
+        User user = getUserProvider().get(newSerialString); // create with an identifier. decide about the serial string later
         // check if this in use in the store.
         if (newSerialString && containsKey(user.getIdentifier())) {
             throw new InvalidUserIdException("Error: The id \"" + user.getIdentifierString() + "\" is already in use.");
@@ -306,7 +321,7 @@ public class CILSQLUserStore extends SQLStore<User> implements UserStore {
      * Update the user. <B>NOTE:</b> it is up to the programmer to archive the user prior to making any updates,
      * if that is warranted.
      * <b><it>This updates the serial string!!</it></b> If you do not want the serial string updated, you should use
-     * {@link #update(User, boolean)} with the second argument of <code>true</code>. 
+     * {@link #update(User, boolean)} with the second argument of <code>true</code>.
      *
      * @param user
      * @

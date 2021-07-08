@@ -11,6 +11,7 @@ import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.cilogon.d2.storage.User;
 import org.cilogon.d2.storage.impl.sql.CILSQLUserStore;
 import org.cilogon.d2.storage.impl.sql.table.UserTable;
+import org.cilogon.d2.util.Incrementable;
 import org.cilogon.d2.util.UserKeys;
 
 /**
@@ -23,16 +24,19 @@ public class CILSQLUserStoreProvider extends SQLStoreProvider<CILSQLUserStore> i
             ConnectionPoolProvider<? extends ConnectionPool> cpp,
             String type,
             IdentifiableProviderImpl<User> userProvider,
-            MapConverter converter) {
+            MapConverter converter,
+            Incrementable incrementable) {
         super(config, cpp, type, USERS, converter);
         this.userProvider = userProvider;
+        this.incrementable = incrementable;
     }
 
+                                       Incrementable incrementable;
 
     IdentifiableProviderImpl<User> userProvider;
     @Override
     public CILSQLUserStore newInstance(Table table) {
-        return new CILSQLUserStore(getConnectionPool(),table,userProvider, converter);
+        return new CILSQLUserStore(getConnectionPool(),table,userProvider, converter, incrementable);
     }
 
     @Override

@@ -7,19 +7,24 @@ import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.cilogon.d2.storage.User;
 import org.cilogon.d2.storage.UserStore;
 import org.cilogon.d2.storage.impl.memorystore.MemoryUserStore;
+import org.cilogon.d2.util.Incrementable;
 
 /**
  * <p>Created by Jeff Gaynor<br>
  * on 3/19/12 at  6:20 PM
  */
 public class MultiUserStoreProvider extends MultiTypeProvider<UserStore> {
+    Incrementable incrementable;
     IdentifiableProviderImpl<User> userProvider;
 
     public MultiUserStoreProvider(ConfigurationNode cn,
                                   boolean disableDefaultStore,
-                                  MyLoggingFacade loggingFacade, IdentifiableProviderImpl<User> userProvider) {
+                                  MyLoggingFacade loggingFacade,
+                                  IdentifiableProviderImpl<User> userProvider,
+                                  Incrementable incrementable) {
         super(cn, disableDefaultStore, loggingFacade, null, null);
         this.userProvider = userProvider;
+        this.incrementable = incrementable;
     }
 
 
@@ -30,7 +35,7 @@ public class MultiUserStoreProvider extends MultiTypeProvider<UserStore> {
         // be multiple, inconsistent copies.
         if(defaultStore == null){
               logger.info("Using default in memory user store.");
-            defaultStore = new MemoryUserStore(userProvider);
+            defaultStore = new MemoryUserStore(userProvider, incrementable);
         }
         return defaultStore;
     }

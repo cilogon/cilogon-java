@@ -443,7 +443,7 @@ public class DBServiceUserIDTests extends RemoteDBServiceTest {
         checkGetUser(openIdConnectKey, badIdp);
     }
 
-    // useronly in previous method.
+    // user only in previous method.
     private void checkGetUser(UserMultiID key, String badIdp) throws Exception {
         User user = newUser();
         user.setUserMultiKey(key);

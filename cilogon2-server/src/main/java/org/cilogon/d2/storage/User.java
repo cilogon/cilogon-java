@@ -27,13 +27,6 @@ public class User extends IdentifiableImpl {
         if (userMultiKey == null) {
             // Need an empty one. Easiest to construct one with a forced single null entry since the other are set null too.
             userMultiKey = new UserMultiID((EduPersonTargetedID)null);
-                    /*getRemoteUser(),
-                    getePPN(),
-                    getePTID(),
-                    getOpenID(),
-                    getOpenIDConnect(),
-                    getPairwiseID(),
-                    getSubjectID()); */
         }
         return userMultiKey;
     }

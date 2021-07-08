@@ -9,6 +9,7 @@ import org.cilogon.d2.CILTestStoreProviderI2;
 import org.cilogon.d2.RemoteDBServiceTest;
 import org.cilogon.d2.ServiceTestUtils;
 import org.cilogon.d2.storage.*;
+import org.cilogon.d2.storage.impl.memorystore.MemorySequence;
 import org.cilogon.d2.storage.impl.memorystore.MemoryUserStore;
 import org.cilogon.d2.storage.provider.UserIdentifierProvider;
 import org.cilogon.d2.storage.provider.UserProvider;
@@ -40,6 +41,9 @@ public class UserStoreTest extends TestBase {
 
 
     public void doTests(CILTestStoreProviderI2 provider) throws Exception {
+        testNoNewSerialStringOnUserGet(provider.getUserStore(),
+                provider.getSequence(),
+                provider.getIDP());
         testFNAL(provider.getUserStore());
         testUTF7(provider.getUserStore());
         testUTF7RegressionTest(provider.getUserStore());
@@ -54,9 +58,53 @@ public class UserStoreTest extends TestBase {
         testInCommon(provider.getUserStore(), provider.getIDP());
         testLIGOUser(provider.getUserStore());
         testOpenIdUser(provider.getUserStore());
+
     }
 
+    /**
+     * regression test for CIL-1030: Getting a user repeatedly should never cause the {@link Incrementable}
+     * to change.
+     * @param userStore
+     * @param incrementable
+     * @throws Exception
+     */
+    public void testNoNewSerialStringOnUserGet(UserStore userStore,
+                                               Incrementable incrementable,
+                                               IdentityProviderStore identityProviderStore) throws Exception {
+        User user = null;
+         IdentityProvider idp = new IdentityProvider(newID(URI.create("urn:identity/prov/" + getRandomString())));
+         String r = getRandomString();
+         UserMultiID umk = createRU(r);
+         identityProviderStore.register(idp);
+         user = userStore.createAndRegisterUser(umk, idp.getIdentifierString(), "idp display name", "bob", "smith", "bob@smith.com",
+                 "affiliation" + r, "display" + r, "urn:ou:" + r);
+        Identifier serialID = user.getSerialIdentifier();
+        System.out.println("starting user ss: " + serialID);
+         for (int i = 0; i < 2*count; i++) {
+             userStore.get(user.getIdentifier());
+         }
+        System.out.println("Post get\n   user ss: " + user.getSerialIdentifier());
+         // repeat for updates.
+        for (int i = 0; i < 2*count; i++) {
+            userStore.update(user);
+        }
+       System.out.println("Post update\n   user ss: " + user.getSerialIdentifier());
+       // repeat for save
+        for (int i = 0; i < 2*count; i++) {
+            userStore.save(user);
+        }
+       System.out.println("Post update\n   user ss: " + user.getSerialIdentifier());
+       long originalSS = grabSerialNumber(serialID);
+       long nextIncr = incrementable.nextValue();
+        //assert originalSS == nextIncr-1 : "expected " + originalSS + " but got " + (nextIncr - 1);
+        System.out.println( "expected " + originalSS + " but got " + (nextIncr - 1));
+     }
+      protected long grabSerialNumber(Identifier serialID){
+          String p = serialID.getUri().getPath();
+          p = p.substring(p.lastIndexOf("/")+1);
+          return Long.parseLong(p);
 
+      }
     public void testNextValue(Incrementable incrementable) throws Exception {
         //Incrementable incrementable = getCILStoreTestProvider().getSequence();
         long start = incrementable.nextValue();
@@ -520,13 +568,16 @@ public class UserStoreTest extends TestBase {
         String y = getRandomString();
         user.setFirstName("first-" + y);
         userStore.update(user);
-        assert !user.getSerialIdentifier().equals(identifier) : "old serial id=" + identifier + ", new id=" + user.getSerialIdentifier() + ". These should not be equal.";
+        assert !user.getSerialIdentifier().equals(identifier) :
+                "old serial id=" + identifier + ", new id=" + user.getSerialIdentifier() + ". These should not be equal.";
 
-        // And now check that the save method actually does choose the right method, updating if the user exists.
+        // And now check that the save method actually does choose the right method,
+        // updating if the user exists.
         identifier = user.getSerialIdentifier();
         user.setLastName("last-" + y);
         userStore.save(user);
-        assert !user.getSerialIdentifier().equals(identifier) : "old serial id=" + identifier + ", new id=" + user.getSerialIdentifier() + ". These should not be equal.";
+        assert !user.getSerialIdentifier().equals(identifier) :
+                "old serial id=" + identifier + ", new id=" + user.getSerialIdentifier() + ". These should not be equal.";
         userStore.remove(user.getIdentifier());
     }
 
@@ -578,7 +629,8 @@ public class UserStoreTest extends TestBase {
      */
     @Test
     public void testBadIncrementable() throws Exception {
-        MemoryUserStore store = new MemoryUserStore(new UserProvider(new MyUIDProvider(), null));
+        MemoryUserStore store = new MemoryUserStore(new UserProvider(new MyUIDProvider(),
+                null), new MemorySequence(2L));
         String r = getRandomString();
 
         // It has been saved as part of the registration process and is in the store.

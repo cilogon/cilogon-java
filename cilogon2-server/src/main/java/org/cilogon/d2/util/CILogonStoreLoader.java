@@ -117,19 +117,21 @@ public  class CILogonStoreLoader<T extends ServiceEnvironmentImpl> extends DBCon
 
     public MultiUserStoreProvider getUSP() {
         if (usp == null) {
-            usp = new MultiUserStoreProvider(cn, isDefaultStoreDisabled(), loggerProvider.get(), getUP());
+
+            usp = new MultiUserStoreProvider(cn, isDefaultStoreDisabled(), loggerProvider.get(),
+                    getUP(), getIp().get());
             UserConverter converter = new UserConverter(getUP());
 
-            usp.addListener(new CILFSUserStoreProvider(cn, getUP(), converter));
+            usp.addListener(new CILFSUserStoreProvider(cn, getUP(), converter, getIp().get()));
             usp.addListener(new CILSQLUserStoreProvider(cn,
                     getPgConnectionPoolProvider(),
-                    POSTGRESQL_STORE, getUP(), converter));
+                    POSTGRESQL_STORE, getUP(), converter,getIp().get()));
             usp.addListener(new CILSQLUserStoreProvider(cn,
                     getMySQLConnectionPoolProvider(),
-                    MYSQL_STORE, getUP(), converter));
+                    MYSQL_STORE, getUP(), converter,getIp().get()));
             usp.addListener(new CILSQLUserStoreProvider(cn,
                     getMariaDBConnectionPoolProvider(),
-                    MARIADB_STORE, getUP(), converter));
+                    MARIADB_STORE, getUP(), converter,getIp().get()));
 
         }
         return usp;

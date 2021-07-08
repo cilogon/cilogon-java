@@ -7,6 +7,7 @@ import edu.uiuc.ncsa.security.storage.MemoryStore;
 import edu.uiuc.ncsa.security.storage.data.MapConverter;
 import org.cilogon.d2.storage.*;
 import org.cilogon.d2.storage.provider.UserProvider;
+import org.cilogon.d2.util.Incrementable;
 import org.cilogon.d2.util.UserConverter;
 import org.cilogon.d2.util.UserKeys;
 
@@ -89,9 +90,18 @@ public class MemoryUserStore extends MemoryStore<User> implements UserStore {
         throw new UserNotFoundException("Error: could not uniquely resolve user.");
     }
 
-    public MemoryUserStore(IdentifiableProviderImpl<User> up) {
-        super(up);
+    @Override
+    public Incrementable getIncrementable() {
+        return incrementable;
     }
+
+    Incrementable incrementable;
+
+    public MemoryUserStore(IdentifiableProviderImpl<User> up, Incrementable incrementable) {
+        super(up);
+        this.incrementable = incrementable;
+    }
+
 
     protected UserProvider getUserProvider() {
         return (UserProvider) identifiableProvider;
