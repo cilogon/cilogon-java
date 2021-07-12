@@ -250,7 +250,19 @@ public class DBService2 extends AbstractDBService {
             doError("No user code parameter was found.", STATUS_MISSING_ARGUMENT, response);
             return;
         }
+        if(StringUtils.isTrivial(request.getParameter(USER_CODE_PARAMETER))){
+            doError("No user code parameter was found.", STATUS_MISSING_ARGUMENT, response);
+                        return;
+        }
         int approved = 1; // default
+        /*
+        This is similar to checkUserCode. If user_code parameter is given
+         but empty, or if user_code parameter
+        is not given, return 'missing_parameter'.
+
+        If approved parameter is given but empty, that's the same as approved parameter is not given,
+        so default to '1' (i.e., user_code is approved).
+         */
         if (request.getParameterMap().containsKey(USER_CODE_APPROVED_PARAMETER)) {
             try {
                 approved = Integer.parseInt(request.getParameter(USER_CODE_APPROVED_PARAMETER));
