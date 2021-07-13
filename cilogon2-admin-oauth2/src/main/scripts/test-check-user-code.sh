@@ -6,8 +6,6 @@
 # Example of what this calls:
 # curl -s -G -k --data-urlencode 'action=checkUserCode' --data-urlencode 'user_code=HPS-TG5-GC2' 'https://localhost:9443/oauth2/dbService'
 
-# Side note -- on the polos, the service is at http://localhost:8080/oauth2/dbService
-
 if [[  "$1" = "--help"  ]];then
   echo "checkUserCode user_code"
   echo "user_code - from the device flow for the service."
@@ -18,7 +16,9 @@ if [[  "$1" = "--help"  ]];then
 fi
 
 
-DBSERVICE='https://localhost:9443/oauth2/dbService'
+DBSERVICE='http://localhost:8080/oauth2/dbService'
+# On my system
+# DBSERVICE='https://localhost:9443/oauth2/dbService'
 DATA=('action=checkUserCode')
 DATA+=("user_code=$1")
 

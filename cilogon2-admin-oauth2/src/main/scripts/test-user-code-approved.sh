@@ -7,7 +7,6 @@
 # example of what this calls
 # curl -s -G -k --data-urlencode 'action=userCodeApproved' --data-urlencode 'user_code=KL5-VNP-5J5' --data-urlencode 'approved=1' 'https://localhost:9443/oauth2/dbService'
 
-# Side note -- on the polos, the service is at http://localhost:8080/oauth2/dbService
 
 if [[  "$1" = "--help"  ]];then
   echo "userCodeApproved user_code is_approved"
@@ -20,7 +19,9 @@ if [[  "$1" = "--help"  ]];then
 fi
 
 
-DBSERVICE='https://localhost:9443/oauth2/dbService'
+DBSERVICE='http://localhost:8080/oauth2/dbService'
+# On my system:
+#DBSERVICE='https://localhost:9443/oauth2/dbService'
 DATA=('action=userCodeApproved')
 DATA+=("user_code=$1")
 DATA+=("approved=$2")
