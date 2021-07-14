@@ -4,19 +4,18 @@ import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.OA2SE;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.OA2ServiceTransaction;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.servlet.OA2ClientUtils;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.servlet.RFC8628Servlet;
+import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.servlet.RFC8628ServletConfig;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.servlet.RFC8628State;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.state.ScriptRuntimeEngineFactory;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.clients.OA2Client;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.clients.OA2ClientApprovalKeys;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.clients.OA2ClientKeys;
+import edu.uiuc.ncsa.myproxy.oa4mp.server.servlet.MyProxyDelegationServlet;
 import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.exceptions.GeneralException;
 import edu.uiuc.ncsa.security.core.exceptions.InvalidTimestampException;
 import edu.uiuc.ncsa.security.core.exceptions.NFWException;
-import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
-import edu.uiuc.ncsa.security.core.util.DateUtils;
-import edu.uiuc.ncsa.security.core.util.DebugUtil;
-import edu.uiuc.ncsa.security.core.util.StringUtils;
+import edu.uiuc.ncsa.security.core.util.*;
 import edu.uiuc.ncsa.security.delegation.token.impl.AuthorizationGrantImpl;
 import edu.uiuc.ncsa.security.delegation.token.impl.TokenUtils;
 import edu.uiuc.ncsa.security.oauth_2_0.OA2Constants;
@@ -75,7 +74,9 @@ public class DBService2 extends AbstractDBService {
 
     public static final String CHECK_USER_CODE = "checkUserCode";
     public static final int CHECK_USER_CODE_CASE = 740;
-    public static final String USER_CODE_PARAMETER = "userCode";
+    public static final String CHECK_CODE_APPROVED = "userCodeApproved";
+    public static final int CHECK_CODE_APPROVED_CASE = 741;
+    public static final String USER_CODE_PARAMETER = "user_code";
     public static final String USER_CODE_APPROVED_PARAMETER = "approved";
     //public static final int STATUS_MISSING = 0x10013; //65555
 
@@ -110,6 +111,9 @@ public class DBService2 extends AbstractDBService {
                 return;
             case CHECK_USER_CODE_CASE:
                 checkUserCode(request, response);
+                return;
+            case CHECK_CODE_APPROVED_CASE:
+                userCodeApproved(request, response);
                 return;
         }
         super.doAction(request, response, action);
@@ -150,6 +154,7 @@ public class DBService2 extends AbstractDBService {
      * @throws IOException
      */
     protected void checkUserCode(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
         if (!request.getParameterMap().containsKey(USER_CODE_PARAMETER)) {
             // missing parameter
             doError("No user code parameter was found.", STATUS_MISSING_ARGUMENT, response);
@@ -159,64 +164,70 @@ public class DBService2 extends AbstractDBService {
         if (StringUtils.isTrivial(userCode)) {
             doError("No user code parameter was found.", STATUS_MISSING_ARGUMENT, response);
         }
-        userCode = RFC8628Servlet.convertToCanonicalForm(userCode);
+        RFC8628ServletConfig rfc8628ServletConfig = ((OA2SE)getServiceEnvironment()).getRfc8628ServletConfig();
+
+        userCode = RFC8628Servlet.convertToCanonicalForm(userCode,rfc8628ServletConfig);
 
         CILogonOA2ServiceEnvironment se = (CILogonOA2ServiceEnvironment) getServiceEnvironment();
         if (!se.isRfc8628Enabled()) {
             doError("Device flow is not available on this server.", STATUS_SERVICE_UNAVAILABLE, response);
             return;
         }
-        if (RFC8628Servlet.getCache().containsKey(userCode)) {
-            String rawAG = RFC8628Servlet.getCache().get(userCode);
-            if (StringUtils.isTrivial(rawAG)) {
-                doError("token not found.", STATUS_EXPIRED_TOKEN, response);
-            }
-
-            // It is possible that the transaction was garbage collected but the GC hasn't removed it
-            // from the cache, so we do have to check if the ag is expired.
-            AuthorizationGrantImpl ag = new AuthorizationGrantImpl(URI.create(rawAG));
-            if (ag.isExpired()) {
-                doError("token not found.", STATUS_EXPIRED_TOKEN, response);
-                return;
-            }
-            CILOA2ServiceTransaction transaction = (CILOA2ServiceTransaction) se.getTransactionStore().get(ag);
-
-            if (transaction == null) {
-                // Then the pending transaction got garbage collected so it effectively timed out
-                doError("transaction not found.", STATUS_TRANSACTION_NOT_FOUND, response);
-                return;
-            }
-            if (!transaction.isRFC8628Request()) {
-                doError("invalid token.", STATUS_TRANSACTION_NOT_FOUND, response);
-                return;
-            }
-            String scopes = "";
-            if (!transaction.getScopes().isEmpty()) {
-                boolean firstPass = true;
-                for (String s : transaction.getScopes()) {
-                    if (firstPass) {
-                        firstPass = false;
-                        scopes = s;
-                    } else {
-                        scopes = scopes + " " + s;
-                    }
-                }
-            }
-
-            startWrite(response);
-            PrintWriter printWriter = response.getWriter();
-            printWriter.println(STATUS_KEY + "=" + STATUS_OK);
-            printWriter.println(CLIENT_ID + "=" + transaction.getClient().getIdentifierString());
-            printWriter.println("grant=" + TokenUtils.b32EncodeToken(ag.getToken()));
-            printWriter.println("scope=" + scopes);
-            printWriter.println("user_code=" + userCode);
-            printWriter.flush();
-            printWriter.close();
-            stopWrite(response);
+        if (!RFC8628Servlet.getCache().containsKey(userCode)) {
+            doError("transaction not found.", STATUS_TRANSACTION_NOT_FOUND, response);
             return;
         }
+        String rawAG = RFC8628Servlet.getCache().get(userCode);
+        if (StringUtils.isTrivial(rawAG)) {
+            doError("token not found.", STATUS_EXPIRED_TOKEN, response);
+        }
 
-        writeUserCodeNotFound(response);
+        // It is possible that the transaction was garbage collected but the GC hasn't removed it
+        // from the cache, so we do have to check if the ag is expired.
+        AuthorizationGrantImpl ag = new AuthorizationGrantImpl(URI.create(rawAG));
+        if (ag.isExpired()) {
+            doError("token not found.", STATUS_EXPIRED_TOKEN, response);
+            return;
+        }
+        CILOA2ServiceTransaction transaction = (CILOA2ServiceTransaction) se.getTransactionStore().get(ag);
+
+        if (transaction == null) {
+            // Then the pending transaction got garbage collected so it effectively timed out
+            doError("transaction not found.", STATUS_TRANSACTION_NOT_FOUND, response);
+            return;
+        }
+        MetaDebugUtil debugger = MyProxyDelegationServlet.createDebugger(transaction.getClient());
+        debugger.trace(this, "checking transaction.");
+        if (!transaction.isRFC8628Request()) {
+            doError("invalid token.", STATUS_TRANSACTION_NOT_FOUND, response);
+            return;
+        }
+        String scopes = "";
+        if (!transaction.getScopes().isEmpty()) {
+            boolean firstPass = true;
+            for (String s : transaction.getScopes()) {
+                if (firstPass) {
+                    firstPass = false;
+                    scopes = s;
+                } else {
+                    scopes = scopes + " " + s;
+                }
+            }
+        }
+
+        startWrite(response);
+        PrintWriter printWriter = response.getWriter();
+        printWriter.println(STATUS_KEY + "=" + STATUS_OK);
+        printWriter.println(CLIENT_ID + "=" + transaction.getClient().getIdentifierString());
+        debugger.trace(this, "writing response for grant = " + ag.getToken());
+        printWriter.println("grant=" + TokenUtils.b32EncodeToken(ag.getToken()));
+        printWriter.println("scope=" + scopes);
+        printWriter.println("user_code=" + userCode);
+        printWriter.flush();
+        printWriter.close();
+        stopWrite(response);
+        return;
+
 
     }
 
@@ -250,9 +261,9 @@ public class DBService2 extends AbstractDBService {
             doError("No user code parameter was found.", STATUS_MISSING_ARGUMENT, response);
             return;
         }
-        if(StringUtils.isTrivial(request.getParameter(USER_CODE_PARAMETER))){
+        if (StringUtils.isTrivial(request.getParameter(USER_CODE_PARAMETER))) {
             doError("No user code parameter was found.", STATUS_MISSING_ARGUMENT, response);
-                        return;
+            return;
         }
         int approved = 1; // default
         /*
@@ -273,65 +284,92 @@ public class DBService2 extends AbstractDBService {
                         STATUS_MISSING_ARGUMENT, response);
             }
         }
+        if (approved != 0 && approved != 1) {
+            doError("illegal argument approved = \"" + approved + "\"", STATUS_MALFORMED_INPUT, response);
+            return;
+        }
+
         String userCode = request.getParameter(USER_CODE_PARAMETER);
         if (StringUtils.isTrivial(userCode)) {
             doError("No user code parameter was found.", STATUS_MISSING_ARGUMENT, response);
+            return;
         }
-        userCode = RFC8628Servlet.convertToCanonicalForm(userCode);
+        RFC8628ServletConfig rfc8628ServletConfig = ((OA2SE)getServiceEnvironment()).getRfc8628ServletConfig();
+        userCode = RFC8628Servlet.convertToCanonicalForm(userCode, rfc8628ServletConfig);
 
         CILogonOA2ServiceEnvironment se = (CILogonOA2ServiceEnvironment) getServiceEnvironment();
         if (!se.isRfc8628Enabled()) {
             doError("Device flow is not available on this server.", STATUS_SERVICE_UNAVAILABLE, response);
             return;
         }
-        if (RFC8628Servlet.getCache().containsKey(userCode)) {
-            String rawAG = RFC8628Servlet.getCache().get(userCode);
-            if (StringUtils.isTrivial(rawAG)) {
-                doError("token not found.", STATUS_EXPIRED_TOKEN, response);
-            }
+        if (!RFC8628Servlet.getCache().containsKey(userCode)) {
+            doError("transaction not found.", STATUS_TRANSACTION_NOT_FOUND, response);
+            return;
+        }
+        String rawAG = RFC8628Servlet.getCache().get(userCode);
+        if (StringUtils.isTrivial(rawAG)) {
+            doError("token not found.", STATUS_EXPIRED_TOKEN, response);
+        }
 
-            // It is possible that the transaction was garbage collected but the GC hasn't removed it
-            // from the cache, so we do have to check if the ag is expired.
-            AuthorizationGrantImpl ag = new AuthorizationGrantImpl(URI.create(rawAG));
-            if (ag.isExpired()) {
-                doError("token not found.", STATUS_EXPIRED_TOKEN, response);
-                writeUserCodeNotFound(response);
-                return;
-            }
-            CILOA2ServiceTransaction transaction = (CILOA2ServiceTransaction) se.getTransactionStore().get(ag);
-            if (transaction == null) {
-                // Then the pending transaction got garbage collected so it effectively timed out
-                doError("transaction not found.", STATUS_TRANSACTION_NOT_FOUND, response);
-                return;
-            }
-            if (!transaction.isRFC8628Request()) {
-                doError("invalid token.", STATUS_TRANSACTION_NOT_FOUND, response);
-                return;
-            }
+        // It is possible that the transaction was garbage collected but the GC hasn't removed it
+        // from the cache, so we do have to check if the ag is expired.
+        AuthorizationGrantImpl ag = new AuthorizationGrantImpl(URI.create(rawAG));
+        if (ag.isExpired()) {
+            doError("token not found.", STATUS_EXPIRED_TOKEN, response);
+            writeUserCodeNotFound(response);
+            return;
+        }
+        CILOA2ServiceTransaction transaction = (CILOA2ServiceTransaction) se.getTransactionStore().get(ag);
+        if (transaction == null) {
+            // Then the pending transaction got garbage collected so it effectively timed out
+            doError("transaction not found.", STATUS_TRANSACTION_NOT_FOUND, response);
+            return;
+        }
+        MetaDebugUtil debugger = MyProxyDelegationServlet.createDebugger(transaction.getOA2Client());
+        debugger.trace(this, "checking if server is RFC 8628 enabled");
+        if (!transaction.isRFC8628Request()) {
+            doError("invalid token.", STATUS_TRANSACTION_NOT_FOUND, response);
+            return;
+        }
 
-            RFC8628State rfc8628State = transaction.getRFC8628State();
+        RFC8628State rfc8628State = transaction.getRFC8628State();
+        RFC8628Servlet.getCache().remove(userCode);
+
+        if (approved == 1) {
+            rfc8628State.valid = true; // means they actually logged in
+            debugger.trace(this, "device flow for user code " + userCode + " approved");
+
+        } else {
+            debugger.trace(this, "device flow for user code " + userCode + " cancelled");
+            // means they cancelled the whole thing. Remove the transaction and the cache entry.
+            getTransactionStore().remove(transaction.getIdentifier());
             RFC8628Servlet.getCache().remove(userCode);
-
-            if(approved == 1){
-                rfc8628State.valid = true; // means they actually logged in
-
-            } else{
-                // means they cancelled the whole thing. Remove the transaction
-                getTransactionStore().remove(transaction.getIdentifier());
-            }
-            // The JSON library copies everything no matter what, so no guarantee what's in the transaction is the same object.
-            // Just replace it with the good copy.
+            // Now tell the, that it was cancelled. This means to return a status of 0, meaning
+            // the requested action was done.
             startWrite(response);
             PrintWriter printWriter = response.getWriter();
             printWriter.println(STATUS_KEY + "=" + STATUS_OK);
-            printWriter.println(CLIENT_ID + "=" + transaction.getClient().getIdentifierString());
-            printWriter.println("grant=" + TokenUtils.b32EncodeToken(ag.getToken()));
-            printWriter.println("user_code=" + userCode);
             printWriter.flush();
             printWriter.close();
             stopWrite(response);
             return;
         }
+
+        transaction.setRFC8628State(rfc8628State);
+        getTransactionStore().save(transaction);
+        // The JSON library copies everything no matter what, so no guarantee what's in the transaction is the same object.
+        // Just replace it with the good copy.
+        startWrite(response);
+        PrintWriter printWriter = response.getWriter();
+        printWriter.println(STATUS_KEY + "=" + STATUS_OK);
+        printWriter.println(CLIENT_ID + "=" + transaction.getClient().getIdentifierString());
+        debugger.trace(this, "encoding grant for " + userCode + " = " + ag.getToken());
+        printWriter.println("grant=" + TokenUtils.b32EncodeToken(ag.getToken()));
+        printWriter.println("user_code=" + userCode);
+        printWriter.flush();
+        printWriter.close();
+        stopWrite(response);
+        return;
 
     }
 
@@ -635,6 +673,8 @@ public class DBService2 extends AbstractDBService {
                 return CREATE_TRANSACTION_STATE_CASE;
             case CHECK_USER_CODE:
                 return CHECK_USER_CODE_CASE;
+            case CHECK_CODE_APPROVED:
+                return CHECK_CODE_APPROVED_CASE;
         }
         return super.lookupCase(x);
     }

@@ -201,6 +201,7 @@ public class CILOA2ConfigurationLoader extends OA2ConfigurationLoader implements
                     isRFC8693Enabled(),
                     isQdlStrictACLS(),
                     isSafeGC(),
+                    getRFC8628ServletConfig(),
                     isRFC8628Enabled(),
                     isNotifyOnACNewClient(),
                     isprintTSInDebug());

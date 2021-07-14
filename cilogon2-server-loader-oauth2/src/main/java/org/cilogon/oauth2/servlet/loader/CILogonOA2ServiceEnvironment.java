@@ -2,6 +2,7 @@ package org.cilogon.oauth2.servlet.loader;
 
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.OA2SE;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.cm.CMConfigs;
+import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.servlet.RFC8628ServletConfig;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.tx.TXStore;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.vo.VOStore;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.MyProxyFacadeProvider;
@@ -91,6 +92,7 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
                                         boolean isRFC8693Enabled,
                                         boolean isqdlStrictAcls,
                                         boolean safeGC,
+                                        RFC8628ServletConfig rfc8628ServletConfig,
                                         boolean rfc8628Enabled,
                                         boolean isNotifyOnNewACClient,
                                         boolean isPrintTSInDebug
@@ -135,6 +137,7 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
                 isRFC8693Enabled,
                 isqdlStrictAcls,
                 safeGC,
+                rfc8628ServletConfig,
                 rfc8628Enabled,
                 isNotifyOnNewACClient,
                 isPrintTSInDebug);

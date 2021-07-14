@@ -48,6 +48,7 @@ GRANT ALL PRIVILEGES ON ciloa2.uid_seq TO 'cilogon'@'localhost'
 WITH GRANT OPTION;
 GRANT ALL PRIVILEGES ON ciloa2.two_factor TO 'cilogon'@'localhost' WITH GRANT OPTION;
 GRANT ALL PRIVILEGES ON ciloa2.tx_records TO 'cilogon'@'localhost' WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON ciloa2.virtual_organizations TO 'cilogon'@'localhost' WITH GRANT OPTION;
 
 COMMIT;
 
@@ -126,10 +127,25 @@ CREATE TABLE ciloa2.transactions (
   scopes text,
   UNIQUE INDEX verifier (verifier_token(255)),
   UNIQUE INDEX accessToken (access_token(255)),
-  UNIQUE INDEX refreshToken (refresh_token(255)),
-  UNIQUE INDEX username (username (255))
+  UNIQUE INDEX refreshToken (refresh_token(255))
 );
 
+create table ciloa2.virtual_organizations
+(
+    vo_id          VARCHAR(255) PRIMARY KEY,
+           created bigint,
+    default_key_id text,
+    discovery_path text,
+            issuer text,
+         at_issuer text,
+     json_web_keys text,
+     last_modified bigint,
+             title text,
+          resource text,
+             valid boolean,
+    UNIQUE INDEX parents (vo_id(255)),
+    INDEX discovery_path (discovery_path(255))
+);
 COMMIT;
 
 # NOTE: If you are using the CILogon user tables from another source, you do not need to create them.
