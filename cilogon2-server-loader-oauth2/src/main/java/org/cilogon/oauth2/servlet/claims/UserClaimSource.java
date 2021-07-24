@@ -24,7 +24,7 @@ import static edu.uiuc.ncsa.security.oauth_2_0.server.claims.OA2Claims.PREFERRED
 
 /**
  * This actually introspects the user database and does not require an LDAP configuration.
- * Note that it is build in to the server config for CILogon and is therefore never really
+ * Note that it is built into the server config for CILogon and is therefore never really
  * accessed directly.
  * <p>Created by Jeff Gaynor<br>
  * on 8/20/15 at  1:37 PM
