@@ -5,7 +5,7 @@
     <parent>
         <artifactId>cilogon2</artifactId>
         <groupId>edu.uiuc.ncsa.security</groupId>
-        <version>5.2-SNAPSHOT</version>
+        <version>5.2.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -22,47 +22,47 @@
         <dependency>
             <artifactId>oa4mp-server-api</artifactId>
             <groupId>edu.uiuc.ncsa.myproxy</groupId>
-            <version>5.2-SNAPSHOT</version>
+            <version>5.2.0</version>
         </dependency>
         <dependency>
             <groupId>edu.uiuc.ncsa.security</groupId>
             <artifactId>cilogon2-server</artifactId>
-            <version>5.2-SNAPSHOT</version>
+            <version>5.2.0</version>
         </dependency>
 
         <dependency>
             <artifactId>oa4mp-server-test</artifactId>
             <groupId>edu.uiuc.ncsa.myproxy</groupId>
-            <version>5.2-SNAPSHOT</version>
+            <version>5.2.0</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
            <dependency>
             <artifactId>oa4mp-server-test</artifactId>
             <groupId>edu.uiuc.ncsa.myproxy</groupId>
-            <version>5.2-SNAPSHOT</version>
+            <version>5.2.0</version>
         </dependency>
         <dependency>
             <groupId>edu.uiuc.ncsa.myproxy</groupId>
             <artifactId>myproxy-logon</artifactId>
-            <version>5.2-SNAPSHOT</version>
+            <version>5.2.0</version>
         </dependency>
         <dependency>
             <artifactId>ncsa-security-delegation-common</artifactId>
             <groupId>edu.uiuc.ncsa.security.delegation</groupId>
-            <version>5.2-SNAPSHOT</version>
+            <version>5.2.0</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>edu.uiuc.ncsa.security.delegation</groupId>
             <artifactId>ncsa-security-delegation-common</artifactId>
-            <version>5.2-SNAPSHOT</version>
+            <version>5.2.0</version>
         </dependency>
         <dependency>
             <artifactId>ncsa-security-util</artifactId>
             <groupId>edu.uiuc.ncsa.security</groupId>
-            <version>5.2-SNAPSHOT</version>
+            <version>5.2.0</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
