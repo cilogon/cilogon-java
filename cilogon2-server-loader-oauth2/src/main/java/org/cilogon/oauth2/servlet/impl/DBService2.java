@@ -202,18 +202,6 @@ public class DBService2 extends AbstractDBService {
             doError("invalid token.", STATUS_TRANSACTION_NOT_FOUND, response);
             return;
         }
-        String scopes = "";
-        if (!transaction.getScopes().isEmpty()) {
-            boolean firstPass = true;
-            for (String s : transaction.getScopes()) {
-                if (firstPass) {
-                    firstPass = false;
-                    scopes = s;
-                } else {
-                    scopes = scopes + " " + s;
-                }
-            }
-        }
 
         startWrite(response);
         PrintWriter printWriter = response.getWriter();
@@ -221,7 +209,7 @@ public class DBService2 extends AbstractDBService {
         printWriter.println(CLIENT_ID + "=" + transaction.getClient().getIdentifierString());
         debugger.trace(this, "writing response for grant = " + ag.getToken());
         printWriter.println("grant=" + TokenUtils.b32EncodeToken(ag.getToken()));
-        printWriter.println("scope=" + scopes);
+        printWriter.println("scope=" + transaction.getRFC8628State().originalScopes);
         printWriter.println("user_code=" + userCode);
         printWriter.flush();
         printWriter.close();
