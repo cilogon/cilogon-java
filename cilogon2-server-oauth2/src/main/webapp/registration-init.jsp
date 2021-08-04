@@ -202,6 +202,7 @@
 $(document).ready(function() {
     $('input[type=radio][name=refreshTokensYesNo]').prop('disabled', false);
     $('input[type=radio][name=clientIsPublic]').prop('disabled', false);
+    $('#offline_accessCheck').parent().hide();
 
     $('input[type=radio][name=clientIsPublic]').change(function() {
         if (this.value == "on") {
@@ -216,8 +217,11 @@ $(document).ready(function() {
     $('input[type=radio][name=refreshTokensYesNo]').change(function() {
         if (this.value == "yes") {
             $('#lifetimeinput').collapse('show');
+            $('#offline_accessCheck').parent().show();
         } else {
             $('#lifetimeinput').collapse('hide');
+            $('#offline_accessCheck').parent().hide();
+            $('#offline_accessCheck').prop('checked', false);
             $('#inputRtLifetime').val('');
         }
     });
