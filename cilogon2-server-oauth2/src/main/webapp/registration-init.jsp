@@ -9,8 +9,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+          integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
           crossorigin="anonymous">
 
     <title>CILogon OIDC/OAuth 2.0 Client Registration</title>
@@ -130,10 +131,13 @@
                 <div class="col-sm-10">
                     <div id="allscopes" class="collapse show">
                         <c:forEach items="${scopes}" var="scope">
-                            <div class="form-check">
+                            <c:set var="CILTestStoreProviderImpl" scope="session" value="${scope}"/>
+                            <div class="form-check"
+                                 <c:if test="${CILTestStoreProviderImpl == 'offline_access'}">style="display:none;"
+                                 </c:if>
+                            >
                                 <input class="form-check-input" type="checkbox" name="chkScopes" value="${scope}"
                                        id="${scope}Check"
-                                        <c:set var="CILTestStoreProviderImpl" scope="session" value="${scope}"/>
                                        <c:if test="${CILTestStoreProviderImpl == 'openid'}">checked="checked"
                                        disabled="disabled"</c:if>
                                 />
@@ -192,17 +196,16 @@
     </form>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
         crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"
-        integrity="sha384-1CmrxMRARb6aLqgBO7yyAxTOQE2AKb9GfXnEo760AUcUmFx3ibVJJAzGytlQcNXd"
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
         crossorigin="anonymous"></script>
 <script>
 $(document).ready(function() {
     $('input[type=radio][name=refreshTokensYesNo]').prop('disabled', false);
     $('input[type=radio][name=clientIsPublic]').prop('disabled', false);
-    $('#offline_accessCheck').parent().hide();
 
     $('input[type=radio][name=clientIsPublic]').change(function() {
         if (this.value == "on") {
