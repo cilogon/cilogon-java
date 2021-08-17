@@ -15,18 +15,9 @@ import org.cilogon.d2.storage.provider.IncrementableProvider;
  * on 3/20/12 at  10:06 AM
  */
 public class PGSequenceProvider extends IncrementableProvider implements OA4MPConfigTags {
-    ConnectionPoolProvider<? extends ConnectionPool> connectionPoolProvider;
 
     public PGSequenceProvider(ConfigurationNode cn, ConnectionPoolProvider<? extends ConnectionPool> cpp) {
-        super(cn, POSTGRESQL_STORE);
-        connectionPoolProvider = cpp;
-    }
-
-      protected ConnectionPool getConnectionPool() {
-        if (connectionPoolProvider.getConfig() == null) {
-            connectionPoolProvider.setConfig(getTypeConfig());
-        }
-        return connectionPoolProvider.get();
+        super(cn, POSTGRESQL_STORE, cpp);
     }
 
     @Override

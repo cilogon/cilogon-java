@@ -15,7 +15,6 @@ import org.cilogon.d2.storage.provider.IncrementableProvider;
  * on 3/20/12 at  10:06 AM
  */
 public class MySQLSequenceProvider extends IncrementableProvider implements OA4MPConfigTags {
-    ConnectionPoolProvider<? extends ConnectionPool> connectionPoolProvider;
 
     public MySQLSequenceProvider(ConfigurationNode cn, ConnectionPoolProvider<? extends ConnectionPool> cpp) {
         this(cn, MYSQL_STORE, cpp);
@@ -24,15 +23,7 @@ public class MySQLSequenceProvider extends IncrementableProvider implements OA4M
     public MySQLSequenceProvider(ConfigurationNode config,
                                  String type,
                                  ConnectionPoolProvider<? extends ConnectionPool> connectionPoolProvider) {
-        super(config, type);
-        this.connectionPoolProvider = connectionPoolProvider;
-    }
-
-    protected ConnectionPool getConnectionPool() {
-        if (connectionPoolProvider.getConfig() == null) {
-            connectionPoolProvider.setConfig(getTypeConfig());
-        }
-        return connectionPoolProvider.get();
+        super(config, type, connectionPoolProvider);
     }
 
     @Override

@@ -65,6 +65,11 @@ public class CILTestSuitInitializer extends AbstractTestSuiteInitializer  {
     }
 
     @Override
+    public String getDerbyStoreConfigName() {
+        return null;
+    }
+
+    @Override
     public void init() {
         DebugUtil.setIsEnabled(true);
         RemoteDBServiceTest.setHost("http://localhost:44444/oauth/dbService");

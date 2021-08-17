@@ -43,7 +43,7 @@ public class ArchivedUsersTable extends Table {
     }
 
     public String addArchiveUser() {
-        return "insert into " + getFQTablename() + " " +
+        String x =  "insert into " + getFQTablename() + " " +
                 "(" +
                 auKeys().archivedUserIDColumn() + "," +
                 getUsersTable().userKeys().remoteUser() + "," +
@@ -91,6 +91,7 @@ public class ArchivedUsersTable extends Table {
                 getUsersTable().userKeys().attr_json() + "," +
                 getUsersTable().userKeys().state() + "," +
                 "CURRENT_TIMESTAMP FROM " + getUsersTable().getFQTablename() + " where " + getUsersTable().userKeys().identifier() + " = ?";
+        return x;
     }
 
     public String getArchivedUser() {

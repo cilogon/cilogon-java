@@ -4,10 +4,13 @@ import edu.uiuc.ncsa.myproxy.oa4mp.server.OA4MPConfigTags;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.ServiceEnvironmentImpl;
 import edu.uiuc.ncsa.security.core.configuration.Configurations;
 import edu.uiuc.ncsa.security.delegation.servlet.DBConfigLoader;
+import edu.uiuc.ncsa.security.storage.sql.SQLStore;
 import edu.uiuc.ncsa.security.storage.sql.mysql.MySQLConnectionPoolProvider;
 import edu.uiuc.ncsa.security.storage.sql.postgres.PGConnectionPoolProvider;
 import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.cilogon.d2.storage.ArchivedUserKeys;
+import org.cilogon.d2.storage.UserStore;
+import org.cilogon.d2.storage.impl.derby.DerbySequenceProvider;
 import org.cilogon.d2.storage.impl.filestore.provider.CILFSArchivedUserStoreProvider;
 import org.cilogon.d2.storage.impl.filestore.provider.CILFSIDPProvider;
 import org.cilogon.d2.storage.impl.filestore.provider.CILFSUserStoreProvider;
@@ -18,6 +21,7 @@ import org.cilogon.d2.storage.impl.postgres.provider.PGSequenceProvider;
 import org.cilogon.d2.storage.impl.sql.provider.CILSQLArchivedUserStoreProvider;
 import org.cilogon.d2.storage.impl.sql.provider.CILSQLIDPStoreProvider;
 import org.cilogon.d2.storage.impl.sql.provider.CILSQLUserStoreProvider;
+import org.cilogon.d2.storage.impl.sql.table.UserTable;
 import org.cilogon.d2.storage.provider.*;
 import org.cilogon.d2.twofactor.*;
 
@@ -25,6 +29,7 @@ import java.util.HashMap;
 
 import static edu.uiuc.ncsa.myproxy.oa4mp.server.OA4MPConfigTags.MYSQL_STORE;
 import static edu.uiuc.ncsa.myproxy.oa4mp.server.OA4MPConfigTags.POSTGRESQL_STORE;
+import static edu.uiuc.ncsa.security.core.configuration.StorageConfigurationTags.DERBY_STORE;
 import static edu.uiuc.ncsa.security.core.configuration.StorageConfigurationTags.MARIADB_STORE;
 
 /**
@@ -96,6 +101,8 @@ public  class CILogonStoreLoader<T extends ServiceEnvironmentImpl> extends DBCon
             m2p.addListener(new CILSQL2FStoreProvider(cn,
                     getPgConnectionPoolProvider(), POSTGRESQL_STORE, converter, get2fp()));
             m2p.addListener(new CILSQL2FStoreProvider(cn,
+                     getDerbyConnectionPoolProvider(), DERBY_STORE, converter, get2fp()));
+            m2p.addListener(new CILSQL2FStoreProvider(cn,
                     getMySQLConnectionPoolProvider(), MYSQL_STORE, converter, get2fp()));
             m2p.addListener(new CILSQL2FStoreProvider(cn,
                     getMySQLConnectionPoolProvider(), MARIADB_STORE, converter, get2fp()));
@@ -111,6 +118,7 @@ public  class CILogonStoreLoader<T extends ServiceEnvironmentImpl> extends DBCon
             ip.addListener(new PGSequenceProvider(cn, getPgConnectionPoolProvider()));
             ip.addListener(new MySQLSequenceProvider(cn, getMySQLConnectionPoolProvider()));
             ip.addListener(new MariaDBSequenceProvider(cn, getMariaDBConnectionPoolProvider()));
+            ip.addListener(new DerbySequenceProvider(cn, getDerbyConnectionPoolProvider()));
         }
         return ip;
     }
@@ -126,6 +134,9 @@ public  class CILogonStoreLoader<T extends ServiceEnvironmentImpl> extends DBCon
             usp.addListener(new CILSQLUserStoreProvider(cn,
                     getPgConnectionPoolProvider(),
                     POSTGRESQL_STORE, getUP(), converter,getIp().get()));
+            usp.addListener(new CILSQLUserStoreProvider(cn,
+                            getDerbyConnectionPoolProvider(),
+                            DERBY_STORE, getUP(), converter,getIp().get()));
             usp.addListener(new CILSQLUserStoreProvider(cn,
                     getMySQLConnectionPoolProvider(),
                     MYSQL_STORE, getUP(), converter,getIp().get()));
@@ -143,23 +154,40 @@ public  class CILogonStoreLoader<T extends ServiceEnvironmentImpl> extends DBCon
 
             muasp = new MultiArchivedUserStoreProvider(cn, isDefaultStoreDisabled(), loggerProvider.get(), getUSP(), getAUP());
             muasp.addListener(new CILFSArchivedUserStoreProvider(cn, getUSP(), getAUP(), converter));
+            UserStore userStore = getUSP().get();
+            UserTable userTable = null;
+            if(userStore instanceof SQLStore){
+                 userTable = (UserTable) ((SQLStore)userStore).getTable();
+                 // Since the user table can (and does in Derby) have its default name set
+                // the actual configured current user table must be used.
+            }
             muasp.addListener(new CILSQLArchivedUserStoreProvider(
                     cn,
                     getPgConnectionPoolProvider(),
                     POSTGRESQL_STORE,
-                    getAUP(), converter
+                    getAUP(), converter,
+                    userTable
             ));
+            muasp.addListener(new CILSQLArchivedUserStoreProvider(
+                      cn,
+                      getDerbyConnectionPoolProvider(),
+                      DERBY_STORE,
+                      getAUP(), converter,
+                    userTable
+              ));
             muasp.addListener(new CILSQLArchivedUserStoreProvider(
                     cn,
                     getMySQLConnectionPoolProvider(),
                     MYSQL_STORE,
-                    getAUP(), converter
+                    getAUP(), converter,
+                    userTable
             ));
             muasp.addListener(new CILSQLArchivedUserStoreProvider(
                     cn,
                     getMariaDBConnectionPoolProvider(),
                     MARIADB_STORE,
-                    getAUP(), converter
+                    getAUP(), converter,
+                    userTable
             ));
         }
         return muasp;
@@ -171,6 +199,7 @@ public  class CILogonStoreLoader<T extends ServiceEnvironmentImpl> extends DBCon
             midp = new MultiIDPStoreProvider(cn, isDefaultStoreDisabled(), loggerProvider.get());
             midp.addListener(new CILFSIDPProvider(cn, converter));
             midp.addListener(new CILSQLIDPStoreProvider(cn, getPgConnectionPoolProvider(), POSTGRESQL_STORE, converter));
+            midp.addListener(new CILSQLIDPStoreProvider(cn, getDerbyConnectionPoolProvider(), DERBY_STORE, converter));
             midp.addListener(new CILSQLIDPStoreProvider(cn, getMySQLConnectionPoolProvider(), MYSQL_STORE, converter));
             midp.addListener(new CILSQLIDPStoreProvider(cn, getMariaDBConnectionPoolProvider(), MARIADB_STORE, converter));
 

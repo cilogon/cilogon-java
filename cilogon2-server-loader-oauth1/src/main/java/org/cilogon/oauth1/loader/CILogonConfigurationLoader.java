@@ -29,6 +29,7 @@ import javax.inject.Provider;
 
 import static edu.uiuc.ncsa.myproxy.oa4mp.server.OA4MPConfigTags.MYSQL_STORE;
 import static edu.uiuc.ncsa.myproxy.oa4mp.server.OA4MPConfigTags.POSTGRESQL_STORE;
+import static edu.uiuc.ncsa.security.core.configuration.StorageConfigurationTags.DERBY_STORE;
 import static edu.uiuc.ncsa.security.core.configuration.StorageConfigurationTags.MARIADB_STORE;
 
 /**
@@ -179,6 +180,13 @@ public class CILogonConfigurationLoader<T extends ServiceEnvironmentImpl> extend
                     transactionProvider, getCSP(),
                     pgconverter
             ));
+            tsp.addListener(new CILSQLTransactionStoreProvider(cn,
+                              getDerbyConnectionPoolProvider(),
+                              DERBY_STORE,
+                              getTokenForgeProvider(),
+                              transactionProvider, getCSP(),
+                              pgconverter
+                      ));
 
             tsp.addListener(new CILSQLTransactionStoreProvider(cn,
                     getMySQLConnectionPoolProvider(),

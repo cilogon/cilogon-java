@@ -43,7 +43,7 @@ public class UserTable extends Table {
 
     public UserTable(UserKeys keys, String schema, String tablenamePrefix, String tablename) {
         super(keys, schema, tablenamePrefix, tablename);
-        if (this.tablename == null) {
+       if (this.tablename == null) {
             this.tablename = DEFAULT_TABLE_NAME;
         }
     }

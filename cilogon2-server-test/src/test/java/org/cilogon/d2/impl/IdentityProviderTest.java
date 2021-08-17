@@ -21,6 +21,7 @@ public class IdentityProviderTest extends TestBase {
         doTests((CILTestStoreProviderI2) ServiceTestUtils.getFsStoreProvider());
         doTests((CILTestStoreProviderI2) ServiceTestUtils.getMySQLStoreProvider());
         doTests((CILTestStoreProviderI2) ServiceTestUtils.getPgStoreProvider());
+        doTests((CILTestStoreProviderI2) ServiceTestUtils.getDerbyStoreProvider());
     }
 
     public void doTests(CILTestStoreProviderI2 provider) throws Exception {

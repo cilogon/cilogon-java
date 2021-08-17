@@ -55,6 +55,7 @@
           <element id="library" level="project" name="Maven: net.minidev:accessors-smart:1.2" />
           <element id="library" level="project" name="Maven: org.ow2.asm:asm:5.0.4" />
           <element id="library" level="project" name="Maven: com.typesafe:config:1.4.0" />
+          <element id="library" level="project" name="Maven: org.apache.derby:derby:10.14.1.0" />
           <element id="library" level="project" name="Maven: edu.uiuc.ncsa.security.delegation:ncsa-security-oauth-1.0a:5.2-SNAPSHOT" />
           <element id="library" level="project" name="Maven: net.oauth.core:oauth-httpclient4:20090617" />
           <element id="library" level="project" name="Maven: net.oauth.core:oauth:20100527" />

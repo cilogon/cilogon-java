@@ -26,6 +26,7 @@ public class ArchivedUserStoreTest extends TestBase {
         doTests((CILTestStoreProviderI2) ServiceTestUtils.getMemoryStoreProvider());
         doTests((CILTestStoreProviderI2) ServiceTestUtils.getMySQLStoreProvider());
         doTests((CILTestStoreProviderI2) ServiceTestUtils.getPgStoreProvider());
+        doTests((CILTestStoreProviderI2) ServiceTestUtils.getDerbyStoreProvider());
 
         //       doTests((CILTestStoreProviderI2) ServiceTestUtils.getFsStoreProvider());
     }

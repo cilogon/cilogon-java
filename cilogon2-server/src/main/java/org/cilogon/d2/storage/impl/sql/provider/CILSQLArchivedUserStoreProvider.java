@@ -24,14 +24,15 @@ public class CILSQLArchivedUserStoreProvider extends SQLStoreProvider<ArchivedUs
     public CILSQLArchivedUserStoreProvider(ConfigurationNode config, ConnectionPoolProvider<? extends ConnectionPool> cpp,
                                            String type,
                                            IdentifiableProviderImpl<ArchivedUser> archivedUserProvider,
-                                           ArchivedUserConverter c
+                                           ArchivedUserConverter c, UserTable userTable
     ) {
         super(config, cpp, type, ARCHIVED_USERS, ArchivedUsersTable.DEFAULT_TABLENAME, c);
         this.archivedUserProvider = archivedUserProvider;
+        this.userTable = userTable;
     }
 
     IdentifiableProviderImpl<ArchivedUser> archivedUserProvider;
-
+     UserTable userTable = null;
 
     @Override
     public ArchivedUserStore newInstance(Table table) {
@@ -46,7 +47,7 @@ public class CILSQLArchivedUserStoreProvider extends SQLStoreProvider<ArchivedUs
                 getSchema(),
                 getPrefix(),
                 getTablename(),
-                new UserTable(new UserKeys(),getSchema(), getPrefix(), UserTable.DEFAULT_TABLE_NAME));
+                new UserTable(new UserKeys(),getSchema(), getPrefix(), userTable.getTablename()));
         return newInstance(aut);
     }
 }

@@ -57,6 +57,11 @@ public class CILTestSuiteInitializer2 extends AbstractTestSuiteInitializer {
         return null;
     }
 
+    @Override
+    public String getDerbyStoreConfigName() {
+        return null;
+    }
+
     public void init() {
         RemoteDBServiceTest.setHost("http://localhost:44444/oauth2/dbService");
         ServiceTestUtils.setBootstrapper(getBootstrapper());
@@ -67,6 +72,8 @@ public class CILTestSuiteInitializer2 extends AbstractTestSuiteInitializer {
         ServiceTestUtils.setFsStoreProvider(fsp);
         ServiceTestUtils.setMySQLStoreProvider(getTSP("cil-oa2.test.mysql"));
         ServiceTestUtils.setPgStoreProvider(getTSP("cil-oa2.test.postgres"));
+        ServiceTestUtils.setPgStoreProvider(getTSP("cil-oa2.test.postgres"));
+        ServiceTestUtils.setDerbyStoreProvider(getTSP("cil-oa2.test.derby"));
         try {
             SATFactory.setAdminClientConverter(AdminClientStoreProviders.getAdminClientConverter());
             SATFactory.setClientConverter((ClientConverter<? extends Client>) fsp.getClientStore().getMapConverter());

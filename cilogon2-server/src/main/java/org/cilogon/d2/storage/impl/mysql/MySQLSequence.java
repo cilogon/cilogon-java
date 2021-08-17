@@ -22,13 +22,10 @@ public class MySQLSequence extends Sequence {
         super(connectionPool, sequenceTable);
     }
 
-    protected MySQLSequenceTable getMT() {
-        return (MySQLSequenceTable) getSequenceTable();
-    }
    static int i= 0;
     @Override
     public long nextValue() {
-        System.err.println(this.getClass().getSimpleName() +  ": call count = " + i++);
+        //System.err.println(this.getClass().getSimpleName() +  ": call count = " + i++);
      //   (new GeneralException()).printStackTrace();
         long value = -1;
         ConnectionRecord cr = getConnection();
@@ -54,7 +51,7 @@ public class MySQLSequence extends Sequence {
             destroyConnection(cr);
             throw new CILogonException("Error getting next value in sequence", e);
         }
-        System.err.println(this.getClass().getSimpleName() +  ": returned value = " + value);;
+      //  System.err.println(this.getClass().getSimpleName() +  ": returned value = " + value);;
 
         return value;
     }

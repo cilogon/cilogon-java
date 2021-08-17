@@ -2,7 +2,6 @@ package org.cilogon.d2.storage.impl.sql;
 
 import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.cache.SimpleEntryImpl;
-import edu.uiuc.ncsa.security.core.exceptions.NotImplementedException;
 import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
 import edu.uiuc.ncsa.security.core.util.IdentifiableProviderImpl;
 import edu.uiuc.ncsa.security.servlet.ServletDebugUtil;
@@ -52,7 +51,7 @@ public class CILSQLUserStore extends SQLStore<User> implements UserStore {
         ServletDebugUtil.trace(this, "created new user" + user);
 
         uid = user.getIdentifier();
-        System.err.println(this.getClass().getSimpleName() + ": start user uid = " + uid + " ss = " + user.getSerialIdentifier());
+      //  System.err.println(this.getClass().getSimpleName() + ": start user uid = " + uid + " ss = " + user.getSerialIdentifier());
         user.setCreationTime(new Date());
         user.setIdP(idP);
         user.setSerialIdentifier(uid); // for a new user these are identical. This might change though over time.
@@ -68,7 +67,7 @@ public class CILSQLUserStore extends SQLStore<User> implements UserStore {
 
         register(user);
         ServletDebugUtil.trace(this, "AFTER registering new user" + user);
-        System.err.println(this.getClass().getSimpleName() + ": AFTER user uid = " + user.getIdentifier() + " ss = " + user.getSerialIdentifier());
+     //   System.err.println(this.getClass().getSimpleName() + ": AFTER user uid = " + user.getIdentifier() + " ss = " + user.getSerialIdentifier());
 
         return user;
     }
@@ -148,11 +147,11 @@ public class CILSQLUserStore extends SQLStore<User> implements UserStore {
             selectStmt = selectStmt + " (" + zzz + ") ";
         }
 
-        selectStmt = selectStmt + " AND " + userKeys.idp() + "=?";
+
         ServletDebugUtil.trace(this, "select statement=\"" + selectStmt + "\"");
         ConnectionRecord cr = getConnection();
         Connection c = cr.connection;
-
+        selectStmt = selectStmt + " AND " + userKeys.idp() + " = ?";
         User user = null;
         ArrayList<User> users
                 = new ArrayList<>();

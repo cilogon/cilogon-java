@@ -39,6 +39,7 @@
           <element id="library" level="project" name="Maven: edu.uiuc.ncsa.myproxy:oa4mp-server-loader-oauth1:5.2-SNAPSHOT" />
           <element id="library" level="project" name="Maven: mysql:mysql-connector-java:8.0.11" />
           <element id="library" level="project" name="Maven: com.google.protobuf:protobuf-java:2.6.0" />
+          <element id="library" level="project" name="Maven: org.apache.derby:derby:10.14.1.0" />
           <element id="library" level="project" name="Maven: edu.uiuc.ncsa.security.delegation:ncsa-security-oauth-1.0a:5.2-SNAPSHOT" />
           <element id="library" level="project" name="Maven: edu.uiuc.ncsa.security.delegation:ncsa-security-delegation-client:5.2-SNAPSHOT" />
           <element id="library" level="project" name="Maven: net.oauth.core:oauth-httpclient4:20090617" />

@@ -2,6 +2,8 @@ package org.cilogon.d2.storage.provider;
 
 import edu.uiuc.ncsa.security.core.configuration.provider.CfgEvent;
 import edu.uiuc.ncsa.security.core.configuration.provider.TypedProvider;
+import edu.uiuc.ncsa.security.storage.sql.ConnectionPool;
+import edu.uiuc.ncsa.security.storage.sql.ConnectionPoolProvider;
 import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.cilogon.d2.util.Incrementable;
 
@@ -15,11 +17,25 @@ import static edu.uiuc.ncsa.security.storage.sql.SQLStoreProvider.*;
  * on 3/20/12 at  9:52 AM
  */
 public abstract class IncrementableProvider extends TypedProvider<Incrementable> {
+    ConnectionPoolProvider<? extends ConnectionPool> connectionPoolProvider;
 
     protected IncrementableProvider(ConfigurationNode config, String type) {
         super(config, type, SEQUENCE);
     }
 
+    public IncrementableProvider(ConfigurationNode config,
+                                  String type,
+                                  ConnectionPoolProvider<? extends ConnectionPool> connectionPoolProvider) {
+         this(config, type);
+         this.connectionPoolProvider = connectionPoolProvider;
+     }
+
+     protected ConnectionPool getConnectionPool() {
+         if (connectionPoolProvider.getConfig() == null) {
+             connectionPoolProvider.setConfig(getTypeConfig());
+         }
+         return connectionPoolProvider.get();
+     }
 
     @Override
     public Object componentFound(CfgEvent configurationEvent) {
