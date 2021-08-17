@@ -26,8 +26,8 @@
 # for details on obtaining credentials. Set CLIENT_ID and            #
 # CLIENT_SECRET appropriately, and also set GOOGLE_CLIENT=1.         #
 #                                                                    #
-# Version: 1.0.0                                                     #
-# Last Update: 2021-07-25                                            #
+# Version: 1.1.0                                                     #
+# Last Update: 2021-07-29                                            #
 # Author: Terry Fleury <tfleury@cilogon.org>                         #
 ######################################################################
 
@@ -60,8 +60,16 @@ if ! command -v curl &> /dev/null ; then
     CHECKFAILED=1
 fi
 if ! command -v jq &> /dev/null ; then
-    echo "Please install the 'jq' program (https://stedolan.github.io/jq/)."
+    echo "Please install the 'jq' program v1.6 or higher (https://stedolan.github.io/jq/)."
     CHECKFAILED=1
+else
+    # jq version 1.6 is needed for 'base64d'
+    JQVERSTR=`jq --version`
+    [[ "${JQVERSTR}" =~ jq-([0-9])[.]([0-9]*) ]] && JQMAJ=${BASH_REMATCH[1]} && JQMIN=${BASH_REMATCH[2]}
+    if [ "${#JQMAJ}" -eq "0" -o "${#JQMIN}" -eq "0" -o "${JQMAJ}" -lt "1" -o "${JQMIN}" -lt "6" ] ; then
+        echo "Please install 'jq' version 1.6 or higher (https://stedolan.github.io/jq/)."
+        CHECKFAILED=1
+    fi
 fi
 if [ "${#CLIENT_ID}" -eq "0" ] ; then
     echo "Please set your CLIENT_ID at the top of the script."
@@ -175,6 +183,11 @@ echo "Your user code is '${USER_CODE}'."
 echo "Open a web browser and navigate to:"
 if [ "${VERIFICATION_URI_COMPLETE}" != "null" ] ; then
     echo "${VERIFICATION_URI_COMPLETE}"
+    if ! command -v qrencode &> /dev/null ; then
+        echo "Install the 'qrencode' program for QR code output."
+    else
+        qrencode -m 2 -t ansiutf8 <<< "${VERIFICATION_URI_COMPLETE}"
+    fi
 else
     echo "${VERIFICATION_URI}"
 fi
