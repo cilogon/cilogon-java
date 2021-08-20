@@ -7,6 +7,7 @@ import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.servlet.RFC8628Servlet;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.servlet.RFC8628ServletConfig;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.servlet.RFC8628State;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.state.ScriptRuntimeEngineFactory;
+import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.RFC8628Store;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.clients.OA2Client;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.clients.OA2ClientApprovalKeys;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.clients.OA2ClientKeys;
@@ -173,23 +174,35 @@ public class DBService2 extends AbstractDBService {
             doError("Device flow is not available on this server.", STATUS_SERVICE_UNAVAILABLE, response);
             return;
         }
+        RFC8628Store<? extends CILOA2ServiceTransaction> rfc8628Store = (RFC8628Store<? extends CILOA2ServiceTransaction>) getTransactionStore();
+        CILOA2ServiceTransaction transaction = rfc8628Store.getByUserCode(userCode);
+
+        if (transaction == null) {
+            doError("transaction not found.", STATUS_TRANSACTION_NOT_FOUND, response);
+            return;
+        }
+/*
         if (!RFC8628Servlet.getCache().containsKey(userCode)) {
             doError("transaction not found.", STATUS_TRANSACTION_NOT_FOUND, response);
             return;
         }
-        String rawAG = RFC8628Servlet.getCache().get(userCode);
+*/
+
+//        String rawAG = RFC8628Servlet.getCache().get(userCode);
+/*
         if (StringUtils.isTrivial(rawAG)) {
             doError("token not found.", STATUS_EXPIRED_TOKEN, response);
         }
+*/
 
         // It is possible that the transaction was garbage collected but the GC hasn't removed it
         // from the cache, so we do have to check if the ag is expired.
-        AuthorizationGrantImpl ag = new AuthorizationGrantImpl(URI.create(rawAG));
+        AuthorizationGrantImpl ag = (AuthorizationGrantImpl) transaction.getAuthorizationGrant();
         if (ag.isExpired()) {
             doError("token not found.", STATUS_EXPIRED_TOKEN, response);
             return;
         }
-        CILOA2ServiceTransaction transaction = (CILOA2ServiceTransaction) se.getTransactionStore().get(ag);
+//        CILOA2ServiceTransaction transaction = (CILOA2ServiceTransaction) se.getTransactionStore().get(ag);
 
         if (transaction == null) {
             // Then the pending transaction got garbage collected so it effectively timed out
@@ -290,29 +303,42 @@ public class DBService2 extends AbstractDBService {
             doError("Device flow is not available on this server.", STATUS_SERVICE_UNAVAILABLE, response);
             return;
         }
+        RFC8628Store<? extends CILOA2ServiceTransaction> rfc8628Store = (RFC8628Store<? extends CILOA2ServiceTransaction>) getTransactionStore();
+        CILOA2ServiceTransaction transaction = rfc8628Store.getByUserCode(userCode);
+        if (transaction == null) {
+            doError("transaction not found.", STATUS_TRANSACTION_NOT_FOUND, response);
+            return;
+        }
+
+/*
         if (!RFC8628Servlet.getCache().containsKey(userCode)) {
             doError("transaction not found.", STATUS_TRANSACTION_NOT_FOUND, response);
             return;
         }
+*/
+/*
         String rawAG = RFC8628Servlet.getCache().get(userCode);
         if (StringUtils.isTrivial(rawAG)) {
             doError("token not found.", STATUS_EXPIRED_TOKEN, response);
         }
 
+*/
         // It is possible that the transaction was garbage collected but the GC hasn't removed it
         // from the cache, so we do have to check if the ag is expired.
-        AuthorizationGrantImpl ag = new AuthorizationGrantImpl(URI.create(rawAG));
-        if (ag.isExpired()) {
+        AuthorizationGrantImpl ag = (AuthorizationGrantImpl) transaction.getAuthorizationGrant();
+ /*       if (ag.isExpired()) {
             doError("token not found.", STATUS_EXPIRED_TOKEN, response);
             writeUserCodeNotFound(response);
             return;
-        }
+        }*/
+/*
         CILOA2ServiceTransaction transaction = (CILOA2ServiceTransaction) se.getTransactionStore().get(ag);
         if (transaction == null) {
             // Then the pending transaction got garbage collected so it effectively timed out
             doError("transaction not found.", STATUS_TRANSACTION_NOT_FOUND, response);
             return;
         }
+*/
         MetaDebugUtil debugger = MyProxyDelegationServlet.createDebugger(transaction.getOA2Client());
         debugger.trace(this, "checking if server is RFC 8628 enabled");
         if (!transaction.isRFC8628Request()) {
@@ -321,8 +347,8 @@ public class DBService2 extends AbstractDBService {
         }
 
         RFC8628State rfc8628State = transaction.getRFC8628State();
-        RFC8628Servlet.getCache().remove(userCode);
-
+      //  RFC8628Servlet.getCache().remove(userCode);
+         transaction.setUserCode(""); // zero it out so it never gets found as a pending transaction.
         if (approved == 1) {
             rfc8628State.valid = true; // means they actually logged in
             debugger.trace(this, "device flow for user code " + userCode + " approved");
@@ -331,7 +357,7 @@ public class DBService2 extends AbstractDBService {
             debugger.trace(this, "device flow for user code " + userCode + " cancelled");
             // means they cancelled the whole thing. Remove the transaction and the cache entry.
             getTransactionStore().remove(transaction.getIdentifier());
-            RFC8628Servlet.getCache().remove(userCode);
+        //    RFC8628Servlet.getCache().remove(userCode);
             // Now tell the, that it was cancelled. This means to return a status of 0, meaning
             // the requested action was done.
             startWrite(response);

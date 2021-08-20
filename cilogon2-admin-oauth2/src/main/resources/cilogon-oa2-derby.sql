@@ -60,11 +60,14 @@ call syscs_util.syscs_set_database_property('derby.database.sqlAuthorization', '
    Optional test:
    If you want be sure it works, create the schema as follows:
 
-create schema oauth2;
+create schema ciloa2;
 show schemas;
 
    And a bunch of schemas will be displayed, including ciloa2. This means everything
    worked. You don't need to issue the create schema command below.
+
+   Note that if you do not set the schema, then the default schema will be whatever
+   username you connected as, which will own the tables.
 
    At this point, exit Derby. Initial setup is done. You must connect again as the user
    that runs this because creating the tables below will automatically assign the
@@ -87,7 +90,7 @@ run '/full/path/to/oauth2-derby.qdl';
 */
 
 /* Uncomment this if you did not do the test above and have already created the schema.
-CREATE SCHEMA oauth2;
+CREATE SCHEMA ciloa2;
 */
 
 CREATE TABLE ciloa2.clients
@@ -151,13 +154,13 @@ CREATE TABLE ciloa2.client_approvals
 CREATE TABLE ciloa2.transactions
 (
             temp_token VARCHAR(255) PRIMARY KEY,
-        temp_token_valid BOOLEAN,
+      temp_token_valid BOOLEAN,
           certlifetime BIGINT,
              client_id VARCHAR(1024),
         verifier_token VARCHAR(1024),
           access_token VARCHAR(1024),
          refresh_token VARCHAR(1024),
-        refresh_token_valid BOOLEAN,
+   refresh_token_valid BOOLEAN,
             expires_in BIGINT,
               username VARCHAR(1024),
      access_token_valid BOOLEAN DEFAULT NULL,
@@ -181,8 +184,8 @@ CREATE TABLE ciloa2.transactions
             req_state CLOB
     );
 
-   CREATE UNIQUE INDEX access_token on ciloa2.transactions (access_token);
-   CREATE UNIQUE INDEX refresh_token on ciloa2.transactions (refresh_token);
+   CREATE INDEX access_token on ciloa2.transactions (access_token);
+   CREATE INDEX refresh_token on ciloa2.transactions (refresh_token);
 
 CREATE TABLE ciloa2.tx_records
 (
@@ -217,28 +220,28 @@ CREATE TABLE ciloa2.virtual_organizations
 
 CREATE TABLE ciloa2.users
 (
-  user_uid         VARCHAR(255) PRIMARY KEY,
-  first_name       VARCHAR(1024),
-  last_name        VARCHAR(1024),
-  idp              VARCHAR(1024),
-  idp_display_name VARCHAR(1024),
-  remote_user      VARCHAR(1024),
-  email            VARCHAR(1024),
-  serial_string    VARCHAR(1024),
-  affiliation      CLOB,
-  attr_json        CLOB,
-  display_name     VARCHAR(1024),
-  ou               VARCHAR(1024),
-  loa              VARCHAR(1024),
-  pairwise_id      VARCHAR(1024),
-  subject_id       VARCHAR(1024),
-  eppn             VARCHAR(1024),
-  eptid            VARCHAR(1024),
-  open_id          VARCHAR(1024),
-  us_idp           BOOLEAN,
-  oidc             VARCHAR(1024),
-  state            CLOB,
-  create_time      TIMESTAMP
+        user_uid VARCHAR(255) PRIMARY KEY,
+      first_name VARCHAR(1024),
+       last_name VARCHAR(1024),
+             idp VARCHAR(1024),
+idp_display_name VARCHAR(1024),
+     remote_user VARCHAR(1024),
+           email VARCHAR(1024),
+   serial_string VARCHAR(1024),
+     affiliation CLOB,
+       attr_json CLOB,
+    display_name VARCHAR(1024),
+              ou VARCHAR(1024),
+             loa VARCHAR(1024),
+     pairwise_id VARCHAR(1024),
+      subject_id VARCHAR(1024),
+            eppn VARCHAR(1024),
+           eptid VARCHAR(1024),
+         open_id VARCHAR(1024),
+          us_idp BOOLEAN,
+            oidc VARCHAR(1024),
+           state CLOB,
+     create_time TIMESTAMP
 );
 create  INDEX eppn    on ciloa2.users (eppn);
 create  INDEX eptid   on ciloa2.users (eptid);
@@ -247,29 +250,29 @@ create  INDEX open_id on ciloa2.users (open_id);
 
 CREATE TABLE ciloa2.old_user (
   archived_user_id VARCHAR(255) PRIMARY KEY,
-  archive_time     TIMESTAMP,
-  create_time      timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  user_uid         VARCHAR(1024) NOT NULL,
-  first_name       VARCHAR(1024),
-  last_name        VARCHAR(1024),
-  idp              VARCHAR(1024),
+      archive_time TIMESTAMP,
+       create_time timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+          user_uid VARCHAR(1024) NOT NULL,
+        first_name VARCHAR(1024),
+         last_name VARCHAR(1024),
+               idp VARCHAR(1024),
   idp_display_name VARCHAR(1024),
-  remote_user      VARCHAR(1024),
-  email            VARCHAR(1024),
-  serial_string    VARCHAR(1024),
-  affiliation      VARCHAR(1024),
-  attr_json        VARCHAR(1024),
-  display_name     VARCHAR(1024),
-  ou               VARCHAR(1024),
-  loa              VARCHAR(1024),
-  subject_id       VARCHAR(1024),
-  pairwise_id      VARCHAR(1024),
-  eppn             VARCHAR(1024),
-  eptid            VARCHAR(1024),
-  open_id          VARCHAR(1024),
-  us_idp           BOOLEAN,
-  oidc             VARCHAR(1024),
-  state            CLOB
+       remote_user VARCHAR(1024),
+             email VARCHAR(1024),
+     serial_string VARCHAR(1024),
+       affiliation VARCHAR(1024),
+         attr_json VARCHAR(1024),
+      display_name VARCHAR(1024),
+                ou VARCHAR(1024),
+               loa VARCHAR(1024),
+        subject_id VARCHAR(1024),
+       pairwise_id VARCHAR(1024),
+              eppn VARCHAR(1024),
+             eptid VARCHAR(1024),
+           open_id VARCHAR(1024),
+            us_idp BOOLEAN,
+              oidc VARCHAR(1024),
+             state CLOB
 );
 
 CREATE TABLE ciloa2.identity_provider (
@@ -288,32 +291,6 @@ CREATE TABLE ciloa2.uid_seq
     dummy int
 );
 
-
-
-
-
-/*
-    Now to grant restricted access.
- */
-
-GRANT ALL PRIVILEGES ON ciloa2.client_approvals TO NEW_USER;
-GRANT ALL PRIVILEGES ON ciloa2.clients TO NEW_USER;
-GRANT ALL PRIVILEGES ON ciloa2.adminClients TO NEW_USER;
-GRANT ALL PRIVILEGES ON ciloa2.transactions TO NEW_USER;
-GRANT ALL PRIVILEGES ON ciloa2.permissions TO NEW_USER;
-GRANT ALL PRIVILEGES ON ciloa2.tx_records TO NEW_USER;
-GRANT ALL PRIVILEGES ON ciloa2.virtual_organizations TO NEW_USER;
-
-
-
-/*GRANT ALL PRIVILEGES ON oauth2.client_approvals TO oa4mp;
-GRANT ALL PRIVILEGES ON oauth2.clients TO oa4mp;
-GRANT ALL PRIVILEGES ON oauth2.adminClients TO oa4mp;
-GRANT ALL PRIVILEGES ON oauth2.transactions TO oa4mp;
-GRANT ALL PRIVILEGES ON oauth2.permissions TO oa4mp;
-GRANT ALL PRIVILEGES ON oauth2.tx_records TO oa4mp;
-GRANT ALL PRIVILEGES ON oauth2.virtual_organizations TO oa4mp;
-*/
 /*
  Useful commands
  ij - starts the command line tool (once installed)
