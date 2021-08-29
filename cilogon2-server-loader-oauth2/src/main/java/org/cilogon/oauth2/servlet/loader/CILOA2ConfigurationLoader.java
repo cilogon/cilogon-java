@@ -205,7 +205,8 @@ public class CILOA2ConfigurationLoader extends OA2ConfigurationLoader implements
                     isRFC8628Enabled(),
                     isprintTSInDebug(),
                     getCleanupInterval(),
-                    isNotifyACEventEmailAddresses());
+                    isNotifyACEventEmailAddresses(),
+                    isRFC7636Required());
             return  se;
         } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
             throw new GeneralException("Error: Could not create the runtime environment", e);

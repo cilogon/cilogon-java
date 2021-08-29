@@ -96,7 +96,8 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
                                         boolean rfc8628Enabled,
                                         boolean isPrintTSInDebug,
                                         long cleanupInterval,
-                                        String notifyACEmailAddresses
+                                        String notifyACEmailAddresses,
+                                        boolean rfc7636Required
     ) {
         super(logger,
                 tsp,
@@ -142,7 +143,8 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
                 rfc8628Enabled,
                 isPrintTSInDebug,
                 cleanupInterval,
-                notifyACEmailAddresses);
+                notifyACEmailAddresses,
+                rfc7636Required);
         ciLogonSE = new CILogonSEImpl(usp, ausp, idpsp, incp, tfsp, isComputeFNAL);
         if (claimSource instanceof UserClaimSource) {
             ((UserClaimSource) claimSource).setOa2SE(this);

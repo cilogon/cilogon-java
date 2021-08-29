@@ -21,7 +21,7 @@
           <element id="archive" name="cilogon2-server-loader-oauth1-5.2-SNAPSHOT.jar">
             <element id="module-output" name="cilogon2-server-loader-oauth1" />
           </element>
-          <element id="library" level="project" name="Maven: org.mariadb.jdbc:mariadb-java-client:2.2.5" />
+          <element id="library" level="project" name="Maven: org.mariadb.jdbc:mariadb-java-client:2.7.3" />
           <element id="archive" name="cilogon2-server-5.2-SNAPSHOT.jar">
             <element id="module-output" name="cilogon2-server" />
           </element>
@@ -37,8 +37,8 @@
           <element id="library" level="project" name="Maven: edu.uiuc.ncsa.security.delegation:ncsa-security-delegation-server:5.2-SNAPSHOT" />
           <element id="library" level="project" name="Maven: edu.uiuc.ncsa.security:ncsa-security-servlet:5.2-SNAPSHOT" />
           <element id="library" level="project" name="Maven: edu.uiuc.ncsa.myproxy:oa4mp-server-loader-oauth1:5.2-SNAPSHOT" />
-          <element id="library" level="project" name="Maven: mysql:mysql-connector-java:8.0.11" />
-          <element id="library" level="project" name="Maven: com.google.protobuf:protobuf-java:2.6.0" />
+          <element id="library" level="project" name="Maven: mysql:mysql-connector-java:8.0.26" />
+          <element id="library" level="project" name="Maven: com.google.protobuf:protobuf-java:3.11.4" />
           <element id="library" level="project" name="Maven: org.apache.derby:derby:10.14.1.0" />
           <element id="library" level="project" name="Maven: edu.uiuc.ncsa.security.delegation:ncsa-security-oauth-1.0a:5.2-SNAPSHOT" />
           <element id="library" level="project" name="Maven: edu.uiuc.ncsa.security.delegation:ncsa-security-delegation-client:5.2-SNAPSHOT" />
