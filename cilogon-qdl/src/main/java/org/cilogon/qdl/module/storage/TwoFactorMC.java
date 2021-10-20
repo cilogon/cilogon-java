@@ -38,7 +38,4 @@ public class TwoFactorMC<V extends TwoFactorInfo> extends StemConverter<V> {
         }
         return stem;
     }
-    /*
-       String info = "two_factor";
-     */
 }

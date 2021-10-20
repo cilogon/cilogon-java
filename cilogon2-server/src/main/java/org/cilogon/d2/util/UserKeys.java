@@ -13,8 +13,10 @@ public class UserKeys extends SerializationKeys {
         identifier(userID);
     }
 
+    public String affiliation = "affiliation";
     public String attr_json = "attr_json";
     public String creationTimestamp = "create_time";
+    public String displayName = "display_name";
     public String email = "email";
     public String eppn = "eppn";
     public String eptid = "eptid";
@@ -24,16 +26,15 @@ public class UserKeys extends SerializationKeys {
     public String lastName = "last_name";
     public String oidc = "oidc";
     public String openID = "open_id";
+    public String organizationalUnit = "ou";
+    public String pairwiseid = "pairwise_id";
     public String remoteUser = "remote_user";
     public String serialString = "serial_string";
     public String state = "state";
+    public String subjectid = "subject_id";
     public String userID = "user_uid";
     public String useUSinDN = "us_idp";
-    public String pairwiseid = "pairwise_id";
-    public String subjectid = "subject_id";
-    public String organizationalUnit = "ou";
-    public String displayName = "display_name";
-    public String affiliation = "affiliation";
+    // Note that idd keys are added or changed, you must update UserStemMC or QDL support will break
 
     public String pairwiseId(String... x) {
         if (0 < x.length) pairwiseid = x[0];
