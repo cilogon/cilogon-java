@@ -84,7 +84,7 @@
                 <input type="url" class="form-control" id="inputHomeURL"
                        name="${clientHomeUrl}" value="${clientHomeUrlValue}" required
                        aria-describedBy="homeURLHelp"
-                       placeholder="URL of your client's home page"/>
+                       placeholder="URL of your project's home page"/>
                 <small id="homeURLHelp" class="form-text text-muted">The Home URL
                     is used as the hyperlink for the Client Name above.
                 </small>
@@ -97,7 +97,11 @@
             <div class="col-sm-10">
           <textarea class="form-control" id="${callbackURI}"
                     name="${callbackURI}" rows="5" required
-                    placeholder="Enter your callback URLs, one per line. The redirect_uri parameter must exactly match a URL in this list.">${callbackURIValue}</textarea>
+                    placeholder=
+"Enter your callback URLs, one per line. The redirect_uri parameter must exactly match a URL in this list.
+Callback URLs must use domain names associated with or registered to your institution/project.
+For internal development/testing, we recommend using localhost or a private IP address (e.g., 192.168.0.1) in the callback URL.
+URLs with localhost or private IP addresses may use 'http://'. All other URLs must use 'https://'.">${callbackURIValue}</textarea>
             </div>
         </div>
 
