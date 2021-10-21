@@ -5,6 +5,7 @@ import edu.uiuc.ncsa.qdl.variables.StemVariable;
 import edu.uiuc.ncsa.security.storage.data.MapConverter;
 import net.sf.json.JSONObject;
 import org.cilogon.d2.storage.*;
+import org.cilogon.d2.util.UserConverter;
 import org.cilogon.d2.util.UserKeys;
 
 import static edu.uiuc.ncsa.security.core.util.BasicIdentifier.newID;
@@ -18,11 +19,12 @@ public class UserStemMC<V extends User> extends StemConverter<V> {
         super(mapConverter);
     }
 
+
     UserKeys kk() {
         return (UserKeys) keys;
     }
     /*
-        public String affiliation = "affiliation";
+    public String affiliation = "affiliation";
     public String attr_json = "attr_json";
     public String creationTimestamp = "create_time";
     public String displayName = "display_name";
