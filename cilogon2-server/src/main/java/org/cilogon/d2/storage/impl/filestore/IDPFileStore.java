@@ -10,6 +10,7 @@ import org.cilogon.d2.util.IDPConverter;
 
 import java.io.File;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * <p>Created by Jeff Gaynor<br>
@@ -57,5 +58,10 @@ public class IDPFileStore extends FileStore<IdentityProvider> implements Identit
             return false;
         }
         return x.getIdentifierString().equals(idp);
+    }
+
+    @Override
+    public List<IdentityProvider> getMostRecent(int n, List<String> attributes) {
+        throw new UnsupportedOperationException();
     }
 }

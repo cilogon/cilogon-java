@@ -110,7 +110,7 @@ public abstract class RemoteDBServiceTest extends TestBase {
         if (checkSerialString) {
             assert user.getSerialString().equals(map.get(userKeys.serialString())) : "serial strings don't match. Expected " + user.getSerialString() + ", and got " + map.get(userKeys.serialString());
         }
-        assert DateUtils.compareDates(user.getCreationTime(), map.getDate(userKeys.creationTimestamp())) : "creation times don't match. Expected " + user.getCreationTime() + ". Got " + map.get(userKeys.creationTimestamp());
+        assert DateUtils.compareDates(user.getCreationTS(), map.getDate(userKeys.creationTimestamp())) : "creation times don't match. Expected " + user.getCreationTS() + ". Got " + map.get(userKeys.creationTimestamp());
 
     }
 

@@ -3,6 +3,7 @@ package org.cilogon.d2.storage.impl.memorystore;
 import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.XMLConverter;
 import edu.uiuc.ncsa.security.core.util.IdentifiableProviderImpl;
+import edu.uiuc.ncsa.security.storage.GenericStoreUtils;
 import edu.uiuc.ncsa.security.storage.MemoryStore;
 import edu.uiuc.ncsa.security.storage.data.MapConverter;
 import org.cilogon.d2.storage.ArchivedUser;
@@ -77,5 +78,10 @@ public class MemoryArchivedUserStore extends MemoryStore<ArchivedUser> implement
     @Override
     public XMLConverter<ArchivedUser> getXMLConverter() {
         return getMapConverter();
+    }
+
+    @Override
+    public List<ArchivedUser> getMostRecent(int n, List<String> attributes) {
+        return GenericStoreUtils.getMostRecent(this, n, attributes);
     }
 }

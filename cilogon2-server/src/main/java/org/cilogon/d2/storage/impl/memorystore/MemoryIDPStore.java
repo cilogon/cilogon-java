@@ -10,6 +10,7 @@ import org.cilogon.d2.util.IDPConverter;
 import org.cilogon.d2.util.IDPKeys;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * <p>Created by Jeff Gaynor<br>
@@ -53,5 +54,10 @@ public class MemoryIDPStore extends MemoryStore<IdentityProvider> implements Ide
     @Override
     public XMLConverter<IdentityProvider> getXMLConverter() {
         return getMapConverter();
+    }
+
+    @Override
+    public List<IdentityProvider> getMostRecent(int n, List<String> attributes) {
+        throw new UnsupportedOperationException();
     }
 }

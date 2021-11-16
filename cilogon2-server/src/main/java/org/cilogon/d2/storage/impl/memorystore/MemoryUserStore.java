@@ -3,6 +3,7 @@ package org.cilogon.d2.storage.impl.memorystore;
 import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.XMLConverter;
 import edu.uiuc.ncsa.security.core.util.IdentifiableProviderImpl;
+import edu.uiuc.ncsa.security.storage.GenericStoreUtils;
 import edu.uiuc.ncsa.security.storage.MemoryStore;
 import edu.uiuc.ncsa.security.storage.data.MapConverter;
 import org.cilogon.d2.storage.*;
@@ -13,6 +14,7 @@ import org.cilogon.d2.util.UserKeys;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -183,13 +185,22 @@ public class MemoryUserStore extends MemoryStore<User> implements UserStore {
         update(value, false);
     }
 
+    UserConverter userConverter = null;
     public MapConverter getMapConverter() {
-        UserKeys keys = new UserKeys();
-        return new UserConverter(keys, identifiableProvider);
+        if(userConverter == null) {
+            UserKeys keys = new UserKeys();
+            userConverter = new UserConverter(keys, identifiableProvider);
+        }
+        return userConverter;
     }
 
     @Override
     public XMLConverter<User> getXMLConverter() {
         return getMapConverter();
+    }
+
+    @Override
+    public List<User> getMostRecent(int n, List<String> attributes) {
+        return GenericStoreUtils.getMostRecent(this, n, attributes);
     }
 }

@@ -18,4 +18,9 @@ public class TwoFactorSQLStore extends SQLStore<TwoFactorInfo> implements TwoFac
                              MapConverter<TwoFactorInfo> twoFactorInfoMapConverter) {
         super(connectionPool, table, identifiableProvider, twoFactorInfoMapConverter);
     }
+
+    @Override
+    public String getCreationTSField() {
+        throw new UnsupportedOperationException();
+    }
 }

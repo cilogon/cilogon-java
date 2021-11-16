@@ -1,5 +1,6 @@
 package org.cilogon.d2.storage;
 
+import edu.uiuc.ncsa.security.core.DateComparable;
 import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.exceptions.GeneralException;
 import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
@@ -20,7 +21,7 @@ import static edu.uiuc.ncsa.security.core.util.BeanUtils.checkNoNulls;
  * <p>Created by Jeff Gaynor<br>
  * on Mar 11, 2010 at  3:21:45 PM
  */
-public class User extends IdentifiableImpl {
+public class User extends IdentifiableImpl implements DateComparable {
     public static final long serialVersionUID = 0xCafeD00dL;
 
     public UserMultiID getUserMultiKey() {
@@ -94,7 +95,8 @@ public class User extends IdentifiableImpl {
         this.serialString = serialString;
     }
 
-    public Date getCreationTime() {
+   @Override
+    public Date getCreationTS() {
         return creationTime;
     }
 
@@ -384,7 +386,7 @@ public class User extends IdentifiableImpl {
         if (!compare(user)) return false;
         if (!checkNoNulls(user.getSerialIdentifier(), getSerialIdentifier())) return false;
         if (!checkNoNulls(user.getIdentifier(), getIdentifier())) ;
-        if (!DateUtils.compareDates(user.getCreationTime(), getCreationTime())) return false;
+        if (!DateUtils.compareDates(user.getCreationTS(), getCreationTS())) return false;
 //        if (!user.getRemoteUser().equals(getRemoteUser())) return false;
         if (!checkEquals(user.getePPN(), getePPN())) return false;
         if (!checkEquals(user.getePTID(), getePTID())) return false;

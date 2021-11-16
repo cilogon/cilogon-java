@@ -389,4 +389,9 @@ public class CILSQLUserStore extends SQLStore<User> implements UserStore {
     public MapConverter getMapConverter() {
         return converter;
     }
+
+    @Override
+    public String getCreationTSField() {
+        return ((UserKeys) getMapConverter().getKeys()).creationTimestamp();
+    }
 }

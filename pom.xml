@@ -13,6 +13,20 @@
     <name>Cilogon version 2 parent module</name>
     <version>5.2-SNAPSHOT</version>
     <description>CILogon server code</description>
+    <dependencies>
+        <dependency>
+            <groupId>edu.uiuc.ncsa.security</groupId>
+            <artifactId>ncsa-security-storage</artifactId>
+            <version>5.2-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>edu.uiuc.ncsa.security</groupId>
+            <artifactId>ncsa-security-servlet</artifactId>
+            <version>5.2-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
     <groupId>edu.uiuc.ncsa.security</groupId>
 
     <packaging>pom</packaging>

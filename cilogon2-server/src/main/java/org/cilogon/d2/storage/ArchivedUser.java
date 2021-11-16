@@ -1,5 +1,6 @@
 package org.cilogon.d2.storage;
 
+import edu.uiuc.ncsa.security.core.DateComparable;
 import edu.uiuc.ncsa.security.core.Identifiable;
 import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.util.IdentifiableImpl;
@@ -14,7 +15,7 @@ import java.util.Date;
  * <p>Created by Jeff Gaynor<br>
  * on Apr 9, 2010 at  11:24:18 PM
  */
-public class ArchivedUser extends IdentifiableImpl implements Comparable, Identifiable {
+public class ArchivedUser extends IdentifiableImpl implements Comparable, Identifiable, DateComparable {
     public ArchivedUser(Identifier identifier) {
         super(identifier);
     }
@@ -43,6 +44,10 @@ public class ArchivedUser extends IdentifiableImpl implements Comparable, Identi
 
     public User user;
 
+    @Override
+    public Date getCreationTS() {
+        return getArchivedDate();
+    }
 
     public Date getArchivedDate() {
         return archivedDate;

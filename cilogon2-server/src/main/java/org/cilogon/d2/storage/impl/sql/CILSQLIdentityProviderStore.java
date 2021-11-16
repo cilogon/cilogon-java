@@ -17,6 +17,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import static edu.uiuc.ncsa.security.core.util.BasicIdentifier.newID;
@@ -150,5 +151,14 @@ public class CILSQLIdentityProviderStore extends SQLStore<IdentityProvider> impl
             destroyConnection(cr);
             throw new CILogonException("Error adding identity provider list", e);
         }
+    }
+    @Override
+    public List<IdentityProvider> getMostRecent(int n, List<String> attributes) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public String getCreationTSField() {
+        throw new UnsupportedOperationException();
     }
 }

@@ -23,7 +23,6 @@ import edu.uiuc.ncsa.security.delegation.token.TokenForge;
 import edu.uiuc.ncsa.security.oauth_2_0.server.claims.ClaimSource;
 import edu.uiuc.ncsa.security.oauth_2_0.server.config.LDAPConfiguration;
 import edu.uiuc.ncsa.security.servlet.UsernameTransformer;
-import edu.uiuc.ncsa.security.util.json.JSONStore;
 import edu.uiuc.ncsa.security.util.jwk.JSONWebKeys;
 import edu.uiuc.ncsa.security.util.mail.MailUtilProvider;
 import org.cilogon.d2.storage.IdentityProviderStore;
@@ -89,7 +88,7 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
                                         String issuer,
                                         boolean isUtilServletEnabled,
                                         boolean isOIDCEnabled,
-                                        Provider<JSONStore> jsonStoreProvider,
+                                //        Provider<JSONStore> jsonStoreProvider,
                                         CMConfigs cmConfigs,
                                         QDLEnvironment qe,
                                         boolean isRFC8693Enabled,
@@ -139,7 +138,7 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
                 issuer,
                 isUtilServletEnabled,
                 isOIDCEnabled,
-                jsonStoreProvider,
+           //     jsonStoreProvider,
                 cmConfigs,
                 qe,
                 isRFC8693Enabled,

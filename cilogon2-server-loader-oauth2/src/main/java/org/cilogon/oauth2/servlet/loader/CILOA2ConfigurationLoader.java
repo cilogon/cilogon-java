@@ -198,7 +198,7 @@ public class CILOA2ConfigurationLoader extends OA2ConfigurationLoader implements
                     getIssuer(),
                     isUtilServerEnabled(),
                     isOIDCEnabled(),
-                    getMultiJSONStoreProvider(),
+               //     getMultiJSONStoreProvider(),
                     getCmConfigs(),
                     getQDLEnvironment(),
                     isRFC8693Enabled(),

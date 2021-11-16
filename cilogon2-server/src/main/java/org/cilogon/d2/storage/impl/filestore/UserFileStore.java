@@ -6,6 +6,7 @@ import edu.uiuc.ncsa.security.core.exceptions.NFWException;
 import edu.uiuc.ncsa.security.core.exceptions.NotImplementedException;
 import edu.uiuc.ncsa.security.core.util.IdentifiableProviderImpl;
 import edu.uiuc.ncsa.security.storage.FileStore;
+import edu.uiuc.ncsa.security.storage.GenericStoreUtils;
 import edu.uiuc.ncsa.security.storage.data.MapConverter;
 import org.cilogon.d2.storage.*;
 import org.cilogon.d2.storage.provider.UserProvider;
@@ -17,6 +18,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * <p>Created by Jeff Gaynor<br>
@@ -237,5 +239,10 @@ public class UserFileStore extends FileStore<User> implements UserStore {
     @Override
     public MapConverter getMapConverter() {
         return converter;
+    }
+
+    @Override
+    public List<User> getMostRecent(int n, List<String> attributes) {
+        return GenericStoreUtils.getMostRecent(this, n, attributes);
     }
 }

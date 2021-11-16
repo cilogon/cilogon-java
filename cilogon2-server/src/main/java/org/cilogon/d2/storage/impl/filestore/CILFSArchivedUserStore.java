@@ -5,6 +5,7 @@ import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.util.IdentifiableImpl;
 import edu.uiuc.ncsa.security.core.util.IdentifiableProviderImpl;
 import edu.uiuc.ncsa.security.storage.FileStore;
+import edu.uiuc.ncsa.security.storage.GenericStoreUtils;
 import edu.uiuc.ncsa.security.storage.data.MapConverter;
 import org.cilogon.d2.storage.ArchivedUser;
 import org.cilogon.d2.storage.User;
@@ -59,6 +60,11 @@ public class CILFSArchivedUserStore extends FileStore<ArchivedUser> implements A
         }
 
         @Override
+        public List<AUEntry> getMostRecent(int n, List<String> attributes) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
         public AUEntry create() {
             return new AUEntry(null);
         }
@@ -93,16 +99,6 @@ public class CILFSArchivedUserStore extends FileStore<ArchivedUser> implements A
     UserStore userStore;
 
     AUEntryFileStore auEntryFileStore;
-
-/*    public CILFSArchivedUserStore(File file,
-                                  UserStore userStore,
-                                  ArchivedUserProvider idp,
-                                  ArchivedUserConverter archivedUserConverter) {
-        super(file, idp, archivedUserConverter);
-        auEntryFileStore = new AUEntryFileStore(new File(file, OA4MPConfigTags.ARCHIVED_USERS));
-        this.userStore = userStore;
-    }*/
-
 
 
     @Override
@@ -145,5 +141,8 @@ public class CILFSArchivedUserStore extends FileStore<ArchivedUser> implements A
         return users.get(users.size() - 1);
     }
 
-
+    @Override
+    public List<ArchivedUser> getMostRecent(int n, List<String> attributes) {
+        return GenericStoreUtils.getMostRecent(this, n, attributes);
+    }
 }

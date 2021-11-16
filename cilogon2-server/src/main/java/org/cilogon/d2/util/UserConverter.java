@@ -72,7 +72,7 @@ public class UserConverter<T extends User> extends MapConverter<T> {
         map.put(uk().lastName(), replaceNull(user.getLastName()));
         map.put(uk().email(), replaceNull(user.getEmail()));
         map.put(uk().serialString(), user.getSerialIdentifier().toString());
-        map.put(uk().creationTimestamp(), user.getCreationTime());
+        map.put(uk().creationTimestamp(), user.getCreationTS());
         map.put(uk().affiliation(), user.getAffiliation());
         map.put(uk().displayName(), user.getDisplayName());
         map.put(uk().organizationalUnit(), user.getOrganizationalUnit());

@@ -5,6 +5,7 @@ import edu.uiuc.ncsa.security.storage.FileStore;
 import edu.uiuc.ncsa.security.storage.data.MapConverter;
 
 import java.io.File;
+import java.util.List;
 
 /**
  * <p>Created by Jeff Gaynor<br>
@@ -23,4 +24,9 @@ public class TwoFactorFS extends FileStore<TwoFactorInfo> implements TwoFactorSt
                           boolean removeEmptyFiles) {
         super(storeDirectory, indexDirectory, identifiableProvider, twoFactorInfoMapConverter, removeEmptyFiles);
     }
+    @Override
+    public List<TwoFactorInfo> getMostRecent(int n, List<String> attributes) {
+        throw new UnsupportedOperationException();
+    }
+
 }

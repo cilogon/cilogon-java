@@ -29,6 +29,6 @@ public abstract class ServiceTestUtils extends TestUtils {
     static SerialStrings serialStrings;
 
     public static boolean checkTimestamp(User user, User oldUser) {
-        return DateUtils.compareDates(user.getCreationTime(), oldUser.getCreationTime());
+        return DateUtils.compareDates(user.getCreationTS(), oldUser.getCreationTS());
     }
 }

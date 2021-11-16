@@ -10,6 +10,7 @@ import edu.uiuc.ncsa.security.storage.sql.ConnectionRecord;
 import edu.uiuc.ncsa.security.storage.sql.SQLStore;
 import edu.uiuc.ncsa.security.storage.sql.internals.Table;
 import org.cilogon.d2.storage.ArchivedUser;
+import org.cilogon.d2.storage.ArchivedUserKeys;
 import org.cilogon.d2.storage.impl.sql.table.ArchivedUsersTable;
 import org.cilogon.d2.storage.provider.ArchivedUserProvider;
 import org.cilogon.d2.util.ArchivedUserStore;
@@ -95,5 +96,10 @@ public class CILSQLArchivedUserStore extends SQLStore<ArchivedUser> implements A
         if (users.isEmpty()) return null;
         // uses that this list is always sorted by archive date.
         return users.get(users.size() - 1);
+    }
+
+    @Override
+    public String getCreationTSField() {
+        return ((ArchivedUserKeys)getMapConverter().getKeys()).archivedTimestampColumn();
     }
 }

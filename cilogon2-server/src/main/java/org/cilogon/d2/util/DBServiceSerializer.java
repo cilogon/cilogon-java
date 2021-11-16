@@ -136,7 +136,7 @@ public class DBServiceSerializer {
         onlyPrintIfNotTrivial(w, userKeys.affiliation(), user.getAffiliation());
         onlyPrintIfNotTrivial(w, userKeys.displayName(), user.getDisplayName());
         onlyPrintIfNotTrivial(w, userKeys.organizationalUnit(), user.getOrganizationalUnit());
-        onlyPrintIfNotTrivial(w, userKeys.creationTimestamp(), Iso8601.date2String(user.getCreationTime()));
+        onlyPrintIfNotTrivial(w, userKeys.creationTimestamp(), Iso8601.date2String(user.getCreationTS()));
 
         try {
             if(user.canGetCert()) {

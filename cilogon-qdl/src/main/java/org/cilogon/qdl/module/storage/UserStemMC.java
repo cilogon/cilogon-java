@@ -5,7 +5,6 @@ import edu.uiuc.ncsa.qdl.variables.StemVariable;
 import edu.uiuc.ncsa.security.storage.data.MapConverter;
 import net.sf.json.JSONObject;
 import org.cilogon.d2.storage.*;
-import org.cilogon.d2.util.UserConverter;
 import org.cilogon.d2.util.UserKeys;
 
 import static edu.uiuc.ncsa.security.core.util.BasicIdentifier.newID;
@@ -87,7 +86,7 @@ public class UserStemMC<V extends User> extends StemConverter<V> {
         stem = super.toMap(v, stem);
         setNonNullStemValue(stem,kk().affiliation(), v.getAffiliation());
         setNonNullStemValue(stem,kk().attr_json(), v.getAttr_json());
-        stem.put(kk().creationTimestamp(), v.getCreationTime().getTime());
+        stem.put(kk().creationTimestamp(), v.getCreationTS().getTime());
         setNonNullStemValue(stem,kk().idpDisplayName(), v.getIDPName());
         setNonNullStemValue(stem,kk().email(), v.getEmail());
         if (v.getePPN() != null) {stem.put(kk().eppn(), v.getePPN().getName());}

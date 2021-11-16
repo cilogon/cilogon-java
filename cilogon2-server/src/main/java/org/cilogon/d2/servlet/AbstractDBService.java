@@ -895,7 +895,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
             if (user == null) {
                 user = currentUser;
             } else {
-                if (user.getCreationTime().compareTo(currentUser.getCreationTime()) < 0) {
+                if (user.getCreationTS().compareTo(currentUser.getCreationTS()) < 0) {
                     user = currentUser;
                 }
             }
