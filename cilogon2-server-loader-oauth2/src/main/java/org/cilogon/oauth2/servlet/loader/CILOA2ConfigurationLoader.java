@@ -198,7 +198,6 @@ public class CILOA2ConfigurationLoader extends OA2ConfigurationLoader implements
                     getIssuer(),
                     isUtilServerEnabled(),
                     isOIDCEnabled(),
-               //     getMultiJSONStoreProvider(),
                     getCmConfigs(),
                     getQDLEnvironment(),
                     isRFC8693Enabled(),
@@ -209,7 +208,8 @@ public class CILOA2ConfigurationLoader extends OA2ConfigurationLoader implements
                     isprintTSInDebug(),
                     getCleanupInterval(),
                     isNotifyACEventEmailAddresses(),
-                    isRFC7636Required());
+                    isRFC7636Required(),
+                    isDemoModeEnabled());
             return  se;
         } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
             throw new GeneralException("Error: Could not create the runtime environment", e);

@@ -88,7 +88,6 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
                                         String issuer,
                                         boolean isUtilServletEnabled,
                                         boolean isOIDCEnabled,
-                                //        Provider<JSONStore> jsonStoreProvider,
                                         CMConfigs cmConfigs,
                                         QDLEnvironment qe,
                                         boolean isRFC8693Enabled,
@@ -99,7 +98,8 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
                                         boolean isPrintTSInDebug,
                                         long cleanupInterval,
                                         String notifyACEmailAddresses,
-                                        boolean rfc7636Required
+                                        boolean rfc7636Required,
+                                        boolean isDemoMode
     ) {
         super(logger,
                 tsp,
@@ -138,7 +138,6 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
                 issuer,
                 isUtilServletEnabled,
                 isOIDCEnabled,
-           //     jsonStoreProvider,
                 cmConfigs,
                 qe,
                 isRFC8693Enabled,
@@ -149,7 +148,8 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
                 isPrintTSInDebug,
                 cleanupInterval,
                 notifyACEmailAddresses,
-                rfc7636Required);
+                rfc7636Required,
+                isDemoMode);
         ciLogonSE = new CILogonSEImpl(usp, ausp, idpsp, incp, tfsp, isComputeFNAL);
         if (claimSource instanceof UserClaimSource) {
             ((UserClaimSource) claimSource).setOa2SE(this);
