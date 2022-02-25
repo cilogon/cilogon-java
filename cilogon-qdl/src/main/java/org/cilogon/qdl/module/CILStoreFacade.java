@@ -13,7 +13,7 @@ import java.util.List;
  * on 12/22/20 at  1:36 PM
  */
 /*
-NOTE this does not extends PermissionStoreFacade since that  add in specific p-store methods
+NOTE this does not extend PermissionStoreFacade since that  add in specific p-store methods
 for getting clients etc. We don't want these in generic stores (e.g. the two factor store).
  */
 public class CILStoreFacade extends StoreFacade {

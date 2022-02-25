@@ -25,6 +25,7 @@ public class CILStoreModule extends StoreAccessModule {
         CILStoreModule storeModule = new CILStoreModule(URI.create("cilogon:/qdl/store"), "store");
         storeModule.storeFacade = newStoreFacade();
         doIt(storeModule, state);
+        setupModule(storeModule);
         return storeModule;
     }
 

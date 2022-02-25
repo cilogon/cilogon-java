@@ -616,7 +616,6 @@ public class DBService2 extends AbstractDBService {
         t.setAuthGrantValid(true);
         t.setUsername(userUID.toString());
 
-        //doClaims((CILogonOA2ServiceEnvironment) getServiceEnvironment(), t);
         try {
             doClaims2((CILogonOA2ServiceEnvironment) getServiceEnvironment(), t, req);
         } catch (Throwable throwable) {
