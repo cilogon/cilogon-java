@@ -1,0 +1,24 @@
+#! /usr/bin/env -S qdl-run
+
+/*
+    This will set the user for the given transaction. This is used as part of manual testing
+    for the device flow. You supply the user code and name, and the given user name is set
+    It is assumed that the module for store access is available in the classpath.
+*/
+
+ ⊨  2 == script_args() : 'you must supply a user code and user name';
+ user_code := script_args(0);
+ username := script_args(1);
+ module_import('oa2:/qdl/store', 'T');
+ T#init('/home/ncsa/dev/csd/config/servers.xml', 'cil-oa2', 'transaction');
+ transaction. := T#search('states', '.*' + user_code + '.*');
+ if[
+  size(transaction.)==1
+  ][
+     transaction.0.'username' := username;
+     T#save(transaction.0);
+  ]else[
+    say('search failed. ' + size(transaction.) + ' transaction(s) found.');
+  ];
+
+

@@ -22,6 +22,7 @@ import edu.uiuc.ncsa.security.delegation.token.impl.TokenUtils;
 import edu.uiuc.ncsa.security.oauth_2_0.OA2Constants;
 import edu.uiuc.ncsa.security.oauth_2_0.OA2GeneralError;
 import edu.uiuc.ncsa.security.oauth_2_0.jwt.JWTRunner;
+import edu.uiuc.ncsa.security.oauth_2_0.jwt.ScriptRuntimeException;
 import edu.uiuc.ncsa.security.servlet.ServletDebugUtil;
 import org.cilogon.d2.servlet.AbstractDBService;
 import org.cilogon.d2.storage.User;
@@ -181,19 +182,6 @@ public class DBService2 extends AbstractDBService {
             doError("transaction not found.", STATUS_TRANSACTION_NOT_FOUND, response);
             return;
         }
-/*
-        if (!RFC8628Servlet.getCache().containsKey(userCode)) {
-            doError("transaction not found.", STATUS_TRANSACTION_NOT_FOUND, response);
-            return;
-        }
-*/
-
-//        String rawAG = RFC8628Servlet.getCache().get(userCode);
-/*
-        if (StringUtils.isTrivial(rawAG)) {
-            doError("token not found.", STATUS_EXPIRED_TOKEN, response);
-        }
-*/
 
         // It is possible that the transaction was garbage collected but the GC hasn't removed it
         // from the cache, so we do have to check if the ag is expired.
@@ -310,35 +298,10 @@ public class DBService2 extends AbstractDBService {
             return;
         }
 
-/*
-        if (!RFC8628Servlet.getCache().containsKey(userCode)) {
-            doError("transaction not found.", STATUS_TRANSACTION_NOT_FOUND, response);
-            return;
-        }
-*/
-/*
-        String rawAG = RFC8628Servlet.getCache().get(userCode);
-        if (StringUtils.isTrivial(rawAG)) {
-            doError("token not found.", STATUS_EXPIRED_TOKEN, response);
-        }
 
-*/
         // It is possible that the transaction was garbage collected but the GC hasn't removed it
         // from the cache, so we do have to check if the ag is expired.
         AuthorizationGrantImpl ag = (AuthorizationGrantImpl) transaction.getAuthorizationGrant();
- /*       if (ag.isExpired()) {
-            doError("token not found.", STATUS_EXPIRED_TOKEN, response);
-            writeUserCodeNotFound(response);
-            return;
-        }*/
-/*
-        CILOA2ServiceTransaction transaction = (CILOA2ServiceTransaction) se.getTransactionStore().get(ag);
-        if (transaction == null) {
-            // Then the pending transaction got garbage collected so it effectively timed out
-            doError("transaction not found.", STATUS_TRANSACTION_NOT_FOUND, response);
-            return;
-        }
-*/
         MetaDebugUtil debugger = MyProxyDelegationServlet.createDebugger(transaction.getOA2Client());
         debugger.trace(this, "checking if server is RFC 8628 enabled");
         if (!transaction.isRFC8628Request()) {
@@ -516,6 +479,11 @@ public class DBService2 extends AbstractDBService {
     }
 
     public static class Err {
+        public Err(int code, String error, String description, URI errorURI) {
+         this(code, error, description);
+         this.errorURI = errorURI;
+        }
+
         public Err(int code, String error, String description) {
             this.code = code;
             this.error = error;
@@ -525,6 +493,7 @@ public class DBService2 extends AbstractDBService {
         int code;
         String description;
         String error;
+        URI errorURI = null;
     }
 
     protected void writeMessage(HttpServletResponse response, Err errResponse) throws IOException {
@@ -618,6 +587,10 @@ public class DBService2 extends AbstractDBService {
 
         try {
             doClaims2((CILogonOA2ServiceEnvironment) getServiceEnvironment(), t, req);
+        }catch(ScriptRuntimeException srx){
+          // The user actually threw one of these.
+            writeMessage(resp, new Err(STATUS_MISSING_ARGUMENT, srx.getRequestedType(), srx.getMessage(), srx.getErrorURI()));
+          return;
         } catch (Throwable throwable) {
             if (throwable instanceof RuntimeException) {
                 throw (RuntimeException) throwable;
