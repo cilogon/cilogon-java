@@ -1,4 +1,4 @@
-package org.cilogon.oauth2.servlet.impl;
+package org.cilogon.proxy.servlet;
 
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.OA2ServiceTransaction;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.clients.OA2Client;
@@ -9,6 +9,7 @@ import org.cilogon.d2.twofactor.TwoFactorSerializationKeys;
 import org.cilogon.d2.util.DBServiceSerializer;
 import org.cilogon.d2.util.IDPKeys;
 import org.cilogon.d2.util.UserKeys;
+import org.cilogon.oauth2.servlet.impl.Err;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -24,7 +25,7 @@ public class DBServiceSerializer2 extends DBServiceSerializer {
         super(userKeys, idpKeys, tfk, cKeys, caKeys);
     }
 
-    public void writeMessage(PrintWriter w, DBService2.Err errResponse) throws IOException {
+    public void writeMessage(PrintWriter w, Err errResponse) throws IOException {
         writeMessage(w, errResponse.code);
         print(w, "error", errResponse.error);
         print(w, "error_description", errResponse.description);
@@ -69,7 +70,7 @@ public class DBServiceSerializer2 extends DBServiceSerializer {
         writeMessage(w, status);
     }
 
-    public void serialize(PrintWriter w, OA2ServiceTransaction oa2ServiceTransaction, DBService2.Err errResponse) throws IOException {
+    public void serialize(PrintWriter w, OA2ServiceTransaction oa2ServiceTransaction, Err errResponse) throws IOException {
         writeMessage(w, errResponse);
     }
 }

@@ -20,6 +20,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="cilogon2-server-test" />
         <module name="cilogon2-admin-oauth1" />
+        <module name="cilogon-proxy" />
         <module name="cilogon2-admin-oauth2" />
         <module name="cilogon2-server" />
         <module name="cilogon2-server-loader-oauth2" />

@@ -44,7 +44,8 @@
         <module>cilogon2-server-loader-oauth2</module>
         <module>cilogon2-server-loader-oauth1</module>
         <module>cilogon2-client-oauth1</module>
-        <module>cilogon2-client-oauth2</module>
+	<module>cilogon2-client-oauth2</module>
+	<module>cilogon-proxy</module>	
         <module>cilogon-qdl</module>
     </modules>
 

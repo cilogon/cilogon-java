@@ -1,4 +1,4 @@
-package org.cilogon.oauth2.servlet.impl;
+package org.cilogon.proxy.servlet;
 
 import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
 import edu.uiuc.ncsa.security.oauth_2_0.OA2Errors;
@@ -6,14 +6,14 @@ import edu.uiuc.ncsa.security.oauth_2_0.OA2GeneralError;
 import org.cilogon.d2.servlet.AbstractDBService;
 import org.cilogon.d2.servlet.CILogonExceptionHandler;
 import org.cilogon.d2.servlet.StatusCodes;
+import org.cilogon.oauth2.servlet.impl.Err;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static org.cilogon.d2.servlet.StatusCodes.*;
-import static org.cilogon.oauth2.servlet.impl.DBService2.*;
+import static org.cilogon.proxy.servlet.DBService2.*;
 
 /**
  * <p>Created by Jeff Gaynor<br>
@@ -29,7 +29,7 @@ public class CILOA2ExceptionHandler extends CILogonExceptionHandler implements O
     public void handleException(Throwable t, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         if (t instanceof OA2GeneralError) {
             OA2GeneralError ge = (OA2GeneralError) t;
-            Err err = new Err(STATUS_INTERNAL_ERROR, ge.getError(), ge.getDescription());
+            Err err = new Err(StatusCodes.STATUS_INTERNAL_ERROR, ge.getError(), ge.getDescription());
             ((DBService2) dbServlet).writeMessage(response, err);
             return;
         }
@@ -104,41 +104,41 @@ public class CILOA2ExceptionHandler extends CILogonExceptionHandler implements O
      */
     public static YAErr lookupErrorCode(String oa2Error) {
         switch (oa2Error) {
-            case INTERACTION_REQUIRED:
-                return new YAErr(STATUS_INTERNAL_ERROR, null);
-            case LOGIN_REQUIRED:
-                return new YAErr(STATUS_INTERNAL_ERROR, null);
-            case ACCOUNT_SELECTION_REQUIRED:
-                return new YAErr(STATUS_INTERNAL_ERROR, null);
-            case CONSENT_REQUIRED:
-                return new YAErr(STATUS_INTERNAL_ERROR, null);
-            case INVALID_REQUEST_OBJECT:
-                return new YAErr(STATUS_INTERNAL_ERROR, null);
-            case INVALID_REQUEST:
-                return new YAErr(STATUS_INTERNAL_ERROR, null);
-            case INVALID_REQUEST_URI:
-                return new YAErr(STATUS_INTERNAL_ERROR, null);
-            case UNAUTHORIZED_CLIENT:
+            case OA2Errors.INTERACTION_REQUIRED:
+                return new YAErr(StatusCodes.STATUS_INTERNAL_ERROR, null);
+            case OA2Errors.LOGIN_REQUIRED:
+                return new YAErr(StatusCodes.STATUS_INTERNAL_ERROR, null);
+            case OA2Errors.ACCOUNT_SELECTION_REQUIRED:
+                return new YAErr(StatusCodes.STATUS_INTERNAL_ERROR, null);
+            case OA2Errors.CONSENT_REQUIRED:
+                return new YAErr(StatusCodes.STATUS_INTERNAL_ERROR, null);
+            case OA2Errors.INVALID_REQUEST_OBJECT:
+                return new YAErr(StatusCodes.STATUS_INTERNAL_ERROR, null);
+            case OA2Errors.INVALID_REQUEST:
+                return new YAErr(StatusCodes.STATUS_INTERNAL_ERROR, null);
+            case OA2Errors.INVALID_REQUEST_URI:
+                return new YAErr(StatusCodes.STATUS_INTERNAL_ERROR, null);
+            case OA2Errors.UNAUTHORIZED_CLIENT:
                 return new YAErr(STATUS_NO_CLIENT_FOUND, null);
-            case ACCESS_DENIED:
-                return new YAErr(STATUS_INTERNAL_ERROR, null);
-            case UNSUPPORTED_RESPONSE_TYPE:
-                return new YAErr(STATUS_INTERNAL_ERROR, null);
-            case INVALID_SCOPE:
+            case OA2Errors.ACCESS_DENIED:
+                return new YAErr(StatusCodes.STATUS_INTERNAL_ERROR, null);
+            case OA2Errors.UNSUPPORTED_RESPONSE_TYPE:
+                return new YAErr(StatusCodes.STATUS_INTERNAL_ERROR, null);
+            case OA2Errors.INVALID_SCOPE:
                 return new YAErr(STATUS_MALFORMED_SCOPE, null);
-            case TEMPORARILY_UNAVAILABLE:
-                return new YAErr(STATUS_INTERNAL_ERROR, null);
-            case SERVER_ERROR:
-                return new YAErr(STATUS_INTERNAL_ERROR, null);
-            case INVALID_TOKEN:
+            case OA2Errors.TEMPORARILY_UNAVAILABLE:
+                return new YAErr(StatusCodes.STATUS_INTERNAL_ERROR, null);
+            case OA2Errors.SERVER_ERROR:
+                return new YAErr(StatusCodes.STATUS_INTERNAL_ERROR, null);
+            case OA2Errors.INVALID_TOKEN:
                 return new YAErr(STATUS_EXPIRED_TOKEN, null);
-            case INVALID_GRANT:
+            case OA2Errors.INVALID_GRANT:
                 return new YAErr(STATUS_EXPIRED_TOKEN, null);
-            case INVALID_TARGET:
-                return new YAErr(STATUS_INTERNAL_ERROR, null);
+            case OA2Errors.INVALID_TARGET:
+                return new YAErr(StatusCodes.STATUS_INTERNAL_ERROR, null);
             default:
                 // If some error is generated this system does not recognize, it will return this.
-                return new YAErr(STATUS_INTERNAL_ERROR, "general error");
+                return new YAErr(StatusCodes.STATUS_INTERNAL_ERROR, "general error");
         }
     }
 }

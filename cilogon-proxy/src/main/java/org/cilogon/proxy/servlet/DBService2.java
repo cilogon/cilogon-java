@@ -1,9 +1,8 @@
-package org.cilogon.oauth2.servlet.impl;
+package org.cilogon.proxy.servlet;
 
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.OA2SE;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.OA2ServiceTransaction;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.servlet.OA2ClientUtils;
-import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.servlet.RFC8628Servlet;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.servlet.RFC8628ServletConfig;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.servlet.RFC8628State;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.state.ScriptRuntimeEngineFactory;
@@ -12,6 +11,7 @@ import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.clients.OA2Client;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.clients.OA2ClientApprovalKeys;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.clients.OA2ClientKeys;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.servlet.MyProxyDelegationServlet;
+import edu.uiuc.ncsa.oa2.servlet.RFC8628Servlet;
 import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.exceptions.GeneralException;
 import edu.uiuc.ncsa.security.core.exceptions.InvalidTimestampException;
@@ -23,14 +23,18 @@ import edu.uiuc.ncsa.security.oauth_2_0.OA2Constants;
 import edu.uiuc.ncsa.security.oauth_2_0.OA2GeneralError;
 import edu.uiuc.ncsa.security.oauth_2_0.jwt.JWTRunner;
 import edu.uiuc.ncsa.security.oauth_2_0.jwt.ScriptRuntimeException;
+import edu.uiuc.ncsa.security.servlet.AbstractServlet;
 import edu.uiuc.ncsa.security.servlet.ServletDebugUtil;
 import org.cilogon.d2.servlet.AbstractDBService;
+import org.cilogon.d2.servlet.StatusCodes;
 import org.cilogon.d2.storage.User;
 import org.cilogon.d2.storage.UserStore;
 import org.cilogon.d2.twofactor.TwoFactorSerializationKeys;
 import org.cilogon.d2.util.IDPKeys;
 import org.cilogon.d2.util.UserKeys;
 import org.cilogon.oauth2.servlet.claims.UserClaimSource;
+import org.cilogon.oauth2.servlet.impl.CILOA2AuthorizedServletUtil;
+import org.cilogon.oauth2.servlet.impl.Err;
 import org.cilogon.oauth2.servlet.loader.CILogonOA2ServiceEnvironment;
 import org.cilogon.oauth2.servlet.storage.CILOA2ServiceTransaction;
 
@@ -43,10 +47,6 @@ import java.io.PrintWriter;
 import java.net.URI;
 import java.net.URLDecoder;
 import java.util.Date;
-
-import static edu.uiuc.ncsa.security.core.util.BasicIdentifier.newID;
-import static edu.uiuc.ncsa.security.oauth_2_0.OA2Constants.*;
-import static org.cilogon.d2.servlet.StatusCodes.*;
 
 /**
  * <p>Created by Jeff Gaynor<br>
@@ -159,18 +159,18 @@ public class DBService2 extends AbstractDBService {
 
         if (!request.getParameterMap().containsKey(USER_CODE_PARAMETER)) {
             // missing parameter
-            doError("No user code parameter was found.", STATUS_MISSING_ARGUMENT, response);
+            doError("No user code parameter was found.", StatusCodes.STATUS_MISSING_ARGUMENT, response);
             return;
         }
         String userCode = request.getParameter(USER_CODE_PARAMETER);
         if (StringUtils.isTrivial(userCode)) {
-            doError("No user code parameter was found.", STATUS_MISSING_ARGUMENT, response);
+            doError("No user code parameter was found.", StatusCodes.STATUS_MISSING_ARGUMENT, response);
         }
-        RFC8628ServletConfig rfc8628ServletConfig = ((OA2SE)getServiceEnvironment()).getRfc8628ServletConfig();
+        RFC8628ServletConfig rfc8628ServletConfig = ((OA2SE) MyProxyDelegationServlet.getServiceEnvironment()).getRfc8628ServletConfig();
 
         userCode = RFC8628Servlet.convertToCanonicalForm(userCode,rfc8628ServletConfig);
 
-        CILogonOA2ServiceEnvironment se = (CILogonOA2ServiceEnvironment) getServiceEnvironment();
+        CILogonOA2ServiceEnvironment se = (CILogonOA2ServiceEnvironment) MyProxyDelegationServlet.getServiceEnvironment();
         if (!se.isRfc8628Enabled()) {
             doError("Device flow is not available on this server.", STATUS_SERVICE_UNAVAILABLE, response);
             return;
@@ -206,8 +206,8 @@ public class DBService2 extends AbstractDBService {
 
         startWrite(response);
         PrintWriter printWriter = response.getWriter();
-        printWriter.println(STATUS_KEY + "=" + STATUS_OK);
-        printWriter.println(CLIENT_ID + "=" + transaction.getClient().getIdentifierString());
+        printWriter.println(AbstractDBService.STATUS_KEY + "=" + StatusCodes.STATUS_OK);
+        printWriter.println(OA2Constants.CLIENT_ID + "=" + transaction.getClient().getIdentifierString());
         debugger.trace(this, "writing response for grant = " + ag.getToken());
         printWriter.println("grant=" + TokenUtils.b32EncodeToken(ag.getToken()));
         printWriter.println("scope=" + transaction.getRFC8628State().originalScopes);
@@ -247,11 +247,11 @@ public class DBService2 extends AbstractDBService {
     protected void userCodeApproved(HttpServletRequest request, HttpServletResponse response) throws IOException {
         if (!request.getParameterMap().containsKey(USER_CODE_PARAMETER)) {
             // missing parameter
-            doError("No user code parameter was found.", STATUS_MISSING_ARGUMENT, response);
+            doError("No user code parameter was found.", StatusCodes.STATUS_MISSING_ARGUMENT, response);
             return;
         }
         if (StringUtils.isTrivial(request.getParameter(USER_CODE_PARAMETER))) {
-            doError("No user code parameter was found.", STATUS_MISSING_ARGUMENT, response);
+            doError("No user code parameter was found.", StatusCodes.STATUS_MISSING_ARGUMENT, response);
             return;
         }
         int approved = 1; // default
@@ -270,23 +270,23 @@ public class DBService2 extends AbstractDBService {
                 doError("unknown value for " +
                                 USER_CODE_APPROVED_PARAMETER + " parameter \"" +
                                 request.getParameter(USER_CODE_APPROVED_PARAMETER) + "\"",
-                        STATUS_MISSING_ARGUMENT, response);
+                        StatusCodes.STATUS_MISSING_ARGUMENT, response);
             }
         }
         if (approved != 0 && approved != 1) {
-            doError("illegal argument approved = \"" + approved + "\"", STATUS_MALFORMED_INPUT, response);
+            doError("illegal argument approved = \"" + approved + "\"", StatusCodes.STATUS_MALFORMED_INPUT, response);
             return;
         }
 
         String userCode = request.getParameter(USER_CODE_PARAMETER);
         if (StringUtils.isTrivial(userCode)) {
-            doError("No user code parameter was found.", STATUS_MISSING_ARGUMENT, response);
+            doError("No user code parameter was found.", StatusCodes.STATUS_MISSING_ARGUMENT, response);
             return;
         }
-        RFC8628ServletConfig rfc8628ServletConfig = ((OA2SE)getServiceEnvironment()).getRfc8628ServletConfig();
+        RFC8628ServletConfig rfc8628ServletConfig = ((OA2SE) MyProxyDelegationServlet.getServiceEnvironment()).getRfc8628ServletConfig();
         userCode = RFC8628Servlet.convertToCanonicalForm(userCode, rfc8628ServletConfig);
 
-        CILogonOA2ServiceEnvironment se = (CILogonOA2ServiceEnvironment) getServiceEnvironment();
+        CILogonOA2ServiceEnvironment se = (CILogonOA2ServiceEnvironment) MyProxyDelegationServlet.getServiceEnvironment();
         if (!se.isRfc8628Enabled()) {
             doError("Device flow is not available on this server.", STATUS_SERVICE_UNAVAILABLE, response);
             return;
@@ -325,7 +325,7 @@ public class DBService2 extends AbstractDBService {
             // the requested action was done.
             startWrite(response);
             PrintWriter printWriter = response.getWriter();
-            printWriter.println(STATUS_KEY + "=" + STATUS_OK);
+            printWriter.println(AbstractDBService.STATUS_KEY + "=" + StatusCodes.STATUS_OK);
             printWriter.flush();
             printWriter.close();
             stopWrite(response);
@@ -338,8 +338,8 @@ public class DBService2 extends AbstractDBService {
         // Just replace it with the good copy.
         startWrite(response);
         PrintWriter printWriter = response.getWriter();
-        printWriter.println(STATUS_KEY + "=" + STATUS_OK);
-        printWriter.println(CLIENT_ID + "=" + transaction.getClient().getIdentifierString());
+        printWriter.println(AbstractDBService.STATUS_KEY + "=" + StatusCodes.STATUS_OK);
+        printWriter.println(OA2Constants.CLIENT_ID + "=" + transaction.getClient().getIdentifierString());
         debugger.trace(this, "encoding grant for " + userCode + " = " + ag.getToken());
         printWriter.println("grant=" + TokenUtils.b32EncodeToken(ag.getToken()));
         printWriter.println("user_code=" + userCode);
@@ -353,7 +353,7 @@ public class DBService2 extends AbstractDBService {
     private void writeUserCodeNotFound(HttpServletResponse response) throws IOException {
         startWrite(response);
         PrintWriter printWriter = response.getWriter();
-        printWriter.println(STATUS_KEY + "=0");
+        printWriter.println(AbstractDBService.STATUS_KEY + "=0");
         printWriter.flush();
         printWriter.close();
         stopWrite(response);
@@ -395,7 +395,7 @@ public class DBService2 extends AbstractDBService {
          */
         if (!req.getParameterMap().containsKey(OA2Constants.CLIENT_ID)) {
             // missing parameter
-            doError("No client id parameter was found.", STATUS_MISSING_ARGUMENT, resp);
+            doError("No client id parameter was found.", StatusCodes.STATUS_MISSING_ARGUMENT, resp);
             return;
         }
         String clientID = req.getParameter(OA2Constants.CLIENT_ID);
@@ -404,10 +404,10 @@ public class DBService2 extends AbstractDBService {
             doError("No value for client id parameter was found.", STATUS_MISSING_CLIENT_ID, resp);
             return;
         }
-        if (!req.getParameterMap().containsKey(SCOPE)) {
+        if (!req.getParameterMap().containsKey(OA2Constants.SCOPE)) {
             doError("No scopes found.", STATUS_NO_SCOPES, resp);
         } else {
-            String values = req.getParameter(SCOPE);
+            String values = req.getParameter(OA2Constants.SCOPE);
             if (-1 != values.indexOf(",")) {
                 doError("No scopes found.", STATUS_MALFORMED_SCOPE, resp);
             }
@@ -419,15 +419,15 @@ public class DBService2 extends AbstractDBService {
             client_id = BasicIdentifier.newID(clientID);
         } catch (Throwable t) {
             // invalid client id (means it did not resolve into a URI correctly
-            doError("Invalid client id syntax.", STATUS_MALFORMED_INPUT, resp);
+            doError("Invalid client id syntax.", StatusCodes.STATUS_MALFORMED_INPUT, resp);
             return;
         }
-        if (!getServiceEnvironment().getClientStore().containsKey(client_id)) {
+        if (!MyProxyDelegationServlet.getServiceEnvironment().getClientStore().containsKey(client_id)) {
             // Unknown client.
             doError("Unknown client", STATUS_UNKNOWN_CLIENT, resp);
             return;
         }
-        if (!getServiceEnvironment().getClientApprovalStore().isApproved(client_id)) {
+        if (!MyProxyDelegationServlet.getServiceEnvironment().getClientApprovalStore().isApproved(client_id)) {
             // unapproved client
             doError("Unapproved client.", STATUS_UNAPPROVED_CLIENT, resp);
             return;
@@ -441,7 +441,7 @@ public class DBService2 extends AbstractDBService {
             CILOA2ServiceTransaction transaction = (CILOA2ServiceTransaction) initUtil.doDelegation(req, resp, true);
             getTransactionStore().save(transaction);
             ServletDebugUtil.trace(this, "createTransaction: writing transaction. " + transaction);
-            writeTransaction(transaction, STATUS_OK, resp);
+            writeTransaction(transaction, StatusCodes.STATUS_OK, resp);
             ServletDebugUtil.trace(this, "createTransaction: ******** DONE ******** ");
         } catch (Throwable t) {
             if (t instanceof OA2GeneralError) {
@@ -450,7 +450,7 @@ public class DBService2 extends AbstractDBService {
                 OA2GeneralError ge = (OA2GeneralError) t;
                 ServletDebugUtil.trace(this, "OA2GeneralError: " + ge.toString());
                 CILOA2ExceptionHandler.YAErr yaErr = CILOA2ExceptionHandler.lookupErrorCode(ge.getError());
-                if (yaErr.code == STATUS_INTERNAL_ERROR) {
+                if (yaErr.code == StatusCodes.STATUS_INTERNAL_ERROR) {
                     yaErr.code = STATUS_CREATE_TRANSACTION_FAILED; // what we should return for all calls to this action
                 }
                 ServletDebugUtil.trace(this, "YAErr:" + yaErr.toString());
@@ -472,28 +472,10 @@ public class DBService2 extends AbstractDBService {
                     // CIL-570: Error codes need to be augmented so can tell why various initial errors happen.
                     // There could be a lot more of these (such documenting protocol errors and such), but this
                     // should do for most cases. If it needs to be revisted in the future, this is the place to check.
-                    writeTransaction(null, STATUS_INTERNAL_ERROR, resp);
+                    writeTransaction(null, StatusCodes.STATUS_INTERNAL_ERROR, resp);
                 }
             }
         }
-    }
-
-    public static class Err {
-        public Err(int code, String error, String description, URI errorURI) {
-         this(code, error, description);
-         this.errorURI = errorURI;
-        }
-
-        public Err(int code, String error, String description) {
-            this.code = code;
-            this.error = error;
-            this.description = description;
-        }
-
-        int code;
-        String description;
-        String error;
-        URI errorURI = null;
     }
 
     protected void writeMessage(HttpServletResponse response, Err errResponse) throws IOException {
@@ -504,12 +486,12 @@ public class DBService2 extends AbstractDBService {
 
     // Fixes CIL-101
     protected void setTransactionState(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String ag = req.getParameter(AUTHORIZATION_CODE);
+        String ag = req.getParameter(OA2Constants.AUTHORIZATION_CODE);
 
         if (ag == null || ag.trim().length() == 0) {
             String description = "Warning. No auth code. Cannot complete call.";
             getMyLogger().error(description);
-            writeMessage(resp, new Err(STATUS_MISSING_ARGUMENT, "missing_argument", description));
+            writeMessage(resp, new Err(StatusCodes.STATUS_MISSING_ARGUMENT, "missing_argument", description));
             return;
         }
         if (TokenUtils.isBase32(ag)) {
@@ -523,7 +505,7 @@ public class DBService2 extends AbstractDBService {
         } catch (InvalidTimestampException xx) {
             String description = "The auth grant \"" + ag + "\" is expired. No transaction found.";
             getMyLogger().error(description);
-            writeTransaction(null, new Err(STATUS_EXPIRED_TOKEN, "token_expired", getMessage(STATUS_EXPIRED_TOKEN)), resp);
+            writeTransaction(null, new Err(STATUS_EXPIRED_TOKEN, "token_expired", StatusCodes.getMessage(STATUS_EXPIRED_TOKEN)), resp);
             return;
 
         }
@@ -531,24 +513,24 @@ public class DBService2 extends AbstractDBService {
             getMyLogger().error("The auth grant \"" + authGrant + "\" is not a key for this transaction. No transaction found.");
             writeTransaction(null, new Err(STATUS_TRANSACTION_NOT_FOUND,
                     "transaction_not_found",
-                    getMessage(STATUS_TRANSACTION_NOT_FOUND)), resp);
+                    StatusCodes.getMessage(STATUS_TRANSACTION_NOT_FOUND)), resp);
             return;
         }
-        Identifier userUID = newID(req.getParameter(userKeys.identifier()));
+        Identifier userUID = BasicIdentifier.newID(req.getParameter(userKeys.identifier()));
         if (userUID == null) {
             throw new NFWException("Missing or null user id. Cannot complete call.");
         }
-        UserStore userStore = ((CILogonOA2ServiceEnvironment) getEnvironment()).getUserStore();
+        UserStore userStore = ((CILogonOA2ServiceEnvironment) AbstractServlet.getEnvironment()).getUserStore();
         User user = userStore.get(userUID);
         long authTime = 0L;
         try {
-            if (req.getParameter(AUTHORIZATION_TIME) == null) {
+            if (req.getParameter(OA2Constants.AUTHORIZATION_TIME) == null) {
                 authTime = new Date().getTime();
             } else {
-                authTime = Long.parseLong(req.getParameter(AUTHORIZATION_TIME));
+                authTime = Long.parseLong(req.getParameter(OA2Constants.AUTHORIZATION_TIME));
             }
         } catch (Throwable t) {
-            info("Got " + AUTHORIZATION_TIME + "=" + req.getParameter(AUTHORIZATION_TIME) + ", error=\"" + t.getMessage() + "\"");
+            info("Got " + OA2Constants.AUTHORIZATION_TIME + "=" + req.getParameter(OA2Constants.AUTHORIZATION_TIME) + ", error=\"" + t.getMessage() + "\"");
         }
         String loa = req.getParameter("loa");
         String myproxyUsername = req.getParameter("cilogon_info");
@@ -561,13 +543,13 @@ public class DBService2 extends AbstractDBService {
         } catch (Throwable throwable) {
             String description = "Getting the transaction for auth grant \"" + authGrant + "\" failed.";
             getMyLogger().error(description, throwable);
-            writeTransaction(t, new Err(STATUS_TRANSACTION_NOT_FOUND, "transaction_not_found", getMessage(STATUS_TRANSACTION_NOT_FOUND)), resp);
+            writeTransaction(t, new Err(STATUS_TRANSACTION_NOT_FOUND, "transaction_not_found", StatusCodes.getMessage(STATUS_TRANSACTION_NOT_FOUND)), resp);
             return;
         }
         if (t == null) {
             // no transaction means there is nothing that can be done.
             getMyLogger().error("Getting the transaction for auth grant \"" + authGrant + "\" failed. No transaction found.");
-            writeTransaction(t, new Err(STATUS_TRANSACTION_NOT_FOUND, "transaction_not_found", getMessage(STATUS_TRANSACTION_NOT_FOUND)), resp);
+            writeTransaction(t, new Err(STATUS_TRANSACTION_NOT_FOUND, "transaction_not_found", StatusCodes.getMessage(STATUS_TRANSACTION_NOT_FOUND)), resp);
             return;
         }
         if (myproxyUsername == null) {
@@ -586,10 +568,10 @@ public class DBService2 extends AbstractDBService {
         t.setUsername(userUID.toString());
 
         try {
-            doClaims2((CILogonOA2ServiceEnvironment) getServiceEnvironment(), t, req);
+            doClaims2((CILogonOA2ServiceEnvironment) MyProxyDelegationServlet.getServiceEnvironment(), t, req);
         }catch(ScriptRuntimeException srx){
           // The user actually threw one of these.
-            writeMessage(resp, new Err(STATUS_MISSING_ARGUMENT, srx.getRequestedType(), srx.getMessage(), srx.getErrorURI()));
+            writeMessage(resp, new Err(StatusCodes.STATUS_MISSING_ARGUMENT, srx.getRequestedType(), srx.getMessage(), srx.getErrorURI()));
           return;
         } catch (Throwable throwable) {
             if (throwable instanceof RuntimeException) {
@@ -600,14 +582,14 @@ public class DBService2 extends AbstractDBService {
         }
         getTransactionStore().save(t);
 
-        writeTransaction(t, STATUS_OK, resp);
+        writeTransaction(t, StatusCodes.STATUS_OK, resp);
     }
 
     protected void doClaims2(CILogonOA2ServiceEnvironment env, CILOA2ServiceTransaction t, HttpServletRequest request) throws Throwable {
         try {
             DebugUtil.trace(this, "Doing user claims");
             UserClaimSource userClaimSource = new UserClaimSource(getMyLogger());
-            userClaimSource.setOa2SE((OA2SE) getServiceEnvironment());
+            userClaimSource.setOa2SE((OA2SE) MyProxyDelegationServlet.getServiceEnvironment());
             t.setUserMetaData(userClaimSource.process(t.getUserMetaData(), t));
             DebugUtil.trace(this, "Done user claims" + t.getUserMetaData().toString(1));
             DebugUtil.trace(this, "Starting  post_auth claims");
@@ -633,18 +615,18 @@ public class DBService2 extends AbstractDBService {
 
     // Fixes CIL-105.
     protected void getClient(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        Identifier clientID = newID(req.getParameter("client_id"));
-        OA2Client client = (OA2Client) getServiceEnvironment().getClientStore().get(clientID);
+        Identifier clientID = BasicIdentifier.newID(req.getParameter("client_id"));
+        OA2Client client = (OA2Client) MyProxyDelegationServlet.getServiceEnvironment().getClientStore().get(clientID);
         if (client == null) {
             // None of these have been archived. We *could* check if the user has a valid uid
             // in the store and return user not found if so and user not found error if not,
             // but that would be messier to use. If this is even an issue
-            writeMessage(resp, new Err(STATUS_NO_CLIENT_FOUND, "client_not_found", getMessage(STATUS_CLIENT_NOT_FOUND)));
+            writeMessage(resp, new Err(STATUS_NO_CLIENT_FOUND, "client_not_found", StatusCodes.getMessage(StatusCodes.STATUS_CLIENT_NOT_FOUND)));
             return;
         }
         // the last of these is the last archived user. Note that the returned list is always sorted,
         // so we just grab the last one.
-        writeClient(client, STATUS_OK, resp);
+        writeClient(client, StatusCodes.STATUS_OK, resp);
 
     }
 
