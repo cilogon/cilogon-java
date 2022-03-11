@@ -9,6 +9,12 @@ import java.util.List;
  * on 10/8/15 at  8:30 AM
  */
 public class CILOA2TransactionKeys extends OA2TransactionKeys {
+    String userUID = "user_uid";
+    public String userUID(String... x) {
+          if (0 < x.length) userUID = x[0];
+          return userUID;
+      }
+
     String LOA = "loa";
     public String LOA(String... x) {
           if (0 < x.length) LOA = x[0];
@@ -40,6 +46,7 @@ public class CILOA2TransactionKeys extends OA2TransactionKeys {
         allKeys.add(affiliation());
         allKeys.add(organizationalUnit());
         allKeys.add(displayName());
+        allKeys.add(userUID());
         return allKeys;
     }
 }

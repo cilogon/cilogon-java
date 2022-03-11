@@ -2,6 +2,7 @@ package org.cilogon.oauth2.servlet.storage;
 
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.OA2TConverter;
 import edu.uiuc.ncsa.security.core.IdentifiableProvider;
+import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
 import edu.uiuc.ncsa.security.delegation.server.storage.ClientStore;
 import edu.uiuc.ncsa.security.delegation.storage.Client;
 import edu.uiuc.ncsa.security.delegation.token.TokenForge;
@@ -28,6 +29,7 @@ public class CILOA2TransactionConverter<V extends CILOA2ServiceTransaction> exte
         st.setAffiliation(map.getString(getTK().affiliation()));
         st.setDisplayName(map.getString(getTK().displayName()));
         st.setLoa(map.getString(getTK().LOA()));
+        st.setUserUID(BasicIdentifier.newID(map.getString(getTK().userUID())));
         return st;
     }
 
@@ -44,6 +46,9 @@ public class CILOA2TransactionConverter<V extends CILOA2ServiceTransaction> exte
         }
         if(t.getOrganizationalUnit()!= null){
             map.put(getTK().organizationalUnit(), t.getOrganizationalUnit());
+        }
+        if(t.getUserUID() != null){
+            map.put(getTK().userUID(), t.getUserUID());
         }
     }
 }

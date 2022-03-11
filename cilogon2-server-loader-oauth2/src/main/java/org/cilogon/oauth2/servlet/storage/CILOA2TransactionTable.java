@@ -24,5 +24,6 @@ public class CILOA2TransactionTable extends OA2TransactionTable {
           getColumnDescriptor().add(new ColumnDescriptorEntry(getCKeys().affiliation(), Types.LONGVARCHAR));
           getColumnDescriptor().add(new ColumnDescriptorEntry(getCKeys().organizationalUnit(), Types.LONGVARCHAR));
           getColumnDescriptor().add(new ColumnDescriptorEntry(getCKeys().displayName(), Types.LONGVARCHAR));
+          getColumnDescriptor().add(new ColumnDescriptorEntry(getCKeys().userUID(), Types.LONGVARCHAR));
       }
 }

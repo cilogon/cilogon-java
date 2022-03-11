@@ -72,4 +72,15 @@ public class CILogonServiceTransaction extends OA4MPServiceTransaction implement
         if (!checkEquals(getLoa(), st.getLoa())) return false;
         return true;
     }
+
+    // Next are not implemented in OAUth1
+    @Override
+    public Identifier getUserUID() {
+        return null;
+    }
+
+    @Override
+    public void setUserUID(Identifier userUID) {
+
+    }
 }

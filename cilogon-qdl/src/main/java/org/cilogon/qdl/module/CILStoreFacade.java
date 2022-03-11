@@ -2,7 +2,11 @@ package org.cilogon.qdl.module;
 
 import edu.uiuc.ncsa.oa2.qdl.storage.QDLStoreAccessor;
 import edu.uiuc.ncsa.oa2.qdl.storage.StoreFacade;
+import edu.uiuc.ncsa.oa2.qdl.storage.TransactionStemMC;
+import edu.uiuc.ncsa.security.delegation.server.storage.ClientStore;
+import edu.uiuc.ncsa.security.delegation.storage.TransactionStore;
 import org.cilogon.oauth2.servlet.loader.CILogonOA2ServiceEnvironment;
+import org.cilogon.qdl.module.storage.CILOA2TransactionStemMC;
 import org.cilogon.qdl.module.storage.TwoFactorMC;
 import org.cilogon.qdl.module.storage.UserStemMC;
 
@@ -49,4 +53,8 @@ public class CILStoreFacade extends StoreFacade {
         return accessor;
     }
 
+    @Override
+    protected TransactionStemMC createTransactionStemMC(TransactionStore transactionStore, ClientStore clientStore) {
+        return new CILOA2TransactionStemMC(transactionStore.getMapConverter(), clientStore);
+    }
 }

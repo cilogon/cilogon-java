@@ -563,6 +563,7 @@ public class DBService2 extends AbstractDBService {
         }
 
 
+        t.setUserUID(user.getIdentifier()); // since the username can change later, set the actual uid here for all times.
         t.setAuthTime(new Date(authTime * 1000));
         t.setAuthGrantValid(true);
         t.setUsername(userUID.toString());

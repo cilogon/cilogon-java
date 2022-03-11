@@ -1,5 +1,7 @@
 package org.cilogon.d2.util;
 
+import edu.uiuc.ncsa.security.core.Identifier;
+
 /**
  * <p>Created by Jeff Gaynor<br>
  * on 11/3/15 at  3:22 PM
@@ -18,4 +20,7 @@ public interface AbstractCILServiceTransaction {
 
     String getOrganizationalUnit();
     void setOrganizationalUnit(String organizationalUnit);
+
+    Identifier getUserUID();
+    void setUserUID(Identifier userUID);
 }

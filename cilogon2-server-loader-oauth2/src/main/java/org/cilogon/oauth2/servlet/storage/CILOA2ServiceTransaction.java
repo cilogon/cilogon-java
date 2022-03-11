@@ -22,6 +22,16 @@ public class CILOA2ServiceTransaction extends OA2ServiceTransaction implements A
     String displayName;
     String organizationalUnit;
     String loa;
+    Identifier userUID;
+    @Override
+    public Identifier getUserUID() {
+        return userUID;
+    }
+
+    @Override
+    public void setUserUID(Identifier userUID) {
+         this.userUID = userUID;
+    }
 
     public String getLoa() {
         return loa;
