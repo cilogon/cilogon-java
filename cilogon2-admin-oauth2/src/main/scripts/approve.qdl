@@ -16,6 +16,7 @@ resp. := http#get({'action':'userCodeApproved','approved':'1','user_code':script
 // must be parsed. Just print the whole thing out now and punt on formatting it.
 say(resp.content, true);
 
+//  a. := {'action':'setTransactionState','client_id':'localhost:test/df','scope':'openid profile'}
 /* Could belabor getting a bunch of stuff to print. Could.
    ...Doodling from here down...
 

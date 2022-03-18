@@ -29,6 +29,10 @@ public class DBServiceSerializer2 extends DBServiceSerializer {
         writeMessage(w, errResponse.code);
         print(w, "error", errResponse.error);
         print(w, "error_description", errResponse.description);
+        if(errResponse.errorURI != null) {
+            // CIL-1187 support.
+            print(w, "error_uri", errResponse.errorURI.toString());
+        }
     }
 
     public void serialize(PrintWriter w, OA2Client oa2Client, int statusCode) throws IOException {

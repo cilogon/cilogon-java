@@ -446,9 +446,9 @@ public class DBService2 extends AbstractDBService {
         } catch (Throwable t) {
             if (t instanceof OA2GeneralError) {
                 // Something in OA4MP proper blew up. Try to bridge the gap here with message codes.
-
+                // CIL-1187 support. Format response with error and description.
                 OA2GeneralError ge = (OA2GeneralError) t;
-                ServletDebugUtil.trace(this, "OA2GeneralError: " + ge.toString());
+                ServletDebugUtil.trace(this, "OA2GeneralError: " + ge);
                 CILOA2ExceptionHandler.YAErr yaErr = CILOA2ExceptionHandler.lookupErrorCode(ge.getError());
                 if (yaErr.code == StatusCodes.STATUS_INTERNAL_ERROR) {
                     yaErr.code = STATUS_CREATE_TRANSACTION_FAILED; // what we should return for all calls to this action

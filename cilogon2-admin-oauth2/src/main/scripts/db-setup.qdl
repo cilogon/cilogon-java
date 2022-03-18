@@ -1,0 +1,12 @@
+/*
+   Initial setup to talk to the service. This will call out to the setTransactionState
+   Change a. to whatever you want and invoke using it, e.g.
+   http#get(a.)
+*/
+a. := {'action':'setTransactionState','client_id':'localhost:test/df','scope':'openid profile'};
+h.:={}; // headers
+db_service := 'https://localhost:9443/oauth2/dbService';
+q := module_load('edu.uiuc.ncsa.qdl.extensions.http.QDLHTTPLoader','java') ;
+module_import(q) ;
+http#host(db_service);
+http#open(true);
