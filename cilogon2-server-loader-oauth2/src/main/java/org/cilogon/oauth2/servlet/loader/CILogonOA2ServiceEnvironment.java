@@ -12,6 +12,7 @@ import edu.uiuc.ncsa.myproxy.oa4mp.server.admin.permissions.PermissionsStore;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.servlet.AuthorizationServletConfig;
 import edu.uiuc.ncsa.qdl.config.QDLEnvironment;
 import edu.uiuc.ncsa.security.core.Store;
+import edu.uiuc.ncsa.security.core.util.MetaDebugUtil;
 import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
 import edu.uiuc.ncsa.security.delegation.server.issuers.AGIssuer;
 import edu.uiuc.ncsa.security.delegation.server.issuers.ATIssuer;
@@ -99,7 +100,8 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
                                         long cleanupInterval,
                                         String notifyACEmailAddresses,
                                         boolean rfc7636Required,
-                                        boolean isDemoMode
+                                        boolean isDemoMode,
+                                        MetaDebugUtil debugger
     ) {
         super(logger,
                 tsp,
@@ -149,7 +151,8 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
                 cleanupInterval,
                 notifyACEmailAddresses,
                 rfc7636Required,
-                isDemoMode);
+                isDemoMode,
+                debugger);
         ciLogonSE = new CILogonSEImpl(usp, ausp, idpsp, incp, tfsp, isComputeFNAL);
         if (claimSource instanceof UserClaimSource) {
             ((UserClaimSource) claimSource).setOa2SE(this);

@@ -87,9 +87,7 @@ public class DBServiceSerializer {
         // do nothing if the tfi doesn't exist or is empty.
 
         if (!(tfi == null || tfi.getInfo() == null || tfi.getInfo().length() == 0)) {
-            System.out.println("ADBService.serialize, tfi = " + tfi);
             print(w, tfKeys.info(), tfi.getInfo());
-            System.out.println("ADBService.serialize, WROTE TFI");
         }
         doUserSerialization(w, user);
 

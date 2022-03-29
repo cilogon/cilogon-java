@@ -209,7 +209,8 @@ public class CILOA2ConfigurationLoader extends OA2ConfigurationLoader implements
                     getCleanupInterval(),
                     isNotifyACEventEmailAddresses(),
                     isRFC7636Required(),
-                    isDemoModeEnabled());
+                    isDemoModeEnabled(),
+                    getDebugger());
             return  se;
         } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
             throw new GeneralException("Error: Could not create the runtime environment", e);
