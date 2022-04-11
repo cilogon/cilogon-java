@@ -36,6 +36,7 @@ import org.cilogon.d2.util.Incrementable;
 import org.cilogon.oauth2.servlet.claims.UserClaimSource;
 
 import javax.inject.Provider;
+import java.time.LocalTime;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -98,6 +99,7 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
                                         boolean rfc8628Enabled,
                                         boolean isPrintTSInDebug,
                                         long cleanupInterval,
+                                        Collection<LocalTime> cleanupAlarms,
                                         String notifyACEmailAddresses,
                                         boolean rfc7636Required,
                                         boolean isDemoMode,
@@ -149,6 +151,7 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
                 rfc8628Enabled,
                 isPrintTSInDebug,
                 cleanupInterval,
+                cleanupAlarms,
                 notifyACEmailAddresses,
                 rfc7636Required,
                 isDemoMode,

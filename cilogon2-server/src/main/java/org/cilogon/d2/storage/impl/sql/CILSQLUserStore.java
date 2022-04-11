@@ -3,6 +3,7 @@ package org.cilogon.d2.storage.impl.sql;
 import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.cache.SimpleEntryImpl;
 import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
+import edu.uiuc.ncsa.security.core.util.DebugUtil;
 import edu.uiuc.ncsa.security.core.util.IdentifiableProviderImpl;
 import edu.uiuc.ncsa.security.servlet.ServletDebugUtil;
 import edu.uiuc.ncsa.security.storage.data.MapConverter;
@@ -148,7 +149,7 @@ public class CILSQLUserStore extends SQLStore<User> implements UserStore {
         }
 
 
-        ServletDebugUtil.trace(this, "select statement=\"" + selectStmt + "\"");
+        ServletDebugUtil.trace(this, "user select statement=\"" + selectStmt + "\"");
         ConnectionRecord cr = getConnection();
         Connection c = cr.connection;
         selectStmt = selectStmt + " AND " + userKeys.idp() + " = ?";
@@ -179,6 +180,7 @@ public class CILSQLUserStore extends SQLStore<User> implements UserStore {
 
         } catch (SQLException e) {
             destroyConnection(cr);
+            DebugUtil.error(this, "Error getting user with ids =" +  userMultiKey, e);
             throw new CILogonException("Error getting user with ids = \"" + userMultiKey + "\" and identity provider =\"" + idP + "\"", e);
         }
         if (users.isEmpty()) throw new UserNotFoundException();

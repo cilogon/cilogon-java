@@ -111,13 +111,10 @@ public class CILOA2ConfigurationLoader extends OA2ConfigurationLoader implements
         return ciLogonConfiguration.getUP();
     }
 
-
-
     @Override
     public String getVersionString() {
         return "CILogon for OAuth2/OIDC server configuration loader, version " + VERSION_NUMBER;
     }
-
 
     public static class CILST2Provider extends DSTransactionProvider<OA2ServiceTransaction> {
 
@@ -207,6 +204,7 @@ public class CILOA2ConfigurationLoader extends OA2ConfigurationLoader implements
                     isRFC8628Enabled(),
                     isprintTSInDebug(),
                     getCleanupInterval(),
+                    getAlarms(),
                     isNotifyACEventEmailAddresses(),
                     isRFC7636Required(),
                     isDemoModeEnabled(),

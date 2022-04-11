@@ -115,6 +115,9 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
         ServletDebugUtil.trace(this, "doIt: request = \"" + request.getRequestURL().toString()
                 + "\", query = \"" + request.getQueryString() + "\"");
         String action = getParam(request, ACTION_PARAMETER);
+        if(doPing(request, response)){
+             return;
+        }
         doAction(request, response, action);
     }
 
