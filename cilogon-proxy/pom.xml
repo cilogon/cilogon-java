@@ -8,7 +8,7 @@
     <parent>
         <artifactId>cilogon2</artifactId>
         <groupId>edu.uiuc.ncsa.security</groupId>
-        <version>5.2-SNAPSHOT</version>
+        <version>5.2.6</version>
     </parent>
 
     <artifactId>cilogon-proxy</artifactId>
@@ -27,23 +27,23 @@
         <dependency>
             <groupId>edu.uiuc.ncsa.security</groupId>
             <artifactId>cilogon2-admin-oauth2</artifactId>
-            <version>5.2-SNAPSHOT</version>
+            <version>5.2.6</version>
         </dependency>
         <dependency>
             <groupId>edu.uiuc.ncsa.security</groupId>
             <artifactId>cilogon2-server-loader-oauth2</artifactId>
-            <version>5.2-SNAPSHOT</version>
+            <version>5.2.6</version>
         </dependency>
 
         <dependency>
             <groupId>edu.uiuc.ncsa.myproxy</groupId>
             <artifactId>oa4mp-proxy</artifactId>
-            <version>5.2-SNAPSHOT</version>
+            <version>5.2.6</version>
         </dependency>
         <dependency>
             <groupId>edu.uiuc.ncsa.security.delegation</groupId>
             <artifactId>ncsa-security-delegation-common</artifactId>
-            <version>5.2-SNAPSHOT</version>
+            <version>5.2.6</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
@@ -51,21 +51,21 @@
         <dependency>
             <groupId>edu.uiuc.ncsa.myproxy</groupId>
             <artifactId>oa4mp-server-test</artifactId>
-            <version>5.2-SNAPSHOT</version>
+            <version>5.2.6</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>edu.uiuc.ncsa.security.delegation</groupId>
             <artifactId>ncsa-security-oauth-2.0</artifactId>
-            <version>5.2-SNAPSHOT</version>
+            <version>5.2.6</version>
         </dependency>
 
 
 <!--        <dependency>
             <groupId>edu.uiuc.ncsa.security</groupId>
             <artifactId>ncsa-security-util</artifactId>
-            <version>5.2-SNAPSHOT</version>
+            <version>5.2.6</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>-->
@@ -73,14 +73,14 @@
         <dependency>
             <groupId>edu.uiuc.ncsa.security</groupId>
             <artifactId>ncsa-security-servlet</artifactId>
-            <version>5.2-SNAPSHOT</version>
+            <version>5.2.6</version>
         </dependency>
 -->
 <!--
         <dependency>
             <groupId>edu.uiuc.ncsa.myproxy</groupId>
             <artifactId>myproxy-logon</artifactId>
-            <version>5.2-SNAPSHOT</version>
+            <version>5.2.6</version>
         </dependency>
 -->
 
@@ -111,7 +111,7 @@
         <dependency>
             <groupId>edu.uiuc.ncsa.security.delegation</groupId>
             <artifactId>ncsa-security-oauth-1.0a</artifactId>
-            <version>5.2-SNAPSHOT</version>
+            <version>5.2.6</version>
         </dependency>
 -->
         <dependency>
