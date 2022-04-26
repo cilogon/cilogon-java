@@ -86,7 +86,7 @@
 
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.10/clipboard.min.js"></script>
 <script>
     var clipboard = new ClipboardJS('.btn');
     clipboard.on('success', function(e) {
