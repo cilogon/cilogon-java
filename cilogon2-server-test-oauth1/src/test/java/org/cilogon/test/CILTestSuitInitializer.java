@@ -56,7 +56,7 @@ public class CILTestSuitInitializer extends AbstractTestSuiteInitializer  {
 
     @Override
     public String getMySQLStoreConfigName() {
-        return "cilogon.cil2.mariadb";
+        return "cilogon.cil2.mysql";
     }
 
     @Override

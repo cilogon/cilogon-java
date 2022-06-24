@@ -1,7 +1,6 @@
 package org.cilogon.proxy.servlet;
 
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.OA2SE;
-import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.OA2ServiceTransaction;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.servlet.OA2ClientUtils;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.servlet.RFC8628ServletConfig;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.servlet.RFC8628State;
@@ -10,7 +9,9 @@ import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.RFC8628Store;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.clients.OA2Client;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.clients.OA2ClientApprovalKeys;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.clients.OA2ClientKeys;
+import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.transactions.OA2ServiceTransaction;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.servlet.MyProxyDelegationServlet;
+import edu.uiuc.ncsa.myproxy.oa4mp.server.util.ClientDebugUtil;
 import edu.uiuc.ncsa.oa2.servlet.RFC8628Servlet;
 import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.exceptions.GeneralException;
@@ -168,7 +169,7 @@ public class DBService2 extends AbstractDBService {
         }
         RFC8628ServletConfig rfc8628ServletConfig = ((OA2SE) MyProxyDelegationServlet.getServiceEnvironment()).getRfc8628ServletConfig();
 
-        userCode = RFC8628Servlet.convertToCanonicalForm(userCode,rfc8628ServletConfig);
+        userCode = RFC8628Servlet.convertToCanonicalForm(userCode, rfc8628ServletConfig);
 
         CILogonOA2ServiceEnvironment se = (CILogonOA2ServiceEnvironment) MyProxyDelegationServlet.getServiceEnvironment();
         if (!se.isRfc8628Enabled()) {
@@ -310,8 +311,8 @@ public class DBService2 extends AbstractDBService {
         }
 
         RFC8628State rfc8628State = transaction.getRFC8628State();
-      //  RFC8628Servlet.getCache().remove(userCode);
-         transaction.setUserCode(""); // zero it out so it never gets found as a pending transaction.
+        //  RFC8628Servlet.getCache().remove(userCode);
+        transaction.setUserCode(""); // zero it out so it never gets found as a pending transaction.
         if (approved == 1) {
             rfc8628State.valid = true; // means they actually logged in
             debugger.trace(this, "device flow for user code " + userCode + " approved");
@@ -320,7 +321,7 @@ public class DBService2 extends AbstractDBService {
             debugger.trace(this, "device flow for user code " + userCode + " cancelled");
             // means they cancelled the whole thing. Remove the transaction and the cache entry.
             getTransactionStore().remove(transaction.getIdentifier());
-        //    RFC8628Servlet.getCache().remove(userCode);
+            //    RFC8628Servlet.getCache().remove(userCode);
             // Now tell the, that it was cancelled. This means to return a status of 0, meaning
             // the requested action was done.
             startWrite(response);
@@ -432,28 +433,30 @@ public class DBService2 extends AbstractDBService {
             doError("Unapproved client.", STATUS_UNAPPROVED_CLIENT, resp);
             return;
         }
-        // Kept his next line, even though we don't explicitly do anything with the client.
-        // This checks that the client is correct and throws an exception if not.
-        getClient(req);
-
+        // This also checks that the client is correct and throws an exception if not.
+        OA2Client client = (OA2Client) getClient(req);
+        MetaDebugUtil debugger = MyProxyDelegationServlet.createDebugger(client);
 
         try {
             CILOA2ServiceTransaction transaction = (CILOA2ServiceTransaction) initUtil.doDelegation(req, resp, true);
+            if (debugger instanceof ClientDebugUtil) {
+                ((ClientDebugUtil) debugger).setTransaction(transaction);
+            }
             getTransactionStore().save(transaction);
-            ServletDebugUtil.trace(this, "createTransaction: writing transaction. " + transaction);
+            debugger.trace(this, "createTransaction: writing transaction. " + transaction);
             writeTransaction(transaction, StatusCodes.STATUS_OK, resp);
-            ServletDebugUtil.trace(this, "createTransaction: ******** DONE ******** ");
+            debugger.trace(this, "createTransaction: ******** DONE ******** ");
         } catch (Throwable t) {
             if (t instanceof OA2GeneralError) {
                 // Something in OA4MP proper blew up. Try to bridge the gap here with message codes.
                 // CIL-1187 support. Format response with error and description.
                 OA2GeneralError ge = (OA2GeneralError) t;
-                ServletDebugUtil.trace(this, "OA2GeneralError: " + ge);
+                debugger.trace(this, "OA2GeneralError: " + ge);
                 CILOA2ExceptionHandler.YAErr yaErr = CILOA2ExceptionHandler.lookupErrorCode(ge.getError());
                 if (yaErr.code == StatusCodes.STATUS_INTERNAL_ERROR) {
                     yaErr.code = STATUS_CREATE_TRANSACTION_FAILED; // what we should return for all calls to this action
                 }
-                ServletDebugUtil.trace(this, "YAErr:" + yaErr.toString());
+                debugger.trace(this, "YAErr:" + yaErr.toString());
                 if (yaErr.hasMessage()) {
                     doError(yaErr.message, yaErr.code, resp);
                 } else {
@@ -467,7 +470,7 @@ public class DBService2 extends AbstractDBService {
                     // Ummm if it ends up here, it means the exception handler itself blew up and there is not a lot
                     // we can do except try to send something back.
                     getMyLogger().warn("Unrecoverable error creating transaction:\"" + t.getMessage() + "\"");
-                    ServletDebugUtil.trace(this, "Unrecoverable error: createTransaction failed. \"" + t.getMessage() + "\".", t);
+                    debugger.trace(this, "Unrecoverable error: createTransaction failed. \"" + t.getMessage() + "\".", t);
                     ServletDebugUtil.warn(this, "Unrecoverable error: Error creating transaction: \"" + t.getMessage() + "\".");
                     // CIL-570: Error codes need to be augmented so can tell why various initial errors happen.
                     // There could be a lot more of these (such documenting protocol errors and such), but this
@@ -552,9 +555,13 @@ public class DBService2 extends AbstractDBService {
             writeTransaction(t, new Err(STATUS_TRANSACTION_NOT_FOUND, "transaction_not_found", StatusCodes.getMessage(STATUS_TRANSACTION_NOT_FOUND)), resp);
             return;
         }
+        MetaDebugUtil debugger = MyProxyDelegationServlet.createDebugger(t.getClient());
+        if(debugger instanceof ClientDebugUtil){
+            ((ClientDebugUtil)debugger).setTransaction(t);
+        }
         if (myproxyUsername == null) {
             t.setMyproxyUsername(user.getDN(t, true));
-            info("Setting myproxy username to default user DN, since no cilogon_info sent.");
+            debugger.info(this,"Setting myproxy username to default user DN, since no cilogon_info sent.");
         } else {
             t.setMyproxyUsername(URLDecoder.decode(myproxyUsername, "UTF-8"));
         }
@@ -570,10 +577,10 @@ public class DBService2 extends AbstractDBService {
 
         try {
             doClaims2((CILogonOA2ServiceEnvironment) MyProxyDelegationServlet.getServiceEnvironment(), t, req);
-        }catch(ScriptRuntimeException srx){
-          // The user actually threw one of these.
+        } catch (ScriptRuntimeException srx) {
+            // The user actually threw one of these.
             writeMessage(resp, new Err(StatusCodes.STATUS_MISSING_ARGUMENT, srx.getRequestedType(), srx.getMessage(), srx.getErrorURI()));
-          return;
+            return;
         } catch (Throwable throwable) {
             if (throwable instanceof RuntimeException) {
                 throw (RuntimeException) throwable;
@@ -581,6 +588,7 @@ public class DBService2 extends AbstractDBService {
             getMyLogger().error("Could not get claims", throwable);
             throw new GeneralException(throwable);
         }
+        debugger.trace(this, "done setting transaction state for user " + user.getIdentifierString());
         getTransactionStore().save(t);
 
         writeTransaction(t, StatusCodes.STATUS_OK, resp);
@@ -597,7 +605,8 @@ public class DBService2 extends AbstractDBService {
             env.getTransactionStore().save(t); // make SURE the user claims get saved.
 
             JWTRunner jwtRunner = new JWTRunner(t, ScriptRuntimeEngineFactory.createRTE(env, t, t.getOA2Client().getConfig()));
-            OA2ClientUtils.setupHandlers(jwtRunner, env, t, request);
+            OA2Client resolvedClient = OA2ClientUtils.resolvePrototypes(env.getClientStore(), t.getOA2Client());
+            OA2ClientUtils.setupHandlers(jwtRunner, env, t, resolvedClient, request);
 
             jwtRunner.doAuthClaims();
         } catch (Throwable throwable) {

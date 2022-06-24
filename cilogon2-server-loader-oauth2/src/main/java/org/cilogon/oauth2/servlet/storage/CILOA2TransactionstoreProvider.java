@@ -1,8 +1,8 @@
 package org.cilogon.oauth2.servlet.storage;
 
-import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.OA2ServiceTransaction;
-import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.OA2SQLTStore;
-import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.OA2SQLTransactionStoreProvider;
+import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.transactions.OA2SQLTStore;
+import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.transactions.OA2SQLTransactionStoreProvider;
+import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.transactions.OA2ServiceTransaction;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.storage.MultiDSClientStoreProvider;
 import edu.uiuc.ncsa.security.delegation.token.TokenForge;
 import edu.uiuc.ncsa.security.storage.data.MapConverter;

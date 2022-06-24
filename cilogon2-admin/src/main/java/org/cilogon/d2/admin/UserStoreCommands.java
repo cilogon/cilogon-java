@@ -10,6 +10,7 @@ import edu.uiuc.ncsa.security.util.cli.BasicSorter;
 import edu.uiuc.ncsa.security.util.cli.InputLine;
 import org.cilogon.d2.storage.*;
 import org.cilogon.d2.util.ArchivedUserStore;
+import org.cilogon.d2.util.DNUtil;
 
 import java.io.IOException;
 
@@ -238,4 +239,21 @@ public class UserStoreCommands extends StoreCommands2 {
         clearEntries();
     }
 
+    // CIL-1310
+    public void dn(InputLine inputLine) {
+        if (showHelp(inputLine)) {
+            say("dn [-email] [id]");
+            say("Compute the DN for the current user");
+            say(" -email - return the email for the user");
+            return;
+        }
+        Identifiable x = findItem(inputLine);
+        if (x == null) {
+            say("no such user");
+            return;
+        }
+
+
+        say(DNUtil.getDN((User) x, null, inputLine.hasArg("-email")));
+    }
 }

@@ -1,7 +1,7 @@
 package org.cilogon.proxy.servlet;
 
-import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.OA2ServiceTransaction;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.clients.OA2Client;
+import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.transactions.OA2ServiceTransaction;
 import edu.uiuc.ncsa.security.core.util.Iso8601;
 import edu.uiuc.ncsa.security.delegation.storage.ClientApprovalKeys;
 import edu.uiuc.ncsa.security.delegation.storage.ClientKeys;
@@ -63,13 +63,7 @@ public class DBServiceSerializer2 extends DBServiceSerializer {
         print(w, "client_callback_uris", cbs);
 
     }
-
-/*    @Override
-    protected void doUserSerialization(PrintWriter w, User user) throws IOException {
-        super.doUserSerialization(w, user);
-        UserKeys uk =  userKeys;
-    }*/
-
+    
     public void serialize(PrintWriter w, OA2ServiceTransaction oa2ServiceTransaction, int status) throws IOException {
         writeMessage(w, status);
     }
