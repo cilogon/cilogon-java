@@ -2,7 +2,7 @@ package org.cilogon.qdl.module.storage;
 
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.transactions.OA2ServiceTransaction;
 import edu.uiuc.ncsa.oa2.qdl.storage.TransactionStemMC;
-import edu.uiuc.ncsa.qdl.variables.StemVariable;
+import edu.uiuc.ncsa.qdl.variables.QDLStem;
 import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
 import edu.uiuc.ncsa.security.core.util.StringUtils;
 import edu.uiuc.ncsa.security.delegation.server.storage.ClientStore;
@@ -22,7 +22,7 @@ public class CILOA2TransactionStemMC extends TransactionStemMC {
         return (CILOA2TransactionKeys) getKeys();
       }
     @Override
-    public OA2ServiceTransaction fromMap(StemVariable stem, OA2ServiceTransaction oa2ServiceTransaction) {
+    public OA2ServiceTransaction fromMap(QDLStem stem, OA2ServiceTransaction oa2ServiceTransaction) {
         CILOA2ServiceTransaction t = (CILOA2ServiceTransaction) super.fromMap(stem, oa2ServiceTransaction);
         if(stem.containsKey(getK().affiliation())){t.setAffiliation(stem.getString(getK().affiliation()));               }
         if(stem.containsKey(getK().displayName())){t.setDisplayName(stem.getString(getK().displayName()));              }
@@ -33,7 +33,7 @@ public class CILOA2TransactionStemMC extends TransactionStemMC {
     }
 
     @Override
-    public StemVariable toMap(OA2ServiceTransaction oa2ServiceTransaction, StemVariable stem) {
+    public QDLStem toMap(OA2ServiceTransaction oa2ServiceTransaction, QDLStem stem) {
         CILOA2ServiceTransaction t = (CILOA2ServiceTransaction)oa2ServiceTransaction;
         stem = super.toMap(t, stem);
         if(!StringUtils.isTrivial(t.getAffiliation())){stem.put(getK().affiliation(), t.getAffiliation());}

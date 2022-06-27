@@ -1,7 +1,7 @@
 package org.cilogon.qdl.module.storage;
 
 import edu.uiuc.ncsa.oa2.qdl.storage.StemConverter;
-import edu.uiuc.ncsa.qdl.variables.StemVariable;
+import edu.uiuc.ncsa.qdl.variables.QDLStem;
 import edu.uiuc.ncsa.security.storage.data.MapConverter;
 import org.cilogon.d2.twofactor.TwoFactorInfo;
 import org.cilogon.d2.twofactor.TwoFactorSerializationKeys;
@@ -22,7 +22,7 @@ public class TwoFactorMC<V extends TwoFactorInfo> extends StemConverter<V> {
     }
 
     @Override
-    public V fromMap(StemVariable stem, V v) {
+    public V fromMap(QDLStem stem, V v) {
         v = super.fromMap(stem, v);
         if (isStringKeyOK(stem, kk().info())) {
             v.setInfo(stem.getString(kk().info()));
@@ -31,7 +31,7 @@ public class TwoFactorMC<V extends TwoFactorInfo> extends StemConverter<V> {
     }
 
     @Override
-    public StemVariable toMap(V v, StemVariable stem) {
+    public QDLStem toMap(V v, QDLStem stem) {
         stem = super.toMap(v, stem);
         if (!isTrivial(v.getInfo())) {
             stem.put(kk().info(), v.getInfo());

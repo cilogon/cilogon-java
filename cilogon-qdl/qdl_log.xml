@@ -133,7 +133,7 @@ java.lang.NullPointerException
 Jul 07, 2021 10:54:47 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade error
 SEVERE: (no message)
 java.lang.NullPointerException
-	at edu.uiuc.ncsa.qdl.variables.StemVariable.addList(StemVariable.java:213)
+	at edu.uiuc.ncsa.qdl.variables.QDLStem.addList(QDLStem.java:213)
 	at edu.uiuc.ncsa.oa2.qdl.storage.StoreFacade$StoreTypes.getValue(StoreFacade.java:680)
 	at edu.uiuc.ncsa.qdl.extensions.JavaModule.init(JavaModule.java:93)
 	at edu.uiuc.ncsa.qdl.evaluate.ControlEvaluator$1.load(ControlEvaluator.java:1442)

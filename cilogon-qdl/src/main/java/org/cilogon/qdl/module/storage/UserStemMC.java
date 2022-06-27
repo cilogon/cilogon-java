@@ -1,7 +1,7 @@
 package org.cilogon.qdl.module.storage;
 
 import edu.uiuc.ncsa.oa2.qdl.storage.StemConverter;
-import edu.uiuc.ncsa.qdl.variables.StemVariable;
+import edu.uiuc.ncsa.qdl.variables.QDLStem;
 import edu.uiuc.ncsa.security.storage.data.MapConverter;
 import net.sf.json.JSONObject;
 import org.cilogon.d2.storage.*;
@@ -48,7 +48,7 @@ public class UserStemMC<V extends User> extends StemConverter<V> {
 
 
     @Override
-    public V fromMap(StemVariable stem, V v) {
+    public V fromMap(QDLStem stem, V v) {
         v = super.fromMap(stem, v);
         if(isStringKeyOK(stem, kk().affiliation())){v.setAffiliation(stem.getString(kk().affiliation()));}
         if (isStringKeyOK(stem, kk().attr_json())) {v.setAttr_json(stem.getString(kk().attr_json()));}
@@ -75,14 +75,14 @@ public class UserStemMC<V extends User> extends StemConverter<V> {
         if (isStringKeyOK(stem, kk().serialString())) {v.setSerialIdentifier(newID(stem.getString(kk().serialString())));}
 
         if (isStringKeyOK(stem, kk().state())) {
-            StemVariable stemVariable = (StemVariable) stem.get(kk().state());
-            v.setState((JSONObject) stemVariable.toJSON());
+            QDLStem QDLStem = (QDLStem) stem.get(kk().state());
+            v.setState((JSONObject) QDLStem.toJSON());
         }
         v.setUseUSinDN(stem.getBoolean(kk().useUSinDN()));
         return v;
     }
     @Override
-    public StemVariable toMap(V v, StemVariable stem) {
+    public QDLStem toMap(V v, QDLStem stem) {
         stem = super.toMap(v, stem);
         setNonNullStemValue(stem,kk().affiliation(), v.getAffiliation());
         setNonNullStemValue(stem,kk().attr_json(), v.getAttr_json());
@@ -103,9 +103,9 @@ public class UserStemMC<V extends User> extends StemConverter<V> {
         if (v.getSerialIdentifier() != null) {stem.put(kk().serialString(), v.getSerialIdentifier().toString());}
         //    setNonNullStemValue(stem,kk().serialString(), v.getSerialString());
         if (v.getState() != null) {
-            StemVariable stemVariable = new StemVariable();
-            stemVariable.fromJSON(v.getState());
-            stem.put(kk().state(), stemVariable);
+            QDLStem QDLStem = new QDLStem();
+            QDLStem.fromJSON(v.getState());
+            stem.put(kk().state(), QDLStem);
         }
         if (v.getSubjectID() != null) {stem.put(kk().subjectId(), v.getSubjectID().getName());}
          // User UID is the identifier for htis object and is set in super.
