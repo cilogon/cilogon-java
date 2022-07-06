@@ -576,7 +576,7 @@ public class DBService2 extends AbstractDBService {
         t.setUsername(userUID.toString());
 
         try {
-            doClaims2((CILogonOA2ServiceEnvironment) MyProxyDelegationServlet.getServiceEnvironment(), t, req);
+            doClaims2((CILogonOA2ServiceEnvironment) MyProxyDelegationServlet.getServiceEnvironment(), t, req, debugger);
         } catch (ScriptRuntimeException srx) {
             // The user actually threw one of these.
             writeMessage(resp, new Err(StatusCodes.STATUS_MISSING_ARGUMENT, srx.getRequestedType(), srx.getMessage(), srx.getErrorURI()));
@@ -594,14 +594,15 @@ public class DBService2 extends AbstractDBService {
         writeTransaction(t, StatusCodes.STATUS_OK, resp);
     }
 
-    protected void doClaims2(CILogonOA2ServiceEnvironment env, CILOA2ServiceTransaction t, HttpServletRequest request) throws Throwable {
+    protected void doClaims2(CILogonOA2ServiceEnvironment env, CILOA2ServiceTransaction t, HttpServletRequest request, MetaDebugUtil debugger) throws Throwable {
+
         try {
-            DebugUtil.trace(this, "Doing user claims");
+            debugger.trace(this, "Doing user claims");
             UserClaimSource userClaimSource = new UserClaimSource(getMyLogger());
             userClaimSource.setOa2SE((OA2SE) MyProxyDelegationServlet.getServiceEnvironment());
             t.setUserMetaData(userClaimSource.process(t.getUserMetaData(), t));
-            DebugUtil.trace(this, "Done user claims" + t.getUserMetaData().toString(1));
-            DebugUtil.trace(this, "Starting  post_auth claims");
+            debugger.trace(this, "Done user claims" + t.getUserMetaData().toString(1));
+            debugger.trace(this, "Starting  post_auth claims");
             env.getTransactionStore().save(t); // make SURE the user claims get saved.
 
             JWTRunner jwtRunner = new JWTRunner(t, ScriptRuntimeEngineFactory.createRTE(env, t, t.getOA2Client().getConfig()));
@@ -609,13 +610,11 @@ public class DBService2 extends AbstractDBService {
             OA2ClientUtils.setupHandlers(jwtRunner, env, t, resolvedClient, request);
 
             jwtRunner.doAuthClaims();
+            debugger.trace(this, "Done with all post_auth claims");
         } catch (Throwable throwable) {
+            debugger.error(this, "error processing claims:" + throwable.getMessage(), throwable);
             if (throwable instanceof RuntimeException) {
                 throw (RuntimeException) throwable;
-            }
-            getMyLogger().error("error processing claims: " + throwable.getMessage(), throwable);
-            if (DebugUtil.getDebugLevel() == DebugUtil.DEBUG_LEVEL_TRACE) {
-                throwable.printStackTrace();
             }
             throw new GeneralException("Error processing claims", throwable);
         }
