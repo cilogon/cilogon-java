@@ -13,6 +13,7 @@ import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.transactions.OA2ServiceTransac
 import edu.uiuc.ncsa.myproxy.oa4mp.server.servlet.MyProxyDelegationServlet;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.util.ClientDebugUtil;
 import edu.uiuc.ncsa.oa2.servlet.RFC8628Servlet;
+import edu.uiuc.ncsa.qdl.exceptions.QDLException;
 import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.exceptions.GeneralException;
 import edu.uiuc.ncsa.security.core.exceptions.InvalidTimestampException;
@@ -74,6 +75,9 @@ public class DBService2 extends AbstractDBService {
     public static final int STATUS_NO_SCOPES = 0x10011; //65553
     public static final int STATUS_MALFORMED_SCOPE = 0x10013; //65555
     public static final int STATUS_SERVICE_UNAVAILABLE = 0x10015; //65557
+    public static final int STATUS_QDL_ERROR = 0x100007; // 1048583
+    public static final int STATUS_QDL_RUNTIME_ERROR = 0x100009; // 1048585
+
 
     public static final String CHECK_USER_CODE = "checkUserCode";
     public static final int CHECK_USER_CODE_CASE = 740;
@@ -582,8 +586,18 @@ public class DBService2 extends AbstractDBService {
             writeMessage(resp, new Err(StatusCodes.STATUS_MISSING_ARGUMENT, srx.getRequestedType(), srx.getMessage(), srx.getErrorURI()));
             return;
         } catch (Throwable throwable) {
+            if(throwable instanceof QDLException){
+                QDLException qdlException = (QDLException)throwable;
+                String description = qdlException.getMessage();
+                getMyLogger().error(description, throwable);
+                writeTransaction(t, new Err(STATUS_QDL_ERROR, "qdl_error", description), resp);
+                return;
+            }
             if (throwable instanceof RuntimeException) {
-                throw (RuntimeException) throwable;
+                getMyLogger().error(throwable.getMessage(), throwable);
+                writeTransaction(t, new Err(STATUS_QDL_RUNTIME_ERROR, "qdl_encountered_an_error", throwable.getMessage()), resp);
+                return;
+
             }
             getMyLogger().error("Could not get claims", throwable);
             throw new GeneralException(throwable);
