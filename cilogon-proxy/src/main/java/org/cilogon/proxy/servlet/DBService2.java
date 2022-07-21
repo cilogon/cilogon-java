@@ -18,7 +18,10 @@ import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.exceptions.GeneralException;
 import edu.uiuc.ncsa.security.core.exceptions.InvalidTimestampException;
 import edu.uiuc.ncsa.security.core.exceptions.NFWException;
-import edu.uiuc.ncsa.security.core.util.*;
+import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
+import edu.uiuc.ncsa.security.core.util.DateUtils;
+import edu.uiuc.ncsa.security.core.util.MetaDebugUtil;
+import edu.uiuc.ncsa.security.core.util.StringUtils;
 import edu.uiuc.ncsa.security.delegation.token.impl.AuthorizationGrantImpl;
 import edu.uiuc.ncsa.security.delegation.token.impl.TokenUtils;
 import edu.uiuc.ncsa.security.oauth_2_0.OA2Constants;
@@ -560,12 +563,12 @@ public class DBService2 extends AbstractDBService {
             return;
         }
         MetaDebugUtil debugger = MyProxyDelegationServlet.createDebugger(t.getClient());
-        if(debugger instanceof ClientDebugUtil){
-            ((ClientDebugUtil)debugger).setTransaction(t);
+        if (debugger instanceof ClientDebugUtil) {
+            ((ClientDebugUtil) debugger).setTransaction(t);
         }
         if (myproxyUsername == null) {
             t.setMyproxyUsername(user.getDN(t, true));
-            debugger.info(this,"Setting myproxy username to default user DN, since no cilogon_info sent.");
+            debugger.info(this, "Setting myproxy username to default user DN, since no cilogon_info sent.");
         } else {
             t.setMyproxyUsername(URLDecoder.decode(myproxyUsername, "UTF-8"));
         }
@@ -580,26 +583,31 @@ public class DBService2 extends AbstractDBService {
         t.setUsername(userUID.toString());
 
         try {
+            debugger.trace(this, "Starting to process claims");
             doClaims2((CILogonOA2ServiceEnvironment) MyProxyDelegationServlet.getServiceEnvironment(), t, req, debugger);
         } catch (ScriptRuntimeException srx) {
             // The user actually threw one of these.
+            debugger.trace(this, "Script runtime exception", srx);
             writeMessage(resp, new Err(StatusCodes.STATUS_MISSING_ARGUMENT, srx.getRequestedType(), srx.getMessage(), srx.getErrorURI()));
             return;
         } catch (Throwable throwable) {
-            if(throwable instanceof QDLException){
-                QDLException qdlException = (QDLException)throwable;
+            if (throwable instanceof QDLException) {
+                QDLException qdlException = (QDLException) throwable;
                 String description = qdlException.getMessage();
-                getMyLogger().error(description, throwable);
+                debugger.trace(this, "QDL error", throwable);
+                //   getMyLogger().error(description, throwable);
                 writeTransaction(t, new Err(STATUS_QDL_ERROR, "qdl_error", description), resp);
                 return;
             }
             if (throwable instanceof RuntimeException) {
                 getMyLogger().error(throwable.getMessage(), throwable);
+                debugger.trace(this, "QDL runtime error", throwable);
                 writeTransaction(t, new Err(STATUS_QDL_RUNTIME_ERROR, "qdl_encountered_an_error", throwable.getMessage()), resp);
                 return;
 
             }
             getMyLogger().error("Could not get claims", throwable);
+            debugger.trace(this, "Exception running QDL, throwing GeneralException", throwable);
             throw new GeneralException(throwable);
         }
         debugger.trace(this, "done setting transaction state for user " + user.getIdentifierString());
@@ -609,29 +617,28 @@ public class DBService2 extends AbstractDBService {
     }
 
     protected void doClaims2(CILogonOA2ServiceEnvironment env, CILOA2ServiceTransaction t, HttpServletRequest request, MetaDebugUtil debugger) throws Throwable {
+        // try {
+        debugger.trace(this, "Doing user claims");
+        UserClaimSource userClaimSource = new UserClaimSource(getMyLogger());
+        userClaimSource.setOa2SE((OA2SE) MyProxyDelegationServlet.getServiceEnvironment());
+        t.setUserMetaData(userClaimSource.process(t.getUserMetaData(), t));
+        debugger.trace(this, "Done user claims" + t.getUserMetaData().toString(1));
+        debugger.trace(this, "Starting  post_auth claims");
+        env.getTransactionStore().save(t); // make SURE the user claims get saved.
 
-        try {
-            debugger.trace(this, "Doing user claims");
-            UserClaimSource userClaimSource = new UserClaimSource(getMyLogger());
-            userClaimSource.setOa2SE((OA2SE) MyProxyDelegationServlet.getServiceEnvironment());
-            t.setUserMetaData(userClaimSource.process(t.getUserMetaData(), t));
-            debugger.trace(this, "Done user claims" + t.getUserMetaData().toString(1));
-            debugger.trace(this, "Starting  post_auth claims");
-            env.getTransactionStore().save(t); // make SURE the user claims get saved.
+        JWTRunner jwtRunner = new JWTRunner(t, ScriptRuntimeEngineFactory.createRTE(env, t, t.getOA2Client().getConfig()));
+        OA2Client resolvedClient = OA2ClientUtils.resolvePrototypes(env.getClientStore(), t.getOA2Client());
+        OA2ClientUtils.setupHandlers(jwtRunner, env, t, resolvedClient, request);
 
-            JWTRunner jwtRunner = new JWTRunner(t, ScriptRuntimeEngineFactory.createRTE(env, t, t.getOA2Client().getConfig()));
-            OA2Client resolvedClient = OA2ClientUtils.resolvePrototypes(env.getClientStore(), t.getOA2Client());
-            OA2ClientUtils.setupHandlers(jwtRunner, env, t, resolvedClient, request);
-
-            jwtRunner.doAuthClaims();
-            debugger.trace(this, "Done with all post_auth claims");
-        } catch (Throwable throwable) {
+        jwtRunner.doAuthClaims();
+        debugger.trace(this, "Done with all post_auth claims");
+/*        } catch (Throwable throwable) {
             debugger.error(this, "error processing claims:" + throwable.getMessage(), throwable);
             if (throwable instanceof RuntimeException) {
                 throw (RuntimeException) throwable;
             }
             throw new GeneralException("Error processing claims", throwable);
-        }
+        }*/
 
     }
 
