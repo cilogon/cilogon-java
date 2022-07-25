@@ -1,6 +1,6 @@
 package org.cilogon.oauth2.admin;
 
-import edu.uiuc.ncsa.myproxy.oa4mp.server.CopyCommands;
+import edu.uiuc.ncsa.myproxy.oauth2.base.CopyCommands;
 import edu.uiuc.ncsa.myproxy.oauth2.tools.OA2Commands;
 import edu.uiuc.ncsa.security.core.util.AbstractEnvironment;
 import edu.uiuc.ncsa.security.core.util.ConfigurationLoader;
@@ -9,9 +9,9 @@ import edu.uiuc.ncsa.security.util.cli.CLIDriver;
 import edu.uiuc.ncsa.security.util.cli.CommonCommands;
 import edu.uiuc.ncsa.security.util.cli.InputLine;
 import org.apache.commons.lang.StringUtils;
-import org.cilogon.oauth2.servlet.util.CILogonConfiguration;
 import org.cilogon.oauth2.servlet.loader.CILOA2ConfigurationLoader;
 import org.cilogon.oauth2.servlet.loader.CILogonOA2ServiceEnvironment;
+import org.cilogon.oauth2.servlet.util.CILogonConfiguration;
 
 import static org.cilogon.oauth2.admin.CommandConstants.*;
 

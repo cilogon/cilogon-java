@@ -1,7 +1,7 @@
 package org.cilogon.oauth2.admin;
 
-import edu.uiuc.ncsa.myproxy.oa4mp.server.CopyExtension;
-import edu.uiuc.ncsa.myproxy.oa4mp.server.CopyTool;
+import edu.uiuc.ncsa.myproxy.oauth2.base.CopyExtension;
+import edu.uiuc.ncsa.myproxy.oauth2.base.CopyTool;
 import org.cilogon.oauth2.servlet.util.CILogonSE;
 
 /**
