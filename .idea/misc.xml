@@ -38,6 +38,15 @@
         <option value="$PROJECT_DIR$/pom.xml" />
       </list>
     </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/cilogon2-admin-oauth1/pom.xml" />
+        <option value="$PROJECT_DIR$/cilogon2-client-oauth1/pom.xml" />
+        <option value="$PROJECT_DIR$/cilogon2-server-loader-oauth1/pom.xml" />
+        <option value="$PROJECT_DIR$/cilogon2-server-oauth1/pom.xml" />
+        <option value="$PROJECT_DIR$/cilogon2-server-test-oauth1/pom.xml" />
+      </set>
+    </option>
   </component>
   <component name="ModuleEditorState">
     <option name="LAST_EDITED_MODULE_NAME" />

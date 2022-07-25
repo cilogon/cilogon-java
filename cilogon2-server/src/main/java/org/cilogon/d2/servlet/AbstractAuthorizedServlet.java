@@ -15,8 +15,8 @@ import edu.uiuc.ncsa.security.delegation.token.AuthorizationGrant;
 import edu.uiuc.ncsa.security.delegation.token.MyX509Certificates;
 import edu.uiuc.ncsa.security.delegation.token.Token;
 import edu.uiuc.ncsa.security.delegation.token.Verifier;
-import edu.uiuc.ncsa.security.util.pkcs.CertUtil;
-import edu.uiuc.ncsa.security.util.pkcs.PEMFormatUtil;
+import edu.uiuc.ncsa.security.util.crypto.CertUtil;
+import edu.uiuc.ncsa.security.util.crypto.PEMFormatUtil;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.HttpStatus;
 import org.cilogon.d2.storage.User;
@@ -38,7 +38,7 @@ import java.util.Collection;
 
 import static edu.uiuc.ncsa.security.core.util.BasicIdentifier.newID;
 import static edu.uiuc.ncsa.security.core.util.DateUtils.checkTimestamp;
-import static edu.uiuc.ncsa.security.util.pkcs.CertUtil.toPEM;
+import static edu.uiuc.ncsa.security.util.crypto.CertUtil.toPEM;
 
 /**
  * This does not extend OA4MP {@link AbstractAuthorizationServlet}

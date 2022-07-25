@@ -69,11 +69,11 @@
             <artifactId>oa4mp-server-admin-oauth1</artifactId>
             <version>5.2-SNAPSHOT</version>
         </dependency>
-        <dependency>
+<!--        <dependency>
             <groupId>edu.uiuc.ncsa.security</groupId>
             <artifactId>cilogon2-server-loader-oauth1</artifactId>
             <version>5.2-SNAPSHOT</version>
-        </dependency>
+        </dependency>-->
 
     </dependencies>
     <profiles>
