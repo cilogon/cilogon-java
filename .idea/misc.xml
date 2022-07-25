@@ -18,15 +18,15 @@
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="FrameworkDetectionExcludesConfiguration">
-    <file url="file://$PROJECT_DIR$/cilogon2-client-oauth2/overlays" />
+    <file url="file://$PROJECT_DIR$/cilogon-client/overlays" />
+    <file url="file://$PROJECT_DIR$/cilogon-server/overlays" />
+    <file url="file://$PROJECT_DIR$/cilogon-webapp/overlays" />
     <file url="file://$PROJECT_DIR$/cilogon2-server-oauth1/overlays" />
-    <file url="file://$PROJECT_DIR$/cilogon2-server-oauth2/overlays" />
-    <file url="file://$PROJECT_DIR$/cilogon2-server-webapp/overlays" />
+    <file type="web" url="file://$PROJECT_DIR$/cilogon-client" />
+    <file type="web" url="file://$PROJECT_DIR$/cilogon-server" />
+    <file type="web" url="file://$PROJECT_DIR$/cilogon-webapp" />
     <file type="web" url="file://$PROJECT_DIR$/cilogon2-client-oauth1" />
-    <file type="web" url="file://$PROJECT_DIR$/cilogon2-client-oauth2" />
     <file type="web" url="file://$PROJECT_DIR$/cilogon2-server-oauth1" />
-    <file type="web" url="file://$PROJECT_DIR$/cilogon2-server-oauth2" />
-    <file type="web" url="file://$PROJECT_DIR$/cilogon2-server-webapp" />
   </component>
   <component name="IdProvider" IDEtalkID="215A14033C971CCE717D28767B12EEA0" />
   <component name="JavadocGenerationManager">

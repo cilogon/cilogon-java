@@ -19,20 +19,19 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="cilogon-proxy" />
-        <module name="cilogon2-admin-oauth2" />
-        <module name="cilogon2-server-loader-oauth2" />
-        <module name="cilogon2-server-webapp" />
-        <module name="cilogon2-server-test-oauth2" />
+        <module name="cilogon-server" />
+        <module name="cilogon-webapp" />
+        <module name="cilogon-loader" />
         <module name="cilogon-qdl" />
-        <module name="cilogon2-client-oauth2" />
-        <module name="cilogon2-server-oauth2" />
+        <module name="cilogon-client" />
+        <module name="cilogon-test" />
+        <module name="cilogon-admin" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="cilogon2-admin" target="1.8" />
       <module name="cilogon2-admin-oauth1" target="1.8" />
       <module name="cilogon2-client-oauth1" target="1.8" />
-      <module name="cilogon2-server" target="1.8" />
       <module name="cilogon2-server-loader-oauth1" target="1.8" />
       <module name="cilogon2-server-oauth1" target="1.8" />
       <module name="cilogon2-server-test" target="1.8" />
