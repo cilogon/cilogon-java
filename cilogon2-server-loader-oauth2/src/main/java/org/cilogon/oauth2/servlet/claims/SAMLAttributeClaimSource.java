@@ -12,7 +12,7 @@ import edu.uiuc.ncsa.security.oauth_2_0.server.claims.OA2Claims;
 import edu.uiuc.ncsa.security.servlet.ServletDebugUtil;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import org.cilogon.d2.storage.User;
+import org.cilogon.oauth2.servlet.storage.user.User;
 import org.cilogon.oauth2.servlet.loader.CILogonOA2ServiceEnvironment;
 
 import javax.servlet.http.HttpServletRequest;

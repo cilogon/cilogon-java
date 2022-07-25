@@ -4,8 +4,8 @@ import edu.uiuc.ncsa.oa2.qdl.storage.StemConverter;
 import edu.uiuc.ncsa.qdl.variables.QDLStem;
 import edu.uiuc.ncsa.security.storage.data.MapConverter;
 import net.sf.json.JSONObject;
-import org.cilogon.d2.storage.*;
-import org.cilogon.d2.util.UserKeys;
+import org.cilogon.oauth2.servlet.storage.user.*;
+import org.cilogon.oauth2.servlet.util.UserKeys;
 
 import static edu.uiuc.ncsa.security.core.util.BasicIdentifier.newID;
 

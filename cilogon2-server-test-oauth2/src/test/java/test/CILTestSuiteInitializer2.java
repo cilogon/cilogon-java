@@ -7,8 +7,8 @@ import edu.uiuc.ncsa.myproxy.oa4mp.server.servlet.AbstractBootstrapper;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.servlet.AbstractConfigurationLoader;
 import edu.uiuc.ncsa.security.delegation.storage.Client;
 import edu.uiuc.ncsa.security.delegation.storage.impl.ClientConverter;
-import org.cilogon.d2.RemoteDBServiceTest;
-import org.cilogon.d2.ServiceTestUtils;
+import test.cilogon.RemoteDBServiceTest;
+import test.cilogon.ServiceTestUtils;
 
 /**
  * <p>Created by Jeff Gaynor<br>

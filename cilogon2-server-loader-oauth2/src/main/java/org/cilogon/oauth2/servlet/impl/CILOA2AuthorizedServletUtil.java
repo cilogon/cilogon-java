@@ -4,7 +4,7 @@ import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.servlet.OA2AuthorizedServletUtil;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.transactions.OA2ServiceTransaction;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.servlet.MyProxyDelegationServlet;
 import edu.uiuc.ncsa.security.delegation.token.AuthorizationGrant;
-import org.cilogon.oauth2.servlet.storage.CILOA2ServiceTransaction;
+import org.cilogon.oauth2.servlet.storage.transaction.CILOA2ServiceTransaction;
 
 /**
  * <p>Created by Jeff Gaynor<br>

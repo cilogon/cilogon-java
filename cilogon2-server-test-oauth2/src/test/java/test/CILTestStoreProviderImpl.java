@@ -1,7 +1,7 @@
 package test;
 
 import edu.uiuc.ncsa.myproxy.oa4mp.server.servlet.AbstractConfigurationLoader;
-import org.cilogon.d2.CILTestStoreProvider;
+import test.cilogon.CILTestStoreProvider;
 import org.cilogon.oauth2.servlet.loader.CILOA2ConfigurationLoader;
 
 import static edu.uiuc.ncsa.myproxy.oa4mp.TestUtils.findConfigNode;

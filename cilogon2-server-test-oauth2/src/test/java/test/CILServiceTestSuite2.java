@@ -1,12 +1,12 @@
 package test;
 
 import edu.uiuc.ncsa.security.util.TemplateTest;
-import org.cilogon.d2.DBServiceTests;
-import org.cilogon.d2.DBServiceUserIDTests;
-import org.cilogon.d2.DBServiceUserTests;
-import org.cilogon.d2.ServiceTestSuite;
-import org.cilogon.d2.impl.*;
-import org.cilogon.d2.util.TokenTest;
+import test.cilogon.DBServiceTests;
+import test.cilogon.DBServiceUserIDTests;
+import test.cilogon.DBServiceUserTests;
+import test.cilogon.ServiceTestSuite;
+import test.cilogon.impl.*;
+import test.cilogon.util.TokenTest;
 import org.cilogon.oauth2.servlet.loader.CILOA2Bootstrapper;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;

@@ -11,7 +11,7 @@ import edu.uiuc.ncsa.security.delegation.storage.Client;
 import edu.uiuc.ncsa.security.delegation.storage.impl.ClientConverter;
 import edu.uiuc.ncsa.security.servlet.Initialization;
 import org.apache.commons.configuration.tree.ConfigurationNode;
-import org.cilogon.d2.util.DNUtil;
+import org.cilogon.oauth2.servlet.util.DNUtil;
 
 import javax.servlet.ServletException;
 

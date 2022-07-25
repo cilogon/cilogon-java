@@ -1,14 +1,14 @@
 package test;
 
 import edu.uiuc.ncsa.myproxy.oa4mp.server.servlet.AbstractConfigurationLoader;
-import org.cilogon.d2.CILTestStoreProvider;
-import org.cilogon.d2.CILTestStoreProviderI2;
-import org.cilogon.d2.storage.IdentityProviderStore;
-import org.cilogon.d2.storage.User;
-import org.cilogon.d2.storage.UserStore;
-import org.cilogon.d2.twofactor.TwoFactorStore;
-import org.cilogon.d2.util.ArchivedUserStore;
-import org.cilogon.d2.util.Incrementable;
+import test.cilogon.CILTestStoreProvider;
+import test.cilogon.CILTestStoreProviderI2;
+import org.cilogon.oauth2.servlet.storage.idp.IdentityProviderStore;
+import org.cilogon.oauth2.servlet.storage.user.User;
+import org.cilogon.oauth2.servlet.storage.user.UserStore;
+import org.cilogon.oauth2.servlet.twofactor.TwoFactorStore;
+import org.cilogon.oauth2.servlet.util.ArchivedUserStore;
+import org.cilogon.oauth2.servlet.util.Incrementable;
 
 /**
  * <p>Created by Jeff Gaynor<br>

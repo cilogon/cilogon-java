@@ -7,8 +7,8 @@ import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
 import edu.uiuc.ncsa.security.core.util.StringUtils;
 import edu.uiuc.ncsa.security.delegation.server.storage.ClientStore;
 import edu.uiuc.ncsa.security.storage.data.MapConverter;
-import org.cilogon.oauth2.servlet.storage.CILOA2ServiceTransaction;
-import org.cilogon.oauth2.servlet.storage.CILOA2TransactionKeys;
+import org.cilogon.oauth2.servlet.storage.transaction.CILOA2ServiceTransaction;
+import org.cilogon.oauth2.servlet.storage.transaction.CILOA2TransactionKeys;
 
 /**
  * <p>Created by Jeff Gaynor<br>

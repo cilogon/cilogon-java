@@ -9,12 +9,11 @@ import edu.uiuc.ncsa.security.util.cli.CLIDriver;
 import edu.uiuc.ncsa.security.util.cli.CommonCommands;
 import edu.uiuc.ncsa.security.util.cli.InputLine;
 import org.apache.commons.lang.StringUtils;
-import org.cilogon.d2.admin.*;
-import org.cilogon.d2.util.CILogonConfiguration;
+import org.cilogon.oauth2.servlet.util.CILogonConfiguration;
 import org.cilogon.oauth2.servlet.loader.CILOA2ConfigurationLoader;
 import org.cilogon.oauth2.servlet.loader.CILogonOA2ServiceEnvironment;
 
-import static org.cilogon.d2.admin.CommandConstants.*;
+import static org.cilogon.oauth2.admin.CommandConstants.*;
 
 /**
  * <p>Created by Jeff Gaynor<br>

@@ -5,10 +5,10 @@ import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.transactions.OA2ServiceTransac
 import edu.uiuc.ncsa.security.core.util.Iso8601;
 import edu.uiuc.ncsa.security.delegation.storage.ClientApprovalKeys;
 import edu.uiuc.ncsa.security.delegation.storage.ClientKeys;
-import org.cilogon.d2.twofactor.TwoFactorSerializationKeys;
-import org.cilogon.d2.util.DBServiceSerializer;
-import org.cilogon.d2.util.IDPKeys;
-import org.cilogon.d2.util.UserKeys;
+import org.cilogon.oauth2.servlet.twofactor.TwoFactorSerializationKeys;
+import org.cilogon.oauth2.servlet.util.DBServiceSerializer;
+import org.cilogon.oauth2.servlet.util.IDPKeys;
+import org.cilogon.oauth2.servlet.util.UserKeys;
 import org.cilogon.oauth2.servlet.impl.Err;
 
 import java.io.IOException;

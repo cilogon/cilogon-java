@@ -6,9 +6,9 @@ import edu.uiuc.ncsa.security.delegation.server.ServiceTransaction;
 import edu.uiuc.ncsa.security.oauth_2_0.OA2Errors;
 import edu.uiuc.ncsa.security.oauth_2_0.OA2GeneralError;
 import org.apache.http.HttpStatus;
-import org.cilogon.d2.storage.User;
+import org.cilogon.oauth2.servlet.storage.user.User;
 import org.cilogon.oauth2.servlet.loader.CILogonOA2ServiceEnvironment;
-import org.cilogon.oauth2.servlet.storage.CILOA2ServiceTransaction;
+import org.cilogon.oauth2.servlet.storage.transaction.CILOA2ServiceTransaction;
 
 import java.security.GeneralSecurityException;
 

@@ -11,11 +11,11 @@ import edu.uiuc.ncsa.security.oauth_2_0.server.claims.OA2Claims;
 import edu.uiuc.ncsa.security.servlet.ServletDebugUtil;
 import net.freeutils.charset.UTF7Charset;
 import net.sf.json.JSONObject;
-import org.cilogon.d2.storage.User;
-import org.cilogon.d2.storage.UserNotFoundException;
-import org.cilogon.d2.util.AbstractCILServiceTransaction;
+import org.cilogon.oauth2.servlet.storage.user.User;
+import org.cilogon.oauth2.servlet.storage.user.UserNotFoundException;
+import org.cilogon.oauth2.servlet.util.AbstractCILServiceTransaction;
 import org.cilogon.oauth2.servlet.loader.CILogonOA2ServiceEnvironment;
-import org.cilogon.oauth2.servlet.storage.CILOA2ServiceTransaction;
+import org.cilogon.oauth2.servlet.storage.transaction.CILOA2ServiceTransaction;
 
 import javax.servlet.http.HttpServletRequest;
 

@@ -2,11 +2,11 @@ package org.cilogon.oauth2.servlet.loader;
 
 import edu.uiuc.ncsa.myproxy.oa4mp.server.ServiceEnvironmentImpl;
 import org.apache.commons.configuration.tree.ConfigurationNode;
-import org.cilogon.d2.storage.User;
-import org.cilogon.d2.storage.provider.UserIdentifierProvider;
-import org.cilogon.d2.storage.provider.UserProvider;
-import org.cilogon.d2.util.CILogonStoreLoader;
-import org.cilogon.d2.util.SerialStrings;
+import org.cilogon.oauth2.servlet.storage.user.User;
+import org.cilogon.oauth2.servlet.storage.user.UserIdentifierProvider;
+import org.cilogon.oauth2.servlet.storage.user.UserProvider;
+import org.cilogon.oauth2.servlet.util.CILogonStoreLoader;
+import org.cilogon.oauth2.servlet.util.SerialStrings;
 
 import java.util.Date;
 

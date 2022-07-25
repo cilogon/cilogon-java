@@ -3,10 +3,10 @@ package org.cilogon.proxy.servlet;
 import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
 import edu.uiuc.ncsa.security.oauth_2_0.OA2Errors;
 import edu.uiuc.ncsa.security.oauth_2_0.OA2GeneralError;
-import org.cilogon.d2.servlet.AbstractDBService;
-import org.cilogon.d2.servlet.CILogonExceptionHandler;
-import org.cilogon.d2.servlet.StatusCodes;
+import org.cilogon.oauth2.servlet.StatusCodes;
 import org.cilogon.oauth2.servlet.impl.Err;
+import org.cilogon.oauth2.servlet.servlet.AbstractDBService;
+import org.cilogon.oauth2.servlet.servlet.CILogonExceptionHandler;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
