@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>cilogon2-server-test-oauth2</artifactId>
+    <artifactId>cilogon-test</artifactId>
     <name>Cilogon test suite</name>
     <packaging>jar</packaging>
     <dependencies>

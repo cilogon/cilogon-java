@@ -10,7 +10,7 @@
     </parent>
     <version>5.2-SNAPSHOT</version>
     <name>CILogon client</name>
-    <artifactId>cilogon2-client-oauth2</artifactId>
+    <artifactId>cilogon-client</artifactId>
 
     <packaging>war</packaging>
     <url>http://maven.apache.org</url>
@@ -106,8 +106,13 @@
             <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-dependency-plugin</artifactId>
-                    <version>2.10</version>
+                    <version>3.3.0</version>
                 </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.3.2</version>
+            </plugin>
         </plugins>
         <finalName>cilogon-oa2-client</finalName>
     </build>

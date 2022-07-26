@@ -24,7 +24,7 @@
 
        with the appropriate flags.
     -->
-    <artifactId>cilogon2-admin-oauth2</artifactId>
+    <artifactId>cilogon-admin</artifactId>
     <name>Cilogon administrative tools</name>
     <packaging>jar</packaging>
     <dependencies>

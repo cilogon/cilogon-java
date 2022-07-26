@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>cilogon2-server-loader-oauth2</artifactId>
+    <artifactId>cilogon-loader</artifactId>
     <name>Cilogon loader</name>
     <packaging>jar</packaging>
     <dependencies>
