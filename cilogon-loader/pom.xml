@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>cilogon2-server-loader-oauth2</artifactId>
-    <name>Cilogon OAuth 2 loader</name>
+    <name>Cilogon loader</name>
     <packaging>jar</packaging>
     <dependencies>
         <dependency>
@@ -131,7 +131,8 @@
                         <exclude>**/*Test.java</exclude>
                         <exclude>**/*Suite.java</exclude>
                     </excludes>
-                    <forkMode>perTest</forkMode>
+                    <forkCount>1</forkCount>
+                    <reuseForks>false</reuseForks>
                 </configuration>
             </plugin>
         </plugins>

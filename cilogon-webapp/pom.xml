@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>cilogon2-server-webapp</artifactId>
-    <name>Cilogon version 2 server webapp</name>
+    <name>Cilogon webapp</name>
     <packaging>war</packaging>
     <dependencies>
 
@@ -73,7 +73,8 @@
                     <includes>
                         <include>**/*Suite.java</include>
                     </includes>
-                    <forkMode>perTest</forkMode>
+                    <forkCount>1</forkCount>
+                    <reuseForks>false</reuseForks>
                 </configuration>
             </plugin>
         </plugins>

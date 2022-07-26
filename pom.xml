@@ -10,9 +10,15 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>cilogon2</artifactId>
-    <name>Cilogon version 2 parent module</name>
+    <name>Cilogon  parent module</name>
     <version>5.2-SNAPSHOT</version>
     <description>CILogon server code</description>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <additionalparam>-Xdoclint:none</additionalparam>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>edu.uiuc.ncsa.security</groupId>
@@ -43,7 +49,7 @@
 
     <build>
         <plugins>
-            <plugin>
+<!--            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
@@ -52,7 +58,7 @@
                     <forceJavacCompilerUse>true</forceJavacCompilerUse>
                 </configuration>
                 <version>3.5.1</version>
-            </plugin>
+            </plugin>-->
             <plugin>
                 <groupId>org.mortbay.jetty</groupId>
                 <artifactId>maven-jetty-plugin</artifactId>

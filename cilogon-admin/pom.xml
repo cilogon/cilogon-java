@@ -25,7 +25,7 @@
        with the appropriate flags.
     -->
     <artifactId>cilogon2-admin-oauth2</artifactId>
-    <name>Cilogon OAuth 2 administrative tools</name>
+    <name>Cilogon administrative tools</name>
     <packaging>jar</packaging>
     <dependencies>
         <dependency>
@@ -234,7 +234,8 @@
                     <includes>
                         <include>**/*Suite.java</include>
                     </includes>
-                    <forkMode>perTest</forkMode>
+                    <forkCount>1</forkCount>
+                    <reuseForks>false</reuseForks>
                 </configuration>
             </plugin>
         </plugins>

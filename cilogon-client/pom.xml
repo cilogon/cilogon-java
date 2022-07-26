@@ -9,7 +9,7 @@
         <version>5.2-SNAPSHOT</version>
     </parent>
     <version>5.2-SNAPSHOT</version>
-    <name>CILogon OAuth 2 demonstration portal</name>
+    <name>CILogon client</name>
     <artifactId>cilogon2-client-oauth2</artifactId>
 
     <packaging>war</packaging>
@@ -93,7 +93,7 @@
 
     <build>
         <plugins>
-            <plugin>
+  <!--          <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
@@ -102,7 +102,7 @@
                     <forceJavacCompilerUse>true</forceJavacCompilerUse>
                 </configuration>
                 <version>3.5.1</version>
-            </plugin>
+            </plugin>-->
             <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-dependency-plugin</artifactId>
