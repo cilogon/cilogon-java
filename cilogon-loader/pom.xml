@@ -3,8 +3,8 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>cilogon2</artifactId>
-        <groupId>edu.uiuc.ncsa.security</groupId>
+        <artifactId>cilogon</artifactId>
+        <groupId>org.cilogon</groupId>
         <version>5.2-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -12,6 +12,12 @@
     <artifactId>cilogon-loader</artifactId>
     <name>Cilogon loader</name>
     <packaging>jar</packaging>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <additionalparam>-Xdoclint:none</additionalparam>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -57,26 +63,26 @@
           <version>2.7.3</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>edu.uiuc.ncsa.security</groupId>
-            <artifactId>cilogon2-server</artifactId>
+<!--        <dependency>
+            <groupId>org.cilogon</groupId>
+            <artifactId>cilogon-server</artifactId>
+            <version>5.2-SNAPSHOT</version>
+        </dependency>-->
+
+
+<!--        <dependency>
+            <groupId>org.cilogon</groupId>
+            <artifactId>cilogon-test</artifactId>
             <version>5.2-SNAPSHOT</version>
         </dependency>
 
-
         <dependency>
-            <groupId>edu.uiuc.ncsa.security</groupId>
-            <artifactId>cilogon2-server-test</artifactId>
-            <version>5.2-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>edu.uiuc.ncsa.security</groupId>
-            <artifactId>cilogon2-server-test</artifactId>
+            <groupId>org.cilogon</groupId>
+            <artifactId>cilogon-test</artifactId>
             <version>5.2-SNAPSHOT</version>
             <type>test-jar</type>
             <scope>test</scope>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>edu.uiuc.ncsa.myproxy</groupId>
             <artifactId>oa4mp-server-test</artifactId>
@@ -85,8 +91,8 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>edu.uiuc.ncsa.security.delegation</groupId>
-            <artifactId>ncsa-security-oauth-2.0</artifactId>
+            <groupId>edu.uiuc.ncsa.myproxy</groupId>
+            <artifactId>oauth2</artifactId>
             <version>5.2-SNAPSHOT</version>
         </dependency>
         <dependency>
@@ -95,20 +101,20 @@
             <version>5.2-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>edu.uiuc.ncsa.security.delegation</groupId>
-            <artifactId>ncsa-security-delegation-common</artifactId>
+            <groupId>edu.uiuc.ncsa.myproxy</groupId>
+            <artifactId>common</artifactId>
             <version>5.2-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <artifactId>ncsa-security-util</artifactId>
+            <artifactId>util</artifactId>
             <groupId>edu.uiuc.ncsa.security</groupId>
             <version>5.2-SNAPSHOT</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <artifactId>ncsa-security-delegation-common</artifactId>
-            <groupId>edu.uiuc.ncsa.security.delegation</groupId>
+            <artifactId>common</artifactId>
+            <groupId>edu.uiuc.ncsa.myproxy</groupId>
             <version>5.2-SNAPSHOT</version>
             <type>test-jar</type>
             <scope>test</scope>
@@ -118,6 +124,12 @@
             <artifactId>servlet-api</artifactId>
             <version>2.5</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>commons-transaction</groupId>
+            <artifactId>commons-transaction</artifactId>
+            <version>1.2</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
     <build>

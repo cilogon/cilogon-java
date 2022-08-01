@@ -2,7 +2,7 @@ package test.cilogon.impl;
 
 import edu.uiuc.ncsa.myproxy.oa4mp.NewTransactionTest;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.OA4MPServiceTransaction;
-import edu.uiuc.ncsa.security.delegation.storage.TransactionStore;
+import edu.uiuc.ncsa.oa4mp.delegation.common.storage.TransactionStore;
 import org.cilogon.oauth2.servlet.storage.user.User;
 import org.cilogon.oauth2.servlet.util.AbstractCILServiceTransaction;
 import test.cilogon.CILTestStoreProviderI2;

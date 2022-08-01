@@ -1,8 +1,8 @@
 package org.cilogon.proxy.servlet;
 
+import edu.uiuc.ncsa.oa4mp.delegation.oa2.OA2Errors;
+import edu.uiuc.ncsa.oa4mp.delegation.oa2.OA2GeneralError;
 import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
-import edu.uiuc.ncsa.security.oauth_2_0.OA2Errors;
-import edu.uiuc.ncsa.security.oauth_2_0.OA2GeneralError;
 import org.cilogon.oauth2.servlet.StatusCodes;
 import org.cilogon.oauth2.servlet.impl.Err;
 import org.cilogon.oauth2.servlet.servlet.AbstractDBService;

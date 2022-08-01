@@ -6,8 +6,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>cilogon2</artifactId>
-        <groupId>edu.uiuc.ncsa.security</groupId>
+        <artifactId>cilogon</artifactId>
+        <groupId>org.cilogon</groupId>
         <version>5.2-SNAPSHOT</version>
     </parent>
 
@@ -16,7 +16,11 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <additionalparam>-Xdoclint:none</additionalparam>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+<!--
         <maven.javadoc.skip>true</maven.javadoc.skip>
+-->
     </properties>
     <dependencies>
         <dependency>
@@ -24,16 +28,16 @@
             <artifactId>jstl</artifactId>
             <version>1.2</version>
         </dependency>
-        <dependency>
-            <groupId>edu.uiuc.ncsa.security</groupId>
-            <artifactId>cilogon2-admin-oauth2</artifactId>
+<!--        <dependency>
+            <groupId>org.cilogon</groupId>
+            <artifactId>cilogon-admin</artifactId>
             <version>5.2-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>edu.uiuc.ncsa.security</groupId>
-            <artifactId>cilogon2-server-loader-oauth2</artifactId>
+        </dependency>-->
+<!--        <dependency>
+            <groupId>org.cilogon</groupId>
+            <artifactId>cilogon-loader</artifactId>
             <version>5.2-SNAPSHOT</version>
-        </dependency>
+        </dependency>-->
 
         <dependency>
             <groupId>edu.uiuc.ncsa.myproxy</groupId>
@@ -41,8 +45,8 @@
             <version>5.2-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>edu.uiuc.ncsa.security.delegation</groupId>
-            <artifactId>ncsa-security-delegation-common</artifactId>
+            <groupId>edu.uiuc.ncsa.myproxy</groupId>
+            <artifactId>common</artifactId>
             <version>5.2-SNAPSHOT</version>
             <type>test-jar</type>
             <scope>test</scope>
@@ -56,8 +60,8 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>edu.uiuc.ncsa.security.delegation</groupId>
-            <artifactId>ncsa-security-oauth-2.0</artifactId>
+            <groupId>edu.uiuc.ncsa.myproxy</groupId>
+            <artifactId>oauth2</artifactId>
             <version>5.2-SNAPSHOT</version>
         </dependency>
         <dependency>
@@ -70,23 +74,32 @@
             <groupId>org.apache.derby</groupId>
             <artifactId>derby</artifactId>
             <version>10.14.2.0</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>42.4.0</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.mariadb.jdbc</groupId>
             <artifactId>mariadb-java-client</artifactId>
             <version>3.0.6</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
             <version>2.5</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.cilogon</groupId>
+            <artifactId>cilogon-loader</artifactId>
+            <version>5.2-SNAPSHOT</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 

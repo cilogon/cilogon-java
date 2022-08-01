@@ -3,8 +3,8 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>cilogon2</artifactId>
-        <groupId>edu.uiuc.ncsa.security</groupId>
+        <artifactId>cilogon</artifactId>
+        <groupId>org.cilogon</groupId>
         <version>5.2-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -27,6 +27,12 @@
     <artifactId>cilogon-admin</artifactId>
     <name>Cilogon administrative tools</name>
     <packaging>jar</packaging>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <additionalparam>-Xdoclint:none</additionalparam>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+    </properties>
     <dependencies>
         <dependency>
              <groupId>com.sun.xml.bind</groupId>
@@ -64,22 +70,22 @@
           <artifactId>mariadb-java-client</artifactId>
           <version>2.7.3</version>
         </dependency>
-        <dependency>
-            <artifactId>cilogon2-server</artifactId>
-            <groupId>edu.uiuc.ncsa.security</groupId>
+<!--        <dependency>
+            <artifactId>cilogon-server</artifactId>
+            <groupId>org.cilogon</groupId>
             <version>5.2-SNAPSHOT</version>
-        </dependency>
+        </dependency>-->
 
         <dependency>
-              <artifactId>cilogon2-server-loader-oauth2</artifactId>
-              <groupId>edu.uiuc.ncsa.security</groupId>
+              <artifactId>cilogon-loader</artifactId>
+              <groupId>org.cilogon</groupId>
               <version>5.2-SNAPSHOT</version>
           </dependency>
-        <dependency>
-            <artifactId>cilogon2-admin</artifactId>
-            <groupId>edu.uiuc.ncsa.security</groupId>
+<!--        <dependency>
+            <artifactId>cilogon-admin</artifactId>
+            <groupId>org.cilogon</groupId>
             <version>5.2-SNAPSHOT</version>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>edu.uiuc.ncsa.myproxy</groupId>
             <artifactId>oa4mp-server-admin-oauth2</artifactId>

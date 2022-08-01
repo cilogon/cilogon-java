@@ -10,6 +10,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>cilogon</artifactId>
+    <groupId>org.cilogon</groupId>
+
     <name>Cilogon  parent module</name>
     <version>5.2-SNAPSHOT</version>
     <description>CILogon server code</description>
@@ -22,18 +24,17 @@
     <dependencies>
         <dependency>
             <groupId>edu.uiuc.ncsa.security</groupId>
-            <artifactId>ncsa-security-storage</artifactId>
+            <artifactId>storage</artifactId>
             <version>5.2-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>edu.uiuc.ncsa.security</groupId>
-            <artifactId>ncsa-security-servlet</artifactId>
+            <artifactId>servlet</artifactId>
             <version>5.2-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
-    <groupId>edu.uiuc.ncsa.security</groupId>
 
     <packaging>pom</packaging>
     <modules>

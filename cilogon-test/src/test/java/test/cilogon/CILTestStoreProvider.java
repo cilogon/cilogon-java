@@ -2,7 +2,7 @@ package test.cilogon;
 
 import edu.uiuc.ncsa.myproxy.oa4mp.TestStoreProvider;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.servlet.AbstractConfigurationLoader;
-import edu.uiuc.ncsa.security.delegation.token.TokenForge;
+import edu.uiuc.ncsa.oa4mp.delegation.common.token.TokenForge;
 import edu.uiuc.ncsa.security.util.TestBase;
 import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.cilogon.oauth2.servlet.storage.idp.IdentityProvider;

@@ -1,8 +1,8 @@
 package test.cilogon;
 
 import edu.uiuc.ncsa.myproxy.oa4mp.TestStoreProviderInterface;
+import edu.uiuc.ncsa.oa4mp.delegation.common.token.TokenForge;
 import edu.uiuc.ncsa.security.core.util.ConfigurationLoader;
-import edu.uiuc.ncsa.security.delegation.token.TokenForge;
 import org.cilogon.oauth2.servlet.storage.idp.IdentityProviderStore;
 import org.cilogon.oauth2.servlet.storage.user.User;
 import org.cilogon.oauth2.servlet.storage.user.UserStore;

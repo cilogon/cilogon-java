@@ -7,6 +7,12 @@ import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.transactions.OA2ServiceTransac
 import edu.uiuc.ncsa.myproxy.oa4mp.server.admin.transactions.DSTransactionProvider;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.admin.transactions.OA4MPIdentifierProvider;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.storage.MultiDSClientStoreProvider;
+import edu.uiuc.ncsa.oa4mp.delegation.common.storage.Client;
+import edu.uiuc.ncsa.oa4mp.delegation.common.storage.TransactionStore;
+import edu.uiuc.ncsa.oa4mp.delegation.common.token.TokenForge;
+import edu.uiuc.ncsa.oa4mp.delegation.oa2.server.claims.ClaimSource;
+import edu.uiuc.ncsa.oa4mp.delegation.oa2.server.claims.ClaimSourceConfiguration;
+import edu.uiuc.ncsa.oa4mp.delegation.server.storage.ClientStore;
 import edu.uiuc.ncsa.security.core.IdentifiableProvider;
 import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.configuration.Configurations;
@@ -16,26 +22,20 @@ import edu.uiuc.ncsa.security.core.util.DebugUtil;
 import edu.uiuc.ncsa.security.core.util.IdentifiableProviderImpl;
 import edu.uiuc.ncsa.security.core.util.IdentifierProvider;
 import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
-import edu.uiuc.ncsa.security.delegation.server.storage.ClientStore;
-import edu.uiuc.ncsa.security.delegation.storage.Client;
-import edu.uiuc.ncsa.security.delegation.storage.TransactionStore;
-import edu.uiuc.ncsa.security.delegation.token.TokenForge;
-import edu.uiuc.ncsa.security.oauth_2_0.server.claims.ClaimSource;
-import edu.uiuc.ncsa.security.oauth_2_0.server.claims.ClaimSourceConfiguration;
 import edu.uiuc.ncsa.security.storage.data.MapConverter;
 import edu.uiuc.ncsa.security.storage.sql.ConnectionPoolProvider;
 import org.apache.commons.configuration.tree.ConfigurationNode;
+import org.cilogon.oauth2.servlet.storage.TokenPrefixProvider;
 import org.cilogon.oauth2.servlet.storage.archiveUser.ArchivedUser;
 import org.cilogon.oauth2.servlet.storage.idp.IdentityProviderStore;
-import org.cilogon.oauth2.servlet.storage.user.User;
-import org.cilogon.oauth2.servlet.storage.user.UserStore;
-import org.cilogon.oauth2.servlet.storage.TokenPrefixProvider;
-import org.cilogon.oauth2.servlet.twofactor.TwoFactorInfo;
-import org.cilogon.oauth2.servlet.twofactor.TwoFactorStore;
 import org.cilogon.oauth2.servlet.storage.transaction.CILOA2ServiceTransaction;
 import org.cilogon.oauth2.servlet.storage.transaction.CILOA2TransactionConverter;
 import org.cilogon.oauth2.servlet.storage.transaction.CILOA2TransactionKeys;
 import org.cilogon.oauth2.servlet.storage.transaction.CILOA2TransactionstoreProvider;
+import org.cilogon.oauth2.servlet.storage.user.User;
+import org.cilogon.oauth2.servlet.storage.user.UserStore;
+import org.cilogon.oauth2.servlet.twofactor.TwoFactorInfo;
+import org.cilogon.oauth2.servlet.twofactor.TwoFactorStore;
 import org.cilogon.oauth2.servlet.util.*;
 
 import javax.inject.Provider;
@@ -135,7 +135,7 @@ public class CILOA2ConfigurationLoader extends OA2ConfigurationLoader implements
         CILOA2TransactionConverter<CILOA2ServiceTransaction> tc = new CILOA2TransactionConverter<>(keys,
                 tp,
                 (TokenForge)getTokenForgeProvider().get(),
-                (ClientStore<? extends Client >)getClientStoreProvider().get());
+                (ClientStore<? extends Client>)getClientStoreProvider().get());
         return getTSP(tp, tc);
     }
 

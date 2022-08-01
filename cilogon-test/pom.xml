@@ -3,12 +3,17 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>cilogon2</artifactId>
-        <groupId>edu.uiuc.ncsa.security</groupId>
+        <artifactId>cilogon</artifactId>
+        <groupId>org.cilogon</groupId>
         <version>5.2-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <additionalparam>-Xdoclint:none</additionalparam>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+    </properties>
     <artifactId>cilogon-test</artifactId>
     <name>Cilogon test suite</name>
     <packaging>jar</packaging>
@@ -54,25 +59,11 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>edu.uiuc.ncsa.security</groupId>
-            <artifactId>cilogon2-server-loader-oauth2</artifactId>
+            <groupId>org.cilogon</groupId>
+            <artifactId>cilogon-loader</artifactId>
             <version>5.2-SNAPSHOT</version>
         </dependency>
 
-
-        <dependency>
-            <groupId>edu.uiuc.ncsa.security</groupId>
-            <artifactId>cilogon2-server-test</artifactId>
-            <version>5.2-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>edu.uiuc.ncsa.security</groupId>
-            <artifactId>cilogon2-server-test</artifactId>
-            <version>5.2-SNAPSHOT</version>
-            <type>test-jar</type>
-            <scope>test</scope>
-        </dependency>
         <dependency>
             <groupId>edu.uiuc.ncsa.myproxy</groupId>
             <artifactId>oa4mp-server-test</artifactId>
@@ -82,18 +73,12 @@
         </dependency>
         <dependency>
             <groupId>edu.uiuc.ncsa.security</groupId>
-            <artifactId>ncsa-security-core</artifactId>
+            <artifactId>core</artifactId>
             <version>5.2-SNAPSHOT</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
-<!--        <dependency>
-            <groupId>edu.uiuc.ncsa.security.delegation</groupId>
-            <artifactId>ncsa-security-delegation-common</artifactId>
-            <version>5.2-SNAPSHOT</version>
-            <type>test-jar</type>
-            <scope>test</scope>
-        </dependency>-->
+
         <dependency>
             <groupId>edu.uiuc.ncsa.myproxy</groupId>
             <artifactId>oa4mp-server-test-oauth2</artifactId>
@@ -102,8 +87,8 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>edu.uiuc.ncsa.security.delegation</groupId>
-            <artifactId>ncsa-security-oauth-2.0</artifactId>
+            <groupId>edu.uiuc.ncsa.myproxy</groupId>
+            <artifactId>oauth2</artifactId>
             <version>5.2-SNAPSHOT</version>
         </dependency>
         <dependency>
@@ -112,26 +97,26 @@
             <version>5.2-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>edu.uiuc.ncsa.security.delegation</groupId>
-            <artifactId>ncsa-security-delegation-common</artifactId>
+            <groupId>edu.uiuc.ncsa.myproxy</groupId>
+            <artifactId>common</artifactId>
             <version>5.2-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <artifactId>ncsa-security-util</artifactId>
+            <artifactId>util</artifactId>
             <groupId>edu.uiuc.ncsa.security</groupId>
             <version>5.2-SNAPSHOT</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <artifactId>ncsa-security-delegation-common</artifactId>
-            <groupId>edu.uiuc.ncsa.security.delegation</groupId>
+            <artifactId>common</artifactId>
+            <groupId>edu.uiuc.ncsa.myproxy</groupId>
             <version>5.2-SNAPSHOT</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>edu.uiuc.ncsa.security</groupId>
+            <groupId>org.cilogon</groupId>
             <artifactId>cilogon-proxy</artifactId>
             <version>5.2-SNAPSHOT</version>
             <scope>test</scope>
@@ -142,7 +127,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>buildnumber-maven-plugin</artifactId>
-                <version>1.0</version>
+                <version>3.0.0</version>
                 <executions>
                     <execution>
                         <phase>validate</phase>

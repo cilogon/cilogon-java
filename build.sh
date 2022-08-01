@@ -16,6 +16,7 @@ fi
 cd $CILOGON_OA2_TOOLS
 
 mvn -P cli package
+cp target/cilogon-oa2-cli-jar-with-dependencies.jar $CILOGON_OA2_DEPLOY/cilogon-oa2-cli.jar
 cp $CILOGON_ROOT/cilogon-server/target/oauth2.war $CILOGON_OA2_DEPLOY/
 cp $CILOGON_ROOT/cilogon-client/target/cilogon-oa2-client.war $CILOGON_OA2_DEPLOY/
 

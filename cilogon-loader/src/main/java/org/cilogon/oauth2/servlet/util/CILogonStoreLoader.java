@@ -2,22 +2,17 @@ package org.cilogon.oauth2.servlet.util;
 
 import edu.uiuc.ncsa.myproxy.oa4mp.server.OA4MPConfigTags;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.ServiceEnvironmentImpl;
+import edu.uiuc.ncsa.oa4mp.delegation.common.servlet.DBConfigLoader;
 import edu.uiuc.ncsa.security.core.configuration.Configurations;
-import edu.uiuc.ncsa.security.delegation.servlet.DBConfigLoader;
 import edu.uiuc.ncsa.security.storage.sql.SQLStore;
 import edu.uiuc.ncsa.security.storage.sql.mysql.MySQLConnectionPoolProvider;
 import edu.uiuc.ncsa.security.storage.sql.postgres.PGConnectionPoolProvider;
 import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.cilogon.oauth2.servlet.storage.TokenPrefixProvider;
-import org.cilogon.oauth2.servlet.storage.archiveUser.ArchivedUserIdentifierProvider;
-import org.cilogon.oauth2.servlet.storage.archiveUser.ArchivedUserKeys;
+import org.cilogon.oauth2.servlet.storage.archiveUser.*;
 import org.cilogon.oauth2.servlet.storage.idp.*;
 import org.cilogon.oauth2.servlet.storage.sequence.*;
 import org.cilogon.oauth2.servlet.storage.user.*;
-import org.cilogon.oauth2.servlet.storage.archiveUser.CILFSArchivedUserStoreProvider;
-import org.cilogon.oauth2.servlet.storage.archiveUser.CILSQLArchivedUserStoreProvider;
-import org.cilogon.oauth2.servlet.storage.archiveUser.ArchivedUserProvider;
-import org.cilogon.oauth2.servlet.storage.archiveUser.MultiArchivedUserStoreProvider;
 import org.cilogon.oauth2.servlet.twofactor.*;
 
 import java.util.HashMap;

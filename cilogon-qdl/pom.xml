@@ -3,8 +3,8 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>cilogon2</artifactId>
-        <groupId>edu.uiuc.ncsa.security</groupId>
+        <artifactId>cilogon</artifactId>
+        <groupId>org.cilogon</groupId>
         <version>5.2-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -12,6 +12,12 @@
     <artifactId>cilogon-qdl</artifactId>
     <name>CILogon QDL extensions</name>
     <packaging>jar</packaging>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <additionalparam>-Xdoclint:none</additionalparam>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>edu.uiuc.ncsa.qdl</groupId>
@@ -20,8 +26,8 @@
         </dependency>
 
         <dependency>
-            <artifactId>cilogon2-admin-oauth2</artifactId>
-            <groupId>edu.uiuc.ncsa.security</groupId>
+            <artifactId>cilogon-admin</artifactId>
+            <groupId>org.cilogon</groupId>
             <version>5.2-SNAPSHOT</version>
         </dependency>
         <dependency>
@@ -48,8 +54,8 @@
                                     <!--<mainClass>edu.uiuc.ncsa.qdl.gui.QDLGUIWorkspace</mainClass> -->
                                 </manifest>
                                 <manifestEntries>
-                                    <application-version>${pom.version}</application-version>
-                                    <application-name>${pom.name}</application-name>
+                                    <application-version>${project.version}</application-version>
+                                    <application-name>${project.name}</application-name>
                                     <build-time>${timestamp}</build-time>
                                     <implementation-version>${project.version}</implementation-version>
                                     <implementation-build>${buildNumber}</implementation-build>

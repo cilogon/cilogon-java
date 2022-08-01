@@ -1,12 +1,12 @@
 package org.cilogon.oauth2.servlet.util;
 
+import edu.uiuc.ncsa.oa4mp.delegation.common.storage.ClientApprovalKeys;
+import edu.uiuc.ncsa.oa4mp.delegation.common.storage.ClientKeys;
 import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.exceptions.GeneralException;
 import edu.uiuc.ncsa.security.core.exceptions.NFWException;
 import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
 import edu.uiuc.ncsa.security.core.util.Pool;
-import edu.uiuc.ncsa.security.delegation.storage.ClientApprovalKeys;
-import edu.uiuc.ncsa.security.delegation.storage.ClientKeys;
 import edu.uiuc.ncsa.security.storage.XMLMap;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;

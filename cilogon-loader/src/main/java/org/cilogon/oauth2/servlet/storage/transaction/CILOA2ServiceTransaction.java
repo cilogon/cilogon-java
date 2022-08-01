@@ -1,8 +1,8 @@
 package org.cilogon.oauth2.servlet.storage.transaction;
 
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.transactions.OA2ServiceTransaction;
+import edu.uiuc.ncsa.oa4mp.delegation.common.token.AuthorizationGrant;
 import edu.uiuc.ncsa.security.core.Identifier;
-import edu.uiuc.ncsa.security.delegation.token.AuthorizationGrant;
 import org.cilogon.oauth2.servlet.util.AbstractCILServiceTransaction;
 
 /**

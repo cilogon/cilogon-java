@@ -1,10 +1,10 @@
 package test.cilogon;
 
 import edu.uiuc.ncsa.myproxy.oa4mp.server.ServiceConstantKeys;
+import edu.uiuc.ncsa.oa4mp.delegation.common.storage.TransactionStore;
+import edu.uiuc.ncsa.oa4mp.delegation.server.storage.ClientStore;
 import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
 import edu.uiuc.ncsa.security.core.util.DateUtils;
-import edu.uiuc.ncsa.security.delegation.server.storage.ClientStore;
-import edu.uiuc.ncsa.security.delegation.storage.TransactionStore;
 import edu.uiuc.ncsa.security.storage.XMLMap;
 import edu.uiuc.ncsa.security.util.TestBase;
 import org.cilogon.oauth2.servlet.storage.idp.IdentityProvider;
