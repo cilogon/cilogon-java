@@ -127,7 +127,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>buildnumber-maven-plugin</artifactId>
-                <version>3.0.0</version>
+                <version>1.0</version>
                 <executions>
                     <execution>
                         <phase>validate</phase>
@@ -153,7 +153,7 @@
                 </configuration>
             </plugin>
             <!--
-            Run no tests here! The suites of them require a runnign instance of CILogon
+            Run no tests here! The suites of them require a running instance of CILogon
             and a lot of other state first, so run them manually or all you will get is
             failures.
             -->
@@ -166,6 +166,7 @@
                 </configuration>
 
             </plugin>
+
         </plugins>
         <finalName>oauth2</finalName>
     </build>

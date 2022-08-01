@@ -1,6 +1,9 @@
 package test.cilogon;
 
 import edu.uiuc.ncsa.myproxy.oa4mp.server.ServiceConstantKeys;
+import edu.uiuc.ncsa.oa4mp.delegation.common.storage.Client;
+import edu.uiuc.ncsa.oa4mp.delegation.common.token.impl.AuthorizationGrantImpl;
+import edu.uiuc.ncsa.oa4mp.delegation.server.ServiceTransaction;
 import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
 import edu.uiuc.ncsa.security.storage.XMLMap;
 import org.cilogon.oauth2.servlet.StatusCodes;

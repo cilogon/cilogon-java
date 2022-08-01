@@ -48,8 +48,8 @@
             <version>5.2-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <artifactId>cilogon-server</artifactId>
             <groupId>org.cilogon</groupId>
+            <artifactId>cilogon-loader</artifactId>
             <version>5.2-SNAPSHOT</version>
         </dependency>
         <dependency>
@@ -88,7 +88,7 @@
                 </configuration>
             </plugin>
         </plugins>
-        <finalName>oauth</finalName>
+        <finalName>oauth2</finalName>
     </build>
 
 </project>
