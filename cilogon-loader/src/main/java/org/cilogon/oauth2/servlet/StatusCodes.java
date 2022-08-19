@@ -33,6 +33,7 @@ public class StatusCodes {
     public static final int STATUS_PAIRWISE_ID_MISMATCH = 0x100003; // 1048579
     public static final int STATUS_SUBJECT_ID_MISMATCH = 0x100005; // 1048581
 
+
     /**
      * Gets the preset CILogon error description from the DB Service error status.
      * @param status

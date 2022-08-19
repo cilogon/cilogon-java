@@ -30,8 +30,13 @@ public class DBServiceSerializer2 extends DBServiceSerializer {
         print(w, "error", errResponse.error);
         print(w, "error_description", errResponse.description);
         if(errResponse.errorURI != null) {
-            // CIL-1187 support.
-            print(w, "error_uri", errResponse.errorURI.toString());
+            if(errResponse.code == DBService2.STATUS_QDL_ERROR || errResponse.code == DBService2.STATUS_QDL_RUNTIME_ERROR){
+                // CIL-1388 support
+                print(w, "custom_error_uri", errResponse.errorURI.toString());
+            }else {
+                // CIL-1187 support.
+                print(w, "error_uri", errResponse.errorURI.toString());
+            }
         }
     }
 

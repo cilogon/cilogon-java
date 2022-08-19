@@ -586,22 +586,23 @@ public class DBService2 extends AbstractDBService {
             debugger.trace(this, "Starting to process claims");
             doClaims2((CILogonOA2ServiceEnvironment) MyProxyDelegationServlet.getServiceEnvironment(), t, req, debugger);
         } catch (ScriptRuntimeException srx) {
-            // The user actually threw one of these.
+            // The user threw one of these explicitly as part of the control flow, e.g. user was not in the right group.
             debugger.trace(this, "Script runtime exception", srx);
-            writeMessage(resp, new Err(StatusCodes.STATUS_MISSING_ARGUMENT, srx.getRequestedType(), srx.getMessage(), srx.getErrorURI()));
+            writeMessage(resp, new Err(STATUS_QDL_ERROR, srx.getRequestedType(), srx.getMessage(), srx.getErrorURI()));
             return;
         } catch (Throwable throwable) {
             if (throwable instanceof QDLException) {
                 QDLException qdlException = (QDLException) throwable;
                 String description = qdlException.getMessage();
                 debugger.trace(this, "QDL error", throwable);
-                //   getMyLogger().error(description, throwable);
+                //   This is an exception from QDL, e.g. bad syntax, function called with wrong arguments, etc.
                 writeTransaction(t, new Err(STATUS_QDL_ERROR, "qdl_error", description), resp);
                 return;
             }
             if (throwable instanceof RuntimeException) {
                 getMyLogger().error(throwable.getMessage(), throwable);
-                debugger.trace(this, "QDL runtime error", throwable);
+                debugger.trace(this, "Java runtime exception running QDL", throwable);
+                // This is an exception thrown by some component QDL calls, e.g. a Java NPE, Java is missing a library, etc.
                 writeTransaction(t, new Err(STATUS_QDL_RUNTIME_ERROR, "qdl_encountered_an_error", throwable.getMessage()), resp);
                 return;
 
