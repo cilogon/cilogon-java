@@ -16,6 +16,7 @@ import edu.uiuc.ncsa.oa2.servlet.RFC8628Servlet;
 import edu.uiuc.ncsa.oa4mp.delegation.common.token.impl.AuthorizationGrantImpl;
 import edu.uiuc.ncsa.oa4mp.delegation.common.token.impl.TokenUtils;
 import edu.uiuc.ncsa.oa4mp.delegation.oa2.OA2Constants;
+import edu.uiuc.ncsa.oa4mp.delegation.oa2.OA2Errors;
 import edu.uiuc.ncsa.oa4mp.delegation.oa2.OA2GeneralError;
 import edu.uiuc.ncsa.oa4mp.delegation.oa2.jwt.JWTRunner;
 import edu.uiuc.ncsa.oa4mp.delegation.oa2.jwt.ScriptRuntimeException;
@@ -64,15 +65,13 @@ public class DBService2 extends AbstractDBService {
 
     public static final String SET_TRANSACTION_STATE = "setTransactionState";
     public static final int SET_TRANSACTION_STATE_CASE = 720;
-    public static final int STATUS_TRANSACTION_NOT_FOUND = 0x10001; //65537
-    public static final int STATUS_EXPIRED_TOKEN = 0x10003; //65539
 
     public static final String CREATE_TRANSACTION_STATE = "createTransaction";
     public static final int CREATE_TRANSACTION_STATE_CASE = 730;
+    public static final int STATUS_TRANSACTION_NOT_FOUND = 0x10001; //65537
+    public static final int STATUS_EXPIRED_TOKEN = 0x10003; //65539
     public static final int STATUS_CREATE_TRANSACTION_FAILED = 0x10005; // 65541
-    public static final int STATUS_UNKNOWN_CALLBACK = 0x10007; // 65543
     public static final int STATUS_MISSING_CLIENT_ID = 0x10009; //65545
-    public static final int STATUS_NO_REGISTERED_CALLBACKS = 0x1000B; // 65547
     public static final int STATUS_UNKNOWN_CLIENT = 0x1000D; // 65549
     public static final int STATUS_UNAPPROVED_CLIENT = 0x1000F; // 65551
     public static final int STATUS_NO_SCOPES = 0x10011; //65553
@@ -588,6 +587,7 @@ public class DBService2 extends AbstractDBService {
         } catch (ScriptRuntimeException srx) {
             // The user threw one of these explicitly as part of the control flow, e.g. user was not in the right group.
             debugger.trace(this, "Script runtime exception", srx);
+            // CIL-1388
             writeMessage(resp, new Err(STATUS_QDL_ERROR, srx.getRequestedType(), srx.getMessage(), srx.getErrorURI()));
             return;
         } catch (Throwable throwable) {
@@ -596,14 +596,16 @@ public class DBService2 extends AbstractDBService {
                 String description = qdlException.getMessage();
                 debugger.trace(this, "QDL error", throwable);
                 //   This is an exception from QDL, e.g. bad syntax, function called with wrong arguments, etc.
-                writeTransaction(t, new Err(STATUS_QDL_ERROR, "qdl_error", description), resp);
+                //writeTransaction(t, new Err(STATUS_QDL_ERROR, "qdl_error", description), resp);
+                writeTransaction(t, new Err(STATUS_QDL_ERROR, OA2Errors.SERVER_ERROR, description), resp);
                 return;
             }
             if (throwable instanceof RuntimeException) {
                 getMyLogger().error(throwable.getMessage(), throwable);
                 debugger.trace(this, "Java runtime exception running QDL", throwable);
                 // This is an exception thrown by some component QDL calls, e.g. a Java NPE, Java is missing a library, etc.
-                writeTransaction(t, new Err(STATUS_QDL_RUNTIME_ERROR, "qdl_encountered_an_error", throwable.getMessage()), resp);
+                //writeTransaction(t, new Err(STATUS_QDL_RUNTIME_ERROR, "qdl_encountered_an_error", throwable.getMessage()), resp);
+                writeTransaction(t, new Err(STATUS_QDL_RUNTIME_ERROR, OA2Errors.SERVER_ERROR, throwable.getMessage()), resp);
                 return;
 
             }

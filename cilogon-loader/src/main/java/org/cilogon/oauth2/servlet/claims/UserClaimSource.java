@@ -175,9 +175,10 @@ public class UserClaimSource extends BasicClaimsSourceImpl implements OA2Scopes 
             if (!isEmpty(user.getAffiliation())) {
                 claims.put(AFFILIATION, user.getAffiliation());
             }
-            if (!isEmpty(user.getDisplayName())) {
+            // Commenting this out for CIL-1411
+        /*    if (!isEmpty(user.getDisplayName())) {
                 claims.put(OA2Claims.NAME, user.getDisplayName());
-            }
+            }*/
             // Fixes CIL-462
             String rawJSON = user.getAttr_json();
             if (!isEmpty(rawJSON)) {

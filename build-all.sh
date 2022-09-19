@@ -27,6 +27,12 @@ mkdir "$DEPLOY_ROOT/oa2-qdl"
 
 echo "Target directories created"
 
+#/home/ncsa/dev/ncsa-git/crypto-java8/build.sh
+#if [ $? -ne 0 ]; then
+#    echo "Crypto Java 8 build failed. Exiting build"
+#    exit
+#fi
+
 /home/ncsa/dev/ncsa-git/security-lib/build.sh
 if [ $? -ne 0 ]; then
     echo "NCSA build failed. Exiting build"

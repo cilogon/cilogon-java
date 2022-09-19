@@ -98,7 +98,10 @@ public class SAMLAttributeClaimSource extends BasicClaimsSourceImpl {
         /*
         This is what a typical argument looks like as a JSON object:
 
-        {"member_of":"c13b7ba3-b038-4abb-b062-4491d1f9f12b;09895d05-1b79-4529-9f9d-9367752a1d0a","acr":"urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport","entitlement":"urn:mace:exampleIdP.org:demoservice:demo-admin"}
+        {
+         "member_of":"c13b7ba3-b038-4abb-b062-4491d1f9f12b;09895d05-1b79-4529-9f9d-9367752a1d0a","
+        acr":"urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport",
+        "entitlement":"urn:mace:exampleIdP.org:demoservice:demo-admin"}
 
          */
         // In the case of CILogon, the username on the transaction is the unique user id in the database, so get the user

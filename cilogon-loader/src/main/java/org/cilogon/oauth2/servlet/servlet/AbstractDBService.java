@@ -54,35 +54,35 @@ import static org.apache.http.HttpStatus.SC_OK;
  */
 public abstract class AbstractDBService extends MyProxyDelegationServlet {
 
-    public static final int UNRECOGNIZED_CASE = -1;
 
-    public static final String CREATE_USER = "createUser";
-    public static final int CREATE_USER_CASE = 120;
-    public static final String GET_USER = "getUser";
-    public static final int GET_USER_CASE = 100;
-    public static final String GET_USER_ID = "getUserID";
-    public static final int GET_USER_ID_CASE = 110;
-    public static final String GET_PORTAL_PARAMETER = "getPortalParameter";
-    public static final int GET_PORTAL_PARAMETER_CASE = 200;
+
+
     public static final String ACTION_PARAMETER = "action";
-    public static final String GET_LAST_ARCHIVED_USER = "getLastArchivedUser";
-    public static final int GET_LAST_ARCHIVED_USER_CASE = 300;
+    public static final String CREATE_USER = "createUser";
     public static final String GET_ALL_IDPS = "getAllIdps";
-    public static final int GET_ALL_IDPS_CASE = 400;
-    public static final String SET_ALL_IDPS = "setAllIdps";
-    public static final int SET_ALL_IDPS_CASE = 500;
-    public static final String HAS_USER = "hasUser";
-    public static final int HAS_USER_CASE = 550;
-    public static final String REMOVE_USER = "removeUser";
-    public static final int REMOVE_USER_CASE = 600;
-    public static final String UPDATE_USER = "updateUser";
-    public static final int UPDATE_USER_CASE = 650;
-
+    public static final String GET_LAST_ARCHIVED_USER = "getLastArchivedUser";
+    public static final String GET_PORTAL_PARAMETER = "getPortalParameter";
     public static final String GET_TWO_FACTOR_INFO = "getTwoFactorInfo";
-    public static final int GET_TWO_FACTOR_INFO_CASE = 800;
-
+    public static final String GET_USER = "getUser";
+    public static final String GET_USER_ID = "getUserID";
+    public static final String HAS_USER = "hasUser";
+    public static final String REMOVE_USER = "removeUser";
+    public static final String SET_ALL_IDPS = "setAllIdps";
     public static final String SET_TWO_FACTOR_INFO = "setTwoFactorInfo";
+    public static final String UPDATE_USER = "updateUser";
+    public static final int CREATE_USER_CASE = 120;
+    public static final int GET_ALL_IDPS_CASE = 400;
+    public static final int GET_LAST_ARCHIVED_USER_CASE = 300;
+    public static final int GET_PORTAL_PARAMETER_CASE = 200;
+    public static final int GET_TWO_FACTOR_INFO_CASE = 800;
+    public static final int GET_USER_CASE = 100;
+    public static final int GET_USER_ID_CASE = 110;
+    public static final int HAS_USER_CASE = 550;
+    public static final int REMOVE_USER_CASE = 600;
+    public static final int SET_ALL_IDPS_CASE = 500;
     public static final int SET_TWO_FACTOR_INFO_CASE = 810;
+    public static final int UNRECOGNIZED_CASE = -1;
+    public static final int UPDATE_USER_CASE = 650;
 
     public static final String STATUS_KEY = "status";
 

@@ -24,6 +24,7 @@ import edu.uiuc.ncsa.security.core.util.IdentifierProvider;
 import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
 import edu.uiuc.ncsa.security.storage.data.MapConverter;
 import edu.uiuc.ncsa.security.storage.sql.ConnectionPoolProvider;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.cilogon.oauth2.servlet.storage.TokenPrefixProvider;
 import org.cilogon.oauth2.servlet.storage.archiveUser.ArchivedUser;
@@ -150,6 +151,8 @@ public class CILOA2ConfigurationLoader extends OA2ConfigurationLoader implements
     public CILogonOA2ServiceEnvironment createInstance() {
         try {
             initialize();
+            System.out.println(Base64.class.getProtectionDomain().getCodeSource().getLocation());
+
             CILogonOA2ServiceEnvironment se = new CILogonOA2ServiceEnvironment(
                     (MyLoggingFacade) loggerProvider.get(),
                     getTransactionStoreProvider(),

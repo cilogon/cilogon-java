@@ -19,16 +19,28 @@
         <maven.compiler.target>11</maven.compiler.target>
     </properties>
     <dependencies>
+        <!--
+        CIL-1484 KEEP THIS HERE!! Apache commons transactions are required, but
+        loads version 1.2 of the codecs. If this is not the very first dependency, then the
+        wrong versions are loaded and everything that uses base 64 encoding (like
+        all JWT support) breaks completely since the methods needed are not in 1.2.
+        -->
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.11</version>
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.13.1</version>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>net.freeutils</groupId>
             <artifactId>jcharset</artifactId>
-            <version>1.6</version>
+            <version>2.0</version>
         </dependency>
         <dependency>
             <groupId>edu.uiuc.ncsa.myproxy</groupId>
@@ -58,31 +70,31 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-          <groupId>org.mariadb.jdbc</groupId>
-          <artifactId>mariadb-java-client</artifactId>
-          <version>2.7.3</version>
+            <groupId>org.mariadb.jdbc</groupId>
+            <artifactId>mariadb-java-client</artifactId>
+            <version>2.7.3</version>
             <scope>provided</scope>
         </dependency>
-<!--        <dependency>
-            <groupId>org.cilogon</groupId>
-            <artifactId>cilogon-server</artifactId>
-            <version>5.2-SNAPSHOT</version>
-        </dependency>-->
+        <!--        <dependency>
+                    <groupId>org.cilogon</groupId>
+                    <artifactId>cilogon-server</artifactId>
+                    <version>5.2-SNAPSHOT</version>
+                </dependency>-->
 
 
-<!--        <dependency>
-            <groupId>org.cilogon</groupId>
-            <artifactId>cilogon-test</artifactId>
-            <version>5.2-SNAPSHOT</version>
-        </dependency>
+        <!--        <dependency>
+                    <groupId>org.cilogon</groupId>
+                    <artifactId>cilogon-test</artifactId>
+                    <version>5.2-SNAPSHOT</version>
+                </dependency>
 
-        <dependency>
-            <groupId>org.cilogon</groupId>
-            <artifactId>cilogon-test</artifactId>
-            <version>5.2-SNAPSHOT</version>
-            <type>test-jar</type>
-            <scope>test</scope>
-        </dependency>-->
+                <dependency>
+                    <groupId>org.cilogon</groupId>
+                    <artifactId>cilogon-test</artifactId>
+                    <version>5.2-SNAPSHOT</version>
+                    <type>test-jar</type>
+                    <scope>test</scope>
+                </dependency>-->
         <dependency>
             <groupId>edu.uiuc.ncsa.myproxy</groupId>
             <artifactId>oa4mp-server-test</artifactId>
