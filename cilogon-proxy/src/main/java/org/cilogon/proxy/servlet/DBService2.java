@@ -588,7 +588,23 @@ public class DBService2 extends AbstractDBService {
             // The user threw one of these explicitly as part of the control flow, e.g. user was not in the right group.
             debugger.trace(this, "Script runtime exception", srx);
             // CIL-1388
-            writeMessage(resp, new Err(STATUS_QDL_ERROR, srx.getRequestedType(), srx.getMessage(), srx.getErrorURI()));
+            // CIL-1342
+            Err err;
+            if (srx.getCode() == ScriptRuntimeException.DEFAULT_NO_OP_CODE) {
+                err = new Err(srx.getCode(),
+                        srx.getRequestedType(),
+                        srx.getMessage(),
+                        srx.getErrorURI(),
+                        srx.getCustomErrorURI());
+
+            } else {
+                err = new Err(STATUS_QDL_ERROR,
+                        srx.getRequestedType(),
+                        srx.getMessage(),
+                        srx.getErrorURI(),
+                        srx.getCustomErrorURI());
+            }
+            writeMessage(resp, err);
             return;
         } catch (Throwable throwable) {
             if (throwable instanceof QDLException) {

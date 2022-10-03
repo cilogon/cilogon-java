@@ -7,9 +7,14 @@ import java.net.URI;
  * on 3/7/22 at  2:00 PM
  */
 public class Err {
-    public Err(int code, String error, String description, URI errorURI) {
+    public Err(int code,
+               String error,
+               String description,
+               URI errorURI,
+               URI customErrorURI) {
         this(code, error, description);
         this.errorURI = errorURI;
+        this.customErrorURI = customErrorURI;
     }
 
     public Err(int code, String error, String description) {
@@ -22,4 +27,5 @@ public class Err {
    public String description;
    public String error;
    public URI errorURI = null;
+   public URI customErrorURI = null;
 }
