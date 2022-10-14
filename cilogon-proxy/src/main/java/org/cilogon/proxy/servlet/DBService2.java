@@ -589,21 +589,12 @@ public class DBService2 extends AbstractDBService {
             debugger.trace(this, "Script runtime exception", srx);
             // CIL-1388
             // CIL-1342
-            Err err;
-            if (srx.getCode() == ScriptRuntimeException.DEFAULT_NO_OP_CODE) {
-                err = new Err(srx.getCode(),
-                        srx.getRequestedType(),
-                        srx.getMessage(),
-                        srx.getErrorURI(),
-                        srx.getCustomErrorURI());
-
-            } else {
-                err = new Err(STATUS_QDL_ERROR,
-                        srx.getRequestedType(),
-                        srx.getMessage(),
-                        srx.getErrorURI(),
-                        srx.getCustomErrorURI());
-            }
+            Err err = new Err(
+                    srx.getCode() == ScriptRuntimeException.DEFAULT_NO_OP_CODE ? STATUS_QDL_ERROR : srx.getCode(),
+                    srx.getRequestedType(),
+                    srx.getMessage(),
+                    srx.getErrorURI(),
+                    srx.getCustomErrorURI());
             writeMessage(resp, err);
             return;
         } catch (Throwable throwable) {

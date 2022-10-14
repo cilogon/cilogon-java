@@ -4,6 +4,8 @@ import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.storage.sql.ConnectionPool;
 import edu.uiuc.ncsa.security.storage.sql.ConnectionRecord;
 import edu.uiuc.ncsa.security.storage.sql.SQLStore;
+import edu.uiuc.ncsa.security.storage.sql.internals.ColumnDescriptorEntry;
+import edu.uiuc.ncsa.security.storage.sql.internals.ColumnMap;
 import edu.uiuc.ncsa.security.storage.sql.internals.Table;
 import org.cilogon.oauth2.servlet.util.CILogonException;
 import org.cilogon.oauth2.servlet.util.IDPConverter;
@@ -79,7 +81,7 @@ public class CILSQLIdentityProviderStore extends SQLStore<IdentityProvider> impl
     @Override
     public void putAll(Map<? extends Identifier, ? extends IdentityProvider> m) {
         Collection<? extends IdentityProvider> idps = m.values();
-        if(!idps.isEmpty()){
+        if (!idps.isEmpty()) {
             add(idps);
         }
     }
@@ -89,7 +91,14 @@ public class CILSQLIdentityProviderStore extends SQLStore<IdentityProvider> impl
         Connection c = cr.connection;
         try {
             PreparedStatement stmt = c.prepareStatement(getIdpTable().createInsertStatement());
-            stmt.setString(1, idp.getIdentifierString());
+            ColumnMap map = depopulate(idp);
+            int i = 1;
+            for (ColumnDescriptorEntry cde : getTable().getColumnDescriptor()) {
+                stmt.setObject(i++, map.get(cde.getName()));
+            }
+
+            //stmt.setString(1, idp.getDescription());
+            //stmt.setString(2, idp.getIdentifierString());
             stmt.execute();// just execute() since executeQuery(x) would throw an exception regardless of content of x as per JDBC spec.
             stmt.close();
             releaseConnection(cr);
@@ -125,7 +134,7 @@ public class CILSQLIdentityProviderStore extends SQLStore<IdentityProvider> impl
                     // messages. Trapping the specific exceptions (which inherit from SQLException) would only work
                     // If we include them in the project which in turn means that serveers would be required to deploy
                     // support for all databases, regardless of what store they are using. This is intolerable.
-                    if(e.getMessage() != null && e.getMessage().toLowerCase().contains("duplicate")){
+                    if (e.getMessage() != null && e.getMessage().toLowerCase().contains("duplicate")) {
                         // then this is benign
                         e.printStackTrace();
                     }
@@ -149,6 +158,7 @@ public class CILSQLIdentityProviderStore extends SQLStore<IdentityProvider> impl
             throw new CILogonException("Error adding identity provider list", e);
         }
     }
+
     @Override
     public List<IdentityProvider> getMostRecent(int n, List<String> attributes) {
         throw new UnsupportedOperationException();

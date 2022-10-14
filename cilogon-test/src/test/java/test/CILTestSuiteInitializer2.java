@@ -63,7 +63,7 @@ public class CILTestSuiteInitializer2 extends AbstractTestSuiteInitializer {
     }
 
     public void init() {
-        RemoteDBServiceTest.setHost("http://localhost:44444/oauth2/dbService");
+        RemoteDBServiceTest.setHost(RemoteDBServiceTest.getHost());
         ServiceTestUtils.setBootstrapper(getBootstrapper());
         // Remember that the way this works is to get the test store provider with the given name in the
         // configuration file.

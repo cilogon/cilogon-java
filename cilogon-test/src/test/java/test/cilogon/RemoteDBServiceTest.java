@@ -43,7 +43,8 @@ public abstract class RemoteDBServiceTest extends TestBase {
         RemoteDBServiceTest.host = host;
     }
 
-    public static String host = "http://localhost:44444/oauth/dbService";
+ //  public static String host = "http://localhost:44444/oauth2/dbService";
+    public static String host = "https://localhost:9443/oauth2/dbService";
     DBServiceClient dbsClient = null;
 
     public DBServiceClient getDBSClient() {

@@ -18,7 +18,8 @@ fi
 
 # DBSERVICE='http://localhost:8080/oauth2/dbService'
 # On my system
-DBSERVICE='https://localhost:9443/oauth2/dbService'
+#DBSERVICE='https://localhost:9443/oauth2/dbService'
+DBSERVICE='http://localhost:44444/oauth2/dbService'
 DATA=('action=checkUserCode')
 DATA+=("user_code=$1")
 

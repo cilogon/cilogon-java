@@ -8,11 +8,15 @@ import edu.uiuc.ncsa.security.core.exceptions.NFWException;
 import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
 import edu.uiuc.ncsa.security.core.util.Pool;
 import edu.uiuc.ncsa.security.storage.XMLMap;
+import edu.uiuc.ncsa.security.util.ssl.MyTrustManager;
+import edu.uiuc.ncsa.security.util.ssl.SSLConfiguration;
+import edu.uiuc.ncsa.security.util.ssl.VerifyingHTTPClientFactory;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.client.LaxRedirectStrategy;
 import org.cilogon.oauth2.servlet.StatusCodes;
 import org.cilogon.oauth2.servlet.servlet.AbstractDBService;
 import org.cilogon.oauth2.servlet.storage.idp.IdentityProvider;
@@ -53,11 +57,47 @@ public class DBServiceClient {
         return host;
     }
 
+    VerifyingHTTPClientFactory vcf;
+
+     VerifyingHTTPClientFactory getVCF() throws IOException {
+         if (vcf == null) {
+             vcf = new VerifyingHTTPClientFactory(null, getSslConfiguration());
+         }
+         return vcf;
+     }
+
+    public SSLConfiguration getSslConfiguration() {
+         if(sslConfiguration == null){
+              sslConfiguration = new SSLConfiguration();
+
+             sslConfiguration.setTrustRootPath(System.getProperty("store"));
+             sslConfiguration.setTrustRootPassword(System.getProperty("password"));
+             sslConfiguration.setTrustRootCertDN("CN=localhost");
+             sslConfiguration.setTrustRootType("JKS");
+
+         }
+        return sslConfiguration;
+    }
+
+    public void setSslConfiguration(SSLConfiguration sslConfiguration) {
+        this.sslConfiguration = sslConfiguration;
+    }
+
+    SSLConfiguration sslConfiguration;
 
     Pool<HttpClient> clientPool = new Pool<HttpClient>() {
         @Override
         public HttpClient create() {
-            return new DefaultHttpClient();
+            try {
+                MyTrustManager myTrustManager = new MyTrustManager(null, getSslConfiguration());
+                return getVCF().getClient(myTrustManager);
+            } catch (Throwable e) {
+                e.printStackTrace();
+            }
+            // Issue is that the server now redirects everything to https and this client does not
+            // have the self-signed cert for that. Need to configure this so tests work locally again.
+            return HttpClientBuilder.create()
+                    .setRedirectStrategy(new LaxRedirectStrategy()).build();
         }
 
 
@@ -68,8 +108,8 @@ public class DBServiceClient {
     };
 
 
-    public XMLMap doGet(String action, XMLMap map){
-          return doGet(action, createRequest(map));
+    public XMLMap doGet(String action, XMLMap map) {
+        return doGet(action, createRequest(map));
     }
 
     protected XMLMap doGet(String action, String[][] args) {
