@@ -13,7 +13,7 @@
     <groupId>org.cilogon</groupId>
 
     <name>Cilogon  parent module</name>
-    <version>5.2-SNAPSHOT</version>
+    <version>5.2.8.2</version>
     <description>CILogon server code</description>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -25,13 +25,13 @@
         <dependency>
             <groupId>edu.uiuc.ncsa.security</groupId>
             <artifactId>storage</artifactId>
-            <version>5.2-SNAPSHOT</version>
+            <version>5.2.8.2</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>edu.uiuc.ncsa.security</groupId>
             <artifactId>servlet</artifactId>
-            <version>5.2-SNAPSHOT</version>
+            <version>5.2.8.2</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
