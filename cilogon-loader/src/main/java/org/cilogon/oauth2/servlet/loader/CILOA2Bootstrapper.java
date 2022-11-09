@@ -50,7 +50,8 @@ public class CILOA2Bootstrapper extends AbstractBootstrapper {
                 e.printStackTrace();
             }
             DNUtil.setComputeFNAL(se.isComputeFNAL());
-
+          // NOTE for CILogon the default is to enable cleanup locking.
+            se.setCleanupLockingEnabled(true);
            super.init();
         }
     }

@@ -32,7 +32,7 @@ public class DBServiceSerializer2 extends DBServiceSerializer {
         // CIL-1187 support.
         // CIL-1388,  CIL-1342
         if(errResponse.customErrorURI != null) {
-            print(w, "custom_error_uri", errResponse.errorURI.toString());
+            print(w, "custom_error_uri", errResponse.customErrorURI.toString());
         }
         if(errResponse.errorURI != null) {
             print(w, "error_uri", errResponse.errorURI.toString());

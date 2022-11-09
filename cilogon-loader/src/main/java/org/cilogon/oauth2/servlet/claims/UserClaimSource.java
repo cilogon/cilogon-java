@@ -205,4 +205,5 @@ public class UserClaimSource extends BasicClaimsSourceImpl implements OA2Scopes 
     public boolean isRunAtAuthorization() {
         return false;
     }
+
 }
