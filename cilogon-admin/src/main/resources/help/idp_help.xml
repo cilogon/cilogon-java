@@ -1,0 +1,35 @@
+<html>
+    <entry id="about">
+    <body>
+    <![CDATA[Thsi store is merely a list backed by a database.
+It contains all of the IDPs (Identity provider) unique identifiers
+known to CILogon. If an IDP is not here, it effectively does nto exist.]]>
+    </body>
+    </entry>
+    <entry id="idp_uid">
+    <body>
+    <![CDATA[Property: Identifier (**)
+The unique identifier for this IDP. This is the only property.]]>
+    </body>
+    </entry>
+</html>
+    <!--
+ entry templates, without and with examples. These are not indented since
+ we need to control whitespace and our ever so helpful editor adds it when
+ any is detected, leading to bad output.
+
+<entry id="">
+<body>
+<![CDATA[]]>
+</body>
+</entry>
+
+<entry id="">
+<body>
+<![CDATA[]]>
+</body>
+<example>
+<![CDATA[]]>
+</example>
+</entry>
+          -->

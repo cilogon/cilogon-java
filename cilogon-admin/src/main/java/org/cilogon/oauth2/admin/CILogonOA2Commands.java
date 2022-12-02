@@ -64,7 +64,7 @@ public class CILogonOA2Commands extends OA2Commands {
 
     UserStoreCommands userStoreCommands = null;
 
-    protected UserStoreCommands getUserStoreCommands(String indent) throws Exception {
+    protected UserStoreCommands getUserStoreCommands(String indent) throws Throwable {
         if (userStoreCommands == null) {
             userStoreCommands = new UserStoreCommands(getMyLogger(), indent, getCILogonSE().getUserStore(), getCILogonSE().getArchivedUserStore());
 
@@ -74,7 +74,7 @@ public class CILogonOA2Commands extends OA2Commands {
 
     IDPCommands idpCommands = null;
 
-    protected IDPCommands getIdpCommands(String indent) throws Exception {
+    protected IDPCommands getIdpCommands(String indent) throws Throwable {
         if (idpCommands == null) {
             idpCommands = new IDPCommands(getMyLogger(), indent, getCILogonSE().getIDPStore());
 
@@ -84,7 +84,7 @@ public class CILogonOA2Commands extends OA2Commands {
 
     CounterCommands counterCommands = null;
 
-    protected CounterCommands getCounterCommands(String indent) throws Exception {
+    protected CounterCommands getCounterCommands(String indent) throws Throwable {
         if (counterCommands == null) {
             counterCommands = new CounterCommands(getMyLogger(), indent, getCILogonSE().getIncrementable(), getCILogonSE().getUserStore());
         }
@@ -93,7 +93,7 @@ public class CILogonOA2Commands extends OA2Commands {
 
     ArchivedUserStoreCommands archivedUserStoreCommands = null;
 
-    protected ArchivedUserStoreCommands getArchivedUserStoreCommands(String indent) throws Exception {
+    protected ArchivedUserStoreCommands getArchivedUserStoreCommands(String indent) throws Throwable {
         if (archivedUserStoreCommands == null) {
             archivedUserStoreCommands = new ArchivedUserStoreCommands(getMyLogger(), indent, getCILogonSE().getArchivedUserStore(), getCILogonSE().getUserStore());
         }
@@ -102,7 +102,7 @@ public class CILogonOA2Commands extends OA2Commands {
 
     TwoFactorCommands twoFactorCommands = null;
 
-    protected TwoFactorCommands getTwoFactorCommands(String indent) throws Exception {
+    protected TwoFactorCommands getTwoFactorCommands(String indent) throws Throwable {
         if (twoFactorCommands == null) {
             twoFactorCommands = new TwoFactorCommands(getMyLogger(), indent, getCILogonSE().getTwoFactorStore());
         }
@@ -112,7 +112,7 @@ public class CILogonOA2Commands extends OA2Commands {
 
 
     @Override
-    protected void runComponent(String componentName) throws Exception {
+    protected void runComponent(String componentName) throws Throwable {
         String indent = "  ";
         CommonCommands commands = null;
         switch (componentName) {
@@ -148,7 +148,7 @@ public class CILogonOA2Commands extends OA2Commands {
     }
 
     @Override
-    public boolean use(InputLine inputLine) throws Exception {
+    public boolean use(InputLine inputLine) throws Throwable {
 
         String indent = "  ";
         if (inputLine.hasArg(USERS)) {

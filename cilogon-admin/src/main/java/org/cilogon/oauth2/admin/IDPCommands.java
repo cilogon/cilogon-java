@@ -18,11 +18,11 @@ public class IDPCommands extends StoreCommands2 {
     public void extraUpdates(Identifiable identifiable) {
     }
 
-    public IDPCommands(MyLoggingFacade logger, String defaultIndent, Store store) {
+    public IDPCommands(MyLoggingFacade logger, String defaultIndent, Store store) throws Throwable {
         super(logger, defaultIndent, store);
     }
 
-    public IDPCommands(MyLoggingFacade logger, Store store) {
+    public IDPCommands(MyLoggingFacade logger, Store store)throws Throwable {
         super(logger, store);
     }
 
@@ -47,5 +47,9 @@ public class IDPCommands extends StoreCommands2 {
         return isOk(readline("save changes [y/n]?"));
     }
 
-
+    @Override
+    public void bootstrap() throws Throwable {
+        super.bootstrap();
+        getHelpUtil().load("/help/idp_help.xml");
+    }
 }

@@ -427,7 +427,10 @@ public class DBServiceClient {
 
     public List<IdentityProvider> getAllIdps() {
         Map<String, Object> map = doGet(AbstractDBService.GET_ALL_IDPS, new String[][]{{}});
-        return (List<IdentityProvider>) map.get(idpKeys.identifier());
+        if(map.containsKey(idpKeys.identifier())) {
+            return (List<IdentityProvider>) map.get(idpKeys.identifier());
+        }
+        return new ArrayList<>(); // so it's never null
     }
 
     public XMLMap getLastArchivedUser(Identifier userUid) {

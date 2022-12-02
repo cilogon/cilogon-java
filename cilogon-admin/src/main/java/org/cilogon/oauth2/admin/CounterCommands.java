@@ -15,6 +15,10 @@ import java.io.IOException;
  * on 10/30/13 at  4:05 PM
  */
 public class CounterCommands extends CommonCommands {
+    @Override
+    public void bootstrap() throws Throwable {
+        getHelpUtil().load("/help/counter_commands_help.xml");
+    }
 
     public UserStore getUserStore() {
         return userStore;
@@ -28,7 +32,7 @@ public class CounterCommands extends CommonCommands {
 
     Incrementable incrementable;
 
-    public CounterCommands(MyLoggingFacade logger, String indent, Incrementable incrementable, UserStore userStore) {
+    public CounterCommands(MyLoggingFacade logger, String indent, Incrementable incrementable, UserStore userStore) throws Throwable {
         super(logger);
         this.defaultIndent = indent;
         this.incrementable = incrementable;
@@ -155,4 +159,5 @@ public class CounterCommands extends CommonCommands {
         }
         sayi("done!");
     }
+
 }

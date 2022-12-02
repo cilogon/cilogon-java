@@ -1,10 +1,11 @@
 package test.cilogon.impl;
 
 import edu.uiuc.ncsa.myproxy.oa4mp.NewTransactionTest;
-import edu.uiuc.ncsa.myproxy.oa4mp.server.OA4MPServiceTransaction;
+import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.transactions.OA2ServiceTransaction;
 import edu.uiuc.ncsa.oa4mp.delegation.common.storage.TransactionStore;
 import org.cilogon.oauth2.servlet.storage.user.User;
 import org.cilogon.oauth2.servlet.util.AbstractCILServiceTransaction;
+import org.junit.Test;
 import test.cilogon.CILTestStoreProviderI2;
 
 import java.net.URI;
@@ -16,10 +17,10 @@ import static test.cilogon.RemoteDBServiceTest.createRU;
  * on 7/18/18 at  5:26 PM
  */
 public class NewCILTransactionStoreTest extends NewTransactionTest {
-
+    @Test
     public void testTransaction(CILTestStoreProviderI2 provider) throws Exception {
         TransactionStore store =  provider.getTransactionStore();
-          OA4MPServiceTransaction st = (OA4MPServiceTransaction) store.create();
+          OA2ServiceTransaction st = (OA2ServiceTransaction) store.create();
           st.setCallback(URI.create("http://callback"));
           st.setMyproxyUsername(getRandomString(256));
           st.setAuthorizationGrant(provider.getTokenForge().getAuthorizationGrant());

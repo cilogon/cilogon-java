@@ -1,0 +1,49 @@
+<html>
+    <entry id="about">
+    <body>
+    <![CDATA[In order to manage the serial strings there needs to be some
+mechanism that ensures that serial numbers are created uniquely and in order.
+This is done in SQL databases with a reserved table and in other stores with
+other mechanisms. This store therefore really should not be used for any
+direct operations, but should use the supplied commands. Note that there are
+no properties for this.]]>
+    </body>
+    </entry>
+    <entry id="next_value">
+    <body>
+    <![CDATA[Command.
+Increment the counter to the next value. The store may be configured to skip
+values (so couting by 5's, not 1's).]]>
+    </body>
+    </entry>
+    <entry id="reset">
+    <body>
+    <![CDATA[Command.
+Resets the store to start with 0 or 1 (depending on the back machinery).
+This is a drastic move! If   you have active users then resetting the counter
+means that you will re-use serial numbers and the result will be invalid X509 certs.
+The intent is that in cases where there are issues setting up the counter (at installation)
+this is an easy way to reset the counter before actually adding any users.]]>
+    </body>
+    </entry>
+</html>
+    <!--
+ entry templates, without and with examples. These are not indented since
+ we need to control whitespace and our ever so helpful editor adds it when
+ any is detected, leading to bad output.
+
+<entry id="">
+<body>
+<![CDATA[]]>
+</body>
+</entry>
+
+<entry id="">
+<body>
+<![CDATA[]]>
+</body>
+<example>
+<![CDATA[]]>
+</example>
+</entry>
+          -->

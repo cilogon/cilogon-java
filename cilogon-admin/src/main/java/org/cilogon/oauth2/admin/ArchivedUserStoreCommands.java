@@ -22,13 +22,14 @@ import java.util.Set;
  * on 5/23/13 at  11:45 AM
  */
 public class ArchivedUserStoreCommands extends StoreCommands2 {
+
     public static final String USER_FLAG = "u";
 
     @Override
     public void extraUpdates(Identifiable identifiable) {
     }
 
-    public ArchivedUserStoreCommands(MyLoggingFacade logger, String defaultIndent, ArchivedUserStore archivedUserStore, UserStore userStore) {
+    public ArchivedUserStoreCommands(MyLoggingFacade logger, String defaultIndent, ArchivedUserStore archivedUserStore, UserStore userStore) throws Throwable{
         super(logger, defaultIndent, archivedUserStore);
         this.userStore = userStore;
     }
@@ -43,7 +44,7 @@ public class ArchivedUserStoreCommands extends StoreCommands2 {
 
     UserStore userStore;
 
-    public ArchivedUserStoreCommands(MyLoggingFacade logger, Store store) {
+    public ArchivedUserStoreCommands(MyLoggingFacade logger, Store store) throws Throwable {
         super(logger, store);
     }
 

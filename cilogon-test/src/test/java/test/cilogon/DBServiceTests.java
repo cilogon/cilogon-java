@@ -245,6 +245,11 @@ public class DBServiceTests extends RemoteDBServiceTest {
         List<IdentityProvider> originalIdps = getDBSClient().getAllIdps();
 
         List<IdentityProvider> reducedIDPList = new LinkedList<>(originalIdps);
+        if(reducedIDPList.size() == 0){
+            System.out.println("Warning: no IDPs found on this system. Test aborted.");
+            // case of a completely new install
+            return;
+        }
         IdentityProvider removedIDP = reducedIDPList.remove(0);
 
         XMLMap map = getDBSClient().addIdps(reducedIDPList);

@@ -1,0 +1,228 @@
+<html>
+    <entry id="dn">
+    <body>
+    <![CDATA[Command.
+Computes and prints out the distinguished name (DN) for the certificate.]]>
+    </body>
+    </entry>
+    <entry id="affiliation">
+    <body>
+    <![CDATA[Property: String(--)
+The affiliation(s) of this user. Note that in general this is an unparsed list and is set from
+information the IDP supplies.
+
+E.g.
+employee@illinois.edu;staff@illinois.edu;member@illinois.edu]]>
+    </body>
+    </entry>
+    <entry id="attr_json">
+    <body>
+    <![CDATA[Property: JSON (--)
+A JSON object from the IDP with various bits of information. This information is usually
+asserted as part of the ID token. ]]>
+    </body>
+    </entry>
+    <entry id="create_time">
+    <body>
+    <![CDATA[Property: Timestamp (**)
+Timestamp recording when this record was created.]]>
+    </body>
+    </entry>
+    <entry id="display_name">
+    <body>
+    <![CDATA[Property: String (--)
+If supplied, the name of the user in a format to be displayed. There are many cases where a simple
+first and last name could not be used to give the user what they might consider a readable name
+(such as very long Spanish names, e.g. José Luis Rodríguez Zapatero which would use the second
+surname (Zapatero) in the database, but would expect to see both displayed for official purposes.)]]>
+    </body>
+    </entry>
+    <entry id="email">
+    <body>
+    <![CDATA[Property: String (--)
+The email (single) for the user.]]>
+    </body>
+    </entry>
+    <entry id="eppn">
+    <body>
+    <![CDATA[Property: String (--)
+The  eduPersonPrincipalName for this user.
+
+E.g: bob.smith@bgsu.edu
+See also: ids]]>
+    </body>
+    </entry>
+    <entry id="eptid">
+    <body>
+    <![CDATA[Property: String (--)
+The eduPerson targeted identifier.
+
+E.g: urn:mace:incommon:uiuc.edu!https://cilogon.org/shibboleth!DjGVAqOZJm5rZIi/VvSBxn33a9I=]]>
+    </body>
+    </entry>
+    <entry id="first_name">
+    <body>
+    <![CDATA[Property: String (--)
+The first name of the user.]]>
+    </body>
+    </entry>
+    <entry id="idp">
+    <body>
+    <![CDATA[Property: String (--)
+The unique identifier of the Identity Provider.
+
+E.g: https://login.ligo.org/idp/shibboleth]]>
+    </body>
+    </entry>
+    <entry id="idp_display_name">
+    <body>
+    <![CDATA[Property: String (--)
+The human readable display name of the IDP. This may be displayed to the user.
+
+E.g: "University of Illinois at Urbana-Champaign"]]>
+    </body>
+    </entry>
+    <entry id="last_name">
+    <body>
+    <![CDATA[Property: String (--)
+The surname or last name of the user.]]>
+    </body>
+    </entry>
+    <entry id="oidc">
+    <body>
+    <![CDATA[Property: String (--)
+The OIDC identifier for the user. This seems to be mostly from Google and is
+a simple string of numbers.
+
+E.g: 109593902883710214873
+
+See also: ids]]>
+    </body>
+    </entry>
+    <entry id="open_id">
+    <body>
+    <![CDATA[Property: String (--)
+The Open ID for this user.
+
+E.g: https://www.google.com/accounts/o8/id?id=AItOawmBxST0fOiGwL4Jc1OPjeBzf4bMZ4hbZRA]]>
+    </body>
+    </entry>
+    <entry id="ou">
+    <body>
+    <![CDATA[Property: String (--)
+The organizational unit for this user.
+
+E.g: "People", "Staff"]]>
+    </body>
+    </entry>
+
+    <entry id="pairwise_id">
+    <body>
+    <![CDATA[Property: String (--)
+The Open ID pairwise identifier.
+
+E.g: MDB783LINUMVKFUYBK5UAV7UO5NWKGG@ligo.org
+
+See also: ids]]>
+    </body>
+    </entry>
+    <entry id="remote_user">
+    <body>
+    <![CDATA[Property: String (--)
+The remote user identifier for the user. This may literally be
+about anything, such as an EPPN or opaque identifier.
+
+E.g: bob.smith@bgsu.edu
+
+See also: ids]]>
+    </body>
+    </entry>
+    <entry id="serial_string">
+    <body>
+    <![CDATA[Property: URI (--)
+A unique string with a serial id (an integer) which is used in constructing thje X509 certificate.
+
+E.g: http://cilogon.org/serverT/users/1234
+
+Note that when a user registers this is identical to their user_uid. If the user record is updated
+in certian ways (e.g. last name changes) so that the X509 cert changes, then this must be updated
+to reflect that.]]>
+    </body>
+    </entry>
+    <entry id="state">
+    <body>
+    <![CDATA[Property: JSON (--)
+A state object for anything additional to the user record. At this point,
+it is unused.]]>
+    </body>
+    </entry>
+    <entry id="subject_id">
+    <body>
+    <![CDATA[Property: String (--)
+The Open ID subject identifier. This is used in tandem with the pairwise_id at times.
+
+E.g: 05a8ec64f05611d18ee62436000baa77@ligo.org
+
+See also: ids]]>
+    </body>
+    </entry>
+    <entry id="us_idp">
+    <body>
+    <![CDATA[Property: Boolean (true)
+Is this IDP physically located in the United States?]]>
+    </body>
+    </entry>
+    <entry id="user_uid">
+    <body>
+    <![CDATA[Property: Identifier (**)
+The unique identifier for this user.]]>
+    </body>
+    </entry>
+    <entry id="ids">
+    <body>
+    <![CDATA[The IDP may assert multiple identifiers for a user:
+
+       EPPN : eduPerson Principal Name
+      EPTID : eduPerson targeted ID
+       oidc : Google identifier for the user
+    open_id : Open Id identifier
+pairwise_id : Open ID pairwise ID
+ subject_id :  Open ID subject ID
+remote_user : General identifier
+
+and not all of them will be used (as a matter of fact, in some cases, multiple names will raise an error.)
+There is a complex logic governing their use internal to CILogon.]]>
+    </body>
+    </entry>
+
+</html>
+    <!--
+affiliation       description       eppn              idp               oidc              pairwise_id       state             user_uid
+attr_json         display_name      eptid             idp_display_name  open_id           remote_user       subject_id        user_uid*
+create_time       email             first_name        last_name         ou                serial_string     us_idp
+  user>/commands
+
+
+
+dn              get_env         print_env       rm              serialize       set_verbose_on
+
+
+ entry templates, without and with examples. These are not indented since
+ we need to control whitespace and our ever so helpful editor adds it when
+ any is detected, leading to bad output.
+
+<entry id="">
+<body>
+<![CDATA[]]>
+</body>
+</entry>
+
+<entry id="">
+<body>
+<![CDATA[]]>
+</body>
+<example>
+<![CDATA[]]>
+</example>
+</entry>
+          -->

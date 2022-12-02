@@ -20,11 +20,11 @@ public class TwoFactorCommands extends StoreCommands2 {
     public void extraUpdates(Identifiable identifiable) {
     }
 
-    public TwoFactorCommands(MyLoggingFacade logger, String defaultIndent, Store store) {
+    public TwoFactorCommands(MyLoggingFacade logger, String defaultIndent, Store store) throws Throwable{
         super(logger, defaultIndent, store);
     }
 
-    public TwoFactorCommands(MyLoggingFacade logger, Store store) {
+    public TwoFactorCommands(MyLoggingFacade logger, Store store) throws Throwable {
         super(logger, store);
     }
 

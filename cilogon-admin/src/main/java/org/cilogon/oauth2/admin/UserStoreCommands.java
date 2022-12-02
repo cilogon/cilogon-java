@@ -24,7 +24,7 @@ public class UserStoreCommands extends StoreCommands2 {
     public void extraUpdates(Identifiable identifiable) {
     }
 
-    public UserStoreCommands(MyLoggingFacade logger, String defaultIndent, Store userStore, ArchivedUserStore archivedUserStore) {
+    public UserStoreCommands(MyLoggingFacade logger, String defaultIndent, Store userStore, ArchivedUserStore archivedUserStore) throws Throwable {
         super(logger, defaultIndent, userStore);
         this.archivedUserStore = archivedUserStore;
         setSortable(new BasicSorter());
@@ -32,7 +32,7 @@ public class UserStoreCommands extends StoreCommands2 {
 
     ArchivedUserStore archivedUserStore;
 
-    public UserStoreCommands(MyLoggingFacade logger, UserStore userStore) {
+    public UserStoreCommands(MyLoggingFacade logger, UserStore userStore) throws Throwable {
         super(logger, userStore);
         setSortable(new BasicSorter());
     }
@@ -255,5 +255,11 @@ public class UserStoreCommands extends StoreCommands2 {
 
 
         say(DNUtil.getDN((User) x, null, inputLine.hasArg("-email")));
+    }
+
+    @Override
+    public void bootstrap() throws Throwable {
+        super.bootstrap();
+        getHelpUtil().load("/help/user_help.xml");
     }
 }
