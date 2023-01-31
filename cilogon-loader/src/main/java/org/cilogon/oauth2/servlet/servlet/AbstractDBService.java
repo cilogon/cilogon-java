@@ -91,6 +91,27 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
     public static final String DISPLAY_NAME = "display_name";
     public static final String OU = "ou";
     public static final String REGISTERED_BY_INCOMMON = " registered_by_incommon";
+
+    public static final String GET_CLIENT = "getClient";
+    public static final int GET_CLIENT_CASE = 710;
+    public static final int STATUS_NO_CLIENT_FOUND = 0xFFFF; //65535
+
+    public static final String SET_TRANSACTION_STATE = "setTransactionState";
+    public static final int SET_TRANSACTION_STATE_CASE = 720;
+
+    public static final String CREATE_TRANSACTION_STATE = "createTransaction";
+    public static final int CREATE_TRANSACTION_STATE_CASE = 730;
+    public static final int STATUS_TRANSACTION_NOT_FOUND = 0x10001; //65537
+    public static final int STATUS_EXPIRED_TOKEN = 0x10003; //65539
+    public static final int STATUS_CREATE_TRANSACTION_FAILED = 0x10005; // 65541
+    public static final int STATUS_MISSING_CLIENT_ID = 0x10009; //65545
+    public static final int STATUS_UNKNOWN_CLIENT = 0x1000D; // 65549
+    public static final int STATUS_UNAPPROVED_CLIENT = 0x1000F; // 65551
+    public static final int STATUS_NO_SCOPES = 0x10011; //65553
+    public static final int STATUS_MALFORMED_SCOPE = 0x10013; //65555
+    public static final int STATUS_SERVICE_UNAVAILABLE = 0x10015; //65557
+    public static final int STATUS_QDL_ERROR = 0x100007; // 1048583
+    public static final int STATUS_QDL_RUNTIME_ERROR = 0x100009; // 1048585
     /*
     The following codes are inherited from the original Perl code. Even values indicate a success,
      odd values are for errors.

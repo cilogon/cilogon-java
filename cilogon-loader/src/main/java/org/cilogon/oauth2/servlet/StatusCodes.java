@@ -1,6 +1,11 @@
 package org.cilogon.oauth2.servlet;
 
+import org.cilogon.oauth2.servlet.servlet.AbstractDBService;
+
+import static org.cilogon.oauth2.servlet.servlet.AbstractDBService.*;
+
 /**
+ * Lookup utility relating codes to human-readable error message
  * <p>Created by Jeff Gaynor<br>
  * on 1/28/21 at  6:56 AM
  */
@@ -83,9 +88,31 @@ public class StatusCodes {
                 return "Pairwise ID mismatch.";
             case STATUS_SUBJECT_ID_MISMATCH: // 1048581
                 return "Subject ID mismatch.";
+                // CIL-1625 DBService errors should have their own descriptions, not just default to "unknown error"
+            case AbstractDBService.STATUS_TRANSACTION_NOT_FOUND:  // 0x10001 = 65537
+                return "transaction not found";
+            case STATUS_EXPIRED_TOKEN: // 0x10003 =65539
+                return "expired token";
+            case STATUS_CREATE_TRANSACTION_FAILED: //  0x10005 = 65541
+                return "create transaction failed";
+            case STATUS_MISSING_CLIENT_ID: // 0x10009 = 65545
+                return "missing client id";
+            case STATUS_UNKNOWN_CLIENT: // 0x1000D = 65549
+                return "unknown client";
+            case STATUS_UNAPPROVED_CLIENT: //0x1000F = 65551
+            return "unapproved client";
+            case  STATUS_NO_SCOPES: //0x10011 = 65553
+                return "no scopes found";
+            case STATUS_MALFORMED_SCOPE: // 0x10013 = 65555
+                return "malformed scope";
+            case STATUS_SERVICE_UNAVAILABLE:// 0x10015 = 65557
+                return "service unavailable";
+            case STATUS_QDL_ERROR: // 0x100007 = 1048583
+                return "qdl error";
+            case STATUS_QDL_RUNTIME_ERROR: // 0x100009 = 1048585
+                return "qdl runtime error";
             default:
                 return "Unknown error 0x" + Integer.toHexString(status) + " = " + status;
         }
     }
-
 }
