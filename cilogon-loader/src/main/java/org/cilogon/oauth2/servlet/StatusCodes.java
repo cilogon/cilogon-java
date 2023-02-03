@@ -41,15 +41,16 @@ public class StatusCodes {
 
     /**
      * Gets the preset CILogon error description from the DB Service error status.
+     *
      * @param status
      * @return
      */
-    public static String getMessage(int status){
-        switch(status){
+    public static String getMessage(int status) {
+        switch (status) {
             case STATUS_OK:
                 return "Status OK.";
             case STATUS_ACTION_NOT_FOUND: //1
-            return  "Action not found.";
+                return "Action not found.";
             case STATUS_NEW_USER: //2
                 return "New user created.";
             case STATUS_USER_SERIAL_STRING_UPDATED: //4
@@ -59,7 +60,7 @@ public class StatusCodes {
             case STATUS_USER_EXISTS: //8
                 return "User exists."; // informational message
             case STATUS_USER_EXISTS_ERROR: //1048481
-                return "User already exists."; // actual error that the the user should not exist.
+                return "User already exists."; // actual error that the user should not exist.
             case STATUS_USER_NOT_FOUND_ERROR: // 1048483
                 return "User not found.";
             case STATUS_TRANSACTION_NOT_FOUND: //1048485
@@ -72,7 +73,7 @@ public class StatusCodes {
                 return "Internal error.";
             case STATUS_SAVE_IDP_FAILED: // 1048565
                 return "Could not save IdP.";
-            case STATUS_MALFORMED_INPUT : // 1048567
+            case STATUS_MALFORMED_INPUT: // 1048567
                 return "Malformed input.";
             case STATUS_MISSING_ARGUMENT: // 1048569
                 return "Missing parameter.";
@@ -88,7 +89,7 @@ public class StatusCodes {
                 return "Pairwise ID mismatch.";
             case STATUS_SUBJECT_ID_MISMATCH: // 1048581
                 return "Subject ID mismatch.";
-                // CIL-1625 DBService errors should have their own descriptions, not just default to "unknown error"
+            // CIL-1625 DBService errors should have their own descriptions, not just default to "unknown error"
             case AbstractDBService.STATUS_TRANSACTION_NOT_FOUND:  // 0x10001 = 65537
                 return "transaction not found";
             case STATUS_EXPIRED_TOKEN: // 0x10003 =65539
@@ -100,8 +101,8 @@ public class StatusCodes {
             case STATUS_UNKNOWN_CLIENT: // 0x1000D = 65549
                 return "unknown client";
             case STATUS_UNAPPROVED_CLIENT: //0x1000F = 65551
-            return "unapproved client";
-            case  STATUS_NO_SCOPES: //0x10011 = 65553
+                return "unapproved client";
+            case STATUS_NO_SCOPES: //0x10011 = 65553
                 return "no scopes found";
             case STATUS_MALFORMED_SCOPE: // 0x10013 = 65555
                 return "malformed scope";

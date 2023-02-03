@@ -212,6 +212,7 @@ public class CILOA2ConfigurationLoader extends OA2ConfigurationLoader implements
                     isNotifyACEventEmailAddresses(),
                     isRFC7636Required(),
                     isDemoModeEnabled(),
+                    getRTGracePeriod(),
                     getDebugger());
             return  se;
         } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {

@@ -623,14 +623,6 @@ public class DBService2 extends AbstractDBService {
 
         jwtRunner.doAuthClaims();
         debugger.trace(this, "Done with all post_auth claims");
-/*        } catch (Throwable throwable) {
-            debugger.error(this, "error processing claims:" + throwable.getMessage(), throwable);
-            if (throwable instanceof RuntimeException) {
-                throw (RuntimeException) throwable;
-            }
-            throw new GeneralException("Error processing claims", throwable);
-        }*/
-
     }
 
 

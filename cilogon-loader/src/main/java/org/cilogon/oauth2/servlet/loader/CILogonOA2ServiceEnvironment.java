@@ -104,6 +104,7 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
                                         String notifyACEmailAddresses,
                                         boolean rfc7636Required,
                                         boolean isDemoMode,
+                                        long rtGracePeriod,
                                         MetaDebugUtil debugger
     ) {
         super(logger,
@@ -157,6 +158,7 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
                 notifyACEmailAddresses,
                 rfc7636Required,
                 isDemoMode,
+                rtGracePeriod,
                 debugger);
         ciLogonSE = new CILogonSEImpl(usp, ausp, idpsp, incp, tfsp, isComputeFNAL);
         if (claimSource instanceof UserClaimSource) {
