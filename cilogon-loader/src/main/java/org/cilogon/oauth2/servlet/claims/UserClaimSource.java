@@ -5,6 +5,7 @@ import edu.uiuc.ncsa.oa4mp.delegation.oa2.OA2Scopes;
 import edu.uiuc.ncsa.oa4mp.delegation.oa2.server.UnsupportedScopeException;
 import edu.uiuc.ncsa.oa4mp.delegation.oa2.server.claims.OA2Claims;
 import edu.uiuc.ncsa.oa4mp.delegation.server.ServiceTransaction;
+import edu.uiuc.ncsa.qdl.variables.QDLStem;
 import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
 import edu.uiuc.ncsa.security.core.util.DebugUtil;
 import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
@@ -30,6 +31,10 @@ import static edu.uiuc.ncsa.oa4mp.delegation.oa2.server.claims.OA2Claims.PREFERR
  * on 8/20/15 at  1:37 PM
  */
 public class UserClaimSource extends BasicClaimsSourceImpl implements OA2Scopes {
+    public UserClaimSource(QDLStem stem) {
+        super(stem);
+    }
+
     MyLoggingFacade logger;
 
     public UserClaimSource(MyLoggingFacade logger) {
@@ -121,11 +126,11 @@ public class UserClaimSource extends BasicClaimsSourceImpl implements OA2Scopes 
             }
             //Fixes CIL-1019
             if (!user.getAttr_json().isEmpty()) {
-                DebugUtil.trace(this,"has a json attrib");
+                DebugUtil.trace(this, "has a json attrib");
                 JSONObject saml = JSONObject.fromObject(user.getAttr_json());
                 if (saml.containsKey(PREFERRED_USERNAME)) {
                     claims.put(PREFERRED_USERNAME, saml.getString(PREFERRED_USERNAME));
-                    DebugUtil.trace(this,"asserting " + PREFERRED_USERNAME + ":\"" + saml.getString(PREFERRED_USERNAME));
+                    DebugUtil.trace(this, "asserting " + PREFERRED_USERNAME + ":\"" + saml.getString(PREFERRED_USERNAME));
                 }
             }
         }
@@ -200,6 +205,12 @@ public class UserClaimSource extends BasicClaimsSourceImpl implements OA2Scopes 
         return claims;
     }
 
+    @Override
+    public QDLStem toQDL() {
+        QDLStem stem = super.toQDL();
+        stem.put(CILCSConstants.CS_DEFAULT_TYPE, CILCSConstants.CS_TYPE_USER);
+        return stem;
+    }
 
     @Override
     public boolean isRunAtAuthorization() {

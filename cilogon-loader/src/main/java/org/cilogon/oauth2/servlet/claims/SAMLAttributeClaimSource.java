@@ -7,6 +7,7 @@ import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.claims.Groups;
 import edu.uiuc.ncsa.oa4mp.delegation.oa2.server.UnsupportedScopeException;
 import edu.uiuc.ncsa.oa4mp.delegation.oa2.server.claims.OA2Claims;
 import edu.uiuc.ncsa.oa4mp.delegation.server.ServiceTransaction;
+import edu.uiuc.ncsa.qdl.variables.QDLStem;
 import edu.uiuc.ncsa.security.core.exceptions.NFWException;
 import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
 import edu.uiuc.ncsa.security.servlet.ServletDebugUtil;
@@ -35,7 +36,9 @@ public class SAMLAttributeClaimSource extends BasicClaimsSourceImpl {
     public SAMLAttributeClaimSource() {
         super();
     }
-
+    public SAMLAttributeClaimSource(QDLStem stem) {
+        super(stem);
+    }
     public String SHIBBOLETH_MEMBER_OF_KEY = "member_of";
     public static String SHIBBOLETH_LIST_DELIMITER = ";";
 
@@ -211,7 +214,7 @@ public class SAMLAttributeClaimSource extends BasicClaimsSourceImpl {
         String x = "{\"acr\":\"urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport\",\"entitlement\":\"urn:mace:dir:entitlement:common-lib-terms\"}";
         System.out.println(x);
         JSONObject saml = JSONObject.fromObject(x);
-        SAMLAttributeClaimSource samlAttrbuteClaimSource = new SAMLAttributeClaimSource(null);
+        SAMLAttributeClaimSource samlAttrbuteClaimSource = new SAMLAttributeClaimSource();
         //JSONObject claims = samlAttrbuteClaimSource.process(new JSONObject(), null);
         JSONObject claims = new JSONObject();
         claims = samlAttrbuteClaimSource.getJsonObject(claims, saml);
@@ -238,8 +241,15 @@ public class SAMLAttributeClaimSource extends BasicClaimsSourceImpl {
         System.out.println("\nFrom group processor:");
         System.out.println(foo);
         System.out.println("\nFrom attr_json processor:");
-        SAMLAttributeClaimSource samlAttrbuteClaimSource = new SAMLAttributeClaimSource(null);
+        SAMLAttributeClaimSource samlAttrbuteClaimSource = new SAMLAttributeClaimSource();
 
         System.out.println(samlAttrbuteClaimSource.getJsonObject(new JSONObject(), saml).toString(2));
+    }
+
+    @Override
+    public QDLStem toQDL() {
+        QDLStem stem = super.toQDL();
+                    stem.put(CILCSConstants.CS_DEFAULT_TYPE, CILCSConstants.CS_TYPE_SAML);
+        return stem;
     }
 }

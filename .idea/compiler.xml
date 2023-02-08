@@ -22,9 +22,9 @@
         <module name="cilogon-server" />
         <module name="cilogon-webapp" />
         <module name="cilogon-loader" />
-        <module name="cilogon-test" />
-        <module name="cilogon-qdl" />
         <module name="cilogon-client" />
+        <module name="cilogon-qdl" />
+        <module name="cilogon-test" />
         <module name="cilogon-admin" />
       </profile>
     </annotationProcessing>
