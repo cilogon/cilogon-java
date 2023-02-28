@@ -80,7 +80,7 @@ public class CILOA2ServiceTransaction extends OA2ServiceTransaction implements A
     }
 
     @Override
-    protected ConfigtoCS getConfigToCS() {
+    public ConfigtoCS getConfigToCS() {
         if(configtoCS == null){
             configtoCS = new CILConfigToCS();
         }
