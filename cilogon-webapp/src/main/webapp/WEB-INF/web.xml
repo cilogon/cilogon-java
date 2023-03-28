@@ -33,15 +33,7 @@
         <url-pattern>/certs/*</url-pattern>
     </servlet-mapping>
 
-    <servlet>
-        <servlet-name>util</servlet-name>
-        <servlet-class>edu.uiuc.ncsa.myproxy.oa4mp.oauth2.servlet.OA2UtilServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>util</servlet-name>
-        <url-pattern>/util</url-pattern>
-    </servlet-mapping>
-
+ 
     <servlet>
         <servlet-name>initiate</servlet-name>
         <servlet-class>org.cilogon.oauth2.servlet.impl.CILOA2AuthorizedServlet</servlet-class>
@@ -100,6 +92,14 @@
         <url-pattern>/device_authorization</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>device</servlet-name>
+        <servlet-class>edu.uiuc.ncsa.oa2.servlet.RFC8628AuthorizationServer</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>device</servlet-name>
+        <url-pattern>/device</url-pattern>
+    </servlet-mapping>
 
     <servlet>
          <servlet-name>revoke</servlet-name>

@@ -28,8 +28,11 @@ cp cilogon-oa2-cli-jar-with-dependencies.jar $CILOGON_OA2_DEPLOY/cilogon-oa2-cli
 cd $CILOGON_OA2_DEPLOY
 
 #CILogon QDL support
-
+mkdir CILOGON_OA2_DEPLOY/cil-qdl
 cd $CILOGON_ROOT/cilogon-qdl
 mvn -P qdl package
-cd target
-cp cil-qdl-jar-with-dependencies.jar $CILOGON_OA2_DEPLOY/cil-qdl.jar
+mv target/cil-qdl-jar-with-dependencies.jar target/qdl.jar
+#cd target
+#cp cil-qdl-jar-with-dependencies.jar $CILOGON_OA2_DEPLOY/cil-qdl.jar
+/home/ncsa/dev/ncsa-git/qdl/language/src/main/scripts/create_installer.sh $CILOGON_ROOT/cilogon-qdl $CILOGON_OA2_DEPLOY/cil-qdl cil-qdl-installer.jar
+

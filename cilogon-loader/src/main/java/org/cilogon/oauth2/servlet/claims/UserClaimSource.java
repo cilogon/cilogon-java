@@ -54,7 +54,11 @@ public class UserClaimSource extends BasicClaimsSourceImpl implements OA2Scopes 
     String AFFILIATION = "affiliation";
     String AUTHENTICATION_CONTEXT_CLASS_REFERENCE = "acr";
     String CERT_SUBJECT_DN = "cert_subject_dn";
-
+     String AUTHENTICATION_CLASS_REFERENCE = "acr";
+     String AUTHENTICATION_METHOD_REFERENCE  = "amr";
+    /*
+     (ACR) and Authentication Method Reference (AMR)
+     */
 
     public CILogonOA2ServiceEnvironment getServiceEnvironment() {
         return (CILogonOA2ServiceEnvironment) getOa2SE();
@@ -104,9 +108,19 @@ public class UserClaimSource extends BasicClaimsSourceImpl implements OA2Scopes 
         if (user == null) {
             throw new UserNotFoundException("No user was found with identifier \"" + t.getUsername() + "\"");
         }
+        JSONObject jsonAttributes = getJSONAttributes(user.getAttr_json());
         /*
         These scopes are honored as per CILogon's operational policies.
          */
+        if (t.getScopes().contains(OPENID)) {
+            // CIL-1667
+            // if there is an ACR claim, return it here. The reason is that this is information about
+            // how the user logged in and several institutions need to track this
+            if (jsonAttributes.containsKey(AUTHENTICATION_CLASS_REFERENCE)) {
+                claims.put(AUTHENTICATION_CLASS_REFERENCE, jsonAttributes.getString(AUTHENTICATION_CLASS_REFERENCE));
+            }
+            jsonAttributes.remove(AUTHENTICATION_CLASS_REFERENCE); // done with it.
+        }
         if (t.getScopes().contains(SCOPE_EMAIL)) {
 
             if (!isEmpty(user.getEmail())) {
@@ -184,25 +198,33 @@ public class UserClaimSource extends BasicClaimsSourceImpl implements OA2Scopes 
         /*    if (!isEmpty(user.getDisplayName())) {
                 claims.put(OA2Claims.NAME, user.getDisplayName());
             }*/
-            // Fixes CIL-462
-            String rawJSON = user.getAttr_json();
-            if (!isEmpty(rawJSON)) {
-                try {
-                    JSONObject json = JSONObject.fromObject(rawJSON);
-                    // CIL-532 fix -- put in ALL of the values in the JSON attribute field and let the
-                    // configuration select them rather than having this in the code.
-                    for (Object key : json.keySet()) {
-                        if (!isEmpty(key.toString())) {
-                            claims.put(key.toString(), json.getString(key.toString()));
-                        }
-                    }
-                } catch (Exception x) {
-                    ServletDebugUtil.trace(this, "Error: was not able to parse the attr_json field into elements. Message=\"" + x.getMessage() + "\". Processing will continue...");
-                    // rock on, no recognizable json.
+            for (Object key : jsonAttributes.keySet()) {
+                // Fixes CIL-462
+                // CIL-532 fix -- put in ALL of the values in the JSON attribute field and let the
+                // configuration select them rather than having this in the code.
+                if (!isEmpty(key.toString())) {
+                    claims.put(key.toString(), jsonAttributes.getString(key.toString()));
                 }
             }
         }
         return claims;
+    }
+
+    /**
+     * Take the user's json_attr string and convert it into JSON for reference.
+     * @param rawJSON
+     * @return
+     */
+    protected JSONObject getJSONAttributes(String rawJSON) {
+        if (!isEmpty(rawJSON)) {
+            try {
+                return JSONObject.fromObject(rawJSON);
+            } catch (Exception x) {
+                ServletDebugUtil.trace(this, "Error: was not able to parse the attr_json field into elements. Message=\"" + x.getMessage() + "\". Processing will continue...");
+                // rock on, no recognizable json.
+            }
+        }
+        return new JSONObject();
     }
 
     @Override
