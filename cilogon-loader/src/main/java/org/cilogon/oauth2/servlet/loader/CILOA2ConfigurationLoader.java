@@ -208,11 +208,14 @@ public class CILOA2ConfigurationLoader extends OA2ConfigurationLoader implements
                     isRFC8628Enabled(),
                     isprintTSInDebug(),
                     getCleanupInterval(),
-                    getAlarms(),
+                    getCleanupAlarms(),
                     isNotifyACEventEmailAddresses(),
                     isRFC7636Required(),
                     isDemoModeEnabled(),
                     getRTGracePeriod(),
+                    isMonitorEnabled(),
+                    getMonitorInterval(),
+                    getMonitorAlarms(),
                     getDebugger());
             return  se;
         } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {

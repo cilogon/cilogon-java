@@ -1,5 +1,6 @@
 package org.cilogon.oauth2.servlet.loader;
 
+import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.OA2SE;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.loader.OA2ServletInitializer;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.admin.adminClient.AdminClientStoreProviders;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.admin.things.SATFactory;
@@ -10,6 +11,8 @@ import edu.uiuc.ncsa.oa4mp.delegation.common.storage.impl.ClientConverter;
 import edu.uiuc.ncsa.security.core.exceptions.MyConfigurationException;
 import edu.uiuc.ncsa.security.core.util.ConfigurationLoader;
 import edu.uiuc.ncsa.security.servlet.Initialization;
+import edu.uiuc.ncsa.security.storage.ListeningStoreInterface;
+import edu.uiuc.ncsa.security.storage.events.LastAccessedEventListener;
 import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.cilogon.oauth2.servlet.util.DNUtil;
 
@@ -53,6 +56,14 @@ public class CILOA2Bootstrapper extends AbstractBootstrapper {
           // NOTE for CILogon the default is to enable cleanup locking.
             se.setCleanupLockingEnabled(true);
            super.init();
+        }
+
+        @Override
+        protected void addMonitoredStores(OA2SE oa2SE, LastAccessedEventListener lastAccessedEventListener) {
+            super.addMonitoredStores(oa2SE, lastAccessedEventListener);
+            CILogonOA2ServiceEnvironment ciloa2 = (CILogonOA2ServiceEnvironment)oa2SE;
+            ((ListeningStoreInterface) (ciloa2.getUserStore())).addLastAccessedEventListener(lastAccessedEventListener);
+
         }
     }
 

@@ -105,6 +105,9 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
                                         boolean rfc7636Required,
                                         boolean isDemoMode,
                                         long rtGracePeriod,
+                                        boolean isMonitorEnabled,
+                                        long monitorInterval,
+                                        Collection<LocalTime> monitorAlarms,
                                         MetaDebugUtil debugger
     ) {
         super(logger,
@@ -159,6 +162,9 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
                 rfc7636Required,
                 isDemoMode,
                 rtGracePeriod,
+                isMonitorEnabled,
+                monitorInterval,
+                monitorAlarms,
                 debugger);
         ciLogonSE = new CILogonSEImpl(usp, ausp, idpsp, incp, tfsp, isComputeFNAL);
         if (claimSource instanceof UserClaimSource) {

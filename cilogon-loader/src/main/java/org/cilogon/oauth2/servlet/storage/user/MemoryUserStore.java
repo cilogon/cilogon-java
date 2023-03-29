@@ -1,10 +1,10 @@
 package org.cilogon.oauth2.servlet.storage.user;
 
+import edu.uiuc.ncsa.oa4mp.delegation.common.storage.monitored.MonitoredMemoryStore;
 import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.XMLConverter;
 import edu.uiuc.ncsa.security.core.util.IdentifiableProviderImpl;
 import edu.uiuc.ncsa.security.storage.GenericStoreUtils;
-import edu.uiuc.ncsa.security.storage.MemoryStore;
 import edu.uiuc.ncsa.security.storage.data.MapConverter;
 import org.cilogon.oauth2.servlet.util.Incrementable;
 import org.cilogon.oauth2.servlet.util.UserConverter;
@@ -21,7 +21,7 @@ import java.util.Map;
  * <p>Created by Jeff Gaynor<br>
  * on 3/13/12 at  2:20 PM
  */
-public class MemoryUserStore extends MemoryStore<User> implements UserStore {
+public class MemoryUserStore extends MonitoredMemoryStore<User> implements UserStore {
 
     @Override
     public User createAndRegisterUser(UserMultiID userMultiKey,

@@ -1,5 +1,6 @@
 package org.cilogon.oauth2.servlet.storage.user;
 
+import edu.uiuc.ncsa.oa4mp.delegation.common.storage.monitored.MonitoredSQLStore;
 import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.cache.SimpleEntryImpl;
 import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
@@ -9,7 +10,6 @@ import edu.uiuc.ncsa.security.servlet.ServletDebugUtil;
 import edu.uiuc.ncsa.security.storage.data.MapConverter;
 import edu.uiuc.ncsa.security.storage.sql.ConnectionPool;
 import edu.uiuc.ncsa.security.storage.sql.ConnectionRecord;
-import edu.uiuc.ncsa.security.storage.sql.SQLStore;
 import edu.uiuc.ncsa.security.storage.sql.internals.ColumnMap;
 import edu.uiuc.ncsa.security.storage.sql.internals.Table;
 import org.cilogon.oauth2.servlet.util.CILogonException;
@@ -26,7 +26,7 @@ import java.util.*;
  * <p>Created by Jeff Gaynor<br>
  * on Mar 12, 2010 at  3:41:37 PM
  */
-public class CILSQLUserStore extends SQLStore<User> implements UserStore {
+public class CILSQLUserStore extends MonitoredSQLStore<User> implements UserStore {
     Incrementable incrementable;
 
     @Override
