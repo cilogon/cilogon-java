@@ -1,5 +1,6 @@
 package org.cilogon.oauth2.admin;
 
+import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.OA2SE;
 import edu.uiuc.ncsa.myproxy.oauth2.base.CopyCommands;
 import edu.uiuc.ncsa.myproxy.oauth2.tools.OA2Commands;
 import edu.uiuc.ncsa.security.core.util.AbstractEnvironment;
@@ -32,7 +33,7 @@ public class CILogonOA2Commands extends OA2Commands {
 
     @Override
     public ConfigurationLoader<? extends AbstractEnvironment> getLoader() {
-        return new CILOA2ConfigurationLoader(getConfigurationNode(), getMyLogger());
+        return new CILOA2ConfigurationLoader<OA2SE>(getConfigurationNode(), getMyLogger());
     }
 
     public static void main(String[] args) {

@@ -50,7 +50,7 @@ public class CILSQLUserStore extends MonitoredSQLStore<User> implements UserStor
 
         uid = user.getIdentifier();
       //  System.err.println(this.getClass().getSimpleName() + ": start user uid = " + uid + " ss = " + user.getSerialIdentifier());
-        user.setCreationTime(new Date());
+        user.setCreationTS(new Date());
         user.setIdP(idP);
         user.setSerialIdentifier(uid); // for a new user these are identical. This might change though over time.
         user.setEmail(email);
@@ -391,6 +391,6 @@ public class CILSQLUserStore extends MonitoredSQLStore<User> implements UserStor
 
     @Override
     public String getCreationTSField() {
-        return ((UserKeys) getMapConverter().getKeys()).creationTimestamp();
+        return ((UserKeys) getMapConverter().getKeys()).creationTS();
     }
 }

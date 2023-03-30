@@ -28,7 +28,7 @@ public class UserProvider extends IdentifiableProviderImpl<User> {
      */
     public User get(boolean newIdentifier) {
         User u = new User(createNewId(newIdentifier), serialStrings);
-        u.setCreationTime(new Date());
+        u.setCreationTS(new Date());
         return u;
     }
 

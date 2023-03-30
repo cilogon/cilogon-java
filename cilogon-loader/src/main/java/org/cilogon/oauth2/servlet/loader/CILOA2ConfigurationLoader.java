@@ -1,5 +1,6 @@
 package org.cilogon.oauth2.servlet.loader;
 
+import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.OA2SE;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.claims.BasicClaimsSourceImpl;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.loader.OA2ConfigurationLoader;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.transactions.OA2SQLTransactionStoreProvider;
@@ -49,7 +50,7 @@ import static edu.uiuc.ncsa.security.core.configuration.Configurations.getFirstA
  * <p>Created by Jeff Gaynor<br>
  * on 3/26/15 at  1:52 PM
  */
-public class CILOA2ConfigurationLoader extends OA2ConfigurationLoader implements CILogonConfiguration {
+public class CILOA2ConfigurationLoader<C extends OA2SE> extends OA2ConfigurationLoader implements CILogonConfiguration {
 
     CILogonConfiguration ciLogonConfiguration;
 

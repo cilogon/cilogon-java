@@ -36,7 +36,7 @@ public class OA2CILogonStoreLoader<T extends ServiceEnvironmentImpl> extends CIL
         @Override
         public User get(boolean newIdentifier) {
             User u = new User(createNewId(newIdentifier), serialStrings);
-            u.setCreationTime(new Date());
+            u.setCreationTS(new Date());
             return u;
         }
     }

@@ -286,7 +286,7 @@ public class DBServiceUserIDTests extends RemoteDBServiceTest {
             // all have the same EPPN, but different eptids
             UserMultiID newUmk = new UserMultiID(umks.get(0).getEppn(), umks.get(i).getEptid());
             Date date = new Date(currentTime - (i + 1) * oneYear); // have these spaced one year apart.
-            user.setCreationTime(date);
+            user.setCreationTS(date);
             user.setUserMultiKey(newUmk);
             getUserStore().update(user, true);
             user = newUser();

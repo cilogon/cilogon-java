@@ -38,7 +38,7 @@ public class CILOA2Bootstrapper extends AbstractBootstrapper {
 
     @Override
     public ConfigurationLoader getConfigurationLoader(ConfigurationNode node) throws MyConfigurationException {
-        return new CILOA2ConfigurationLoader(node);
+        return new CILOA2ConfigurationLoader<OA2SE>(node);
     }
 
     public static class CILOA2ServletInitializer extends OA2ServletInitializer {
@@ -63,7 +63,6 @@ public class CILOA2Bootstrapper extends AbstractBootstrapper {
             super.addMonitoredStores(oa2SE, lastAccessedEventListener);
             CILogonOA2ServiceEnvironment ciloa2 = (CILogonOA2ServiceEnvironment)oa2SE;
             ((ListeningStoreInterface) (ciloa2.getUserStore())).addLastAccessedEventListener(lastAccessedEventListener);
-
         }
     }
 

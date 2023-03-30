@@ -1,19 +1,18 @@
 package org.cilogon.oauth2.servlet.storage.user;
 
+import edu.uiuc.ncsa.oa4mp.delegation.common.storage.monitored.MonitoredTable;
 import edu.uiuc.ncsa.security.storage.sql.internals.ColumnDescriptorEntry;
-import edu.uiuc.ncsa.security.storage.sql.internals.Table;
 import org.cilogon.oauth2.servlet.util.UserKeys;
 
 import java.sql.Types;
 
 import static java.sql.Types.LONGVARCHAR;
-import static java.sql.Types.TIMESTAMP;
 
 /**
  * <p>Created by Jeff Gaynor<br>
  * on Apr 13, 2010 at  2:07:14 PM
  */
-public class UserTable extends Table {
+public class UserTable extends MonitoredTable {
     public static final String DEFAULT_TABLE_NAME = "user";
 
     public void createColumnDescriptors() {
@@ -34,7 +33,7 @@ public class UserTable extends Table {
         getColumnDescriptor().add(new ColumnDescriptorEntry(userKeys().affiliation(), LONGVARCHAR));
         getColumnDescriptor().add(new ColumnDescriptorEntry(userKeys().displayName(), LONGVARCHAR));
         getColumnDescriptor().add(new ColumnDescriptorEntry(userKeys().organizationalUnit(), LONGVARCHAR));
-        getColumnDescriptor().add(new ColumnDescriptorEntry(userKeys().creationTimestamp(), TIMESTAMP));
+        //getColumnDescriptor().add(new ColumnDescriptorEntry(userKeys().creationTS(), TIMESTAMP));
         getColumnDescriptor().add(new ColumnDescriptorEntry(userKeys().useUSinDN(), Types.BOOLEAN));
         getColumnDescriptor().add(new ColumnDescriptorEntry(userKeys().attr_json(), LONGVARCHAR));
         getColumnDescriptor().add(new ColumnDescriptorEntry(userKeys().state(), LONGVARCHAR));

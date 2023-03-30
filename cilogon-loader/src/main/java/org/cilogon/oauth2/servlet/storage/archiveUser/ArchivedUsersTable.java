@@ -63,7 +63,7 @@ public class ArchivedUsersTable extends Table {
                 getUsersTable().userKeys().affiliation() + "," +
                 getUsersTable().userKeys().displayName() + "," +
                 getUsersTable().userKeys().organizationalUnit() + "," +
-                getUsersTable().userKeys().creationTimestamp() + "," +
+                getUsersTable().userKeys().creationTS() + "," +
                 getUsersTable().userKeys().useUSinDN() + "," +
                 getUsersTable().userKeys().attr_json() + "," +
                 getUsersTable().userKeys().state() + "," +
@@ -86,7 +86,7 @@ public class ArchivedUsersTable extends Table {
                 getUsersTable().userKeys().affiliation() + "," +
                 getUsersTable().userKeys().displayName() + "," +
                 getUsersTable().userKeys().organizationalUnit() + "," +
-                getUsersTable().userKeys().creationTimestamp() + "," +
+                getUsersTable().userKeys().creationTS() + "," +
                 getUsersTable().userKeys().useUSinDN() + "," +
                 getUsersTable().userKeys().attr_json() + "," +
                 getUsersTable().userKeys().state() + "," +

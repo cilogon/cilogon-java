@@ -52,7 +52,9 @@ public class UserStemMC<V extends User> extends StemConverter<V> {
         v = super.fromMap(stem, v);
         if(isStringKeyOK(stem, kk().affiliation())){v.setAffiliation(stem.getString(kk().affiliation()));}
         if (isStringKeyOK(stem, kk().attr_json())) {v.setAttr_json(stem.getString(kk().attr_json()));}
-        if (stem.containsKey(kk().creationTimestamp())) {v.setCreationTime(toDate(stem, kk().creationTimestamp()));}
+        if (stem.containsKey(kk().lastAccessed())) {v.setLastAccessed(toDate(stem, kk().lastAccessed()));}
+        if (stem.containsKey(kk().lastModifiedTS())) {v.setLastModifiedTS(toDate(stem, kk().lastModifiedTS()));}
+        if (stem.containsKey(kk().creationTS())) {v.setCreationTS(toDate(stem, kk().creationTS()));}
         if(isStringKeyOK(stem, kk().displayName())){v.setDisplayName(stem.getString(kk().displayName()));}
         if (isStringKeyOK(stem, kk().email())) {v.setEmail(stem.getString(kk().email()));}
         // NOTE the eppn, eptid, etc. actually all reside in the user multi-key.
@@ -85,8 +87,15 @@ public class UserStemMC<V extends User> extends StemConverter<V> {
     public QDLStem toMap(V v, QDLStem stem) {
         stem = super.toMap(v, stem);
         setNonNullStemValue(stem,kk().affiliation(), v.getAffiliation());
+        if(v.getLastAccessed() != null){
+            stem.put(kk().lastAccessed(), v.getLastAccessed().getTime());
+        }
+        if(v.getLastModifiedTS() != null){
+            stem.put(kk().lastModifiedTS(), v.getLastModifiedTS().getTime());
+        }
+
         setNonNullStemValue(stem,kk().attr_json(), v.getAttr_json());
-        stem.put(kk().creationTimestamp(), v.getCreationTS().getTime());
+        stem.put(kk().creationTS(), v.getCreationTS().getTime());
         setNonNullStemValue(stem,kk().idpDisplayName(), v.getIDPName());
         setNonNullStemValue(stem,kk().email(), v.getEmail());
         if (v.getePPN() != null) {stem.put(kk().eppn(), v.getePPN().getName());}

@@ -1,6 +1,6 @@
 package org.cilogon.oauth2.servlet.util;
 
-import edu.uiuc.ncsa.security.storage.data.SerializationKeys;
+import edu.uiuc.ncsa.security.storage.data.MonitoredKeys;
 
 import java.util.List;
 
@@ -8,14 +8,14 @@ import java.util.List;
  * <p>Created by Jeff Gaynor<br>
  * on 4/26/12 at  10:03 AM
  */
-public class UserKeys extends SerializationKeys {
+public class UserKeys extends MonitoredKeys {
     public UserKeys() {
         identifier(userID);
+        creationTS("create_time");
     }
 
     public String affiliation = "affiliation";
     public String attr_json = "attr_json";
-    public String creationTimestamp = "create_time";
     public String displayName = "display_name";
     public String email = "email";
     public String eppn = "eppn";
@@ -63,10 +63,12 @@ public class UserKeys extends SerializationKeys {
     }
 
 
-    public String creationTimestamp(String... x) {
+ /*     public String creationTimestamp = "create_time";
+
+  public String creationTS(String... x) {
         if (0 < x.length) creationTimestamp = x[0];
         return creationTimestamp;
-    }
+    }*/
 
     public String email(String... x) {
         if (0 < x.length) email = x[0];
@@ -151,7 +153,7 @@ public class UserKeys extends SerializationKeys {
         List<String> allKeys = super.allKeys();
         allKeys.add(affiliation());
         allKeys.add(attr_json());
-        allKeys.add(creationTimestamp());
+        allKeys.add(creationTS());
         allKeys.add(displayName());
         allKeys.add(email());
         allKeys.add(eppn());

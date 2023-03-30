@@ -1,5 +1,6 @@
 package test;
 
+import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.OA2SE;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.servlet.AbstractConfigurationLoader;
 import test.cilogon.CILTestStoreProvider;
 import org.cilogon.oauth2.servlet.loader.CILOA2ConfigurationLoader;
@@ -16,12 +17,12 @@ public class CILTestStoreProviderImpl extends CILTestStoreProvider {
     }
 
     String namedNode;
-    CILOA2ConfigurationLoader loader;
+    CILOA2ConfigurationLoader<OA2SE> loader;
 
     @Override
     public AbstractConfigurationLoader getConfigLoader() {
         if (loader == null) {
-            loader = new CILOA2ConfigurationLoader(findConfigNode(namedNode));
+            loader = new CILOA2ConfigurationLoader<OA2SE>(findConfigNode(namedNode));
         }
         return loader;
     }

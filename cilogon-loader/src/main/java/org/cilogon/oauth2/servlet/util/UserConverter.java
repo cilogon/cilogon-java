@@ -1,9 +1,7 @@
 package org.cilogon.oauth2.servlet.util;
 
 import edu.uiuc.ncsa.security.core.IdentifiableProvider;
-import edu.uiuc.ncsa.security.storage.data.ConversionMap;
-import edu.uiuc.ncsa.security.storage.data.MapConverter;
-import edu.uiuc.ncsa.security.storage.data.SerializationKeys;
+import edu.uiuc.ncsa.security.storage.data.*;
 import net.sf.json.JSONObject;
 import org.cilogon.oauth2.servlet.storage.user.*;
 
@@ -13,8 +11,8 @@ import static edu.uiuc.ncsa.security.core.util.BasicIdentifier.newID;
  * <p>Created by Jeff Gaynor<br>
  * on 4/16/12 at  5:34 PM
  */
-public class UserConverter<T extends User> extends MapConverter<T> {
-    public UserConverter(SerializationKeys keys, IdentifiableProvider<T> vProvider) {
+public class UserConverter<T extends User> extends MonitoredConverter<T> {
+    public UserConverter(MonitoredKeys keys, IdentifiableProvider<T> vProvider) {
         super(keys, vProvider);
     }
 
@@ -44,7 +42,7 @@ public class UserConverter<T extends User> extends MapConverter<T> {
                 new PairwiseID(map.getString(uk().pairwiseId())),
                 new SubjectID(map.getString(uk().subjectId())));
         user.setUserMultiKey(userMultiKey);
-        user.setCreationTime(map.getDate(uk().creationTimestamp()));
+      //  user.setCreationTime(map.getDate(uk().creationTS()));
         user.setIdentifier(newID(map.getString(uk().userID())));
         user.setAffiliation(map.getString(uk().affiliation()));
         user.setDisplayName(map.getString(uk().displayName()));
@@ -72,7 +70,7 @@ public class UserConverter<T extends User> extends MapConverter<T> {
         map.put(uk().lastName(), replaceNull(user.getLastName()));
         map.put(uk().email(), replaceNull(user.getEmail()));
         map.put(uk().serialString(), user.getSerialIdentifier().toString());
-        map.put(uk().creationTimestamp(), user.getCreationTS());
+      //  map.put(uk().creationTS(), user.getCreationTS());
         map.put(uk().affiliation(), user.getAffiliation());
         map.put(uk().displayName(), user.getDisplayName());
         map.put(uk().organizationalUnit(), user.getOrganizationalUnit());

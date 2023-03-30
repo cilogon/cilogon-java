@@ -5,11 +5,16 @@ import edu.uiuc.ncsa.oa2.qdl.storage.StoreFacade;
 import edu.uiuc.ncsa.oa2.qdl.storage.TransactionStemMC;
 import edu.uiuc.ncsa.oa4mp.delegation.common.storage.TransactionStore;
 import edu.uiuc.ncsa.oa4mp.delegation.server.storage.ClientStore;
+import edu.uiuc.ncsa.security.core.util.AbstractEnvironment;
+import edu.uiuc.ncsa.security.core.util.ConfigurationLoader;
+import org.cilogon.oauth2.servlet.loader.CILOA2ConfigurationLoader;
 import org.cilogon.oauth2.servlet.loader.CILogonOA2ServiceEnvironment;
 import org.cilogon.qdl.module.storage.CILOA2TransactionStemMC;
 import org.cilogon.qdl.module.storage.TwoFactorMC;
 import org.cilogon.qdl.module.storage.UserStemMC;
 
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.util.List;
 
 /**
@@ -57,4 +62,23 @@ public class CILStoreFacade extends StoreFacade {
     protected TransactionStemMC createTransactionStemMC(TransactionStore transactionStore, ClientStore clientStore) {
         return new CILOA2TransactionStemMC(transactionStore.getMapConverter(), clientStore);
     }
+
+    @Override
+    public CILogonOA2ServiceEnvironment getEnvironment() throws Exception {
+        if (environment == null) {
+            // pipe all startup messages to dev null, essentially.
+            PrintStream out = System.out;
+            PrintStream err = System.err;
+            System.setOut(new PrintStream(OutputStream.nullOutputStream()));
+            System.setErr(new PrintStream(OutputStream.nullOutputStream()));
+            environment = (CILogonOA2ServiceEnvironment) getLoader().load();
+            System.setOut(out);
+            System.setErr(err);
+        }
+        return (CILogonOA2ServiceEnvironment) environment;
+    }
+    public ConfigurationLoader<? extends AbstractEnvironment> getLoader() {
+         return new CILOA2ConfigurationLoader<CILogonOA2ServiceEnvironment>(getConfigurationNode(), getLogger());
+     }
+
 }

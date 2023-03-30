@@ -137,7 +137,7 @@ public class DBServiceSerializer {
         onlyPrintIfNotTrivial(w, userKeys.affiliation(), user.getAffiliation());
         onlyPrintIfNotTrivial(w, userKeys.displayName(), user.getDisplayName());
         onlyPrintIfNotTrivial(w, userKeys.organizationalUnit(), user.getOrganizationalUnit());
-        onlyPrintIfNotTrivial(w, userKeys.creationTimestamp(), Iso8601.date2String(user.getCreationTS()));
+        onlyPrintIfNotTrivial(w, userKeys.creationTS(), Iso8601.date2String(user.getCreationTS()));
 
         try {
             if(user.canGetCert()) {
@@ -307,7 +307,7 @@ public class DBServiceSerializer {
 
 
     protected void setUserField(User user, String head, String tail) throws ParseException, UnsupportedEncodingException {
-        if (head.equals(userKeys.creationTimestamp())) user.setCreationTime(Iso8601.string2Date(tail).getTime());
+        if (head.equals(userKeys.creationTS())) user.setCreationTS(Iso8601.string2Date(tail).getTime());
         if (head.equals(userKeys.email())) user.setEmail(tail);
         if (head.equals(userKeys.idp())) user.setIdP(tail);
         if (head.equals(userKeys.idpDisplayName())) user.setIDPName(tail);

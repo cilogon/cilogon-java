@@ -1,19 +1,16 @@
 package org.cilogon.oauth2.servlet.storage.user;
 
-import edu.uiuc.ncsa.security.core.DateComparable;
 import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.exceptions.GeneralException;
 import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
 import edu.uiuc.ncsa.security.core.util.BeanUtils;
 import edu.uiuc.ncsa.security.core.util.DateUtils;
-import edu.uiuc.ncsa.security.core.util.IdentifiableImpl;
 import edu.uiuc.ncsa.security.servlet.ServletDebugUtil;
+import edu.uiuc.ncsa.security.storage.data.Monitored;
 import net.sf.json.JSONObject;
 import org.cilogon.oauth2.servlet.util.AbstractCILServiceTransaction;
 import org.cilogon.oauth2.servlet.util.DNUtil;
 import org.cilogon.oauth2.servlet.util.SerialStrings;
-
-import java.util.Date;
 
 import static edu.uiuc.ncsa.security.core.util.BeanUtils.checkNoNulls;
 
@@ -21,7 +18,8 @@ import static edu.uiuc.ncsa.security.core.util.BeanUtils.checkNoNulls;
  * <p>Created by Jeff Gaynor<br>
  * on Mar 11, 2010 at  3:21:45 PM
  */
-public class User extends IdentifiableImpl implements DateComparable {
+//public class User extends IdentifiableImpl implements DateComparable {
+public class User extends Monitored {
     public static final long serialVersionUID = 0xCafeD00dL;
 
     public UserMultiID getUserMultiKey() {
@@ -65,7 +63,9 @@ public class User extends IdentifiableImpl implements DateComparable {
         }
         u2.firstName = firstName;
         u2.lastName = lastName;
-        u2.creationTime = creationTime;
+        u2.setCreationTS(getCreationTS());
+        u2.setLastModifiedTS(getLastModifiedTS());
+        u2.setLastAccessed(getLastAccessed());
         u2.email = email;
         u2.idP = idP;
         u2.iDPName = iDPName;
@@ -95,16 +95,16 @@ public class User extends IdentifiableImpl implements DateComparable {
         this.serialString = serialString;
     }
 
-   @Override
+  /* @Override
     public Date getCreationTS() {
-        return creationTime;
+        return creationTS;
     }
 
-    public void setCreationTime(Date creationTime) {
-        this.creationTime = creationTime;
+    public void setCreationTS(Date creationTS) {
+        this.creationTS = creationTS;
     }
 
-    Date creationTime = new Date(); //default is now.
+    Date creationTS = new Date(); //default is now.*/
 
 
     public User(Identifier id, SerialStrings ss) {
