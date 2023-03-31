@@ -137,10 +137,9 @@ public class DBServiceSerializer {
         onlyPrintIfNotTrivial(w, userKeys.affiliation(), user.getAffiliation());
         onlyPrintIfNotTrivial(w, userKeys.displayName(), user.getDisplayName());
         onlyPrintIfNotTrivial(w, userKeys.organizationalUnit(), user.getOrganizationalUnit());
-        onlyPrintIfNotTrivial(w, userKeys.creationTS(), Iso8601.date2String(user.getCreationTS()));
 
         try {
-            if(user.canGetCert()) {
+            if (user.canGetCert()) {
                 print(w, distinguishedNameField, user.getDN(null, true));
             }
         } catch (Exception x) {
@@ -151,6 +150,14 @@ public class DBServiceSerializer {
         if (user.getAttr_json() != null && !user.getAttr_json().isEmpty()) {
             print(w, userKeys.attr_json(), user.getAttr_json());
         }
+        onlyPrintIfNotTrivial(w, userKeys.creationTS(), Iso8601.date2String(user.getCreationTS()));
+        if (user.getLastAccessed() != null) {
+            onlyPrintIfNotTrivial(w, userKeys.lastAccessed(), Iso8601.date2String(user.getLastAccessed()));
+        }
+        if (user.getLastModifiedTS() != null) {
+            onlyPrintIfNotTrivial(w, userKeys.lastModifiedTS(), Iso8601.date2String(user.getLastModifiedTS()));
+        }
+
     }
 
     protected void onlyPrintIfNotTrivial(PrintWriter w, String key, String value) throws IOException {
@@ -341,15 +348,15 @@ public class DBServiceSerializer {
         }
 
         if (head.equals(userKeys.pairwiseId())) {
-                  if (tail != null) {
-                      user.setPairwiseId(new PairwiseID(tail));
-                  }
-              }
+            if (tail != null) {
+                user.setPairwiseId(new PairwiseID(tail));
+            }
+        }
         if (head.equals(userKeys.subjectId())) {
-                  if (tail != null) {
-                      user.setSubjectId(new SubjectID(tail));
-                  }
-              }
+            if (tail != null) {
+                user.setSubjectId(new SubjectID(tail));
+            }
+        }
 
         if (head.equals(userKeys.serialString())) user.setSerialString(tail);
         if (head.equals(userKeys.identifier())) user.setIdentifier(BasicIdentifier.newID(tail));

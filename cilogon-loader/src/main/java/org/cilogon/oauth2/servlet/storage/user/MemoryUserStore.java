@@ -10,10 +10,7 @@ import org.cilogon.oauth2.servlet.util.Incrementable;
 import org.cilogon.oauth2.servlet.util.UserConverter;
 import org.cilogon.oauth2.servlet.util.UserKeys;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * NOTE: This does not retain the serial strings (or users) across system reboots. This is
@@ -136,6 +133,7 @@ public class MemoryUserStore extends MonitoredMemoryStore<User> implements UserS
 
     @Override
     public void save(User value) {
+        value.setLastModifiedTS(new Date());
         if (containsKey(value.getIdentifier())) {
             update(value);
         } else {

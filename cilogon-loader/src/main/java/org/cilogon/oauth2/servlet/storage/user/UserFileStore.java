@@ -13,10 +13,7 @@ import org.cilogon.oauth2.servlet.util.UserKeys;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * <p>Created by Jeff Gaynor<br>
@@ -61,6 +58,7 @@ public class UserFileStore extends MonitoredFileStore<User> implements UserStore
 
     @Override
     public void realSave(boolean checkExists, User t) {
+        t.setLastModifiedTS(new Date());
         super.realSave(checkExists, t);
         if (t.getUserMultiKey() != null) {
             Iterator<PersonName> it = t.getUserMultiKey().iterator();
@@ -223,6 +221,8 @@ public class UserFileStore extends MonitoredFileStore<User> implements UserStore
             Identifier serialString = getUP().newIdentifier();
             user.setSerialIdentifier(serialString); // or subsequent calls have wrong serial string!
         }
+        user.setLastModifiedTS(new Date());
+
         super.update(user);
 
     }
@@ -231,6 +231,7 @@ public class UserFileStore extends MonitoredFileStore<User> implements UserStore
     public void update(User t) {
         Identifier serialString = getUP().newIdentifier();
         t.setSerialIdentifier(serialString); // or subsequent calls have wrong serial string!
+        t.setLastModifiedTS(new Date());
         super.update(t);
     }
 

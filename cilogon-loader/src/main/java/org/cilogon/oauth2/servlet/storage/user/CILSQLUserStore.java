@@ -338,6 +338,7 @@ public class CILSQLUserStore extends MonitoredSQLStore<User> implements UserStor
             ServletDebugUtil.trace(this,"setting serial string for user id = " + user.getIdentifierString() + ", serial string=" + user.getSerialString());
 
         }
+        user.setLastModifiedTS(new Date());
         super.update(user);
     }
 

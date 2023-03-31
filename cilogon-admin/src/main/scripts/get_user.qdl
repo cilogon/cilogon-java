@@ -1,0 +1,49 @@
+#! /usr/bin/env -S qdl-run
+
+/*
+   QDL script to aget a user via the DB service. Make sure that the address is set right for your local
+   DB Service instance and make sure that it is running.
+*/
+ ⊨ 0 < size(args()): 'you must supply a user uid';
+
+db_service := 'https://localhost:9443/oauth2/dbService';
+q := module_load('edu.uiuc.ncsa.qdl.extensions.http.QDLHTTPLoader','java') ;
+module_import(q) ;
+http#host(db_service);
+http#open(true); // Opens for self-signed cert, no hostname verification.
+resp. := http#get({'action':'getUser','user_uid':args().0});
+// resp.content is a list of lines from the response, like 'status=0', etc. that
+// must be parsed. Just print the whole thing out now and punt on formatting it.
+say(display(decode(resp.content,1))); // response is URL encoded
+
+//  a. := {'action':'setTransactionState','client_id':'localhost:test/df','scope':'openid profile'}
+/* Could belabor getting a bunch of stuff to print. Could.
+   ...Doodling from here down...
+
+status. := mask(resp.content, 'status=.*'=~resp.content);
+
+if[size(status.) != 1][say('error:' + to_string(status.));return();];
+
+  //v. := ['status=0','client_id=localhost:test/df','grant=NB2HI4B2F4XWY33DMFWGQ33TOQ5DSNBUGMXW6YLVORUDEL3GGQ3WMOLGME4WENBQGQ3WKY3GGVRTIYRVGA4GMNLGMRQTGNLGH52HS4DFHVQXK5DIPJDXEYLOOQTHI4Z5GE3DINRSGI4TMMBVGE3TCJTWMVZHG2LPNY6XMMROGATGY2LGMV2GS3LFHU4TAMBQGAYA','user_code=XQL-RH2-4H7']
+ s.:= tokenize(response.content., '=')
+[
+  [status,0],
+  [client_id,localhost:test/df],
+  [grant,NB2HI4B2F4XWY33DMFWGQ33TOQ5DSNBUGMXW6YLVORUDEL3GGQ3WMOLGME4WENBQGQ3WKY3GGVRTIYRVGA4GMNLGMRQTGNLGH52HS4DFHVQXK5DIPJDXEYLOOQTHI4Z5GE3DINRSGI4TMMBVGE3TCJTWMVZHG2LPNY6XMMROGATGY2LGMV2GS3LFHU4TAMBQGAYA],
+  [user_code,XQL-RH2-4H7]
+ ]
+
+
+say(status.);
+if[
+  s != '0'
+  ][
+    say('uh-oh. There was a problem. Error code=' + resp.content.status);
+    return();
+  ];
+  // Next stuff needs work to print out some nice report.
+  // Grab it all using mask to punch out client_id and grant.
+say('client_id:' + resp.content.client_id);
+say('raw grant:' + resp.content.grant);
+say('grant:' + decode_b32(resp.content.grant));
+*/
