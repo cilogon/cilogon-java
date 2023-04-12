@@ -5,7 +5,6 @@ org.cilogon.oauth2.servlet.claims
 org.cilogon.oauth2.servlet.exceptions
 org.cilogon.oauth2.servlet.impl
 org.cilogon.oauth2.servlet.loader
-org.cilogon.oauth2.servlet.qdl
 org.cilogon.oauth2.servlet.servlet
 org.cilogon.oauth2.servlet.storage
 org.cilogon.oauth2.servlet.storage.archiveUser
