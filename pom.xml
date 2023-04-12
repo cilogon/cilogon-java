@@ -38,14 +38,15 @@
 
     <packaging>pom</packaging>
     <modules>
-        <module>cilogon-admin</module>
-        <module>cilogon-client</module>
-        <module>cilogon-loader</module>
-        <module>cilogon-proxy</module>
-        <module>cilogon-qdl</module>
-        <module>cilogon-server</module>
-        <module>cilogon-test</module>
-        <module>cilogon-webapp</module>
+        <module>admin</module>
+        <module>client</module>
+        <module>loader</module>
+        <module>proxy</module>
+        <module>qdl</module>
+        <module>server</module>
+        <module>test</module>
+        <module>webapp</module>
+        <module>website</module>
     </modules>
 
     <build>

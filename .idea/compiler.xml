@@ -18,14 +18,15 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="cilogon-proxy" />
-        <module name="cilogon-server" />
-        <module name="cilogon-webapp" />
-        <module name="cilogon-loader" />
-        <module name="cilogon-client" />
-        <module name="cilogon-qdl" />
-        <module name="cilogon-test" />
-        <module name="cilogon-admin" />
+        <module name="webapp" />
+        <module name="proxy" />
+        <module name="server" />
+        <module name="website" />
+        <module name="test" />
+        <module name="loader" />
+        <module name="qdl" />
+        <module name="admin" />
+        <module name="client" />
       </profile>
     </annotationProcessing>
   </component>

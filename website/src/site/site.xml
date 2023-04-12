@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project name="Maven" xmlns="http://maven.apache.org/DECORATION/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/DECORATION/1.0.0 http://maven.apache.org/xsd/decoration-1.0.0.xsd">
+  <body>
+    <links>
+      <item name="CILogon" href="https://www.cilogon.org/" />
+      <item name="OA4MP" href="https://ncsa.github.io/oa4mp/"/>
+      <item name="QDL" href="https://ncsa.github.io/qdl/"/>
+      <item name="NCSA Security Library" href="https://ncsa.github.io/security-lib/"/>
+    </links>
+
+    <menu name="Documentation">
+      <!--<item name="Xdoc Example" href="xdoc.html"/>-->
+    </menu>
+  </body>
+</project>
