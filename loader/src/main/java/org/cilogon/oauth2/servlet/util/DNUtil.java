@@ -6,6 +6,7 @@ import edu.uiuc.ncsa.security.core.util.DebugUtil;
 import edu.uiuc.ncsa.security.core.util.StringUtils;
 import edu.uiuc.ncsa.security.servlet.ServletDebugUtil;
 import net.freeutils.charset.UTF7Charset;
+import org.cilogon.oauth2.servlet.storage.transaction.AbstractCILServiceTransaction;
 import org.cilogon.oauth2.servlet.storage.user.User;
 
 import java.nio.ByteBuffer;

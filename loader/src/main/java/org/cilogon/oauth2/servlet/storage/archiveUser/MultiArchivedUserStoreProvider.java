@@ -5,7 +5,6 @@ import edu.uiuc.ncsa.security.core.util.IdentifiableProviderImpl;
 import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
 import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.cilogon.oauth2.servlet.storage.user.MultiUserStoreProvider;
-import org.cilogon.oauth2.servlet.util.ArchivedUserStore;
 
 /**
  * <p>Created by Jeff Gaynor<br>

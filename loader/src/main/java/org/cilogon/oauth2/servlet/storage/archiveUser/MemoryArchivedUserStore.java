@@ -8,9 +8,7 @@ import edu.uiuc.ncsa.security.storage.MemoryStore;
 import edu.uiuc.ncsa.security.storage.data.MapConverter;
 import org.cilogon.oauth2.servlet.storage.user.User;
 import org.cilogon.oauth2.servlet.storage.user.UserStore;
-import org.cilogon.oauth2.servlet.util.ArchivedUserConverter;
-import org.cilogon.oauth2.servlet.util.ArchivedUserStore;
-import org.cilogon.oauth2.servlet.util.UserConverter;
+import org.cilogon.oauth2.servlet.storage.user.UserConverter;
 
 import java.util.HashMap;
 import java.util.LinkedList;

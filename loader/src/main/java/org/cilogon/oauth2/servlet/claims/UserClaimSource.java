@@ -16,7 +16,7 @@ import org.cilogon.oauth2.servlet.loader.CILogonOA2ServiceEnvironment;
 import org.cilogon.oauth2.servlet.storage.transaction.CILOA2ServiceTransaction;
 import org.cilogon.oauth2.servlet.storage.user.User;
 import org.cilogon.oauth2.servlet.storage.user.UserNotFoundException;
-import org.cilogon.oauth2.servlet.util.AbstractCILServiceTransaction;
+import org.cilogon.oauth2.servlet.storage.transaction.AbstractCILServiceTransaction;
 
 import javax.servlet.http.HttpServletRequest;
 

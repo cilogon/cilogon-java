@@ -19,12 +19,14 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.LaxRedirectStrategy;
 import org.cilogon.oauth2.servlet.StatusCodes;
 import org.cilogon.oauth2.servlet.servlet.AbstractDBService;
+import org.cilogon.oauth2.servlet.storage.idp.IDPKeys;
 import org.cilogon.oauth2.servlet.storage.idp.IdentityProvider;
 import org.cilogon.oauth2.servlet.storage.user.PersonName;
 import org.cilogon.oauth2.servlet.storage.user.User;
+import org.cilogon.oauth2.servlet.storage.user.UserKeys;
 import org.cilogon.oauth2.servlet.storage.user.UserMultiID;
-import org.cilogon.oauth2.servlet.twofactor.TwoFactorInfo;
-import org.cilogon.oauth2.servlet.twofactor.TwoFactorSerializationKeys;
+import org.cilogon.oauth2.servlet.storage.twofactor.TwoFactorInfo;
+import org.cilogon.oauth2.servlet.storage.twofactor.TwoFactorSerializationKeys;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;

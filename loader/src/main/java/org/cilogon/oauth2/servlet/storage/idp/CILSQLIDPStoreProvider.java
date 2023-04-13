@@ -6,8 +6,6 @@ import edu.uiuc.ncsa.security.storage.sql.ConnectionPoolProvider;
 import edu.uiuc.ncsa.security.storage.sql.SQLStoreProvider;
 import edu.uiuc.ncsa.security.storage.sql.internals.Table;
 import org.apache.commons.configuration.tree.ConfigurationNode;
-import org.cilogon.oauth2.servlet.util.IDPConverter;
-import org.cilogon.oauth2.servlet.util.IDPKeys;
 
 import static org.cilogon.oauth2.servlet.storage.idp.CILSQLIdentityProviderStore.DEFAULT_TABLENAME;
 

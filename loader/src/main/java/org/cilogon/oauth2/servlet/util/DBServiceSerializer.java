@@ -13,10 +13,11 @@ import edu.uiuc.ncsa.security.servlet.ServletDebugUtil;
 import edu.uiuc.ncsa.security.storage.XMLMap;
 import org.cilogon.oauth2.servlet.StatusCodes;
 import org.cilogon.oauth2.servlet.servlet.AbstractDBService;
+import org.cilogon.oauth2.servlet.storage.idp.IDPKeys;
 import org.cilogon.oauth2.servlet.storage.idp.IdentityProvider;
 import org.cilogon.oauth2.servlet.storage.user.*;
-import org.cilogon.oauth2.servlet.twofactor.TwoFactorInfo;
-import org.cilogon.oauth2.servlet.twofactor.TwoFactorSerializationKeys;
+import org.cilogon.oauth2.servlet.storage.twofactor.TwoFactorInfo;
+import org.cilogon.oauth2.servlet.storage.twofactor.TwoFactorSerializationKeys;
 
 import java.io.*;
 import java.net.URI;

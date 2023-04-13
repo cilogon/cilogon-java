@@ -7,8 +7,6 @@ import edu.uiuc.ncsa.security.core.util.IdentifiableProviderImpl;
 import edu.uiuc.ncsa.security.storage.GenericStoreUtils;
 import edu.uiuc.ncsa.security.storage.data.MapConverter;
 import org.cilogon.oauth2.servlet.util.Incrementable;
-import org.cilogon.oauth2.servlet.util.UserConverter;
-import org.cilogon.oauth2.servlet.util.UserKeys;
 
 import java.util.*;
 

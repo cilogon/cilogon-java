@@ -14,7 +14,6 @@ import edu.uiuc.ncsa.security.storage.sql.internals.ColumnMap;
 import edu.uiuc.ncsa.security.storage.sql.internals.Table;
 import org.cilogon.oauth2.servlet.util.CILogonException;
 import org.cilogon.oauth2.servlet.util.Incrementable;
-import org.cilogon.oauth2.servlet.util.UserKeys;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

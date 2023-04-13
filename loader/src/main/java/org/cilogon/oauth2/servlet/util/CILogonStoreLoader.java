@@ -12,8 +12,8 @@ import org.cilogon.oauth2.servlet.storage.TokenPrefixProvider;
 import org.cilogon.oauth2.servlet.storage.archiveUser.*;
 import org.cilogon.oauth2.servlet.storage.idp.*;
 import org.cilogon.oauth2.servlet.storage.sequence.*;
+import org.cilogon.oauth2.servlet.storage.twofactor.*;
 import org.cilogon.oauth2.servlet.storage.user.*;
-import org.cilogon.oauth2.servlet.twofactor.*;
 
 import java.util.HashMap;
 

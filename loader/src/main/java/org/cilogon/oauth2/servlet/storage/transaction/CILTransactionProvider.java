@@ -2,7 +2,6 @@ package org.cilogon.oauth2.servlet.storage.transaction;
 
 
 import edu.uiuc.ncsa.myproxy.oa4mp.server.admin.transactions.DSTransactionProvider;
-import org.cilogon.oauth2.servlet.util.CILogonServiceTransaction;
 
 /**
  * <p>Created by Jeff Gaynor<br>

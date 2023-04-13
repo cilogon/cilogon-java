@@ -4,12 +4,14 @@ import edu.uiuc.ncsa.security.core.Version;
 import edu.uiuc.ncsa.security.core.configuration.provider.MultiTypeProvider;
 import edu.uiuc.ncsa.security.core.util.IdentifiableProviderImpl;
 import org.cilogon.oauth2.servlet.storage.archiveUser.ArchivedUser;
+import org.cilogon.oauth2.servlet.storage.archiveUser.ArchivedUserStore;
 import org.cilogon.oauth2.servlet.storage.idp.IdentityProviderStore;
+import org.cilogon.oauth2.servlet.storage.sequence.SerialStringProvider;
 import org.cilogon.oauth2.servlet.storage.user.User;
 import org.cilogon.oauth2.servlet.storage.user.UserStore;
 import org.cilogon.oauth2.servlet.storage.TokenPrefixProvider;
-import org.cilogon.oauth2.servlet.twofactor.TwoFactorInfo;
-import org.cilogon.oauth2.servlet.twofactor.TwoFactorStore;
+import org.cilogon.oauth2.servlet.storage.twofactor.TwoFactorInfo;
+import org.cilogon.oauth2.servlet.storage.twofactor.TwoFactorStore;
 
 /**
  * <p>Created by Jeff Gaynor<br>

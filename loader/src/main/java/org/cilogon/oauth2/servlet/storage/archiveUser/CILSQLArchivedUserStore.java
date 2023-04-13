@@ -9,7 +9,6 @@ import edu.uiuc.ncsa.security.storage.sql.ConnectionPool;
 import edu.uiuc.ncsa.security.storage.sql.ConnectionRecord;
 import edu.uiuc.ncsa.security.storage.sql.SQLStore;
 import edu.uiuc.ncsa.security.storage.sql.internals.Table;
-import org.cilogon.oauth2.servlet.util.ArchivedUserStore;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

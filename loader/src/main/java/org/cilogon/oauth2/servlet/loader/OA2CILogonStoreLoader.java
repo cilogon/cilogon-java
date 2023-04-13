@@ -6,7 +6,7 @@ import org.cilogon.oauth2.servlet.storage.user.User;
 import org.cilogon.oauth2.servlet.storage.user.UserIdentifierProvider;
 import org.cilogon.oauth2.servlet.storage.user.UserProvider;
 import org.cilogon.oauth2.servlet.util.CILogonStoreLoader;
-import org.cilogon.oauth2.servlet.util.SerialStrings;
+import org.cilogon.oauth2.servlet.storage.sequence.SerialStrings;
 
 import java.util.Date;
 

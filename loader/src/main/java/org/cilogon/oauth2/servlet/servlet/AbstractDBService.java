@@ -24,13 +24,15 @@ import org.cilogon.oauth2.servlet.exceptions.PairwiseIDMismatchException;
 import org.cilogon.oauth2.servlet.exceptions.SubjectIDMismatchException;
 import org.cilogon.oauth2.servlet.exceptions.UnknownDBSericeUserException;
 import org.cilogon.oauth2.servlet.storage.archiveUser.ArchivedUser;
+import org.cilogon.oauth2.servlet.storage.archiveUser.ArchivedUserStore;
+import org.cilogon.oauth2.servlet.storage.idp.IDPKeys;
 import org.cilogon.oauth2.servlet.storage.idp.IdentityProvider;
 import org.cilogon.oauth2.servlet.storage.idp.IdentityProviderStore;
 import org.cilogon.oauth2.servlet.storage.transaction.CILSQLTransactionStore;
 import org.cilogon.oauth2.servlet.storage.user.*;
-import org.cilogon.oauth2.servlet.twofactor.TwoFactorInfo;
-import org.cilogon.oauth2.servlet.twofactor.TwoFactorSerializationKeys;
-import org.cilogon.oauth2.servlet.twofactor.TwoFactorStore;
+import org.cilogon.oauth2.servlet.storage.twofactor.TwoFactorInfo;
+import org.cilogon.oauth2.servlet.storage.twofactor.TwoFactorSerializationKeys;
+import org.cilogon.oauth2.servlet.storage.twofactor.TwoFactorStore;
 import org.cilogon.oauth2.servlet.util.*;
 
 import javax.servlet.ServletException;
@@ -125,7 +127,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
      * state of the user. However, we do need to transfer this calling applications.
      */
     public static final String distinguishedNameField = "distinguished_name";
-    protected UserKeys userKeys;
+    protected org.cilogon.oauth2.servlet.storage.user.UserKeys userKeys;
     protected IDPKeys idpKeys;
     protected TwoFactorSerializationKeys tfKeys;
     protected ClientKeys clientKeys;
@@ -954,7 +956,6 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
      *
      * @param u
      * @param k
-     * @return
      */
     protected void userLogic(User u, UserMultiID k) {
         // case 0. All of the ids are set. This should be flagged as an error condition.

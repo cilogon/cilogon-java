@@ -11,8 +11,8 @@ org.cilogon.oauth2.servlet.storage.archiveUser
 org.cilogon.oauth2.servlet.storage.idp
 org.cilogon.oauth2.servlet.storage.sequence
 org.cilogon.oauth2.servlet.storage.transaction
+org.cilogon.oauth2.servlet.storage.twofactor
 org.cilogon.oauth2.servlet.storage.user
-org.cilogon.oauth2.servlet.twofactor
 org.cilogon.oauth2.servlet.util
 org.cilogon.proxy.servlet
 org.cilogon.qdl.module

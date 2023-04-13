@@ -2,7 +2,7 @@ package org.cilogon.oauth2.servlet.storage.user;
 
 import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.util.IdentifiableProviderImpl;
-import org.cilogon.oauth2.servlet.util.SerialStrings;
+import org.cilogon.oauth2.servlet.storage.sequence.SerialStrings;
 
 import java.util.Date;
 

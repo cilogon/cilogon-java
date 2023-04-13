@@ -9,7 +9,6 @@ import edu.uiuc.ncsa.security.storage.sql.SQLStoreProvider;
 import edu.uiuc.ncsa.security.storage.sql.internals.Table;
 import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.cilogon.oauth2.servlet.util.Incrementable;
-import org.cilogon.oauth2.servlet.util.UserKeys;
 
 /**
  * <p>Created by Jeff Gaynor<br>

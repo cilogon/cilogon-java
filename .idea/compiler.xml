@@ -21,10 +21,10 @@
         <module name="webapp" />
         <module name="proxy" />
         <module name="server" />
-        <module name="website" />
         <module name="test" />
         <module name="loader" />
         <module name="qdl" />
+        <module name="skin" />
         <module name="admin" />
         <module name="client" />
       </profile>

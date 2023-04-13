@@ -8,9 +8,9 @@ import edu.uiuc.ncsa.security.core.util.DateUtils;
 import edu.uiuc.ncsa.security.servlet.ServletDebugUtil;
 import edu.uiuc.ncsa.security.storage.data.Monitored;
 import net.sf.json.JSONObject;
-import org.cilogon.oauth2.servlet.util.AbstractCILServiceTransaction;
+import org.cilogon.oauth2.servlet.storage.transaction.AbstractCILServiceTransaction;
 import org.cilogon.oauth2.servlet.util.DNUtil;
-import org.cilogon.oauth2.servlet.util.SerialStrings;
+import org.cilogon.oauth2.servlet.storage.sequence.SerialStrings;
 
 import static edu.uiuc.ncsa.security.core.util.BeanUtils.checkNoNulls;
 
@@ -403,7 +403,7 @@ public class User extends Monitored {
     }
 
     /**
-     * Compare the IDP display name, first & last names and email with this user. These are the items that
+     * Compare the IDP display name, first &amp; last names and email with this user. These are the items that
      * go into the certificate so if there is a change in these, this method will return true.
      *
      * @param idpDisplayName

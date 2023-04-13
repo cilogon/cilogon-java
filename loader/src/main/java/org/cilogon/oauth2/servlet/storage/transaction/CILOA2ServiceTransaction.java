@@ -5,7 +5,6 @@ import edu.uiuc.ncsa.myproxy.oa4mp.qdl.claims.ConfigtoCS;
 import edu.uiuc.ncsa.oa4mp.delegation.common.token.AuthorizationGrant;
 import edu.uiuc.ncsa.security.core.Identifier;
 import org.cilogon.oauth2.servlet.CILConfigToCS;
-import org.cilogon.oauth2.servlet.util.AbstractCILServiceTransaction;
 
 /**
  * <p>Created by Jeff Gaynor<br>

@@ -8,7 +8,6 @@ import edu.uiuc.ncsa.security.storage.sql.internals.ColumnDescriptorEntry;
 import edu.uiuc.ncsa.security.storage.sql.internals.ColumnMap;
 import edu.uiuc.ncsa.security.storage.sql.internals.Table;
 import org.cilogon.oauth2.servlet.util.CILogonException;
-import org.cilogon.oauth2.servlet.util.IDPConverter;
 
 import javax.inject.Provider;
 import java.sql.Connection;

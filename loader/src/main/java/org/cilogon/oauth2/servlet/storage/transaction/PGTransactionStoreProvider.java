@@ -6,8 +6,6 @@ import edu.uiuc.ncsa.security.storage.data.MapConverter;
 import edu.uiuc.ncsa.security.storage.sql.ConnectionPool;
 import edu.uiuc.ncsa.security.storage.sql.ConnectionPoolProvider;
 import org.apache.commons.configuration.tree.ConfigurationNode;
-import org.cilogon.oauth2.servlet.util.CILTransactionKeys;
-import org.cilogon.oauth2.servlet.util.CILogonServiceTransaction;
 
 import javax.inject.Provider;
 

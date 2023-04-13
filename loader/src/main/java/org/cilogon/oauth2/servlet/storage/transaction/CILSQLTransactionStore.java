@@ -6,7 +6,6 @@ import edu.uiuc.ncsa.security.core.util.IdentifiableProviderImpl;
 import edu.uiuc.ncsa.security.storage.data.MapConverter;
 import edu.uiuc.ncsa.security.storage.sql.ConnectionPool;
 import edu.uiuc.ncsa.security.storage.sql.internals.Table;
-import org.cilogon.oauth2.servlet.util.CILogonServiceTransaction;
 
 /**
  * <p>Created by Jeff Gaynor<br>

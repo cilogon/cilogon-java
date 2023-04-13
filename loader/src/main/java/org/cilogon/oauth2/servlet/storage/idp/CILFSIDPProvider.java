@@ -3,7 +3,6 @@ package org.cilogon.oauth2.servlet.storage.idp;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.OA4MPConfigTags;
 import edu.uiuc.ncsa.security.storage.FSProvider;
 import org.apache.commons.configuration.tree.ConfigurationNode;
-import org.cilogon.oauth2.servlet.util.IDPConverter;
 
 import java.io.File;
 

@@ -4,7 +4,6 @@ import edu.uiuc.ncsa.security.core.IdentifiableProvider;
 import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
 import edu.uiuc.ncsa.security.storage.FileStore;
 import edu.uiuc.ncsa.security.storage.data.MapConverter;
-import org.cilogon.oauth2.servlet.util.IDPConverter;
 
 import java.io.File;
 import java.util.Collection;

@@ -31,8 +31,8 @@ CILogon Java Module
 
 Documents:
 
-       *{{{./pdf/Cilogon_db_servlet.pdf}CIlogon's DB Service}}
+     * {{{./pdf/Cilogon_db_servlet.pdf}CIlogon's DB Service}}
 
 Javadocs
 
-  *{{{./apidocs/index.html}Javadoc}}
+     * {{{./apidocs/index.html}Javadoc}}

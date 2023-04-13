@@ -4,7 +4,7 @@ import edu.uiuc.ncsa.security.storage.data.SerializationKeys;
 
 import java.util.List;
 
-/**  This is always used in conjunction with {@link test.cilogon.util.UserKeys}
+/**  This is always used in conjunction with {@link org.cilogon.oauth2.servlet.storage.user.UserKeys}.
  *  This supplies the keys specific to archived users only -- a unique key and timestamp.
 * <p>Created by Jeff Gaynor<br>
 * on 4/26/12 at  10:04 AM

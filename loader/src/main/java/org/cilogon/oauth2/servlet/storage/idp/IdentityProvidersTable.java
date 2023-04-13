@@ -1,7 +1,6 @@
 package org.cilogon.oauth2.servlet.storage.idp;
 
 import edu.uiuc.ncsa.security.storage.sql.internals.Table;
-import org.cilogon.oauth2.servlet.util.IDPKeys;
 
 /**
  * <p>Created by Jeff Gaynor<br>

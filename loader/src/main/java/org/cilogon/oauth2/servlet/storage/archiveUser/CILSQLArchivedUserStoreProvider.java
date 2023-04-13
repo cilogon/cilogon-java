@@ -8,9 +8,7 @@ import edu.uiuc.ncsa.security.storage.sql.SQLStoreProvider;
 import edu.uiuc.ncsa.security.storage.sql.internals.Table;
 import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.cilogon.oauth2.servlet.storage.user.UserTable;
-import org.cilogon.oauth2.servlet.util.ArchivedUserConverter;
-import org.cilogon.oauth2.servlet.util.ArchivedUserStore;
-import org.cilogon.oauth2.servlet.util.UserKeys;
+import org.cilogon.oauth2.servlet.storage.user.UserKeys;
 
 /**
  * <p>Created by Jeff Gaynor<br>

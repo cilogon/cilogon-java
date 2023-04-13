@@ -1,9 +1,10 @@
 package org.cilogon.oauth2.servlet.util;
 
 import org.cilogon.oauth2.servlet.servlet.DBServiceConfig;
+import org.cilogon.oauth2.servlet.storage.archiveUser.ArchivedUserStore;
 import org.cilogon.oauth2.servlet.storage.idp.IdentityProviderStore;
 import org.cilogon.oauth2.servlet.storage.user.UserStore;
-import org.cilogon.oauth2.servlet.twofactor.TwoFactorStore;
+import org.cilogon.oauth2.servlet.storage.twofactor.TwoFactorStore;
 
 import javax.inject.Provider;
 
