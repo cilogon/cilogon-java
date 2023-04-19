@@ -60,8 +60,8 @@ public class CounterCommands extends CommonCommands {
     }
 
     @Override
-    public void print_help(InputLine inputLine) throws Exception {
-        super.print_help(inputLine);
+    public void print_help() throws Exception {
+        super.print_help();
         say("--Counter specific commands");
         sayi("next_value = show the next value. Note this does increment it in the store.");
         sayi("reset = reset the counter to a new value. WARNING since ids are made using this, do not use it lightly!");;

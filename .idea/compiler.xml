@@ -19,14 +19,14 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="webapp" />
-        <module name="proxy" />
         <module name="server" />
+        <module name="proxy" />
         <module name="test" />
         <module name="loader" />
-        <module name="qdl" />
         <module name="skin" />
-        <module name="admin" />
+        <module name="qdl" />
         <module name="client" />
+        <module name="admin" />
       </profile>
     </annotationProcessing>
   </component>

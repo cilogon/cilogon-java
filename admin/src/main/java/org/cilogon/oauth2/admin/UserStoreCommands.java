@@ -58,8 +58,8 @@ public class UserStoreCommands extends StoreCommands2 {
     }
 
     @Override
-    public void print_help(InputLine inputLine) throws Exception {
-        super.print_help(inputLine);
+    public void print_help() throws Exception {
+        super.print_help();
         say("--Archive specific:");
         sayi("archive = archive a given user.");
     }
