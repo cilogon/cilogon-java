@@ -30,6 +30,7 @@ import edu.uiuc.ncsa.security.core.util.DateUtils;
 import edu.uiuc.ncsa.security.core.util.MetaDebugUtil;
 import edu.uiuc.ncsa.security.core.util.StringUtils;
 import edu.uiuc.ncsa.security.servlet.AbstractServlet;
+import edu.uiuc.ncsa.security.servlet.ExceptionHandlerThingie;
 import edu.uiuc.ncsa.security.servlet.ServletDebugUtil;
 import org.cilogon.oauth2.servlet.StatusCodes;
 import org.cilogon.oauth2.servlet.claims.UserClaimSource;
@@ -37,12 +38,12 @@ import org.cilogon.oauth2.servlet.impl.CILOA2AuthorizedServletUtil;
 import org.cilogon.oauth2.servlet.impl.Err;
 import org.cilogon.oauth2.servlet.loader.CILogonOA2ServiceEnvironment;
 import org.cilogon.oauth2.servlet.servlet.AbstractDBService;
+import org.cilogon.oauth2.servlet.storage.idp.IDPKeys;
 import org.cilogon.oauth2.servlet.storage.transaction.CILOA2ServiceTransaction;
+import org.cilogon.oauth2.servlet.storage.twofactor.TwoFactorSerializationKeys;
 import org.cilogon.oauth2.servlet.storage.user.User;
+import org.cilogon.oauth2.servlet.storage.user.UserKeys;
 import org.cilogon.oauth2.servlet.storage.user.UserStore;
-import org.cilogon.oauth2.servlet.twofactor.TwoFactorSerializationKeys;
-import org.cilogon.oauth2.servlet.util.IDPKeys;
-import org.cilogon.oauth2.servlet.util.UserKeys;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -452,7 +453,7 @@ public class DBService2 extends AbstractDBService {
                 return; // make sure to hop out here.
             } else {
                 try {
-                    getExceptionHandler().handleException(t, req, resp);
+                    getExceptionHandler().handleException(new ExceptionHandlerThingie(t, req, resp));
                 } catch (Throwable xxx) {
                     // Ummm if it ends up here, it means the exception handler itself blew up and there is not a lot
                     // we can do except try to send something back.

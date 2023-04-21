@@ -3,6 +3,7 @@ package org.cilogon.proxy.servlet;
 import edu.uiuc.ncsa.oa4mp.delegation.oa2.OA2Errors;
 import edu.uiuc.ncsa.oa4mp.delegation.oa2.OA2GeneralError;
 import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
+import edu.uiuc.ncsa.security.servlet.ExceptionHandlerThingie;
 import org.cilogon.oauth2.servlet.StatusCodes;
 import org.cilogon.oauth2.servlet.impl.Err;
 import org.cilogon.oauth2.servlet.servlet.AbstractDBService;
@@ -26,14 +27,17 @@ public class CILOA2ExceptionHandler extends CILogonExceptionHandler implements O
     }
 
     @Override
-    public void handleException(Throwable t, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    public void handleException(ExceptionHandlerThingie xh) throws IOException, ServletException {
+        Throwable t = xh.throwable;
+        HttpServletRequest request=xh.request;
+        HttpServletResponse response = xh.response;
         if (t instanceof OA2GeneralError) {
             OA2GeneralError ge = (OA2GeneralError) t;
             Err err = new Err(StatusCodes.STATUS_INTERNAL_ERROR, ge.getError(), ge.getDescription());
             ((DBService2) dbServlet).writeMessage(response, err);
             return;
         }
-        super.handleException(t, request, response);
+        super.handleException(xh);
 
     }
 

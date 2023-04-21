@@ -97,7 +97,7 @@
         </dependency>
         <dependency>
             <groupId>org.cilogon</groupId>
-            <artifactId>cilogon-loader</artifactId>
+            <artifactId>loader</artifactId>
             <version>5.3-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>

@@ -6,10 +6,10 @@ import edu.uiuc.ncsa.oa4mp.delegation.common.storage.ClientApprovalKeys;
 import edu.uiuc.ncsa.oa4mp.delegation.common.storage.ClientKeys;
 import edu.uiuc.ncsa.security.core.util.Iso8601;
 import org.cilogon.oauth2.servlet.impl.Err;
-import org.cilogon.oauth2.servlet.twofactor.TwoFactorSerializationKeys;
+import org.cilogon.oauth2.servlet.storage.idp.IDPKeys;
+import org.cilogon.oauth2.servlet.storage.twofactor.TwoFactorSerializationKeys;
+import org.cilogon.oauth2.servlet.storage.user.UserKeys;
 import org.cilogon.oauth2.servlet.util.DBServiceSerializer;
-import org.cilogon.oauth2.servlet.util.IDPKeys;
-import org.cilogon.oauth2.servlet.util.UserKeys;
 
 import java.io.IOException;
 import java.io.PrintWriter;
