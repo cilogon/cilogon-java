@@ -14,6 +14,7 @@ import org.cilogon.oauth2.servlet.loader.CILOA2ConfigurationLoader;
 import org.cilogon.oauth2.servlet.loader.CILogonOA2ServiceEnvironment;
 import org.cilogon.oauth2.servlet.util.CILogonConfiguration;
 
+import static org.cilogon.oauth2.admin.Banners.*;
 import static org.cilogon.oauth2.admin.CommandConstants.*;
 
 /**
@@ -28,7 +29,7 @@ public class CILogonOA2Commands extends OA2Commands {
 
     @Override
     public String getPrompt() {
-        return "cil-oa2>";
+        return "cilogon>";
     }
 
     @Override
@@ -38,6 +39,7 @@ public class CILogonOA2Commands extends OA2Commands {
 
     public static void main(String[] args) {
         try {
+
             CILogonOA2Commands ciLogonCommands = new CILogonOA2Commands(null);
             ciLogonCommands.start(args);
             if (ciLogonCommands.executeComponent()) {
@@ -202,17 +204,30 @@ public class CILogonOA2Commands extends OA2Commands {
 
     @Override
     public void about() {
+         about(true, true);
+    }
+    public void about(boolean showBanner, boolean showHeader) {
         int width = 60;
-        String stars = StringUtils.rightPad("", width + 1, "*");
-        say(stars);
-        say(padLineWithBlanks("* CILogon for OAuth 2 CLI (Command Line Interpreter)", width) + "*");
-        say(padLineWithBlanks("* Version " + CILogonConfiguration.VERSION_NUMBER, width) + "*");
-        say(padLineWithBlanks("* By Jeff Gaynor  NCSA", width) + "*");
-        say(padLineWithBlanks("*  (National Center for Supercomputing Applications)", width) + "*");
-        say(padLineWithBlanks("*", width) + "*");
-        say(padLineWithBlanks("* type 'help' for a list of commands", width) + "*");
-        say(padLineWithBlanks("*      'exit' or 'quit' to end this session.", width) + "*");
-        say(stars);
+        String banner= TIMES; // default
+        if(logoName.equals("roman")) banner = ROMAN;
+        if(logoName.equals("os2")) banner = OS2;
+        if(logoName.equals("times")) banner = TIMES;
+        if(logoName.equals("fraktur")) banner = FRAKTUR;
+        if(logoName.equals("plain")) banner = PLAIN;
+        if(logoName.equals("none")) {showBanner = false;}
+        if(showBanner) {
+            say(TIMES);
+        }
+        if(showHeader) {
+            String stars = StringUtils.rightPad("", width + 1, "*");
+            say(stars);
+            say(padLineWithBlanks("* CILogon CLI (Command Line Interpreter)", width) + "*");
+            say(padLineWithBlanks("* Version " + CILogonConfiguration.VERSION_NUMBER, width) + "*");
+            say(padLineWithBlanks("* By Jeff Gaynor  NCSA", width) + "*");
+            say(padLineWithBlanks("* type 'help' for a list of commands", width) + "*");
+            say(padLineWithBlanks("*      'exit' or 'quit' to end this session.", width) + "*");
+            say(stars);
+        }
     }
 
     @Override
