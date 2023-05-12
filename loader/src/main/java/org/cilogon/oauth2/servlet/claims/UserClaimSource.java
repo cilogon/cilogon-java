@@ -114,12 +114,17 @@ public class UserClaimSource extends BasicClaimsSourceImpl implements OA2Scopes 
          */
         if (t.getScopes().contains(OPENID)) {
             // CIL-1667
-            // if there is an ACR claim, return it here. The reason is that this is information about
+            // if there is an ACR/AMR claim, return it here. The reason is that this is information about
             // how the user logged in and several institutions need to track this
             if (jsonAttributes.containsKey(AUTHENTICATION_CLASS_REFERENCE)) {
                 claims.put(AUTHENTICATION_CLASS_REFERENCE, jsonAttributes.getString(AUTHENTICATION_CLASS_REFERENCE));
             }
             jsonAttributes.remove(AUTHENTICATION_CLASS_REFERENCE); // done with it.
+            if (jsonAttributes.containsKey(AUTHENTICATION_METHOD_REFERENCE)) {
+                claims.put(AUTHENTICATION_METHOD_REFERENCE, jsonAttributes.getString(AUTHENTICATION_METHOD_REFERENCE));
+            }
+            jsonAttributes.remove(AUTHENTICATION_METHOD_REFERENCE); // done with it.
+
         }
         if (t.getScopes().contains(SCOPE_EMAIL)) {
 

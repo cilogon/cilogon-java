@@ -20,6 +20,7 @@ import edu.uiuc.ncsa.oa4mp.delegation.server.issuers.ATIssuer;
 import edu.uiuc.ncsa.oa4mp.delegation.server.issuers.PAIssuer;
 import edu.uiuc.ncsa.oa4mp.delegation.server.storage.ClientApprovalStore;
 import edu.uiuc.ncsa.oa4mp.delegation.server.storage.ClientStore;
+import edu.uiuc.ncsa.oa4mp.delegation.server.storage.uuc.UUCConfiguration;
 import edu.uiuc.ncsa.security.core.Store;
 import edu.uiuc.ncsa.security.core.util.MetaDebugUtil;
 import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
@@ -110,7 +111,8 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
                                         long monitorInterval,
                                         Collection<LocalTime> monitorAlarms,
                                         MetaDebugUtil debugger,
-                                        DBServiceConfig dbServiceConfig
+                                        DBServiceConfig dbServiceConfig,
+                                        UUCConfiguration uucConfiguration
     ) {
         super(logger,
                 tsp,
@@ -167,7 +169,8 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
                 isMonitorEnabled,
                 monitorInterval,
                 monitorAlarms,
-                debugger);
+                debugger,
+                uucConfiguration);
         ciLogonSE = new CILogonSEImpl(usp, ausp, idpsp, incp, tfsp, isComputeFNAL);
         ciLogonSE.setDBServiceConfig(dbServiceConfig);
         this.dbServiceConfig = dbServiceConfig;
