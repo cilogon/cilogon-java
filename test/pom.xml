@@ -5,7 +5,7 @@
     <parent>
         <artifactId>cilogon</artifactId>
         <groupId>org.cilogon</groupId>
-        <version>5.3-SNAPSHOT</version>
+        <version>5.3.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <properties>
@@ -60,21 +60,21 @@
         </dependency>
         <dependency>
             <groupId>org.cilogon</groupId>
-            <artifactId>cilogon-loader</artifactId>
-            <version>5.3-SNAPSHOT</version>
+            <artifactId>loader</artifactId>
+            <version>5.3.1</version>
         </dependency>
 
         <dependency>
             <groupId>edu.uiuc.ncsa.myproxy</groupId>
             <artifactId>oa4mp-server-test</artifactId>
-            <version>5.3-SNAPSHOT</version>
+            <version>5.3.1</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>edu.uiuc.ncsa.security</groupId>
             <artifactId>core</artifactId>
-            <version>5.3-SNAPSHOT</version>
+            <version>5.3.1</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
@@ -82,42 +82,48 @@
         <dependency>
             <groupId>edu.uiuc.ncsa.myproxy</groupId>
             <artifactId>server-test</artifactId>
-            <version>5.3-SNAPSHOT</version>
+            <version>5.3.1</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>edu.uiuc.ncsa.myproxy</groupId>
             <artifactId>oauth2</artifactId>
-            <version>5.3-SNAPSHOT</version>
+            <version>5.3.1</version>
         </dependency>
         <dependency>
             <groupId>edu.uiuc.ncsa.myproxy</groupId>
             <artifactId>server-loader</artifactId>
-            <version>5.3-SNAPSHOT</version>
+            <version>5.3.1</version>
         </dependency>
         <dependency>
             <groupId>edu.uiuc.ncsa.myproxy</groupId>
             <artifactId>common</artifactId>
-            <version>5.3-SNAPSHOT</version>
+            <version>5.3.1</version>
         </dependency>
         <dependency>
             <artifactId>util</artifactId>
             <groupId>edu.uiuc.ncsa.security</groupId>
-            <version>5.3-SNAPSHOT</version>
+            <version>5.3.1</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
         <dependency>
             <artifactId>common</artifactId>
             <groupId>edu.uiuc.ncsa.myproxy</groupId>
-            <version>5.3-SNAPSHOT</version>
+            <version>5.3.1</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.cilogon</groupId>
-            <artifactId>cilogon-proxy</artifactId>
+            <artifactId>proxy</artifactId>
+            <version>5.3.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.cilogon</groupId>
+            <artifactId>loader</artifactId>
             <version>5.3-SNAPSHOT</version>
             <scope>test</scope>
         </dependency>

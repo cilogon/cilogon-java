@@ -5,15 +5,15 @@ import edu.uiuc.ncsa.myproxy.oa4mp.server.servlet.AbstractConfigurationLoader;
 import edu.uiuc.ncsa.oa4mp.delegation.common.token.TokenForge;
 import edu.uiuc.ncsa.security.util.TestBase;
 import org.apache.commons.configuration.tree.ConfigurationNode;
+import org.cilogon.oauth2.servlet.storage.archiveUser.ArchivedUserStore;
 import org.cilogon.oauth2.servlet.storage.idp.IdentityProvider;
 import org.cilogon.oauth2.servlet.storage.idp.IdentityProviderStore;
+import org.cilogon.oauth2.servlet.storage.sequence.SerialStrings;
+import org.cilogon.oauth2.servlet.storage.twofactor.TwoFactorStore;
 import org.cilogon.oauth2.servlet.storage.user.User;
 import org.cilogon.oauth2.servlet.storage.user.UserStore;
-import org.cilogon.oauth2.servlet.twofactor.TwoFactorStore;
-import org.cilogon.oauth2.servlet.util.ArchivedUserStore;
 import org.cilogon.oauth2.servlet.util.CILogonSE;
 import org.cilogon.oauth2.servlet.util.Incrementable;
-import org.cilogon.oauth2.servlet.util.SerialStrings;
 
 import static edu.uiuc.ncsa.security.core.util.BasicIdentifier.newID;
 import static test.cilogon.RemoteDBServiceTest.createRU;

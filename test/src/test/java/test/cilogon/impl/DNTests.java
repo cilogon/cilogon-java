@@ -2,13 +2,9 @@ package test.cilogon.impl;
 
 import edu.uiuc.ncsa.security.storage.XMLMap;
 import org.cilogon.oauth2.servlet.StatusCodes;
-import org.cilogon.oauth2.servlet.storage.user.DNState;
-import org.cilogon.oauth2.servlet.storage.user.User;
-import org.cilogon.oauth2.servlet.storage.user.UserStore;
+import org.cilogon.oauth2.servlet.storage.user.*;
 import org.cilogon.oauth2.servlet.util.DBServiceException;
 import org.cilogon.oauth2.servlet.util.DNUtil;
-import org.cilogon.oauth2.servlet.util.UserConverter;
-import org.cilogon.oauth2.servlet.util.UserKeys;
 import org.junit.Test;
 import test.cilogon.RemoteDBServiceTest;
 

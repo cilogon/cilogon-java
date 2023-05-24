@@ -5,7 +5,6 @@ import edu.uiuc.ncsa.qdl.variables.QDLStem;
 import edu.uiuc.ncsa.security.storage.data.MapConverter;
 import net.sf.json.JSONObject;
 import org.cilogon.oauth2.servlet.storage.user.*;
-import org.cilogon.oauth2.servlet.util.UserKeys;
 
 import static edu.uiuc.ncsa.security.core.util.BasicIdentifier.newID;
 
