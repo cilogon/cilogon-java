@@ -21,7 +21,8 @@
     <dependencies>
         <!--
         CIL-1484 KEEP THIS HERE!! Apache commons transactions are required, but
-        loads version 1.2 of the codecs. If this is not the very first dependency, then the
+        loads version 1.2 of the codecs from another dependency.
+        If this is not the very first dependency, then the
         wrong versions are loaded and everything that uses base 64 encoding (like
         all JWT support) breaks completely since the methods needed are not in 1.2.
         -->
@@ -75,26 +76,7 @@
             <version>2.7.3</version>
             <scope>provided</scope>
         </dependency>
-        <!--        <dependency>
-                    <groupId>org.cilogon</groupId>
-                    <artifactId>cilogon-server</artifactId>
-                    <version>5.3-SNAPSHOT</version>
-                </dependency>-->
 
-
-        <!--        <dependency>
-                    <groupId>org.cilogon</groupId>
-                    <artifactId>cilogon-test</artifactId>
-                    <version>5.3-SNAPSHOT</version>
-                </dependency>
-
-                <dependency>
-                    <groupId>org.cilogon</groupId>
-                    <artifactId>cilogon-test</artifactId>
-                    <version>5.3-SNAPSHOT</version>
-                    <type>test-jar</type>
-                    <scope>test</scope>
-                </dependency>-->
         <dependency>
             <groupId>edu.uiuc.ncsa.myproxy</groupId>
             <artifactId>server-test</artifactId>
