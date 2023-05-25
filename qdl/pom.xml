@@ -26,7 +26,12 @@
         </dependency>
 
         <dependency>
-            <artifactId>cilogon-admin</artifactId>
+            <artifactId>admin</artifactId>
+            <groupId>org.cilogon</groupId>
+            <version>5.3-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <artifactId>loader</artifactId>
             <groupId>org.cilogon</groupId>
             <version>5.3-SNAPSHOT</version>
         </dependency>
@@ -35,7 +40,14 @@
             <artifactId>qdl</artifactId>
             <version>5.3-SNAPSHOT</version>
         </dependency>
-
+<!--
+        <dependency>
+            <groupId>org.cilogon</groupId>
+            <artifactId>loader</artifactId>
+            <version>5.3-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+-->
     </dependencies>
     <profiles>
         <profile>

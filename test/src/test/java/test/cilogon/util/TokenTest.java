@@ -4,7 +4,7 @@ import edu.uiuc.ncsa.oa4mp.delegation.common.token.*;
 import edu.uiuc.ncsa.security.core.util.DateUtils;
 import edu.uiuc.ncsa.security.core.util.DoubleHashMap;
 import edu.uiuc.ncsa.security.util.TestBase;
-import org.cilogon.oauth2.servlet.util.SerialStrings;
+import org.cilogon.oauth2.servlet.storage.sequence.SerialStrings;
 import org.junit.Test;
 import test.cilogon.CILTestStoreProviderI2;
 

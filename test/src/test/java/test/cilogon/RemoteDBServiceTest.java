@@ -7,13 +7,12 @@ import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
 import edu.uiuc.ncsa.security.core.util.DateUtils;
 import edu.uiuc.ncsa.security.storage.XMLMap;
 import edu.uiuc.ncsa.security.util.TestBase;
+import org.cilogon.oauth2.servlet.storage.archiveUser.ArchivedUserStore;
 import org.cilogon.oauth2.servlet.storage.idp.IdentityProvider;
 import org.cilogon.oauth2.servlet.storage.idp.IdentityProviderStore;
+import org.cilogon.oauth2.servlet.storage.twofactor.TwoFactorStore;
 import org.cilogon.oauth2.servlet.storage.user.*;
-import org.cilogon.oauth2.servlet.twofactor.TwoFactorStore;
-import org.cilogon.oauth2.servlet.util.ArchivedUserStore;
 import org.cilogon.oauth2.servlet.util.DBServiceClient;
-import org.cilogon.oauth2.servlet.util.UserKeys;
 
 import java.util.Map;
 

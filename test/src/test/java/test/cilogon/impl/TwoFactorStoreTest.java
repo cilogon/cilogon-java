@@ -1,10 +1,10 @@
 package test.cilogon.impl;
 
 import edu.uiuc.ncsa.security.util.TestBase;
+import org.cilogon.oauth2.servlet.storage.twofactor.TwoFactorInfo;
+import org.cilogon.oauth2.servlet.storage.twofactor.TwoFactorStore;
 import org.cilogon.oauth2.servlet.storage.user.User;
 import org.cilogon.oauth2.servlet.storage.user.UserStore;
-import org.cilogon.oauth2.servlet.twofactor.TwoFactorInfo;
-import org.cilogon.oauth2.servlet.twofactor.TwoFactorStore;
 import org.junit.Test;
 import test.cilogon.CILTestStoreProviderI2;
 import test.cilogon.ServiceTestUtils;

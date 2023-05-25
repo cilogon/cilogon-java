@@ -3,8 +3,8 @@ package org.cilogon.qdl.module.storage;
 import edu.uiuc.ncsa.oa2.qdl.storage.StemConverter;
 import edu.uiuc.ncsa.qdl.variables.QDLStem;
 import edu.uiuc.ncsa.security.storage.data.MapConverter;
-import org.cilogon.oauth2.servlet.twofactor.TwoFactorInfo;
-import org.cilogon.oauth2.servlet.twofactor.TwoFactorSerializationKeys;
+import org.cilogon.oauth2.servlet.storage.twofactor.TwoFactorInfo;
+import org.cilogon.oauth2.servlet.storage.twofactor.TwoFactorSerializationKeys;
 
 import static edu.uiuc.ncsa.security.core.util.StringUtils.isTrivial;
 

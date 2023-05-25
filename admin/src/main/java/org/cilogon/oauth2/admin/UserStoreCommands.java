@@ -9,8 +9,8 @@ import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
 import edu.uiuc.ncsa.security.util.cli.BasicSorter;
 import edu.uiuc.ncsa.security.util.cli.InputLine;
 import org.cilogon.oauth2.servlet.storage.user.*;
-import org.cilogon.oauth2.servlet.util.ArchivedUserStore;
 import org.cilogon.oauth2.servlet.util.DNUtil;
+import org.cilogon.oauth2.servlet.storage.archiveUser.ArchivedUserStore;
 
 import java.io.IOException;
 

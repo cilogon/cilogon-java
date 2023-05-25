@@ -3,11 +3,11 @@ package test.cilogon;
 import edu.uiuc.ncsa.myproxy.oa4mp.TestStoreProviderInterface;
 import edu.uiuc.ncsa.oa4mp.delegation.common.token.TokenForge;
 import edu.uiuc.ncsa.security.core.util.ConfigurationLoader;
+import org.cilogon.oauth2.servlet.storage.archiveUser.ArchivedUserStore;
 import org.cilogon.oauth2.servlet.storage.idp.IdentityProviderStore;
+import org.cilogon.oauth2.servlet.storage.twofactor.TwoFactorStore;
 import org.cilogon.oauth2.servlet.storage.user.User;
 import org.cilogon.oauth2.servlet.storage.user.UserStore;
-import org.cilogon.oauth2.servlet.twofactor.TwoFactorStore;
-import org.cilogon.oauth2.servlet.util.ArchivedUserStore;
 import org.cilogon.oauth2.servlet.util.Incrementable;
 
 /**
