@@ -1,7 +1,7 @@
 package org.cilogon.oauth2.servlet.util;
 
-import edu.uiuc.ncsa.oa4mp.delegation.common.storage.ClientApprovalKeys;
-import edu.uiuc.ncsa.oa4mp.delegation.common.storage.ClientKeys;
+import edu.uiuc.ncsa.oa4mp.delegation.common.storage.clients.ClientApprovalKeys;
+import edu.uiuc.ncsa.oa4mp.delegation.common.storage.clients.ClientKeys;
 import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.exceptions.GeneralException;
 import edu.uiuc.ncsa.security.core.exceptions.NFWException;
@@ -21,12 +21,12 @@ import org.cilogon.oauth2.servlet.StatusCodes;
 import org.cilogon.oauth2.servlet.servlet.AbstractDBService;
 import org.cilogon.oauth2.servlet.storage.idp.IDPKeys;
 import org.cilogon.oauth2.servlet.storage.idp.IdentityProvider;
+import org.cilogon.oauth2.servlet.storage.twofactor.TwoFactorInfo;
+import org.cilogon.oauth2.servlet.storage.twofactor.TwoFactorSerializationKeys;
 import org.cilogon.oauth2.servlet.storage.user.PersonName;
 import org.cilogon.oauth2.servlet.storage.user.User;
 import org.cilogon.oauth2.servlet.storage.user.UserKeys;
 import org.cilogon.oauth2.servlet.storage.user.UserMultiID;
-import org.cilogon.oauth2.servlet.storage.twofactor.TwoFactorInfo;
-import org.cilogon.oauth2.servlet.storage.twofactor.TwoFactorSerializationKeys;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;

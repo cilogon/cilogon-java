@@ -1,8 +1,8 @@
 package org.cilogon.oauth2.servlet.util;
 
-import edu.uiuc.ncsa.oa4mp.delegation.common.storage.Client;
-import edu.uiuc.ncsa.oa4mp.delegation.common.storage.ClientApprovalKeys;
-import edu.uiuc.ncsa.oa4mp.delegation.common.storage.ClientKeys;
+import edu.uiuc.ncsa.oa4mp.delegation.common.storage.clients.Client;
+import edu.uiuc.ncsa.oa4mp.delegation.common.storage.clients.ClientApprovalKeys;
+import edu.uiuc.ncsa.oa4mp.delegation.common.storage.clients.ClientKeys;
 import edu.uiuc.ncsa.oa4mp.delegation.server.ServiceTransaction;
 import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.exceptions.GeneralException;
@@ -15,9 +15,9 @@ import org.cilogon.oauth2.servlet.StatusCodes;
 import org.cilogon.oauth2.servlet.servlet.AbstractDBService;
 import org.cilogon.oauth2.servlet.storage.idp.IDPKeys;
 import org.cilogon.oauth2.servlet.storage.idp.IdentityProvider;
-import org.cilogon.oauth2.servlet.storage.user.*;
 import org.cilogon.oauth2.servlet.storage.twofactor.TwoFactorInfo;
 import org.cilogon.oauth2.servlet.storage.twofactor.TwoFactorSerializationKeys;
+import org.cilogon.oauth2.servlet.storage.user.*;
 
 import java.io.*;
 import java.net.URI;

@@ -123,7 +123,7 @@
 
     <servlet>
         <servlet-name>getCert</servlet-name>
-        <servlet-class>org.cilogon.oauth2.servlet.impl.CILOA2CertServlet</servlet-class>
+        <servlet-class>org.cilogon.proxy.servlet.CILOA2CertServlet</servlet-class>
         <load-on-startup>0</load-on-startup>
     </servlet>
     <servlet-mapping>
@@ -134,7 +134,7 @@
 
     <servlet>
         <servlet-name>clientVetting</servlet-name>
-        <servlet-class>edu.uiuc.ncsa.myproxy.oa4mp.oauth2.servlet.OA2RegistrationServlet</servlet-class>
+        <servlet-class>org.cilogon.oauth2.servlet.servlet.CILOA2RegistrationServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>

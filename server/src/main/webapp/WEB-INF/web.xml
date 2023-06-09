@@ -123,7 +123,7 @@
 
     <servlet>
         <servlet-name>getCert</servlet-name>
-        <servlet-class>org.cilogon.oauth2.servlet.impl.CILOA2CertServlet</servlet-class>
+        <servlet-class>org.cilogon.proxy.servlet.CILOA2CertServlet</servlet-class>
         <load-on-startup>0</load-on-startup>
     </servlet>
     <servlet-mapping>

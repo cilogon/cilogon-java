@@ -8,8 +8,8 @@ import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.transactions.OA2ServiceTransac
 import edu.uiuc.ncsa.myproxy.oa4mp.server.admin.transactions.DSTransactionProvider;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.admin.transactions.OA4MPIdentifierProvider;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.storage.MultiDSClientStoreProvider;
-import edu.uiuc.ncsa.oa4mp.delegation.common.storage.Client;
 import edu.uiuc.ncsa.oa4mp.delegation.common.storage.TransactionStore;
+import edu.uiuc.ncsa.oa4mp.delegation.common.storage.clients.Client;
 import edu.uiuc.ncsa.oa4mp.delegation.common.token.TokenForge;
 import edu.uiuc.ncsa.oa4mp.delegation.oa2.server.claims.ClaimSource;
 import edu.uiuc.ncsa.oa4mp.delegation.oa2.server.claims.ClaimSourceConfiguration;
@@ -34,11 +34,13 @@ import org.cilogon.oauth2.servlet.storage.transaction.CILOA2ServiceTransaction;
 import org.cilogon.oauth2.servlet.storage.transaction.CILOA2TransactionConverter;
 import org.cilogon.oauth2.servlet.storage.transaction.CILOA2TransactionKeys;
 import org.cilogon.oauth2.servlet.storage.transaction.CILOA2TransactionstoreProvider;
-import org.cilogon.oauth2.servlet.storage.user.User;
-import org.cilogon.oauth2.servlet.storage.user.UserStore;
 import org.cilogon.oauth2.servlet.storage.twofactor.TwoFactorInfo;
 import org.cilogon.oauth2.servlet.storage.twofactor.TwoFactorStore;
-import org.cilogon.oauth2.servlet.util.*;
+import org.cilogon.oauth2.servlet.storage.user.User;
+import org.cilogon.oauth2.servlet.storage.user.UserStore;
+import org.cilogon.oauth2.servlet.util.CILogonConfiguration;
+import org.cilogon.oauth2.servlet.util.CILogonConstants;
+import org.cilogon.oauth2.servlet.util.Incrementable;
 
 import javax.inject.Provider;
 import java.util.List;

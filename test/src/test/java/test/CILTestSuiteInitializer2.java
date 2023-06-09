@@ -5,8 +5,8 @@ import edu.uiuc.ncsa.myproxy.oa4mp.server.admin.adminClient.AdminClientStoreProv
 import edu.uiuc.ncsa.myproxy.oa4mp.server.admin.things.SATFactory;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.servlet.AbstractBootstrapper;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.servlet.AbstractConfigurationLoader;
-import edu.uiuc.ncsa.oa4mp.delegation.common.storage.Client;
-import edu.uiuc.ncsa.oa4mp.delegation.common.storage.impl.ClientConverter;
+import edu.uiuc.ncsa.oa4mp.delegation.common.storage.clients.Client;
+import edu.uiuc.ncsa.oa4mp.delegation.common.storage.clients.ClientConverter;
 import test.cilogon.RemoteDBServiceTest;
 import test.cilogon.ServiceTestUtils;
 
