@@ -52,7 +52,6 @@ public class UserClaimSource extends BasicClaimsSourceImpl implements OA2Scopes 
     String SUBJECT_ID = "subject_id";
     String OU = "ou";
     String AFFILIATION = "affiliation";
-    String AUTHENTICATION_CONTEXT_CLASS_REFERENCE = "acr";
     String CERT_SUBJECT_DN = "cert_subject_dn";
      String AUTHENTICATION_CLASS_REFERENCE = "acr";
      String AUTHENTICATION_METHOD_REFERENCE  = "amr";

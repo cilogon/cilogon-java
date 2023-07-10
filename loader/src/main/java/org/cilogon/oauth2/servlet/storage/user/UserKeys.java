@@ -170,7 +170,6 @@ public class UserKeys extends MonitoredKeys {
         allKeys.add(serialString());
         allKeys.add(state());
         allKeys.add(subjectId());
-        allKeys.add(userID());
         allKeys.add(useUSinDN());
         return allKeys;
     }
