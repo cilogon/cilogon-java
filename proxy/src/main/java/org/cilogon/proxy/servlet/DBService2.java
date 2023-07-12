@@ -87,7 +87,7 @@ public class DBService2 extends AbstractDBService {
 
     @Override
     protected void doAction(HttpServletRequest request, HttpServletResponse response, String action) throws IOException, ServletException {
-        printAllParameters(request);
+     //   printAllParameters(request);
         ServletDebugUtil.trace(this, "action = " + action);
         switch (lookupCase(action)) {
             case GET_CLIENT_CASE:
@@ -374,7 +374,7 @@ public class DBService2 extends AbstractDBService {
     protected void createTransaction(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         ServletDebugUtil.trace(this, "createTransaction: ******** NEW CALL ******** ");
         ServletDebugUtil.trace(this, "createTransaction: printing request ");
-        ServletDebugUtil.printAllParameters(this.getClass(), req);
+        // Fixed https://github.com/cilogon/cilogon-java/issues/38 removed print statement
         CILOA2AuthorizedServletUtil initUtil = new CILOA2AuthorizedServletUtil(this);
         /* This next call checks that there is a client id supplied and throws an
                UnknownClientException

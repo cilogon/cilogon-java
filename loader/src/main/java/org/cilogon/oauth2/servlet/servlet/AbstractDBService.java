@@ -353,7 +353,8 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
 
 
     protected void getUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        printAllParameters(request);
+        // Fix https://github.com/cilogon/cilogon-java/issues/38
+    //    printAllParameters(request);
         ServletDebugUtil.trace(this, "starting get user");
         String useruidString = getParam(request, userKeys.identifier(), true);
         ServletDebugUtil.trace(this, "useruidString = " + useruidString);
