@@ -20,9 +20,6 @@ import java.io.IOException;
  */
 public class UserStoreCommands extends StoreCommands2 {
 
-    @Override
-    public void extraUpdates(Identifiable identifiable) {
-    }
 
     public UserStoreCommands(MyLoggingFacade logger, String defaultIndent, Store userStore, ArchivedUserStore archivedUserStore) throws Throwable {
         super(logger, defaultIndent, userStore);

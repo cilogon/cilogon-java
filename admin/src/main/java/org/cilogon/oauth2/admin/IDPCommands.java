@@ -14,9 +14,6 @@ import java.io.IOException;
  * on 11/4/13 at  3:54 PM
  */
 public class IDPCommands extends StoreCommands2 {
-    @Override
-    public void extraUpdates(Identifiable identifiable) {
-    }
 
     public IDPCommands(MyLoggingFacade logger, String defaultIndent, Store store) throws Throwable {
         super(logger, defaultIndent, store);

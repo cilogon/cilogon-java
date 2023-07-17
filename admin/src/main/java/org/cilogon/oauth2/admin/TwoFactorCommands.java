@@ -16,9 +16,7 @@ import java.io.IOException;
  * on 11/6/13 at  1:40 PM
  */
 public class TwoFactorCommands extends StoreCommands2 {
-    @Override
-    public void extraUpdates(Identifiable identifiable) {
-    }
+
 
     public TwoFactorCommands(MyLoggingFacade logger, String defaultIndent, Store store) throws Throwable{
         super(logger, defaultIndent, store);

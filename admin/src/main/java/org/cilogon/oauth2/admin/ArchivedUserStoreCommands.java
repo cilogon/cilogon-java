@@ -25,9 +25,6 @@ public class ArchivedUserStoreCommands extends StoreCommands2 {
 
     public static final String USER_FLAG = "u";
 
-    @Override
-    public void extraUpdates(Identifiable identifiable) {
-    }
 
     public ArchivedUserStoreCommands(MyLoggingFacade logger, String defaultIndent, ArchivedUserStore archivedUserStore, UserStore userStore) throws Throwable{
         super(logger, defaultIndent, archivedUserStore);
@@ -282,11 +279,11 @@ public class ArchivedUserStoreCommands extends StoreCommands2 {
 
     }
 
-    @Override
+/*    @Override
     protected void create() {
         info("Attempt to create a new archived user. This was rejected because it is not supported in the CLI.");
         sayi("Sorry but you cannot create an archived user this way. Switch to using \"users\"");
         sayi("and then archive a specific user. Archived users only exist in reference to a given user");
-    }
+    }*/
 
 }
