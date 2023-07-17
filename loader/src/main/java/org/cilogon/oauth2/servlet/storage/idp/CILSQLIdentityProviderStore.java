@@ -125,7 +125,9 @@ public class CILSQLIdentityProviderStore extends SQLStore<IdentityProvider> impl
             PreparedStatement stmt = c.prepareStatement(getIdpTable().createInsertStatement());
             for (IdentityProvider idp : idps) {
                 try {
-                    stmt.setString(1, idp.getIdentifierString());
+                    for (int i = 1; i <= getIdpTable().getColumnDescriptor().size(); i++) {
+                        stmt.setString(i, idp.getIdentifierString()); // Set everything to the IDP id by default.
+                    }
                     stmt.execute();
                 } catch (SQLException e) {
 
