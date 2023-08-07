@@ -73,7 +73,7 @@
         <dependency>
             <groupId>edu.uiuc.ncsa.myproxy</groupId>
             <artifactId>server-admin</artifactId>
-            <version>5.3.4</version>
+            <version>5.3.5</version>
         </dependency>         <dependency>
                     <groupId>org.cilogon</groupId>
                     <artifactId>loader</artifactId>

@@ -48,12 +48,12 @@
         <dependency>
             <groupId>edu.uiuc.ncsa.myproxy</groupId>
             <artifactId>client-api</artifactId>
-            <version>5.3.4</version>
+            <version>5.3.5</version>
         </dependency>
         <dependency>
             <groupId>edu.uiuc.ncsa.myproxy</groupId>
             <artifactId>client-oauth2</artifactId>
-            <version>5.3.4</version>
+            <version>5.3.5</version>
             <type>war</type>
             <scope>runtime</scope>
         </dependency>
@@ -66,12 +66,12 @@
         <dependency>
             <groupId>edu.uiuc.ncsa.myproxy</groupId>
             <artifactId>client-loader</artifactId>
-            <version>5.3.4</version>
+            <version>5.3.5</version>
         </dependency>
         <dependency>
             <groupId>edu.uiuc.ncsa.myproxy</groupId>
             <artifactId>common</artifactId>
-            <version>5.3.4</version>
+            <version>5.3.5</version>
         </dependency>
         <dependency>
             <artifactId>util</artifactId>
@@ -83,7 +83,7 @@
         <dependency>
             <artifactId>common</artifactId>
             <groupId>edu.uiuc.ncsa.myproxy</groupId>
-            <version>5.3.4</version>
+            <version>5.3.5</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
