@@ -2,11 +2,10 @@ package org.cilogon.oauth2.admin;
 
 import edu.uiuc.ncsa.myproxy.oauth2.base.StoreCommands2;
 import edu.uiuc.ncsa.security.core.Identifiable;
-import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.Store;
-import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
 import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
 import org.cilogon.oauth2.servlet.storage.twofactor.TwoFactorInfo;
+import org.cilogon.oauth2.servlet.storage.twofactor.TwoFactorSerializationKeys;
 import org.cilogon.oauth2.servlet.storage.twofactor.TwoFactorStore;
 
 import java.io.IOException;
@@ -42,6 +41,25 @@ public class TwoFactorCommands extends StoreCommands2 {
     }
 
     @Override
+    public void extraUpdates(Identifiable identifiable, int magicNumber) throws IOException {
+        super.extraUpdates(identifiable, magicNumber);
+        TwoFactorInfo tfi = (TwoFactorInfo) identifiable;
+        TwoFactorSerializationKeys keys = (TwoFactorSerializationKeys) getSerializationKeys();
+        String defaultInfo = tfi.getInfo();
+        if (!isEmpty(defaultInfo)){
+            int len = Math.min(25, defaultInfo.length());
+            defaultInfo = defaultInfo.substring(0, len) + (defaultInfo.length() == len ? "" : "...");
+        }
+
+        String newInfo = getPropertyHelp(keys.info(), "Enter new info", defaultInfo);
+        if (!newInfo.equals(defaultInfo)) {
+            tfi.setInfo(newInfo);
+        }
+
+    }
+
+/*
+    @Override
     public boolean update(Identifiable identifiable) throws IOException {
         boolean saveIt = false;
         TwoFactorInfo tfi = (TwoFactorInfo) identifiable;
@@ -76,6 +94,7 @@ public class TwoFactorCommands extends StoreCommands2 {
         }
         return saveIt;
     }
+*/
 
 
 }

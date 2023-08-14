@@ -4,10 +4,7 @@ import edu.uiuc.ncsa.myproxy.oauth2.base.StoreCommands2;
 import edu.uiuc.ncsa.security.core.Identifiable;
 import edu.uiuc.ncsa.security.core.Store;
 import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
-import org.cilogon.oauth2.servlet.storage.idp.IdentityProvider;
 import org.cilogon.oauth2.servlet.storage.idp.IdentityProviderStore;
-
-import java.io.IOException;
 
 /**
  * <p>Created by Jeff Gaynor<br>
@@ -37,12 +34,12 @@ public class IDPCommands extends StoreCommands2 {
         return "  idp";
     }
 
-    @Override
+/*    @Override
     public boolean update(Identifiable identifiable) throws IOException {
         info("Updating IDP =" + identifiable.getIdentifierString());
         getIDPStore().save(new IdentityProvider(identifiable.getIdentifier()));
         return isOk(readline("save changes [y/n]?"));
-    }
+    }*/
 
     @Override
     public void bootstrap() throws Throwable {

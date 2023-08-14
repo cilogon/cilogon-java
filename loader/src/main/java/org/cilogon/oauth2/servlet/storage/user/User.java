@@ -183,7 +183,7 @@ public class User extends Monitored {
         this.useUSinDN = useUSinDN;
     }
 
-    boolean useUSinDN = false;
+    boolean useUSinDN = true;
 
     public String getSerialString() {
         if (serialString == null) {

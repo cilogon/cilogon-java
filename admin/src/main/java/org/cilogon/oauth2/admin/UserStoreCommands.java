@@ -8,9 +8,9 @@ import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
 import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
 import edu.uiuc.ncsa.security.util.cli.BasicSorter;
 import edu.uiuc.ncsa.security.util.cli.InputLine;
+import org.cilogon.oauth2.servlet.storage.archiveUser.ArchivedUserStore;
 import org.cilogon.oauth2.servlet.storage.user.*;
 import org.cilogon.oauth2.servlet.util.DNUtil;
-import org.cilogon.oauth2.servlet.storage.archiveUser.ArchivedUserStore;
 
 import java.io.IOException;
 
@@ -44,6 +44,11 @@ public class UserStoreCommands extends StoreCommands2 {
 
     public void setArchivedUserStore(ArchivedUserStore archivedUserStore) {
         this.archivedUserStore = archivedUserStore;
+    }
+
+    @Override
+    protected User createEntry(int magicNumber) {
+        return getUserStore().create(true); // create a user with a new identifier.
     }
 
     @Override
@@ -94,6 +99,38 @@ public class UserStoreCommands extends StoreCommands2 {
         sayi("New archived user id=" + newID);
     }
 
+    @Override
+    public void extraUpdates(Identifiable identifiable, int magicNumber) throws IOException {
+        super.extraUpdates(identifiable, magicNumber);
+        User user = (User) identifiable;
+        UserKeys keys = (UserKeys) getSerializationKeys();
+        user.setFirstName(getPropertyHelp(keys.firstName(), "first name", user.getFirstName()));
+        user.setLastName(getPropertyHelp(keys.lastName(), "last name", user.getLastName()));
+        user.setUseUSinDN(getPropertyHelp(keys.useUSinDN(), "is IDP in US (y/n)?", "y").equalsIgnoreCase("y"));
+
+        // have to get the next items so that the values are created if possible
+        getRemoteUser(user);
+        getEPPN(user);
+        getEPTID(user);
+        getOpenID(user);
+        getOpenIDConnect(user);
+
+        user.setIdP(getPropertyHelp(keys.idp(), "idp", user.getIdP()));
+        user.setEmail(getPropertyHelp(keys.email(), "email", user.getEmail()));
+        user.setIDPName(getPropertyHelp(keys.idpDisplayName(), "idp name", user.getIDPName()));
+        user.setAffiliation(getPropertyHelp(keys.affiliation(), "affiliation", user.getAffiliation()));
+        user.setOrganizationalUnit(getPropertyHelp(keys.organizationalUnit(), "organizational unit", user.getOrganizationalUnit()));
+        user.setDisplayName(getPropertyHelp(keys.displayName(), "user's display name", user.getDisplayName()));
+        sayi("Current serial identifier is \"" + user.getSerialIdentifier() + "\"");
+        if (getPropertyHelp(keys.serialString(), "Manually set new serial identifier [y/n]?", "n").equalsIgnoreCase("y")) {
+            String sid = getPropertyHelp(keys.serialString(), "  enter new serial string", user.getSerialIdentifier().toString());
+            if (sid != null) {
+                user.setSerialIdentifier(BasicIdentifier.newID(sid));
+            }
+        }
+    }
+
+/*
     @Override
     public boolean update(Identifiable identifiable) throws IOException {
         User user = (User) identifiable;
@@ -148,6 +185,7 @@ public class UserStoreCommands extends StoreCommands2 {
             throw t;
         }
     }
+*/
 
     protected String getPersonPrompt(String prompt, PersonName person) throws IOException {
         String temp;
