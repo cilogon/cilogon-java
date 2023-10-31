@@ -400,7 +400,6 @@ public class DBService2 extends AbstractDBService {
             if (-1 != values.indexOf(",")) {
                 doError("No scopes found.", STATUS_MALFORMED_SCOPE, resp);
             }
-
         }
 
         Identifier client_id = null;
