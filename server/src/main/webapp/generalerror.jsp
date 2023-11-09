@@ -1,4 +1,3 @@
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page isErrorPage="true" %>
 <%@ page import="java.io.*" %>
@@ -8,6 +7,7 @@
 <%@ page import="javax.mail.internet.*" %>
 <%@ page import="javax.activation.*" %>
 <%@ page import="edu.uiuc.ncsa.security.core.util.HostUtil" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 
 <%--
     By Terry Fleury. This sends email notifications on its own and if set as an error
@@ -25,7 +25,7 @@
         props.put("mail.transport.protocol","smtp");
         Session mailSession = Session.getDefaultInstance(props,null);
         mailSession.setDebug(false); // Do not echo debug info
-         
+
         try {
             Message msg = new MimeMessage(mailSession);
             InternetAddress[] address = {new InternetAddress(mailto)};
@@ -49,28 +49,27 @@
 <body>
 <%
     ErrorData ed = null;
+    String er = "";
     if (pageContext != null) {
         try {
             ed = pageContext.getErrorData();
         } catch (NullPointerException e) {
             // If the error page was accessed directly, a NullPointerException
-            // is thrown at (PageContext.java:514). So catch it and ignore it. 
+            // is thrown at (PageContext.java:514). So catch it and ignore it.
             // It effectively means we can't use the ErrorData.
         }
     }
 
     if (ed != null) {
         String remoteAddr = request.getRemoteAddr();
-        String er = "Error Report - " + application.getServerInfo() + "\n";
-        er       += "------------\n";
+        er += "Error Report - " + application.getServerInfo() + "\n";
+        er += "------------\n";
         er += "Error  : " + ed.getStatusCode() + "\n";
         er += "Host   : " + request.getServerName() + "\n";
         er += "Client : " + remoteAddr + "\n";
         try {
-            //InetAddress inet = InetAddress.getByName(remoteAddr);
             String inet = HostUtil.reverseLookup(remoteAddr);
             if (inet != null) {
-                //er += "Rev DNS: " + inet.getHostName() + "\n";
                 er += "Rev DNS: " + inet + "\n";
             }else{
                 er += "Rev DNS: (unknown)\n";
@@ -116,14 +115,12 @@
 
         sendEmail(er,request.getServerName());
 
-        out.println("<pre>");
-        out.println(er);
-        out.println("The error has been reported to system administrators.");
-        out.println("</pre>");
-    } else {
-        out.println("<p>No information about this error was available.</p>");
+        er += "The error has been reported to system administrators.";
+        request.setAttribute("er", er);
     }
 %>
+
+<pre><c:out value="${er}" default="No information about this error was available."/></pre>
 
 </body>
 </html>
