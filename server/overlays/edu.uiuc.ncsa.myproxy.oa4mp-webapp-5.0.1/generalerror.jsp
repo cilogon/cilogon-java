@@ -7,7 +7,7 @@
 <%@ page import="javax.mail.internet.*" %>
 <%@ page import="javax.activation.*" %>
 <%@ page import="edu.uiuc.ncsa.security.core.util.HostUtil" %>
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%--
     By Terry Fleury. This sends email notifications on its own and if set as an error
@@ -50,6 +50,7 @@
 <%
     ErrorData ed = null;
     String er = "";
+    String erout = "";
     if (pageContext != null) {
         try {
             ed = pageContext.getErrorData();
@@ -65,6 +66,7 @@
         er += "Error Report - " + application.getServerInfo() + "\n";
         er += "------------\n";
         er += "Error  : " + ed.getStatusCode() + "\n";
+        erout += "Error  : " + ed.getStatusCode() + "\n";
         er += "Host   : " + request.getServerName() + "\n";
         er += "Client : " + remoteAddr + "\n";
         try {
@@ -115,12 +117,12 @@
 
         sendEmail(er,request.getServerName());
 
-        er += "The error has been reported to system administrators.";
-        request.setAttribute("er", er);
+        erout += "The error has been reported to system administrators.";
+        request.setAttribute("erout", erout);
     }
 %>
 
-<pre><c:out value="${er}" default="No information about this error was available."/></pre>
+<pre><c:out value="${erout}" default="No information about this error was available."/></pre>
 
 </body>
 </html>
