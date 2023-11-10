@@ -46,6 +46,7 @@
         <profile>
             <id>qdl</id>
             <build>
+                <finalName>cil-qdl</finalName>
                 <plugins>
                     <plugin>
                         <artifactId>maven-assembly-plugin</artifactId>
@@ -69,7 +70,6 @@
                             <descriptorRefs>
                                 <descriptorRef>jar-with-dependencies</descriptorRef>
                             </descriptorRefs>
-                            <finalName>cil-qdl</finalName>
 
                         </configuration>
                         <executions>

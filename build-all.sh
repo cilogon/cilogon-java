@@ -1,6 +1,6 @@
 # Top-level build script for everything. This build NCSA, QDL, OA4MP then CILogon.
 
-CILOGON_OA2_DEPLOY=$NCSA_DEV_OUTPUT/cilogon-oa2
+CILOGON_OA2_DEPLOY=$NCSA_DEV_OUTPUT/cilogon
 
 echo "cleaning out old deploy in " $NCSA_DEV_OUTPUT
 if [ -d "$CILOGON_OA2_DEPLOY" ]
