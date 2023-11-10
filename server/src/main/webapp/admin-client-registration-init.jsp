@@ -1,6 +1,7 @@
 <!doctype html>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <html lang="en">
 <head>
@@ -50,7 +51,7 @@
                 Name</label>
             <div class="col-sm-10">
                 <input type="text" class="form-control" id="inputClientName"
-                       name="${clientName}" value="${clientNameValue}" required
+                       name="${clientName}" value="${fn:escapeXml(clientNameValue)}" required
                        aria-describedBy="clientNameHelp"
                        placeholder="Name of your admin client"/>
                 <small id="clientNameHelp" class="form-text text-muted">The Client
@@ -64,7 +65,7 @@
                 Email</label>
             <div class="col-sm-10">
                 <input type="email" class="form-control" id="inputContactEmail"
-                       name="${clientEmail}" value="${clientEmailValue}" required
+                       name="${clientEmail}" value="${fn:escapeXml(clientEmailValue)}" required
                        aria-describedBy="contactEmailHelp"
                        placeholder="Your official university/organization email address"/>
                 <small id="contactEmailHelp" class="form-text text-muted">This
@@ -82,7 +83,7 @@
             <label for="inputIssuer" class="col-sm-2 col-form-label">Issuer</label>
             <div class="col-sm-10">
                 <input type="url" class="form-control" id="inputIssuer"
-                       name="${issuer}" value="${issuerValue}"
+                       name="${issuer}" value="${fn:escapeXml(issuerValue)}"
                        aria-describedBy="issuerHelp"
                        placeholder="(Optional) The issuser (iss) for the response"/>
                 <small id="issuerHelp" class="form-text text-muted">Leave

@@ -1,6 +1,7 @@
 <!doctype html>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <html lang="en">
 <head>
@@ -51,7 +52,7 @@
                 Name</label>
             <div class="col-sm-10">
                 <input type="text" class="form-control" id="inputClientName"
-                       name="${clientName}" value="${clientNameValue}" required
+                       name="${clientName}" value="${fn:escapeXml(clientNameValue)}" required
                        aria-describedBy="clientNameHelp"
                        placeholder="Name of your OIDC/OAuth 2.0 client"/>
                 <small id="clientNameHelp" class="form-text text-muted">The Client
@@ -66,7 +67,7 @@
                 Email</label>
             <div class="col-sm-10">
                 <input type="email" class="form-control" id="inputContactEmail"
-                       name="${clientEmail}" value="${clientEmailValue}" required
+                       name="${clientEmail}" value="${fn:escapeXml(clientEmailValue)}" required
                        aria-describedBy="contactEmailHelp"
                        placeholder="Your official university/organization email address"/>
                 <small id="contactEmailHelp" class="form-text text-muted">This
@@ -82,7 +83,7 @@
                 URL</label>
             <div class="col-sm-10">
                 <input type="url" class="form-control" id="inputHomeURL"
-                       name="${clientHomeUrl}" value="${clientHomeUrlValue}" required
+                       name="${clientHomeUrl}" value="${fn:esacpeXml(clientHomeUrlValue)}" required
                        aria-describedBy="homeURLHelp"
                        placeholder="URL of your project's home page"/>
                 <small id="homeURLHelp" class="form-text text-muted">The Home URL
@@ -101,7 +102,7 @@
 "Enter your callback URLs, one per line. The redirect_uri parameter must exactly match a URL in this list.
 Callback URLs must use domain names associated with or registered to your institution/project.
 For internal development/testing, we recommend using localhost or a private IP address (e.g., 192.168.0.1) in the callback URL.
-URLs with localhost or private IP addresses may use 'http://'. All other URLs must use 'https://'.">${callbackURIValue}</textarea>
+URLs with localhost or private IP addresses may use 'http://'. All other URLs must use 'https://'.">${fn:escapeXml(callbackURIValue)}</textarea>
             </div>
         </div>
 
@@ -182,7 +183,7 @@ URLs with localhost or private IP addresses may use 'http://'. All other URLs mu
                 </div>
                 <div id="lifetimeinput" class="collapse form-check-inline">
                     <input type="number" class="form-control" id="inputRtLifetime"
-                           name="${rtLifetime}" value="${rtLifetimeValue}"
+                           name="${rtLifetime}" value="${fn:escapeXml(rtLifetimeValue)}"
                            placeholder="Lifetime in seconds"/>
                 </div>
             </div>
