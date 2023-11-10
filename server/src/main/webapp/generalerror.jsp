@@ -7,7 +7,7 @@
 <%@ page import="javax.mail.internet.*" %>
 <%@ page import="javax.activation.*" %>
 <%@ page import="edu.uiuc.ncsa.security.core.util.HostUtil" %>
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%--
     By Terry Fleury. This sends email notifications on its own and if set as an error
