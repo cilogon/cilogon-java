@@ -18,21 +18,20 @@ if [ ! -d "$CILOGON_OA2_DEPLOY" ]
   then
     mkdir "$CILOGON_OA2_DEPLOY"
   else
-    echo "$CILOGON_OA2_DEPLOY exists, cleaning..."
+    echo "  deploy target directory exists, cleaning..."
     cd "$CILOGON_OA2_DEPLOY"
     rm -Rf *
 fi
 
 cd $CILOGON_ROOT
-echo "building from sources..."
+echo "building CILogon"
 mvn clean install > maven.log
 
 if [[ $? -ne 0 ]] ; then
     echo "CILogon maven build failed, exiting..."
     exit 1
 fi
-echo "done!"
-echo "building tools..."
+echo "building CILogon tools"
 
 
 cd $CILOGON_OA2_TOOLS
@@ -42,6 +41,7 @@ if [[ $? -ne 0 ]] ; then
     echo "CILogon maven build for CLI failed, exiting..."
     exit 1
 fi
+echo "deploying CILogon tools"
 cp "$CILOGON_OA2_TOOLS/target/cilogon-oa2-cli-jar-with-dependencies.jar" $CILOGON_OA2_DEPLOY/cilogon-oa2-cli.jar
 cp $CILOGON_ROOT/server/target/oauth2.war $CILOGON_OA2_DEPLOY/
 cp $CILOGON_ROOT/client/target/cilogon-oa2-client.war $CILOGON_OA2_DEPLOY/
@@ -61,7 +61,7 @@ if [[ $? -ne 0 ]]
 fi
 
 cp target/cil-qdl-jar-with-dependencies.jar $CILOGON_OA2_DEPLOY/qdl.jar
-echo "done!"
+echo "     ... done!"
 #cd target
 #cp cil-qdl-jar-with-dependencies.jar $CILOGON_OA2_DEPLOY/cil-qdl.jar
 #

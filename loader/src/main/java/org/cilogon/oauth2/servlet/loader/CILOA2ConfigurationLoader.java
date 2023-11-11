@@ -208,6 +208,7 @@ public class CILOA2ConfigurationLoader<C extends OA2SE> extends OA2Configuration
                     isQdlStrictACLS(),
                     isSafeGC(),
                     isCleanupLockingEnabled(),
+                    getCleanupFailOnErrors(),
                     getRFC8628ServletConfig(),
                     isRFC8628Enabled(),
                     isprintTSInDebug(),
