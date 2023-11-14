@@ -5,7 +5,7 @@
     <parent>
         <artifactId>cilogon</artifactId>
         <groupId>org.cilogon</groupId>
-        <version>5.3-SNAPSHOT</version>
+        <version>5.4.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -22,23 +22,23 @@
         <dependency>
             <groupId>edu.uiuc.ncsa.qdl</groupId>
             <artifactId>language</artifactId>
-            <version>1.5-QDL-SNAPSHOT</version>
+            <version>1.5.4.1</version>
         </dependency>
 
         <dependency>
             <artifactId>admin</artifactId>
             <groupId>org.cilogon</groupId>
-            <version>5.3-SNAPSHOT</version>
+            <version>5.4.1</version>
         </dependency>
         <dependency>
             <artifactId>loader</artifactId>
             <groupId>org.cilogon</groupId>
-            <version>5.3-SNAPSHOT</version>
+            <version>5.4.1</version>
         </dependency>
         <dependency>
             <groupId>edu.uiuc.ncsa.myproxy</groupId>
             <artifactId>qdl</artifactId>
-            <version>5.3-SNAPSHOT</version>
+            <version>5.4.1</version>
         </dependency>
 
     </dependencies>
