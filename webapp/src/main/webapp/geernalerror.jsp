@@ -1,6 +1,5 @@
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page session="false" %>
 
 <%@ page isErrorPage="true" %>
 <%@ page import="java.io.*" %>
