@@ -26,8 +26,9 @@ public class UserFileStore extends MonitoredFileStore<User> implements UserStore
 
     Incrementable incrementable;
 
-    public UserFileStore(File file, UserProvider up, MapConverter converter, boolean removeEmptyFiles) {
-        super(file, up, converter, removeEmptyFiles);
+    public UserFileStore(File file, UserProvider up, MapConverter converter,
+                         boolean removeEmptyFiles, boolean removeFailedFiles) {
+        super(file, up, converter, removeEmptyFiles, removeFailedFiles);
     }
 
     protected UserProvider getUP() {
@@ -41,8 +42,9 @@ public class UserFileStore extends MonitoredFileStore<User> implements UserStore
                          IdentifiableProviderImpl<User> up,
                          MapConverter converter,
                          boolean removeEmptyFiles,
-                         Incrementable incrementable) {
-        super(storeDirectory, indexDirectory, up, converter, removeEmptyFiles);
+                         Incrementable incrementable,
+                         boolean removeFailedFiles) {
+        super(storeDirectory, indexDirectory, up, converter, removeEmptyFiles, removeFailedFiles);
         this.incrementable = incrementable;
     }
 

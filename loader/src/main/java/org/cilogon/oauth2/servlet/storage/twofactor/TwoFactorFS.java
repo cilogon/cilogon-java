@@ -13,16 +13,18 @@ import java.util.List;
  */
 public class TwoFactorFS extends FileStore<TwoFactorInfo> implements TwoFactorStore{
 
-    public TwoFactorFS(File file, IdentifiableProvider<TwoFactorInfo> idp, MapConverter<TwoFactorInfo> cp, boolean removeEmptyFiles) {
-        super(file, idp, cp, removeEmptyFiles);
+    public TwoFactorFS(File file, IdentifiableProvider<TwoFactorInfo> idp, MapConverter<TwoFactorInfo> cp,
+                       boolean removeEmptyFiles, boolean removeFailedFiles) {
+        super(file, idp, cp, removeEmptyFiles, removeFailedFiles);
     }
 
     protected TwoFactorFS(File storeDirectory,
                           File indexDirectory,
                           IdentifiableProvider<TwoFactorInfo> identifiableProvider,
                           MapConverter<TwoFactorInfo> twoFactorInfoMapConverter,
-                          boolean removeEmptyFiles) {
-        super(storeDirectory, indexDirectory, identifiableProvider, twoFactorInfoMapConverter, removeEmptyFiles);
+                          boolean removeEmptyFiles,
+                          boolean removeFailedFiles) {
+        super(storeDirectory, indexDirectory, identifiableProvider, twoFactorInfoMapConverter, removeEmptyFiles, removeFailedFiles);
     }
     @Override
     public List<TwoFactorInfo> getMostRecent(int n, List<String> attributes) {

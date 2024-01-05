@@ -14,16 +14,19 @@ import java.util.List;
  * on 3/8/12 at  5:17 PM
  */
 public class IDPFileStore extends FileStore<IdentityProvider> implements IdentityProviderStore {
-    public IDPFileStore(File file, IdentifiableProvider<IdentityProvider> idpp, IDPConverter converter, boolean removeEmptyFiles) {
-        super(file, idpp, converter, removeEmptyFiles);
+    public IDPFileStore(File file, IdentifiableProvider<IdentityProvider> idpp, IDPConverter converter,
+                        boolean removeEmptyFiles,
+                        boolean removeFailedFiles) {
+        super(file, idpp, converter, removeEmptyFiles, removeFailedFiles);
     }
 
     public IDPFileStore(File storeDirectory,
                         File indexDirectory,
                         IdentifiableProvider<IdentityProvider> idpp,
                         MapConverter converter,
-                        boolean removeEmptyFiles) {
-        super(storeDirectory, indexDirectory, idpp, converter, removeEmptyFiles);
+                        boolean removeEmptyFiles,
+                        boolean removeFailedFiles) {
+        super(storeDirectory, indexDirectory, idpp, converter, removeEmptyFiles, removeFailedFiles);
     }
 
     @Override

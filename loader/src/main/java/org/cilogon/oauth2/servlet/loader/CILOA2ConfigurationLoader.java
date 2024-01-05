@@ -170,6 +170,7 @@ public class CILOA2ConfigurationLoader<C extends OA2SE> extends OA2Configuration
                     getMaxIDTokenLifetime(),
                     getMaxATLifetime(),
                     getATLifetime(),
+                    getRTLifetime(),
                     getMaxRTLifetime(),
                     getClientApprovalStoreProvider(),
                     getMyProxyFacadeProvider(),
@@ -272,45 +273,7 @@ public class CILOA2ConfigurationLoader<C extends OA2SE> extends OA2Configuration
         return computeFNAL;
     }
 
-    /*
-       protected OA2QDLEnvironment getQDLEnvironment() {
-        List<ConfigurationNode> kids = cn.getChildren(QDLConfigurationConstants.CONFIG_TAG_NAME);
-        ConfigurationNode node = null;
-        if (kids.size() == 1) {
-            node = kids.get(0);
-            String x = getFirstAttribute(node, QDLConfigurationConstants.CONFG_ATTR_NAME);
-            if (!getQdlConfigurationName().equals(x)) {
-                DebugUtil.trace(this, "note that a default QDL configuration of " + getQdlConfigurationName() +
-                        " was specified, but the actual name of the only configuration was \"" + "\", which was loaded.");
-            }
-        } else {
-            // hunt for the default named node.
-            for (ConfigurationNode tempNode : kids) {
-                String x = getFirstAttribute(tempNode, QDLConfigurationConstants.CONFG_ATTR_NAME);
-                if (getQdlConfigurationName().equals(x)) {
-                    node = tempNode;
-                    break;
-                }
-            }
-        }
-        if (node == null) {
-            return new OA2QDLEnvironment();// no op. This is disabled.
-        }
-        // Note that the first argument is the name fo the file. In server mode this won't be available anyway
-        // and is optional.
-        String x = getFirstAttribute(node, STRICT_ACLS);
-        if (!isTrivial(x)) {
-            try {
-                qdlStrictACLS = Boolean.parseBoolean(x);
-            } catch (Throwable t) {
-                // nothing to do.
-            }
-        }
-        OA2QDLConfigurationLoader loader = new OA2QDLConfigurationLoader("(none)", node, loggerProvider.get());
-        return (OA2QDLEnvironment) loader.load();
-    }
 
-     */
     DBServiceConfig dbServiceConfig = null;
 
     protected DBServiceConfig getDBSerivceConfig() {

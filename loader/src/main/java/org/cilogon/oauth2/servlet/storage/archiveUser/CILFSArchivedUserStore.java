@@ -38,8 +38,9 @@ public class CILFSArchivedUserStore extends FileStore<ArchivedUser> implements A
                                   UserStore userStore,
                                   IdentifiableProviderImpl<ArchivedUser> aup,
                                   MapConverter archivedUserMapConverter,
-                                  boolean removeEmptyFiles) {
-        super(dataPath, indexPath, aup, archivedUserMapConverter, removeEmptyFiles);
+                                  boolean removeEmptyFiles,
+                                  boolean removeFailedFiles) {
+        super(dataPath, indexPath, aup, archivedUserMapConverter, removeEmptyFiles, removeFailedFiles);
         this.userStore = userStore;
         File f = new File(dataPath.getParent(), OA4MPConfigTags.ARCHIVED_USERS);
         f.mkdirs(); // just in case we need to create this on the fly.
@@ -50,11 +51,11 @@ public class CILFSArchivedUserStore extends FileStore<ArchivedUser> implements A
         // Caveat: This sets the converter to null, so that plain old java serialization is used.
         // Since this shouldn't really ever change, that should be ok.
         public AUEntryFileStore(File file) {
-            super(file,  null,null, true);
+            super(file,  null,null, true, true);
         }
 
         public AUEntryFileStore(File storeDirectory, File indexDirectory) {
-            super(storeDirectory, indexDirectory, null, null, true);
+            super(storeDirectory, indexDirectory, null, null, true, true);
         }
 
         @Override

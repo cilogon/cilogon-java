@@ -16,7 +16,12 @@ public class CILFSIDPProvider extends FSProvider<IDPFileStore> implements OA4MPC
     }
 
     @Override
-    protected IDPFileStore produce(File dataPath, File indexPath, boolean removeEmptyFiles) {
-        return new IDPFileStore(dataPath, indexPath, new IDPProvider(), converter, removeEmptyFiles);
+    protected IDPFileStore produce(File dataPath,
+                                   File indexPath,
+                                   boolean removeEmptyFiles,
+                                   boolean removeFailedFiles) {
+        return new IDPFileStore(dataPath, indexPath, new IDPProvider(), converter, removeEmptyFiles, removeFailedFiles);
     }
+
+
 }

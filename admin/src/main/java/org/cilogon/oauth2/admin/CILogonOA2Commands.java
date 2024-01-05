@@ -9,6 +9,8 @@ import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
 import edu.uiuc.ncsa.security.util.cli.CLIDriver;
 import edu.uiuc.ncsa.security.util.cli.CommonCommands;
 import edu.uiuc.ncsa.security.util.cli.InputLine;
+import edu.uiuc.ncsa.security.util.configuration.XMLConfigUtil;
+import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.apache.commons.lang.StringUtils;
 import org.cilogon.oauth2.servlet.loader.CILOA2ConfigurationLoader;
 import org.cilogon.oauth2.servlet.loader.CILogonOA2ServiceEnvironment;
@@ -34,8 +36,15 @@ public class CILogonOA2Commands extends OA2Commands {
 
     @Override
     public ConfigurationLoader<? extends AbstractEnvironment> getLoader() {
-        return new CILOA2ConfigurationLoader<OA2SE>(getConfigurationNode(), getMyLogger());
+        if (loader == null) {
+            ConfigurationNode node =
+                    XMLConfigUtil.findConfiguration(getConfigFile(), getConfigName(), getComponentName());
+            loader = new CILOA2ConfigurationLoader<OA2SE>(node, getMyLogger());
+        }
+        return loader;
+
     }
+
 
     public static void main(String[] args) {
         try {
@@ -204,21 +213,24 @@ public class CILogonOA2Commands extends OA2Commands {
 
     @Override
     public void about() {
-         about(true, true);
+        about(true, true);
     }
+
     public void about(boolean showBanner, boolean showHeader) {
         int width = 60;
-        String banner= TIMES; // default
-        if(logoName.equals("roman")) banner = ROMAN;
-        if(logoName.equals("os2")) banner = OS2;
-        if(logoName.equals("times")) banner = TIMES;
-        if(logoName.equals("fraktur")) banner = FRAKTUR;
-        if(logoName.equals("plain")) banner = PLAIN;
-        if(logoName.equals("none")) {showBanner = false;}
-        if(showBanner) {
+        String banner = TIMES; // default
+        if (logoName.equals("roman")) banner = ROMAN;
+        if (logoName.equals("os2")) banner = OS2;
+        if (logoName.equals("times")) banner = TIMES;
+        if (logoName.equals("fraktur")) banner = FRAKTUR;
+        if (logoName.equals("plain")) banner = PLAIN;
+        if (logoName.equals("none")) {
+            showBanner = false;
+        }
+        if (showBanner) {
             say(TIMES);
         }
-        if(showHeader) {
+        if (showHeader) {
             String stars = StringUtils.rightPad("", width + 1, "*");
             say(stars);
             say(padLineWithBlanks("* CILogon CLI (Command Line Interpreter)", width) + "*");

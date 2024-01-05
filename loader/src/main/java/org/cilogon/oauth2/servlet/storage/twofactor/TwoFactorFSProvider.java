@@ -20,7 +20,7 @@ public class TwoFactorFSProvider extends FSProvider<TwoFactorFS>  implements OA4
     }
 
     @Override
-    protected TwoFactorFS produce(File dataPath, File indexPath, boolean removeEmptyFiles) {
-        return new TwoFactorFS(dataPath, indexPath, twoFactorInfoProvider, converter, removeEmptyFiles);
+    protected TwoFactorFS produce(File dataPath, File indexPath, boolean removeEmptyFiles, boolean removeFailedFiles) {
+        return new TwoFactorFS(dataPath, indexPath, twoFactorInfoProvider, converter, removeEmptyFiles, removeFailedFiles);
     }
 }
