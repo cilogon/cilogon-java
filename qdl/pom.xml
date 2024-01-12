@@ -46,7 +46,7 @@
         <profile>
             <id>qdl</id>
             <build>
-                <finalName>cil-qdl</finalName>
+                <finalName>cilogon-qdl</finalName>
                 <plugins>
                     <plugin>
                         <artifactId>maven-assembly-plugin</artifactId>

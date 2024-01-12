@@ -6,16 +6,11 @@ CILOGON_ROOT=/home/ncsa/dev/ncsa-git/cilogon
 # Output of everything goes to WEBSITE_ROOT
 WEBSITE_ROOT=$CILOGON_ROOT/docs
 
-cd $GITHUB_ROOT/pdf
+./convert-docs.sh $CILOGON_ROOT/website/docs $WEBSITE_ROOT/pdf
 
-echo "converting docs to PDF"
-lowriter --headless --convert-to pdf ~/dev/ncsa-git/cilogon/website/docs/CILogon_db_servlet.odt
-echo "done converting PDFs"
-
-
-cd $CILOGON_ROOT
+cd $CILOGON_ROOT  || exit
 mvn clean javadoc:javadoc javadoc:aggregate
-cd $CILOGON_ROOT/website
+cd $CILOGON_ROOT/website || exit
 mvn clean site
 # Note the source directory in the next command has no apidocs subdirectory, so this overlays
 # without overwriting.
