@@ -31,8 +31,8 @@ if [[ $? -ne 0 ]] ; then
     echo "CILogon maven build failed, exiting..."
     exit 1
 fi
+echo "         done!"
 echo "building CILogon tools"
-
 
 cd $CILOGON_OA2_TOOLS
 
@@ -41,6 +41,7 @@ if [[ $? -ne 0 ]] ; then
     echo "CILogon maven build for CLI failed, exiting..."
     exit 1
 fi
+echo "         done!"
 echo "deploying CILogon tools"
 cp "$CILOGON_OA2_TOOLS/target/cilogon-oa2-cli-jar-with-dependencies.jar" $CILOGON_OA2_DEPLOY/cilogon-oa2-cli.jar
 cp $CILOGON_ROOT/server/target/oauth2.war $CILOGON_OA2_DEPLOY/
@@ -50,6 +51,7 @@ cp $CILOGON_OA2_TOOLS/src/main/scripts/cilogon-oa2-cli $CILOGON_OA2_DEPLOY
 cp $CILOGON_OA2_TOOLS/src/main/resources/*.sql $CILOGON_OA2_DEPLOY
 
 cd $CILOGON_OA2_DEPLOY
+echo "         done!"
 
 #CILogon QDL support
 cd $CILOGON_ROOT/qdl
@@ -60,7 +62,7 @@ if [[ $? -ne 0 ]]
     exit 1
 fi
 
-cp target/cil-qdl-jar-with-dependencies.jar $CILOGON_OA2_DEPLOY/qdl.jar
+cp target/cilogon-qdl-jar-with-dependencies.jar $CILOGON_OA2_DEPLOY/qdl.jar
 echo "     ... done!"
 #cd target
 #cp cil-qdl-jar-with-dependencies.jar $CILOGON_OA2_DEPLOY/cil-qdl.jar
@@ -70,3 +72,12 @@ echo "     ... done!"
 # create_installer.sh qdl_root target_dir jar_name
 # /home/ncsa/dev/ncsa-git/qdl/language/src/main/scripts/create_installer.sh $CILOGON_ROOT/qdl $CILOGON_OA2_DEPLOY/cil-qdl cil-qdl-installer.jar
 
+ cd "$CILOGON_ROOT/qdl/src/main/scripts"
+ echo "building CILogon QDL installer"
+ ./create_installer.sh
+ if [[ $? -ne 0 ]] ; then
+     echo "CILogon create installer failed"
+     exit 1
+ fi
+echo "         done!"
+ 
