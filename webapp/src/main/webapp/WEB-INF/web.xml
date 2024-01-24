@@ -121,15 +121,6 @@
          <url-pattern>/introspect</url-pattern>
      </servlet-mapping>
 
-    <servlet>
-        <servlet-name>getCert</servlet-name>
-        <servlet-class>org.cilogon.proxy.servlet.CILOA2CertServlet</servlet-class>
-        <load-on-startup>0</load-on-startup>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>getCert</servlet-name>
-        <url-pattern>/getcert</url-pattern>
-    </servlet-mapping>
 
 
     <servlet>
