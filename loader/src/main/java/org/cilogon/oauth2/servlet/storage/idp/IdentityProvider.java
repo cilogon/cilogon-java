@@ -1,9 +1,8 @@
 package org.cilogon.oauth2.servlet.storage.idp;
 
-import edu.uiuc.ncsa.security.core.Identifiable;
 import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
-import edu.uiuc.ncsa.security.core.util.IdentifiableImpl;
+import edu.uiuc.ncsa.security.storage.monitored.Monitored;
 
 import java.net.URI;
 
@@ -11,7 +10,7 @@ import java.net.URI;
  * <p>Created by Jeff Gaynor<br>
  * on Apr 1, 2010 at  1:01:31 PM
  */
-public class IdentityProvider extends IdentifiableImpl implements Identifiable {
+public class IdentityProvider extends Monitored {     // fixes https://github.com/cilogon/cilogon-java/issues/42
     public IdentityProvider(Identifier identifier) {
         super(identifier);
     }

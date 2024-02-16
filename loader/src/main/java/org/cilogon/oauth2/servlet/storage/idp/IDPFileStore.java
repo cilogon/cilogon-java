@@ -1,8 +1,8 @@
 package org.cilogon.oauth2.servlet.storage.idp;
 
+import edu.uiuc.ncsa.oa4mp.delegation.common.storage.monitored.MonitoredFileStore;
 import edu.uiuc.ncsa.security.core.IdentifiableProvider;
 import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
-import edu.uiuc.ncsa.security.storage.FileStore;
 import edu.uiuc.ncsa.security.storage.data.MapConverter;
 
 import java.io.File;
@@ -13,7 +13,7 @@ import java.util.List;
  * <p>Created by Jeff Gaynor<br>
  * on 3/8/12 at  5:17 PM
  */
-public class IDPFileStore extends FileStore<IdentityProvider> implements IdentityProviderStore {
+public class IDPFileStore extends MonitoredFileStore<IdentityProvider> implements IdentityProviderStore {
     public IDPFileStore(File file, IdentifiableProvider<IdentityProvider> idpp, IDPConverter converter,
                         boolean removeEmptyFiles,
                         boolean removeFailedFiles) {

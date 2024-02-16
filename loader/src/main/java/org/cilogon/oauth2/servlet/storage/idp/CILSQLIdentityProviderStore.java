@@ -1,9 +1,9 @@
 package org.cilogon.oauth2.servlet.storage.idp;
 
+import edu.uiuc.ncsa.oa4mp.delegation.common.storage.monitored.MonitoredSQLStore;
 import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.storage.sql.ConnectionPool;
 import edu.uiuc.ncsa.security.storage.sql.ConnectionRecord;
-import edu.uiuc.ncsa.security.storage.sql.SQLStore;
 import edu.uiuc.ncsa.security.storage.sql.internals.ColumnDescriptorEntry;
 import edu.uiuc.ncsa.security.storage.sql.internals.ColumnMap;
 import edu.uiuc.ncsa.security.storage.sql.internals.Table;
@@ -24,7 +24,7 @@ import static edu.uiuc.ncsa.security.core.util.BasicIdentifier.newID;
  * <p>Created by Jeff Gaynor<br>
  * on Apr 10, 2010 at  10:04:49 AM
  */
-public class CILSQLIdentityProviderStore extends SQLStore<IdentityProvider> implements IdentityProviderStore {
+public class CILSQLIdentityProviderStore extends MonitoredSQLStore<IdentityProvider> implements IdentityProviderStore {
     public static final String DEFAULT_TABLENAME = "identity_provider";
 
     public CILSQLIdentityProviderStore(ConnectionPool connectionPool, Table table,

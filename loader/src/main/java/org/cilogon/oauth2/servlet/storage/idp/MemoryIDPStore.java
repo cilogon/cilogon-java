@@ -1,8 +1,8 @@
 package org.cilogon.oauth2.servlet.storage.idp;
 
+import edu.uiuc.ncsa.oa4mp.delegation.common.storage.monitored.MonitoredMemoryStore;
 import edu.uiuc.ncsa.security.core.IdentifiableProvider;
 import edu.uiuc.ncsa.security.core.XMLConverter;
-import edu.uiuc.ncsa.security.storage.MemoryStore;
 import edu.uiuc.ncsa.security.storage.data.MapConverter;
 
 import java.util.Collection;
@@ -12,7 +12,7 @@ import java.util.List;
  * <p>Created by Jeff Gaynor<br>
  * on 3/13/12 at  2:34 PM
  */
-public class MemoryIDPStore extends MemoryStore<IdentityProvider> implements IdentityProviderStore {
+public class MemoryIDPStore extends MonitoredMemoryStore<IdentityProvider> implements IdentityProviderStore {
     public MemoryIDPStore(IdentifiableProvider<IdentityProvider> identityProviderIdentifiableProvider) {
         super(identityProviderIdentifiableProvider);
     }

@@ -239,7 +239,7 @@ public class UserClaimSource extends BasicClaimsSourceImpl implements OA2Scopes 
     }
 
     @Override
-    public boolean isRunAtAuthorization() {
+    public boolean isRunOnlyAtAuthorization() {
         return false;
     }
 

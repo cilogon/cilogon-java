@@ -6,7 +6,7 @@ import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
 import edu.uiuc.ncsa.security.core.util.BeanUtils;
 import edu.uiuc.ncsa.security.core.util.DateUtils;
 import edu.uiuc.ncsa.security.servlet.ServletDebugUtil;
-import edu.uiuc.ncsa.security.storage.data.Monitored;
+import edu.uiuc.ncsa.security.storage.monitored.Monitored;
 import net.sf.json.JSONObject;
 import org.cilogon.oauth2.servlet.storage.transaction.AbstractCILServiceTransaction;
 import org.cilogon.oauth2.servlet.util.DNUtil;
@@ -18,7 +18,6 @@ import static edu.uiuc.ncsa.security.core.util.BeanUtils.checkNoNulls;
  * <p>Created by Jeff Gaynor<br>
  * on Mar 11, 2010 at  3:21:45 PM
  */
-//public class User extends IdentifiableImpl implements DateComparable {
 public class User extends Monitored {
     public static final long serialVersionUID = 0xCafeD00dL;
 

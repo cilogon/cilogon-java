@@ -1,6 +1,6 @@
 package org.cilogon.oauth2.servlet.storage.user;
 
-import edu.uiuc.ncsa.security.storage.data.MonitoredKeys;
+import edu.uiuc.ncsa.security.storage.monitored.MonitoredKeys;
 
 import java.util.List;
 

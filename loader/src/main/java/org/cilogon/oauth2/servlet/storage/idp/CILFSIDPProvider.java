@@ -15,6 +15,7 @@ public class CILFSIDPProvider extends FSProvider<IDPFileStore> implements OA4MPC
         super(config, FILE_STORE, IDENTITY_PROVIDERS, converter);
     }
 
+
     @Override
     protected IDPFileStore produce(File dataPath,
                                    File indexPath,

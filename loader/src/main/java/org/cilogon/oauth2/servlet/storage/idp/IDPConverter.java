@@ -2,20 +2,20 @@ package org.cilogon.oauth2.servlet.storage.idp;
 
 import edu.uiuc.ncsa.security.core.IdentifiableProvider;
 import edu.uiuc.ncsa.security.storage.data.ConversionMap;
-import edu.uiuc.ncsa.security.storage.data.MapConverter;
-import edu.uiuc.ncsa.security.storage.data.SerializationKeys;
+import edu.uiuc.ncsa.security.storage.monitored.MonitoredConverter;
+import edu.uiuc.ncsa.security.storage.monitored.MonitoredKeys;
 
 /**
  * <p>Created by Jeff Gaynor<br>
  * on 4/16/12 at  5:00 PM
  */
-public class IDPConverter extends MapConverter<IdentityProvider> {
+public class IDPConverter extends MonitoredConverter<IdentityProvider> {
     public IDPConverter(IdentifiableProvider<IdentityProvider> identityProvider) {
         this(new IDPKeys(), identityProvider);
 
     }
 
-    public IDPConverter(SerializationKeys keys, IdentifiableProvider<IdentityProvider> identityProviderProvider) {
+    public IDPConverter(MonitoredKeys keys, IdentifiableProvider<IdentityProvider> identityProviderProvider) {
         super(keys, identityProviderProvider);
     }
 

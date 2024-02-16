@@ -182,15 +182,16 @@ public class SAMLAttributeClaimSource extends BasicClaimsSourceImpl {
     }
 
     @Override
-    public boolean isRunAtAuthorization() {
+    public boolean isRunOnlyAtAuthorization() {
         return false;
     }
+
 
     @Override
     public String toString() {
         return "SAMLAttributeClaimSource{" +
                 "SHIBBOLETH_MEMBER_OF_KEY='" + SHIBBOLETH_MEMBER_OF_KEY + '\'' +
-                ",runAtAuthTime=" + isRunAtAuthorization() +
+                ",runAtAuthTime=" + isRunOnlyAtAuthorization() +
                 ", service env =" + getOa2SE() +
                 '}';
     }

@@ -2,6 +2,7 @@ package org.cilogon.oauth2.servlet.storage.user;
 
 import edu.uiuc.ncsa.security.core.IdentifiableProvider;
 import edu.uiuc.ncsa.security.storage.data.*;
+import edu.uiuc.ncsa.security.storage.monitored.*;
 import net.sf.json.JSONObject;
 
 import static edu.uiuc.ncsa.security.core.util.BasicIdentifier.newID;

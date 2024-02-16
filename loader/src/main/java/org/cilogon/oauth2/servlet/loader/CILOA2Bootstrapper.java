@@ -63,6 +63,7 @@ public class CILOA2Bootstrapper extends AbstractBootstrapper {
             super.addMonitoredStores(oa2SE, lastAccessedEventListener);
             CILogonOA2ServiceEnvironment ciloa2 = (CILogonOA2ServiceEnvironment)oa2SE;
             ((ListeningStoreInterface) (ciloa2.getUserStore())).addLastAccessedEventListener(lastAccessedEventListener);
+            ((ListeningStoreInterface) (ciloa2.getIDPStore())).addLastAccessedEventListener(lastAccessedEventListener);
         }
     }
 

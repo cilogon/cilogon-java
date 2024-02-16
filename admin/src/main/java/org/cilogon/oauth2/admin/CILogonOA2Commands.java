@@ -253,4 +253,10 @@ public class CILogonOA2Commands extends OA2Commands {
         say("* " + IDPS + " - identity provider records.\n");
     }
 
+    @Override
+    protected ConfigurationLoader<? extends AbstractEnvironment> figureOutLoader(String fileName, String configName) throws Throwable {
+        ConfigurationNode node = XMLConfigUtil.findConfiguration(fileName, configName, getComponentName());
+        CILOA2ConfigurationLoader serverLoader = new CILOA2ConfigurationLoader<>(node);
+        return serverLoader;
+    }
 }
