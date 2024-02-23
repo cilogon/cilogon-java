@@ -1,11 +1,11 @@
 package org.cilogon.oauth2.servlet.storage.user;
 
-import edu.uiuc.ncsa.oa4mp.delegation.common.storage.monitored.MonitoredMemoryStore;
 import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.XMLConverter;
 import edu.uiuc.ncsa.security.core.util.IdentifiableProviderImpl;
 import edu.uiuc.ncsa.security.storage.GenericStoreUtils;
 import edu.uiuc.ncsa.security.storage.data.MapConverter;
+import edu.uiuc.ncsa.security.storage.monitored.MonitoredMemoryStore;
 import org.cilogon.oauth2.servlet.util.Incrementable;
 
 import java.util.*;

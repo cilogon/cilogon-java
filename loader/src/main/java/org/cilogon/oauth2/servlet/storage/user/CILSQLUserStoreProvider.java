@@ -32,7 +32,9 @@ public class CILSQLUserStoreProvider extends SQLStoreProvider<CILSQLUserStore> i
     IdentifiableProviderImpl<User> userProvider;
     @Override
     public CILSQLUserStore newInstance(Table table) {
-        return new CILSQLUserStore(getConnectionPool(),table,userProvider, converter, incrementable);
+        CILSQLUserStore u = new CILSQLUserStore(getConnectionPool(),table,userProvider, converter, incrementable);
+        u.setUpkeepConfiguration(getUpkeepConfiguration());
+        return u;
     }
 
     @Override

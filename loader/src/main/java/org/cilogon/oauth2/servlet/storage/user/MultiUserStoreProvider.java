@@ -32,7 +32,9 @@ public class MultiUserStoreProvider extends MultiTypeProvider<UserStore> {
         // be multiple, inconsistent copies.
         if(defaultStore == null){
               logger.info("Using default in memory user store.");
-            defaultStore = new MemoryUserStore(userProvider, incrementable);
+            MemoryUserStore u = new MemoryUserStore(userProvider, incrementable);
+            // no upkeep config in default store.
+            defaultStore = u;
         }
         return defaultStore;
     }

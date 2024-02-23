@@ -32,6 +32,8 @@ public class CILFSUserStoreProvider extends FSProvider<UserFileStore> implements
                                     File indexPath,
                                     boolean removeEmptyFiles,
                                     boolean removeFailedFiles) {
-        return new UserFileStore(dataPath,indexPath,userProvider, converter, removeEmptyFiles, incrementable, removeFailedFiles);
+        UserFileStore u =  new UserFileStore(dataPath,indexPath,userProvider, converter, removeEmptyFiles, incrementable, removeFailedFiles);
+        u.setUpkeepConfiguration(getUpkeepConfiguration());
+        return u;
     }
 }

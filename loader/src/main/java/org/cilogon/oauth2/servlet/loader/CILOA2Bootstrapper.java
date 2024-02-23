@@ -8,10 +8,11 @@ import edu.uiuc.ncsa.myproxy.oa4mp.server.servlet.AbstractBootstrapper;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.servlet.EnvServlet;
 import edu.uiuc.ncsa.oa4mp.delegation.common.storage.clients.Client;
 import edu.uiuc.ncsa.oa4mp.delegation.common.storage.clients.ClientConverter;
+import edu.uiuc.ncsa.security.core.Identifiable;
 import edu.uiuc.ncsa.security.core.exceptions.MyConfigurationException;
 import edu.uiuc.ncsa.security.core.util.ConfigurationLoader;
 import edu.uiuc.ncsa.security.servlet.Initialization;
-import edu.uiuc.ncsa.security.storage.ListeningStoreInterface;
+import edu.uiuc.ncsa.security.storage.MonitoredStoreInterface;
 import edu.uiuc.ncsa.security.storage.events.LastAccessedEventListener;
 import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.cilogon.oauth2.servlet.util.DNUtil;
@@ -62,8 +63,8 @@ public class CILOA2Bootstrapper extends AbstractBootstrapper {
         protected void addMonitoredStores(OA2SE oa2SE, LastAccessedEventListener lastAccessedEventListener) {
             super.addMonitoredStores(oa2SE, lastAccessedEventListener);
             CILogonOA2ServiceEnvironment ciloa2 = (CILogonOA2ServiceEnvironment)oa2SE;
-            ((ListeningStoreInterface) (ciloa2.getUserStore())).addLastAccessedEventListener(lastAccessedEventListener);
-            ((ListeningStoreInterface) (ciloa2.getIDPStore())).addLastAccessedEventListener(lastAccessedEventListener);
+            ((MonitoredStoreInterface<Identifiable>) (ciloa2.getUserStore())).addLastAccessedEventListener(lastAccessedEventListener);
+            ((MonitoredStoreInterface<Identifiable>) (ciloa2.getIDPStore())).addLastAccessedEventListener(lastAccessedEventListener);
         }
     }
 

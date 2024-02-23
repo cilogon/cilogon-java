@@ -1,7 +1,7 @@
 package org.cilogon.oauth2.servlet.storage.idp;
 
-import edu.uiuc.ncsa.oa4mp.delegation.common.storage.monitored.MonitoredSQLStore;
 import edu.uiuc.ncsa.security.core.Identifier;
+import edu.uiuc.ncsa.security.storage.monitored.MonitoredSQLStore;
 import edu.uiuc.ncsa.security.storage.sql.ConnectionPool;
 import edu.uiuc.ncsa.security.storage.sql.ConnectionRecord;
 import edu.uiuc.ncsa.security.storage.sql.internals.ColumnDescriptorEntry;

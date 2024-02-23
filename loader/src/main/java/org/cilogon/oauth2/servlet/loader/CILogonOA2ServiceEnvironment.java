@@ -20,7 +20,6 @@ import edu.uiuc.ncsa.oa4mp.delegation.server.issuers.ATIssuer;
 import edu.uiuc.ncsa.oa4mp.delegation.server.issuers.PAIssuer;
 import edu.uiuc.ncsa.oa4mp.delegation.server.storage.ClientApprovalStore;
 import edu.uiuc.ncsa.oa4mp.delegation.server.storage.ClientStore;
-import edu.uiuc.ncsa.oa4mp.delegation.server.storage.uuc.UUCConfiguration;
 import edu.uiuc.ncsa.security.core.Store;
 import edu.uiuc.ncsa.security.core.util.MetaDebugUtil;
 import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
@@ -29,10 +28,10 @@ import edu.uiuc.ncsa.security.util.jwk.JSONWebKeys;
 import edu.uiuc.ncsa.security.util.mail.MailUtilProvider;
 import org.cilogon.oauth2.servlet.claims.UserClaimSource;
 import org.cilogon.oauth2.servlet.servlet.DBServiceConfig;
-import org.cilogon.oauth2.servlet.storage.idp.IdentityProviderStore;
-import org.cilogon.oauth2.servlet.storage.user.UserStore;
-import org.cilogon.oauth2.servlet.storage.twofactor.TwoFactorStore;
 import org.cilogon.oauth2.servlet.storage.archiveUser.ArchivedUserStore;
+import org.cilogon.oauth2.servlet.storage.idp.IdentityProviderStore;
+import org.cilogon.oauth2.servlet.storage.twofactor.TwoFactorStore;
+import org.cilogon.oauth2.servlet.storage.user.UserStore;
 import org.cilogon.oauth2.servlet.util.CILogonSE;
 import org.cilogon.oauth2.servlet.util.CILogonSEImpl;
 import org.cilogon.oauth2.servlet.util.Incrementable;
@@ -113,8 +112,7 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
                                         long monitorInterval,
                                         Collection<LocalTime> monitorAlarms,
                                         MetaDebugUtil debugger,
-                                        DBServiceConfig dbServiceConfig,
-                                        UUCConfiguration uucConfiguration
+                                        DBServiceConfig dbServiceConfig
     ) {
         super(logger,
                 tsp,
@@ -174,8 +172,7 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
                 isMonitorEnabled,
                 monitorInterval,
                 monitorAlarms,
-                debugger,
-                uucConfiguration);
+                debugger);
         ciLogonSE = new CILogonSEImpl(usp, ausp, idpsp, incp, tfsp, isComputeFNAL);
         ciLogonSE.setDBServiceConfig(dbServiceConfig);
         this.dbServiceConfig = dbServiceConfig;
@@ -246,4 +243,16 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
     }
 
     DBServiceConfig dbServiceConfig = null;
+
+    @Override
+    public List<Store> getAllStores() {
+        if (storeList == null) {
+            storeList = super.getAllStores();
+            storeList.add(getUserStore());
+            storeList.add(getIDPStore());
+            storeList.add(getArchivedUserStore());
+            storeList.add(getTwoFactorStore());
+        }
+        return storeList;
+    }
 }

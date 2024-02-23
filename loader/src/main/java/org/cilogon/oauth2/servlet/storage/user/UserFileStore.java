@@ -1,6 +1,5 @@
 package org.cilogon.oauth2.servlet.storage.user;
 
-import edu.uiuc.ncsa.oa4mp.delegation.common.storage.monitored.MonitoredFileStore;
 import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.exceptions.GeneralException;
 import edu.uiuc.ncsa.security.core.exceptions.NFWException;
@@ -8,6 +7,7 @@ import edu.uiuc.ncsa.security.core.exceptions.NotImplementedException;
 import edu.uiuc.ncsa.security.core.util.IdentifiableProviderImpl;
 import edu.uiuc.ncsa.security.storage.GenericStoreUtils;
 import edu.uiuc.ncsa.security.storage.data.MapConverter;
+import edu.uiuc.ncsa.security.storage.monitored.MonitoredFileStore;
 import org.cilogon.oauth2.servlet.util.Incrementable;
 
 import java.io.File;

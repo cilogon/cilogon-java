@@ -1,9 +1,9 @@
 package org.cilogon.oauth2.servlet.storage.idp;
 
-import edu.uiuc.ncsa.oa4mp.delegation.common.storage.monitored.MonitoredFileStore;
 import edu.uiuc.ncsa.security.core.IdentifiableProvider;
 import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
 import edu.uiuc.ncsa.security.storage.data.MapConverter;
+import edu.uiuc.ncsa.security.storage.monitored.MonitoredFileStore;
 
 import java.io.File;
 import java.util.Collection;
