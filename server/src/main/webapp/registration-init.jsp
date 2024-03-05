@@ -38,7 +38,9 @@
         Please fill out the form below to register your OIDC/OAuth 2.0
         client with CILogon.
     </p>
-    <h4>Your request will be manually evaluated for approval within 1 business day.</h4>
+    <h4>Your request will be manually evaluated for approval.</h4>
+    <h5>Contact <a href="mailto:help@cilogon.org">help@cilogon.org</a> if you
+        do not receive a response after 1 business day.</h5>
     <p>
         For more information, please see the
         <a href="https://www.cilogon.org/oidc"
