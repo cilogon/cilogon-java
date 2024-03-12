@@ -7,6 +7,7 @@
 
     <display-name>The CILogon OIDC MyProxy Delegation Service</display-name>
 
+<!-- Fix https://jira.ncsa.illinois.edu/browse/CIL-1782
 
     <servlet>
         <servlet-name>clientServlet</servlet-name>
@@ -16,6 +17,7 @@
         <servlet-name>clientServlet</servlet-name>
         <url-pattern>/clients</url-pattern>
     </servlet-mapping>
+-->
 
  <!-- RFC 8628 support. -->
 

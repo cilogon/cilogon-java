@@ -7,7 +7,7 @@
 
     <display-name>The CILogon OIDC MyProxy Delegation Service</display-name>
 
-
+<!-- Fix https://jira.ncsa.illinois.edu/browse/CIL-1782
     <servlet>
         <servlet-name>clientServlet</servlet-name>
         <servlet-class>edu.uiuc.ncsa.myproxy.oa4mp.oauth2.servlet.ClientServlet</servlet-class>
@@ -15,7 +15,7 @@
     <servlet-mapping>
         <servlet-name>clientServlet</servlet-name>
         <url-pattern>/clients</url-pattern>
-    </servlet-mapping>
+    </servlet-mapping>-->
 
  <!-- RFC 8628 support. -->
 
@@ -33,14 +33,14 @@
         <url-pattern>/certs/*</url-pattern>
     </servlet-mapping>
 
-    <servlet>
+<!--    <servlet>
         <servlet-name>util</servlet-name>
         <servlet-class>edu.uiuc.ncsa.myproxy.oa4mp.oauth2.servlet.OA2UtilServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>util</servlet-name>
         <url-pattern>/util</url-pattern>
-    </servlet-mapping>
+    </servlet-mapping>-->
 
     <servlet>
         <servlet-name>initiate</servlet-name>
