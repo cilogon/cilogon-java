@@ -1,0 +1,238 @@
+Aug 14, 2023 6:47:30 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:Logging to file log.xml
+Aug 14, 2023 6:47:30 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:Config name = cilogon.oa2.mysql
+Aug 14, 2023 6:47:30 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:getting named configuration "cilogon.oa2.mysql"
+Aug 14, 2023 6:47:30 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:CILogon for OAuth2/OIDC server configuration loader, version 5.3.4 startup on Mon Aug 14 06:47:30 CDT 2023
+Aug 14, 2023 6:47:30 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:loading configuration.
+Aug 14, 2023 6:47:30 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:ping enabled
+Aug 14, 2023 6:47:30 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:No claim source configuration found.
+Aug 14, 2023 6:47:30 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:Starting to load LDAP configuration.
+Aug 14, 2023 6:47:31 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:loaded JSON web keys from file "/home/ncsa/dev/csd/config/keys.jwk"
+Aug 14, 2023 6:47:31 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:Refresh token support enabled
+Aug 14, 2023 6:47:31 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:Debugging is on
+Aug 14, 2023 6:47:31 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:No polling configured.
+Aug 14, 2023 6:47:31 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:Debug mode enabled.
+Aug 14, 2023 6:47:31 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade debug
+FINEST: oa4mp:loaded myproxy configuration for myproxy.psc.xsede.org:7512
+Aug 14, 2023 6:47:58 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:Created object User with identifier null
+Aug 14, 2023 6:48:00 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:Starting update for object with id = null
+Aug 14, 2023 6:49:41 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:Logging to file /home/ncsa/dev/ncsa-git/cilogon/log.xml
+Aug 14, 2023 6:49:42 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:Config name = cilogon.oa2.mysql
+Aug 14, 2023 6:49:42 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:getting named configuration "cilogon.oa2.mysql"
+Aug 14, 2023 6:49:42 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:CILogon for OAuth2/OIDC server configuration loader, version 5.3.4 startup on Mon Aug 14 06:49:42 CDT 2023
+Aug 14, 2023 6:49:42 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:loading configuration.
+Aug 14, 2023 6:49:42 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:ping enabled
+Aug 14, 2023 6:49:42 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:No claim source configuration found.
+Aug 14, 2023 6:49:42 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:Starting to load LDAP configuration.
+Aug 14, 2023 6:49:42 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:loaded JSON web keys from file "/home/ncsa/dev/csd/config/keys.jwk"
+Aug 14, 2023 6:49:42 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:Refresh token support enabled
+Aug 14, 2023 6:49:42 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:Debugging is on
+Aug 14, 2023 6:49:42 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:No polling configured.
+Aug 14, 2023 6:49:42 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:Debug mode enabled.
+Aug 14, 2023 6:49:42 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade debug
+FINEST: oa4mp:loaded myproxy configuration for myproxy.psc.xsede.org:7512
+Aug 14, 2023 6:51:28 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:Created object User with identifier null
+Aug 14, 2023 7:00:14 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:Logging to file /home/ncsa/dev/ncsa-git/cilogon/log.xml
+Aug 14, 2023 7:00:14 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:Config name = cilogon.oa2.mysql
+Aug 14, 2023 7:00:14 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:getting named configuration "cilogon.oa2.mysql"
+Aug 14, 2023 7:00:14 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:CILogon for OAuth2/OIDC server configuration loader, version 5.4 startup on Mon Aug 14 07:00:14 CDT 2023
+Aug 14, 2023 7:00:14 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:loading configuration.
+Aug 14, 2023 7:00:15 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:ping enabled
+Aug 14, 2023 7:00:15 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:No claim source configuration found.
+Aug 14, 2023 7:00:15 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:Starting to load LDAP configuration.
+Aug 14, 2023 7:00:15 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:loaded JSON web keys from file "/home/ncsa/dev/csd/config/keys.jwk"
+Aug 14, 2023 7:00:15 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:Refresh token support enabled
+Aug 14, 2023 7:00:15 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:Debugging is on
+Aug 14, 2023 7:00:15 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:No polling configured.
+Aug 14, 2023 7:00:15 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:Debug mode enabled.
+Aug 14, 2023 7:00:15 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade debug
+FINEST: oa4mp:loaded myproxy configuration for myproxy.psc.xsede.org:7512
+Aug 14, 2023 7:01:28 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:Created object User with identifier null
+Aug 14, 2023 7:03:38 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:Logging to file /home/ncsa/dev/ncsa-git/cilogon/log.xml
+Aug 14, 2023 7:03:38 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:Config name = cilogon.oa2.mysql
+Aug 14, 2023 7:03:38 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:getting named configuration "cilogon.oa2.mysql"
+Aug 14, 2023 7:03:39 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:CILogon for OAuth2/OIDC server configuration loader, version 5.4 startup on Mon Aug 14 07:03:38 CDT 2023
+Aug 14, 2023 7:03:39 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:loading configuration.
+Aug 14, 2023 7:03:39 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:ping enabled
+Aug 14, 2023 7:03:39 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:No claim source configuration found.
+Aug 14, 2023 7:03:39 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:Starting to load LDAP configuration.
+Aug 14, 2023 7:03:39 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:loaded JSON web keys from file "/home/ncsa/dev/csd/config/keys.jwk"
+Aug 14, 2023 7:03:39 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:Refresh token support enabled
+Aug 14, 2023 7:03:39 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:Debugging is on
+Aug 14, 2023 7:03:39 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:No polling configured.
+Aug 14, 2023 7:03:39 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:Debug mode enabled.
+Aug 14, 2023 7:03:39 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade debug
+FINEST: oa4mp:loaded myproxy configuration for myproxy.psc.xsede.org:7512
+Aug 14, 2023 7:07:52 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:Created object User with identifier http://cilogon.org/serverT/users/160815
+Aug 14, 2023 7:07:55 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:Starting update for object with id = http://cilogon.org/serverT/users/160815
+Aug 14, 2023 10:14:30 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:Logging to file /home/ncsa/dev/ncsa-git/cilogon/log.xml
+Aug 14, 2023 10:14:30 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:Config name = cilogon.oa2.mysql
+Aug 14, 2023 10:14:30 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:getting named configuration "cilogon.oa2.mysql"
+Aug 14, 2023 10:14:30 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:CILogon for OAuth2/OIDC server configuration loader, version 5.4 startup on Mon Aug 14 10:14:30 CDT 2023
+Aug 14, 2023 10:14:30 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:loading configuration.
+Aug 14, 2023 10:14:30 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:ping enabled
+Aug 14, 2023 10:14:30 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:No claim source configuration found.
+Aug 14, 2023 10:14:30 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:Starting to load LDAP configuration.
+Aug 14, 2023 10:14:30 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:loaded JSON web keys from file "/home/ncsa/dev/csd/config/keys.jwk"
+Aug 14, 2023 10:14:30 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:Refresh token support enabled
+Aug 14, 2023 10:14:30 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:Debugging is on
+Aug 14, 2023 10:14:30 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:No polling configured.
+Aug 14, 2023 10:14:30 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:Debug mode enabled.
+Aug 14, 2023 10:14:30 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade debug
+FINEST: oa4mp:loaded myproxy configuration for myproxy.psc.xsede.org:7512
+Aug 14, 2023 10:14:38 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:Created object User with identifier http://cilogon.org/serverT/users/160816
+Aug 14, 2023 10:14:42 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:Starting update for object with id = http://cilogon.org/serverT/users/160816
+Aug 14, 2023 10:24:13 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:Logging to file /home/ncsa/dev/ncsa-git/cilogon/log.xml
+Aug 14, 2023 10:24:13 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:Config name = cilogon.oa2.mysql
+Aug 14, 2023 10:24:13 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:getting named configuration "cilogon.oa2.mysql"
+Aug 14, 2023 10:24:13 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:CILogon for OAuth2/OIDC server configuration loader, version 5.4 startup on Mon Aug 14 10:24:13 CDT 2023
+Aug 14, 2023 10:24:13 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:loading configuration.
+Aug 14, 2023 10:24:13 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:ping enabled
+Aug 14, 2023 10:24:13 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:No claim source configuration found.
+Aug 14, 2023 10:24:13 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:Starting to load LDAP configuration.
+Aug 14, 2023 10:24:13 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:loaded JSON web keys from file "/home/ncsa/dev/csd/config/keys.jwk"
+Aug 14, 2023 10:24:13 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:Refresh token support enabled
+Aug 14, 2023 10:24:13 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:Debugging is on
+Aug 14, 2023 10:24:13 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:No polling configured.
+Aug 14, 2023 10:24:13 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:Debug mode enabled.
+Aug 14, 2023 10:24:13 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade debug
+FINEST: oa4mp:loaded myproxy configuration for myproxy.psc.xsede.org:7512
+Aug 14, 2023 10:24:26 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:Created object TwoFactorInfo with identifier urn:oa4mp/twoFactor/info/15f0e69ebee7ca717aa28aa4deae30f438c61cf12dac7f41228ddcd1bf061a40
+Aug 14, 2023 10:24:28 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:Starting update for object with id = urn:oa4mp/twoFactor/info/15f0e69ebee7ca717aa28aa4deae30f438c61cf12dac7f41228ddcd1bf061a40
+Aug 14, 2023 10:53:57 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:Logging to file /home/ncsa/dev/ncsa-git/cilogon/log.xml
+Aug 14, 2023 10:53:57 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:Config name = cilogon.oa2.mysql
+Aug 14, 2023 10:53:57 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:getting named configuration "cilogon.oa2.mysql"
+Aug 14, 2023 10:53:57 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:CILogon for OAuth2/OIDC server configuration loader, version 5.4 startup on Mon Aug 14 10:53:57 CDT 2023
+Aug 14, 2023 10:53:57 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:loading configuration.
+Aug 14, 2023 10:53:57 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:ping enabled
+Aug 14, 2023 10:53:57 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:No claim source configuration found.
+Aug 14, 2023 10:53:57 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:Starting to load LDAP configuration.
+Aug 14, 2023 10:53:57 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:loaded JSON web keys from file "/home/ncsa/dev/csd/config/keys.jwk"
+Aug 14, 2023 10:53:57 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:Refresh token support enabled
+Aug 14, 2023 10:53:57 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:Debugging is on
+Aug 14, 2023 10:53:57 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:No polling configured.
+Aug 14, 2023 10:53:57 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:Debug mode enabled.
+Aug 14, 2023 10:53:57 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade debug
+FINEST: oa4mp:loaded myproxy configuration for myproxy.psc.xsede.org:7512
+Aug 14, 2023 10:54:07 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:Created object User with identifier http://cilogon.org/serverT/users/160817
+Aug 14, 2023 10:54:09 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: oa4mp:Starting update for object with id = http://cilogon.org/serverT/users/160817
+Feb 15, 2024 5:37:54 PM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:Logging to file /home/ncsa/dev/ncsa-git/cilogon/log.xml
+Feb 15, 2024 5:37:54 PM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:Config name = cilogon.oa2.mysql
+Feb 15, 2024 5:37:54 PM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:getting named configuration "cilogon.oa2.mysql"
+Feb 15, 2024 5:40:59 PM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:Logging to file /home/ncsa/dev/ncsa-git/cilogon/log.xml
+Feb 15, 2024 5:41:00 PM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:Config name = cilogon.oa2.mysql
+Feb 15, 2024 5:41:01 PM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:getting named configuration "cilogon.oa2.mysql"
+Feb 15, 2024 10:26:44 PM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:Logging to file /home/ncsa/dev/ncsa-git/cilogon/log.xml
+Feb 15, 2024 10:26:44 PM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:Config name = cilogon.oa2.mysql
+Feb 15, 2024 10:26:44 PM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:getting named configuration "cilogon.oa2.mysql"

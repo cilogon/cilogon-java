@@ -1,0 +1,126 @@
+Oct 17, 2022 7:48:19 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:Logging to file log.xml
+Oct 17, 2022 7:48:19 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:Config name = localhost:oa4mp.oa2.mariadb
+Oct 17, 2022 7:48:19 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:getting named configuration "localhost:oa4mp.oa2.mariadb"
+Oct 17, 2022 7:48:19 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:OAuth 2 for MyProxy, version 5.2.8.2 startup on Mon Oct 17 07:48:19 CDT 2022
+Oct 17, 2022 7:48:19 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:loading configuration.
+Oct 17, 2022 7:48:20 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:ping enabled
+Oct 17, 2022 7:48:20 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:No claim source configuration found.
+Oct 17, 2022 7:48:20 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:Starting to load LDAP configuration.
+Oct 17, 2022 7:48:20 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:1.4-QDL_SNAPSHOT startup on Mon Oct 17 07:48:20 CDT 2022
+Oct 17, 2022 7:48:20 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:Refresh token support enabled
+Oct 17, 2022 7:48:20 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:Debugging is on
+Oct 17, 2022 7:48:20 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:No polling configured.
+Oct 17, 2022 7:48:20 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:Debug mode enabled.
+Oct 17, 2022 7:48:20 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade debug
+FINEST: cli logger:loaded myproxy configuration for tfcadev.ncsa.illinois.edu:7512
+Oct 17, 2022 7:48:20 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade debug
+FINEST: cli logger:loaded myproxy configuration for tfca2.ncsa.illinois.edu:7512
+Oct 21, 2022 9:53:10 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:Logging to file /home/ncsa/dev/ncsa-git/cilogon/cilogon-admin/src/main/scripts/log.xml
+Oct 21, 2022 9:53:10 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:Config name = localhost:oa4mp.oa2.mariadb
+Oct 21, 2022 9:53:10 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:getting named configuration "localhost:oa4mp.oa2.mariadb"
+Oct 21, 2022 9:53:10 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:OAuth 2 for MyProxy, version 5.2.8.2 startup on Fri Oct 21 09:53:10 CDT 2022
+Oct 21, 2022 9:53:10 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:loading configuration.
+Oct 21, 2022 9:53:10 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:ping enabled
+Oct 21, 2022 9:53:10 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:No claim source configuration found.
+Oct 21, 2022 9:53:10 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:Starting to load LDAP configuration.
+Oct 21, 2022 9:53:11 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:1.4-QDL_SNAPSHOT startup on Fri Oct 21 09:53:11 CDT 2022
+Oct 21, 2022 9:53:11 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:Refresh token support enabled
+Oct 21, 2022 9:53:11 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:Debugging is on
+Oct 21, 2022 9:53:11 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:No polling configured.
+Oct 21, 2022 9:53:11 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:Debug mode enabled.
+Oct 21, 2022 9:53:11 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade debug
+FINEST: cli logger:loaded myproxy configuration for tfcadev.ncsa.illinois.edu:7512
+Oct 21, 2022 9:53:11 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade debug
+FINEST: cli logger:loaded myproxy configuration for tfca2.ncsa.illinois.edu:7512
+Oct 26, 2022 7:05:18 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:Logging to file /home/ncsa/dev/ncsa-git/cilogon/cilogon-admin/src/main/scripts/log.xml
+Oct 26, 2022 7:05:18 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:Config name = localhost:test/jlab
+Oct 26, 2022 7:05:18 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:getting named configuration "localhost:test/jlab"
+Oct 26, 2022 7:06:17 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:Logging to file /home/ncsa/dev/ncsa-git/cilogon/cilogon-admin/src/main/scripts/log.xml
+Oct 26, 2022 7:06:17 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:Config name = localhost:test/jlab
+Oct 26, 2022 7:06:17 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:getting named configuration "localhost:test/jlab"
+Oct 26, 2022 7:07:51 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:Logging to file /home/ncsa/dev/ncsa-git/cilogon/cilogon-admin/src/main/scripts/log.xml
+Oct 26, 2022 7:07:51 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:Config name = localhost:test/jlab
+Oct 26, 2022 7:07:51 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:getting named configuration "localhost:test/jlab"
+Oct 26, 2022 7:09:41 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:Logging to file /home/ncsa/dev/ncsa-git/cilogon/cilogon-admin/src/main/scripts/log.xml
+Oct 26, 2022 7:09:41 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:Config name = localhost:test/jlab
+Oct 26, 2022 7:09:41 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:getting named configuration "localhost:test/jlab"
+Oct 26, 2022 7:11:27 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:Logging to file /home/ncsa/dev/ncsa-git/cilogon/cilogon-admin/src/main/scripts/log.xml
+Oct 26, 2022 7:11:27 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:Config name = localhost:test/jlab
+Oct 26, 2022 7:11:27 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:getting named configuration "localhost:test/jlab"
+Oct 26, 2022 7:29:08 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:Logging to file /home/ncsa/dev/ncsa-git/cilogon/cilogon-admin/src/main/scripts/log.xml
+Oct 26, 2022 7:29:08 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:Config name = localhost:test/jlab
+Oct 26, 2022 7:29:08 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:getting named configuration "localhost:test/jlab"
+Oct 26, 2022 7:34:22 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:Logging to file /home/ncsa/dev/ncsa-git/cilogon/cilogon-admin/src/main/scripts/log.xml
+Oct 26, 2022 7:34:22 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:Config name = localhost:test/jlab
+Oct 26, 2022 7:34:22 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:getting named configuration "localhost:test/jlab"
+Oct 26, 2022 11:31:45 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:Logging to file /home/ncsa/dev/ncsa-git/cilogon/cilogon-admin/src/main/scripts/log.xml
+Oct 26, 2022 11:31:45 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:Config name = localhost:test/jlab
+Oct 26, 2022 11:31:45 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:getting named configuration "localhost:test/jlab"
+Oct 26, 2022 11:41:32 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:Logging to file /home/ncsa/dev/ncsa-git/cilogon/cilogon-admin/src/main/scripts/log.xml
+Oct 26, 2022 11:41:32 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:Config name = localhost:test/jlab
+Oct 26, 2022 11:41:32 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:getting named configuration "localhost:test/jlab"
+Oct 26, 2022 2:34:13 PM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:Logging to file /home/ncsa/dev/ncsa-git/cilogon/cilogon-admin/src/main/scripts/log.xml
+Oct 26, 2022 2:34:13 PM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:Config name = localhost:test/jlab
+Oct 26, 2022 2:34:13 PM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:getting named configuration "localhost:test/jlab"
+Oct 27, 2022 7:19:08 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:Logging to file /home/ncsa/dev/ncsa-git/cilogon/cilogon-admin/src/main/scripts/log.xml
+Oct 27, 2022 7:19:08 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:Config name = localhost:test/jlab
+Oct 27, 2022 7:19:08 AM edu.uiuc.ncsa.security.core.util.MyLoggingFacade info
+INFO: cli logger:getting named configuration "localhost:test/jlab"

@@ -1,0 +1,515 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="cilogon-client:war" />
+    </artifacts-to-build>
+  </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="058d6516-984d-4ed0-85c4-47c7230f9d8e" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cilogon-server/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/cilogon-server/buildNumber.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cilogon-test/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/cilogon-test/buildNumber.properties" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CodeInsightWorkspaceSettings">
+    <option name="optimizeImportsOnTheFly" value="true" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="5.2.7.1" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="LogFilters">
+    <option name="FILTER_ERRORS" value="false" />
+    <option name="FILTER_WARNINGS" value="false" />
+    <option name="FILTER_INFO" value="true" />
+    <option name="FILTER_DEBUG" value="true" />
+    <option name="CUSTOM_FILTER" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2ClSdQtDUbXMnVlAgGeX1DVE238" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectReloadState">
+    <option name="STATE" value="0" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="autoscrollFromSource" value="true" />
+    <option name="autoscrollToSource" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+    <option name="showMembers" value="true" />
+    <option name="showModules" value="false" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/ncsa/dev/ncsa-git/cilogon/cilogon-admin/src/main/resources/help&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.45287356&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/cilogon-admin/src/main/resources/help" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.QDL">
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <module />
+      <method />
+    </configuration>
+    <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
+      <Host>localhost</Host>
+      <Port>5050</Port>
+    </configuration>
+    <configuration name="CLI" type="Application" factoryName="Application">
+      <option name="INCLUDE_PROVIDED_SCOPE" value="true" />
+      <option name="MAIN_CLASS_NAME" value="org.cilogon.oauth2.admin.CILogonOA2Commands" />
+      <module name="cilogon-admin" />
+      <option name="PROGRAM_PARAMETERS" value="-cfg $PROJECT_DIR$/../../csd/config/servers.xml -name cilogon.oa2.mysql" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="QDL" type="Application" factoryName="Application">
+      <option name="ALTERNATIVE_JRE_PATH" value="11 (2)" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="edu.uiuc.ncsa.qdl.workspace.QDLWorkspace" />
+      <module name="cilogon-qdl" />
+      <option name="PROGRAM_PARAMETERS" value="-name cil-dev -cfg $PROJECT_DIR$/../../csd/config/qdl-cfg.xml -gui" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SAMLAttributeClaimSource" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.cilogon.oauth2.servlet.claims.SAMLAttributeClaimSource" />
+      <module name="cilogon-loader" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.cilogon.oauth2.servlet.claims.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2" />
+    </configuration>
+    <configuration name="UserClaimSource" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.cilogon.oauth2.servlet.claims.UserClaimSource" />
+      <module name="cilogon-loader" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.cilogon.oauth2.servlet.claims.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application">
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Test Suite" type="JUnit" factoryName="JUnit">
+      <module name="cilogon-test" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="ALTERNATIVE_JRE_PATH" value="11.0.8" />
+      <option name="PACKAGE_NAME" value="test" />
+      <option name="MAIN_CLASS_NAME" value="test.CILServiceTestSuite2" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="-Dstore=&quot;$USER_HOME$/certs/localhost-2020.jks&quot; -Dpassword=&quot;vnlH814i&quot;" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Scratch" type="Java Scratch" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Scratch" />
+      <option name="SCRATCH_FILE_URL" value="file://$APPLICATION_CONFIG_DIR$/scratches/scratch.java" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="build-all.sh" type="ShConfigurationType" temporary="true">
+      <option name="SCRIPT_TEXT" value="" />
+      <option name="INDEPENDENT_SCRIPT_PATH" value="true" />
+      <option name="SCRIPT_PATH" value="$PROJECT_DIR$/build-all.sh" />
+      <option name="SCRIPT_OPTIONS" value="" />
+      <option name="INDEPENDENT_SCRIPT_WORKING_DIRECTORY" value="true" />
+      <option name="SCRIPT_WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="INDEPENDENT_INTERPRETER_PATH" value="true" />
+      <option name="INTERPRETER_PATH" value="/bin/bash" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="EXECUTE_IN_TERMINAL" value="true" />
+      <option name="EXECUTE_SCRIPT_FILE" value="true" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="CILogon" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 9.0.65" ALTERNATIVE_JRE_ENABLED="true" ALTERNATIVE_JRE_PATH="/usr/lib/jvm/java-11-openjdk-amd64">
+      <option name="OPEN_IN_BROWSER_URL" value="https://localhost:9443/client2/" />
+      <option name="UPDATING_POLICY" value="restart-server" />
+      <deployment>
+        <artifact name="cilogon-client:war">
+          <settings>
+            <option name="CONTEXT_PATH" value="/client2" />
+          </settings>
+        </artifact>
+        <artifact name="cilogon-webapp:war">
+          <settings>
+            <option name="CONTEXT_PATH" value="/oauth2" />
+          </settings>
+        </artifact>
+      </deployment>
+      <server-settings>
+        <option name="BASE_DIRECTORY_NAME" value="94f0bf41-afd6-4e5c-84bd-710f2b27c243" />
+        <option name="HTTPS_PORT" value="9443" />
+      </server-settings>
+      <predefined_log_file enabled="true" id="Tomcat" />
+      <predefined_log_file enabled="true" id="Tomcat Catalina" />
+      <predefined_log_file id="Tomcat Manager" />
+      <predefined_log_file id="Tomcat Host Manager" />
+      <predefined_log_file id="Tomcat Localhost Access" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="34895" />
+      </RunnerSettings>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Cover">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Debug">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Profile">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Run">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <method v="2">
+        <option name="Make" enabled="true" />
+        <option name="BuildArtifacts" enabled="true">
+          <artifact name="cilogon-client:war" />
+        </option>
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.CLI" />
+      <item itemvalue="Application.QDL" />
+      <item itemvalue="Application.SAMLAttributeClaimSource" />
+      <item itemvalue="Application.UserClaimSource" />
+      <item itemvalue="Java Scratch.Scratch" />
+      <item itemvalue="JUnit.Test Suite" />
+      <item itemvalue="Shell Script.build-all.sh" />
+      <item itemvalue="Tomcat Server.CILogon" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.SAMLAttributeClaimSource" />
+        <item itemvalue="Shell Script.build-all.sh" />
+        <item itemvalue="Application.UserClaimSource" />
+        <item itemvalue="Java Scratch.Scratch" />
+        <item itemvalue="Shell Script.build-all.sh" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration" maxAnnotateRevisions="500">
+    <option name="USER" value="" />
+    <option name="PASSWORD" value="" />
+    <option name="mySSHConnectionTimeout" value="30000" />
+    <option name="mySSHReadTimeout" value="30000" />
+    <option name="LAST_MERGED_REVISION" />
+    <option name="MERGE_DRY_RUN" value="false" />
+    <option name="MERGE_DIFF_USE_ANCESTRY" value="true" />
+    <option name="UPDATE_LOCK_ON_DEMAND" value="false" />
+    <option name="IGNORE_SPACES_IN_MERGE" value="false" />
+    <option name="DETECT_NESTED_COPIES" value="true" />
+    <option name="CHECK_NESTED_FOR_QUICK_MERGE" value="false" />
+    <option name="IGNORE_SPACES_IN_ANNOTATE" value="true" />
+    <option name="SHOW_MERGE_SOURCES_IN_ANNOTATE" value="true" />
+    <option name="FORCE_UPDATE" value="false" />
+    <myIsUseDefaultProxy>false</myIsUseDefaultProxy>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="058d6516-984d-4ed0-85c4-47c7230f9d8e" name="Changes" comment="" />
+      <created>1659375765089</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1659375765089</updated>
+      <workItem from="1659375766459" duration="9695000" />
+      <workItem from="1660684326966" duration="1379000" />
+      <workItem from="1660850604654" duration="2986000" />
+      <workItem from="1660912752379" duration="1653000" />
+      <workItem from="1661523591006" duration="446000" />
+      <workItem from="1661524230000" duration="1114000" />
+      <workItem from="1661873580247" duration="5420000" />
+      <workItem from="1662066738452" duration="2559000" />
+      <workItem from="1662466493585" duration="1315000" />
+      <workItem from="1662492581926" duration="11000" />
+      <workItem from="1662563401558" duration="1311000" />
+      <workItem from="1662735931508" duration="1289000" />
+      <workItem from="1663166150861" duration="22113000" />
+      <workItem from="1663771263651" duration="2141000" />
+      <workItem from="1663877294785" duration="1499000" />
+      <workItem from="1664401729725" duration="1637000" />
+      <workItem from="1664461981795" duration="1293000" />
+      <workItem from="1664538963581" duration="9303000" />
+      <workItem from="1664895848287" duration="10000" />
+      <workItem from="1665066552142" duration="4633000" />
+      <workItem from="1665167023104" duration="4912000" />
+      <workItem from="1665517573131" duration="20271000" />
+      <workItem from="1666019723908" duration="1498000" />
+      <workItem from="1666102935133" duration="5065000" />
+      <workItem from="1666810568267" duration="2564000" />
+      <workItem from="1666879113944" duration="2748000" />
+      <workItem from="1667563588153" duration="24039000" />
+      <workItem from="1668522864057" duration="1910000" />
+      <workItem from="1668608202689" duration="5214000" />
+      <workItem from="1669290925027" duration="3765000" />
+      <workItem from="1669827725133" duration="850000" />
+      <workItem from="1669829925850" duration="11498000" />
+      <workItem from="1671201784881" duration="8571000" />
+      <workItem from="1672747657867" duration="956000" />
+      <workItem from="1673024778501" duration="3874000" />
+      <workItem from="1673440040679" duration="2341000" />
+      <workItem from="1674241428586" duration="28000" />
+      <workItem from="1674680331851" duration="2339000" />
+      <workItem from="1674861296894" duration="527000" />
+      <workItem from="1675094813368" duration="33000" />
+      <workItem from="1675180300337" duration="6222000" />
+      <workItem from="1675280935006" duration="6316000" />
+      <workItem from="1675463860497" duration="1130000" />
+      <workItem from="1675790260481" duration="1357000" />
+    </task>
+    <task id="LOCAL-00001" summary="Starting work on web site redo">
+      <created>1659385560069</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1659385560069</updated>
+    </task>
+    <task id="LOCAL-00002" summary="CIL-1388,  CIL-1342. The returned error codes from QDL now set custom_error_uri in the response from the DBService.">
+      <created>1660913663866</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1660913663866</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Checkin for release">
+      <created>1663622357433</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1663622357433</updated>
+    </task>
+    <task id="LOCAL-00004" summary="5.2.8 check in">
+      <created>1663622777845</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1663622777845</updated>
+    </task>
+    <task id="LOCAL-00005" summary="5.2.8.1 pre-release check-in">
+      <created>1664829213531</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1664829213531</updated>
+    </task>
+    <task id="LOCAL-00006" summary="5.2.8.1">
+      <created>1664829724483</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1664829724483</updated>
+    </task>
+    <task id="LOCAL-00007" summary="tracked down and fixed issue with self-sgned cert on local machine preventing DBService tests.">
+      <created>1665787039554</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1665787039554</updated>
+    </task>
+    <task id="LOCAL-00008" summary="CIL-1538, CIL-1541">
+      <created>1666810688246</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1666810688246</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Updated a constructor.">
+      <created>1668035497876</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1668035497876</updated>
+    </task>
+    <task id="LOCAL-00010" summary="CIL-1354, CIL-1556, CIL-834. Online documentation in the CLI is now supported. A great deal of it to boot.">
+      <created>1670017832502</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1670017832502</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Checkin before rolling 5.2.8.3">
+      <created>1673024829077</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1673024829077</updated>
+    </task>
+    <task id="LOCAL-00012" summary="5.2.8.3 Checkin">
+      <created>1673030176424</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1673030176424</updated>
+    </task>
+    <task id="LOCAL-00013" summary="CIL-1625 make sure text messages lookup for DBService error codes is correct.">
+      <created>1675184200786</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1675184200786</updated>
+    </task>
+    <task id="LOCAL-00014" summary="CIL-1266 needed to tweak a constructor.">
+      <created>1675465565911</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1675465565911</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="OFFER_MOVE_TO_ANOTHER_CHANGELIST_ON_PARTIAL_COMMIT" value="true" />
+    <MESSAGE value="Starting work on web site redo" />
+    <MESSAGE value="CIL-1388, CIL-1342. The returned error codes from QDL now set custom_error_uri in the response from the DBService." />
+    <MESSAGE value="CIL-1388,  CIL-1342. The returned error codes from QDL now set custom_error_uri in the response from the DBService." />
+    <MESSAGE value="Checkin for release" />
+    <MESSAGE value="5.2.8 check in" />
+    <MESSAGE value="5.2.8.1 pre-release check-in" />
+    <MESSAGE value="5.2.8.1" />
+    <MESSAGE value="tracked down and fixed issue with self-sgned cert on local machine preventing DBService tests." />
+    <MESSAGE value="CIL-1538, CIL-1541" />
+    <MESSAGE value="Updated a constructor." />
+    <MESSAGE value="CIL-1354, CIL-1556, CIL-834. Online documentation in the CLI is now supported. A great deal of it to boot." />
+    <MESSAGE value="Checkin before rolling 5.2.8.3" />
+    <MESSAGE value="5.2.8.3 Checkin" />
+    <MESSAGE value="CIL-1625 make sure text messages lookup for DBService error codes is correct." />
+    <MESSAGE value="CIL-1266 needed to tweak a constructor." />
+    <option name="LAST_COMMIT_MESSAGE" value="CIL-1266 needed to tweak a constructor." />
+    <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$MAVEN_REPOSITORY$/edu/uiuc/ncsa/security/core/5.2.9.0/core-5.2.9.0-sources.jar!/edu/uiuc/ncsa/security/core/cache/Cleanup.java</url>
+          <line>81</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/cilogon-test/src/test/java/test/cilogon/impl/NewCILTransactionStoreTest.java</url>
+          <line>21</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

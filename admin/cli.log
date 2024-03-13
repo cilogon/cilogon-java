@@ -1,0 +1,49 @@
+[INFO] Scanning for projects...
+[WARNING] 
+[WARNING] Some problems were encountered while building the effective model for org.cilogon:admin:jar:5.3-SNAPSHOT
+[WARNING] 'dependencies.dependency.(groupId:artifactId:type:classifier)' must be unique: org.cilogon:loader:jar -> duplicate declaration of version 5.3-SNAPSHOT @ line 77, column 43
+[WARNING] 
+[WARNING] It is highly recommended to fix these problems because they threaten the stability of your build.
+[WARNING] 
+[WARNING] For this reason, future Maven versions might no longer support building such malformed projects.
+[WARNING] 
+[INFO] 
+[INFO] -------------------------< org.cilogon:admin >--------------------------
+[INFO] Building Cilogon administrative tools 5.3-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- enforcer:1.2:enforce (enforce-maven) @ admin ---
+[INFO] 
+[INFO] --- resources:3.3.0:resources (default-resources) @ admin ---
+[INFO] Copying 8 resources
+[INFO] 
+[INFO] --- compiler:3.10.1:compile (default-compile) @ admin ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- resources:3.3.0:testResources (default-testResources) @ admin ---
+[INFO] skip non existing resourceDirectory /home/ncsa/dev/ncsa-git/cilogon/admin/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.10.1:testCompile (default-testCompile) @ admin ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- surefire:3.0.0-M7:test (default-test) @ admin ---
+[WARNING] Parameter 'localRepository' is deprecated core expression; Avoid use of ArtifactRepository type. If you need access to local repository, switch to '${repositorySystemSession}' expression and get LRM from it instead.
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- jar:3.3.0:jar (default-jar) @ admin ---
+[INFO] 
+[INFO] --- assembly:3.1.0:single (make-my-jar-with-dependencies) @ admin ---
+[WARNING] Parameter 'localRepository' is deprecated core expression; Avoid use of ArtifactRepository type. If you need access to local repository, switch to '${repositorySystemSession}' expression and get LRM from it instead.
+[WARNING] Parameter 'finalName' is read-only, must not be used in configuration
+Downloading from jvnet-nexus-snapshots: https://maven.java.net/content/repositories/snapshots/edu/uiuc/ncsa/security/crypt8/5.3-SNAPSHOT/maven-metadata.xml
+[WARNING] Could not transfer metadata edu.uiuc.ncsa.security:crypt8:5.3-SNAPSHOT/maven-metadata.xml from/to maven-default-http-blocker (http://0.0.0.0/): Blocked mirror for repositories: [apache.snapshots (http://people.apache.org/repo/m2-snapshot-repository, default, snapshots)]
+Downloading from jvnet-nexus-snapshots: https://maven.java.net/content/repositories/snapshots/edu/uiuc/ncsa/security/crypto-java8/5.3-SNAPSHOT/maven-metadata.xml
+[WARNING] Could not transfer metadata edu.uiuc.ncsa.security:crypto-java8:5.3-SNAPSHOT/maven-metadata.xml from/to maven-default-http-blocker (http://0.0.0.0/): Blocked mirror for repositories: [apache.snapshots (http://people.apache.org/repo/m2-snapshot-repository, default, snapshots)]
+[INFO] Building jar: /home/ncsa/dev/ncsa-git/cilogon/admin/target/cilogon-oa2-cli-jar-with-dependencies.jar
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  15.173 s
+[INFO] Finished at: 2024-03-13T12:02:40-05:00
+[INFO] ------------------------------------------------------------------------

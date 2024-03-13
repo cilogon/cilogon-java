@@ -1,0 +1,19 @@
+----------------------------------------------------------------
+Wed Oct 26 07:00:58 CDT 2022:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (???): instance a816c00e-0184-142a-c5b4-00001ecc9ef8 
+on database directory /home/ncsa/dev/derby/client_oa4mp with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@55054057 
+Loaded from file:/usr/share/java/derby.jar
+java.vendor=Ubuntu
+java.runtime.version=11.0.16+8-post-Ubuntu-0ubuntu120.04
+user.dir=/home/ncsa/dev/ncsa-git/cilogon/cilogon-admin/src/main/scripts
+os.name=Linux
+os.arch=amd64
+os.version=5.4.0-126-generic
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Wed Oct 26 07:04:42 CDT 2022: Shutting down Derby engine
+----------------------------------------------------------------
+Wed Oct 26 07:04:43 CDT 2022:
+Shutting down instance a816c00e-0184-142a-c5b4-00001ecc9ef8 on database directory /home/ncsa/dev/derby/client_oa4mp with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@55054057 
+----------------------------------------------------------------

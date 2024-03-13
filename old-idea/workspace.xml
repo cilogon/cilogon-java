@@ -1,0 +1,733 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="cilogon-client:war" />
+      <artifact name="cilogon2-server-oauth2:war" />
+    </artifacts-to-build>
+  </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="aeef3ca2-7ec9-467b-99d8-b821ee58db86" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/cilogon-webapp/src/main/webapp/WEB-INF/web.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cilogon-webapp/src/main/webapp/admin-client-registration-init.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cilogon-webapp/src/main/webapp/admin-client-registration-ok.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cilogon-webapp/src/main/webapp/geernalerror.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cilogon-webapp/src/main/webapp/registration-ini.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cilogon-webapp/src/main/webapp/registration-ok.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cilogon-webapp/src/main/webapp/static/cilogon.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cilogon-server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/cilogon-server/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cilogon-test/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/cilogon-test/buildNumber.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cilogon-test/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/cilogon-test/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cilogon-test/src/test/java/test/cilogon/DBServiceTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/cilogon-test/src/test/java/test/cilogon/DBServiceTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cilogon-webapp/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/cilogon-webapp/pom.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CodeInsightWorkspaceSettings">
+    <option name="optimizeImportsOnTheFly" value="true" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+        <option value="Jsp File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <excluded-from-favorite>
+      <branch-storage>
+        <map>
+          <entry type="LOCAL">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="master" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </excluded-from-favorite>
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="5.2.7.1" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="23MzX3kdh4oL91uRm4wKZ2wRQDI" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectReloadState">
+    <option name="STATE" value="0" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="autoscrollFromSource" value="true" />
+    <option name="autoscrollToSource" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+    <option name="showMembers" value="true" />
+    <option name="showModules" value="false" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="GoToClass.includeLibraries" value="false" />
+    <property name="GoToClass.toSaveIncludeLibraries" value="false" />
+    <property name="GoToFile.includeJavaFiles" value="false" />
+    <property name="MemberChooser.copyJavadoc" value="false" />
+    <property name="MemberChooser.showClasses" value="true" />
+    <property name="MemberChooser.sorted" value="false" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.6877193" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveInnerDialog.RECENTS_KEY">
+      <recent name="org.cilogon.oauth2.servlet" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Tomcat Server.CILogon">
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <module />
+      <method />
+    </configuration>
+    <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
+      <Host>localhost</Host>
+      <Port>5050</Port>
+    </configuration>
+    <configuration name="CLI" type="Application" factoryName="Application">
+      <option name="ALTERNATIVE_JRE_PATH" value="1.8_261" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="org.cilogon.oauth2.admin.CILogonOA2Commands" />
+      <module name="cilogon-admin" />
+      <option name="PROGRAM_PARAMETERS" value="-cfg $PROJECT_DIR$/../../csd/config/servers.xml -name cilogon.oa2.mysql" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="QDL" type="Application" factoryName="Application">
+      <option name="ALTERNATIVE_JRE_PATH" value="1.8_261" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="edu.uiuc.ncsa.qdl.workspace.QDLWorkspace" />
+      <module name="cilogon-qdl" />
+      <option name="PROGRAM_PARAMETERS" value="-cfg $PROJECT_DIR$/../../csd/config/qdl-cfg.xml -name cil-dev" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application">
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Test Suite" type="JUnit" factoryName="JUnit">
+      <module name="cilogon-test" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="ALTERNATIVE_JRE_PATH" value="1.8_261" />
+      <option name="PACKAGE_NAME" value="test" />
+      <option name="MAIN_CLASS_NAME" value="test.CILServiceTestSuite2" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="-ea -Doa4mp:cil-oa2.server.config.file=$PROJECT_DIR$/../../csd/config/servers.xml" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="build-all.sh" type="ShConfigurationType" temporary="true">
+      <option name="SCRIPT_TEXT" value="" />
+      <option name="INDEPENDENT_SCRIPT_PATH" value="true" />
+      <option name="SCRIPT_PATH" value="$PROJECT_DIR$/build-all.sh" />
+      <option name="SCRIPT_OPTIONS" value="" />
+      <option name="INDEPENDENT_SCRIPT_WORKING_DIRECTORY" value="true" />
+      <option name="SCRIPT_WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="INDEPENDENT_INTERPRETER_PATH" value="true" />
+      <option name="INTERPRETER_PATH" value="/bin/bash" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="EXECUTE_IN_TERMINAL" value="true" />
+      <option name="EXECUTE_SCRIPT_FILE" value="true" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="build.sh" type="ShConfigurationType" temporary="true">
+      <option name="SCRIPT_TEXT" value="" />
+      <option name="INDEPENDENT_SCRIPT_PATH" value="true" />
+      <option name="SCRIPT_PATH" value="$PROJECT_DIR$/build.sh" />
+      <option name="SCRIPT_OPTIONS" value="" />
+      <option name="INDEPENDENT_SCRIPT_WORKING_DIRECTORY" value="true" />
+      <option name="SCRIPT_WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="INDEPENDENT_INTERPRETER_PATH" value="true" />
+      <option name="INTERPRETER_PATH" value="/bin/bash" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="EXECUTE_IN_TERMINAL" value="true" />
+      <option name="EXECUTE_SCRIPT_FILE" value="true" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="CILogon" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 8.0" ALTERNATIVE_JRE_ENABLED="true" ALTERNATIVE_JRE_PATH="11.0.8">
+      <option name="OPEN_IN_BROWSER_URL" value="https://localhost:9443/cilogon_client_war/" />
+      <option name="UPDATING_POLICY" value="restart-server" />
+      <deployment>
+        <artifact name="cilogon-client:war">
+          <settings>
+            <option name="CONTEXT_PATH" value="/cilogon_client_war" />
+          </settings>
+        </artifact>
+        <artifact name="cilogon2-server-oauth2:war">
+          <settings>
+            <option name="CONTEXT_PATH" value="/cilogon2_server_oauth2_war" />
+          </settings>
+        </artifact>
+      </deployment>
+      <server-settings>
+        <option name="BASE_DIRECTORY_NAME" value="82889175-40c0-4c6b-9a9c-0e9b1ee95c2f" />
+        <option name="HTTPS_PORT" value="9443" />
+      </server-settings>
+      <predefined_log_file enabled="true" id="Tomcat" />
+      <predefined_log_file enabled="true" id="Tomcat Catalina" />
+      <predefined_log_file id="Tomcat Manager" />
+      <predefined_log_file id="Tomcat Host Manager" />
+      <predefined_log_file id="Tomcat Localhost Access" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="39263" />
+      </RunnerSettings>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Cover">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Debug">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Profile">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Run">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <method v="2">
+        <option name="Make" enabled="true" />
+        <option name="BuildArtifacts" enabled="true">
+          <artifact name="cilogon-client:war" />
+          <artifact name="cilogon2-server-oauth2:war" />
+        </option>
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.CLI" />
+      <item itemvalue="Application.QDL" />
+      <item itemvalue="JUnit.Test Suite" />
+      <item itemvalue="Shell Script.build.sh" />
+      <item itemvalue="Shell Script.build-all.sh" />
+      <item itemvalue="Tomcat Server.CILogon" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Shell Script.build.sh" />
+        <item itemvalue="Shell Script.build-all.sh" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration" maxAnnotateRevisions="500">
+    <option name="USER" value="" />
+    <option name="PASSWORD" value="" />
+    <option name="mySSHConnectionTimeout" value="30000" />
+    <option name="mySSHReadTimeout" value="30000" />
+    <option name="LAST_MERGED_REVISION" />
+    <option name="MERGE_DRY_RUN" value="false" />
+    <option name="MERGE_DIFF_USE_ANCESTRY" value="true" />
+    <option name="UPDATE_LOCK_ON_DEMAND" value="false" />
+    <option name="IGNORE_SPACES_IN_MERGE" value="false" />
+    <option name="DETECT_NESTED_COPIES" value="true" />
+    <option name="CHECK_NESTED_FOR_QUICK_MERGE" value="false" />
+    <option name="IGNORE_SPACES_IN_ANNOTATE" value="true" />
+    <option name="SHOW_MERGE_SOURCES_IN_ANNOTATE" value="true" />
+    <option name="FORCE_UPDATE" value="false" />
+    <myIsUseDefaultProxy>false</myIsUseDefaultProxy>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="aeef3ca2-7ec9-467b-99d8-b821ee58db86" name="Changes" comment="" />
+      <created>1641558781108</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1641558781108</updated>
+      <workItem from="1641558782575" duration="39757000" />
+      <workItem from="1643136097833" duration="1279000" />
+      <workItem from="1643295975089" duration="606000" />
+      <workItem from="1643733302238" duration="6926000" />
+      <workItem from="1644591874281" duration="14009000" />
+      <workItem from="1646156988415" duration="25814000" />
+      <workItem from="1646585824856" duration="3089000" />
+      <workItem from="1646687971929" duration="3876000" />
+      <workItem from="1646749790657" duration="7575000" />
+      <workItem from="1647014578874" duration="6687000" />
+      <workItem from="1647292840954" duration="18578000" />
+      <workItem from="1647627392420" duration="56536000" />
+      <workItem from="1648129894586" duration="16650000" />
+      <workItem from="1648752041782" duration="5424000" />
+      <workItem from="1649079826038" duration="30206000" />
+      <workItem from="1650491630723" duration="626000" />
+      <workItem from="1651007385275" duration="3127000" />
+      <workItem from="1651094195706" duration="150000" />
+      <workItem from="1651234318341" duration="1424000" />
+      <workItem from="1651256762834" duration="5839000" />
+      <workItem from="1651267453679" duration="119000" />
+      <workItem from="1652299006966" duration="1152000" />
+      <workItem from="1654700224590" duration="5908000" />
+      <workItem from="1654786913171" duration="19981000" />
+      <workItem from="1655479229239" duration="187000" />
+      <workItem from="1655735640372" duration="6319000" />
+      <workItem from="1655758314519" duration="3351000" />
+      <workItem from="1655822330792" duration="453000" />
+      <workItem from="1655824078330" duration="14929000" />
+      <workItem from="1656018514303" duration="1251000" />
+      <workItem from="1656092943518" duration="1651000" />
+      <workItem from="1656104440639" duration="70000" />
+      <workItem from="1656359589087" duration="7623000" />
+      <workItem from="1657037009525" duration="9721000" />
+      <workItem from="1657138512306" duration="2296000" />
+      <workItem from="1657227273372" duration="5909000" />
+      <workItem from="1657311898549" duration="1679000" />
+      <workItem from="1657916130774" duration="1561000" />
+      <workItem from="1658058852801" duration="26193000" />
+      <workItem from="1658770956529" duration="100000" />
+      <workItem from="1658771244200" duration="23014000" />
+      <workItem from="1658931204171" duration="12459000" />
+      <workItem from="1659104316636" duration="194000" />
+      <workItem from="1659357052250" duration="11463000" />
+    </task>
+    <task id="LOCAL-00001" summary="Changes in other projects require this be pushed to make sure everything is still in sync.">
+      <created>1641937116982</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1641937116982</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Still more junit version fixes.">
+      <created>1641991132653</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1641991132653</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Last push to keep everything in sync for release.">
+      <created>1643037256344</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1643037256344</updated>
+    </task>
+    <task id="LOCAL-00004" summary="5.2.4 checkin">
+      <created>1643038174296</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1643038174296</updated>
+    </task>
+    <task id="LOCAL-00005" summary="XML serialization in QDL modules.">
+      <created>1645829326739</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1645829326739</updated>
+    </task>
+    <task id="LOCAL-00006" summary="CIL-1187 support. Added a couple of utility scripts.">
+      <created>1646260659782</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1646260659782</updated>
+    </task>
+    <task id="LOCAL-00007" summary="CIL-1146. This required some small changes but mostly this was making sure the maven build would work.">
+      <created>1646691402751</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1646691402751</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Added saving the user uid directly for CIL-771.">
+      <created>1647031170713</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1647031170713</updated>
+    </task>
+    <task id="LOCAL-00009" summary="CIL-1211. Added some testing scripts.">
+      <created>1647631079035</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1647631079035</updated>
+    </task>
+    <task id="LOCAL-00010" summary="5.2.5 final checkin">
+      <created>1647969114473</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1647969114473</updated>
+    </task>
+    <task id="LOCAL-00011" summary="5.2.5  checkin">
+      <created>1647980334565</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1647980334565</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Side effects of changing debugging.">
+      <created>1648591198609</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1648591198609</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Updated constructors to allow for GC alarms.">
+      <created>1649714378179</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1649714378179</updated>
+    </task>
+    <task id="LOCAL-00014" summary="5.2.6 check in">
+      <created>1651007424188</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1651007424188</updated>
+    </task>
+    <task id="LOCAL-00015" summary="5.2.6 check in">
+      <created>1651007879833</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1651007879833</updated>
+    </task>
+    <task id="LOCAL-00016" summary="5.2.6 re-roll check in">
+      <created>1651256800316</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1651256800316</updated>
+    </task>
+    <task id="LOCAL-00017" summary="5.2.6 fixed">
+      <created>1651266558287</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1651266558287</updated>
+    </task>
+    <task id="LOCAL-00018" summary="Fixes for test suite and tests.">
+      <created>1656104502713</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1656104502713</updated>
+    </task>
+    <task id="LOCAL-00019" summary="Class rename part 3.">
+      <created>1656360516197</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1656360516197</updated>
+    </task>
+    <task id="LOCAL-00020" summary="5.2.7 checkin.">
+      <created>1657138553828</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1657138553828</updated>
+    </task>
+    <task id="LOCAL-00021" summary="5.2.7 checkin.">
+      <created>1657140087328</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1657140087328</updated>
+    </task>
+    <task id="LOCAL-00022" summary="Fixes for CIL-1333, CIL-1328">
+      <created>1657311927302</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1657311927302</updated>
+    </task>
+    <task id="LOCAL-00023" summary="Fixes for CIL-1333, CIL-1328">
+      <created>1657312300907</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1657312300907</updated>
+    </task>
+    <task id="LOCAL-00024" summary="Updated some logging.">
+      <created>1658422157949</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1658422157949</updated>
+    </task>
+    <task id="LOCAL-00025" summary="Switch to Java 11. Removing OAuth 1.0a code">
+      <created>1658771047248</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1658771047248</updated>
+    </task>
+    <task id="LOCAL-00026" summary="Switch to Java 11. Removing OAuth 1.0a code, Part 2">
+      <created>1658771282164</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1658771282164</updated>
+    </task>
+    <task id="LOCAL-00027" summary="Switch to Java 11. Removing OAuth 1.0a code, Part 3">
+      <created>1658784034133</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1658784034133</updated>
+    </task>
+    <task id="LOCAL-00028" summary="Switch to Java 11. Removing dead project files">
+      <created>1658784316774</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1658784316774</updated>
+    </task>
+    <task id="LOCAL-00029" summary="Restructure modules. Now that there are no oauth1 files, we can simplify the names, amalgamate them and generally streamline the build.">
+      <created>1658784565275</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1658784565275</updated>
+    </task>
+    <task id="LOCAL-00030" summary="Restructure modules. OA4MP dependencies changed, so CILogon has to as well now.">
+      <created>1658786911025</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1658786911025</updated>
+    </task>
+    <task id="LOCAL-00031" summary="Fiddling with build. Need to update a bunch of Maven plugins and need to take a snapshot of current functional build.">
+      <created>1658864054621</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1658864054621</updated>
+    </task>
+    <task id="LOCAL-00032" summary="Update driver versions.">
+      <created>1658873804243</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1658873804243</updated>
+    </task>
+    <task id="LOCAL-00033" summary="Poms updated to get qdl from new repo, build and build-all scripts completely redone and added">
+      <created>1658946942604</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1658946942604</updated>
+    </task>
+    <task id="LOCAL-00034" summary="CIL-627 -- need partial commit to be able to build, so...">
+      <created>1659371493388</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1659371493388</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="OFFER_MOVE_TO_ANOTHER_CHANGELIST_ON_PARTIAL_COMMIT" value="true" />
+    <MESSAGE value="CIL-1146. This required some small changes but mostly this was making sure the maven build would work." />
+    <MESSAGE value="Added saving the user uid directly for CIL-771." />
+    <MESSAGE value="CIL-1211. Added some testing scripts." />
+    <MESSAGE value="5.2.5 final checkin" />
+    <MESSAGE value="5.2.5  checkin" />
+    <MESSAGE value="Side effects of changing debugging." />
+    <MESSAGE value="Updated constructors to allow for GC alarms." />
+    <MESSAGE value="5.2.6 check in" />
+    <MESSAGE value="5.2.6 re-roll check in" />
+    <MESSAGE value="5.2.6 fixed" />
+    <MESSAGE value="Fixes for test suite and tests." />
+    <MESSAGE value="Class rename part 3." />
+    <MESSAGE value="5.2.7 checkin." />
+    <MESSAGE value="Fixes for CIL-1333, CIL-1328" />
+    <MESSAGE value="Updated some logging." />
+    <MESSAGE value="Switch to Java 11. Removing OAuth 1.0a code" />
+    <MESSAGE value="Switch to Java 11. Removing OAuth 1.0a code, Part 2" />
+    <MESSAGE value="Switch to Java 11. Removing OAuth 1.0a code, Part 3" />
+    <MESSAGE value="Switch to Java 11. Removing dead project files" />
+    <MESSAGE value="Restructure modules. Now that there are no oauth1 files, we can simplify the names, amalgamate them and generally streamline the build." />
+    <MESSAGE value="Restructure modules. OA4MP dependencies changed, so CILogon has to as well now." />
+    <MESSAGE value="Fiddling with build. Need to update a bunch of Maven plugins and need to take a snapshot of current functional build." />
+    <MESSAGE value="Update driver versions." />
+    <MESSAGE value="Poms updated to get qdl from new repo, build and build-all scripts completely redone and added" />
+    <MESSAGE value="CIL-627 -- need partial commit to be able to build, so..." />
+    <option name="LAST_COMMIT_MESSAGE" value="CIL-627 -- need partial commit to be able to build, so..." />
+    <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/cilogon-proxy/src/main/java/org/cilogon/proxy/servlet/DBService2.java</url>
+          <line>447</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$MAVEN_REPOSITORY$/edu/uiuc/ncsa/security/ncsa-qdl/1.4.8/ncsa-qdl-1.4.8-sources.jar!/edu/uiuc/ncsa/qdl/workspace/WorkspaceCommands.java</url>
+          <line>3793</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$MAVEN_REPOSITORY$/edu/uiuc/ncsa/security/ncsa-qdl/1.4.8/ncsa-qdl-1.4.8-sources.jar!/edu/uiuc/ncsa/qdl/workspace/WorkspaceCommands.java</url>
+          <line>4196</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$MAVEN_REPOSITORY$/edu/uiuc/ncsa/security/ncsa-qdl/1.4.8/ncsa-qdl-1.4.8-sources.jar!/edu/uiuc/ncsa/qdl/workspace/WorkspaceCommands.java</url>
+          <line>4198</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$MAVEN_REPOSITORY$/edu/uiuc/ncsa/security/ncsa-qdl/1.4.8/ncsa-qdl-1.4.8-sources.jar!/edu/uiuc/ncsa/qdl/workspace/WorkspaceCommands.java</url>
+          <line>4323</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$MAVEN_REPOSITORY$/edu/uiuc/ncsa/myproxy/oa4mp-server-loader-oauth2/5.2.8.1/oa4mp-server-loader-oauth2-5.2.8.1-sources.jar!/edu/uiuc/ncsa/myproxy/oa4mp/oauth2/servlet/OA2DiscoveryServlet.java</url>
+          <line>194</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$MAVEN_REPOSITORY$/edu/uiuc/ncsa/myproxy/oa4mp-server-loader-oauth2/5.2.8.1/oa4mp-server-loader-oauth2-5.2.8.1-sources.jar!/edu/uiuc/ncsa/myproxy/oa4mp/oauth2/servlet/OA2DiscoveryServlet.java</url>
+          <line>131</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$MAVEN_REPOSITORY$/edu/uiuc/ncsa/security/ncsa-security-storage/5.2.8.1/ncsa-security-storage-5.2.8.1-sources.jar!/edu/uiuc/ncsa/security/storage/sql/mariadb/MariaDBConnectionPoolProvider.java</url>
+          <line>51</line>
+          <option name="timeStamp" value="16" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$MAVEN_REPOSITORY$/edu/uiuc/ncsa/security/ncsa-security-storage/5.2.8.1/ncsa-security-storage-5.2.8.1-sources.jar!/edu/uiuc/ncsa/security/storage/sql/mariadb/MariaDBConnectionPool.java</url>
+          <line>21</line>
+          <option name="timeStamp" value="17" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$MAVEN_REPOSITORY$/edu/uiuc/ncsa/security/ncsa-security-storage/5.2.8.1/ncsa-security-storage-5.2.8.1-sources.jar!/edu/uiuc/ncsa/security/storage/sql/mariadb/MariaDBConnectionParameters.java</url>
+          <line>15</line>
+          <option name="timeStamp" value="18" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$MAVEN_REPOSITORY$/edu/uiuc/ncsa/security/ncsa-security-storage/5.2.8.1/ncsa-security-storage-5.2.8.1-sources.jar!/edu/uiuc/ncsa/security/storage/sql/mariadb/MariaDBConnectionParameters.java</url>
+          <line>30</line>
+          <option name="timeStamp" value="19" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/cilogon2-server-oauth1/src/test/java/org/cilogon/d2/CILTokenTest.java</url>
+          <line>23</line>
+          <option name="timeStamp" value="26" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
