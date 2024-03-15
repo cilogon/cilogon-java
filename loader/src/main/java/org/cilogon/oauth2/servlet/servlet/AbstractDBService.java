@@ -525,7 +525,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
                     ServletDebugUtil.trace(this, "created user " + user3);
 
                     //CIL-503 fix:
-                    getUserStore().update(user3, true);
+                    getUserStore().updateCheckSerialString(user3, true);
                     gotOne = true;
                 } catch (InvalidUserIdException iuidx) {
                     // keep retying.
@@ -649,12 +649,12 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
         // Again, the second argument in the next call  means
         ServletDebugUtil.trace(this, "saved user " + user);
         if ((!oldCanGetCert && user.canGetCert()) || (!user.canGetCert())) {
-            getUserStore().update(user, true); // force that there is no new serial string produced.
+            getUserStore().updateCheckSerialString(user, true); // force that there is no new serial string produced.
             // user could not get a cert before but can no, don't change serial string, use current.
             return true;
         }
         // If we get here, then the user has been able to create certs and something may or may not have changed.
-        getUserStore().update(user, keepSerialString);
+        getUserStore().updateCheckSerialString(user, keepSerialString);
         return keepSerialString;
     }
 
@@ -889,7 +889,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
         if (useUSinDNString != null) {
             user.setUseUSinDN(parseUseUSinDNString(useUSinDNString));
         }
-        getUserStore().update(user, true);
+        getUserStore().updateCheckSerialString(user, true);
         ServletDebugUtil.trace(this, "stored user. uid=" + user.getIdentifierString() + ", serial string = " + user.getSerialString());
 
         writeUser(user, StatusCodes.STATUS_NEW_USER, response);
@@ -938,7 +938,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
                 continue;
             }
             userLogic(currentUser, userMultiKey);
-            getUserStore().update(currentUser, true);
+            getUserStore().updateCheckSerialString(currentUser, true);
             if (user == null) {
                 user = currentUser;
             } else {
@@ -1118,7 +1118,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
             if (saveUser) {
                 ServletDebugUtil.trace(this, "get&Archive: Saving user, no update");
 
-                getUserStore().update(oldUser, true); // force that there is no new serial string produced.
+                getUserStore().updateCheckSerialString(oldUser, true); // force that there is no new serial string produced.
             }
             writeUser(oldUser, tfi, StatusCodes.STATUS_OK, response);
             return;

@@ -161,7 +161,7 @@ public class MemoryUserStore extends MonitoredMemoryStore<User> implements UserS
     }
 
     @Override
-    public void update(User user, boolean noNewSerialID) {
+    public void updateCheckSerialString(User user, boolean noNewSerialID) {
         if (!noNewSerialID) {
             Identifier serialString = getUserProvider().newIdentifier();
             if (containsKey(serialString)) {
@@ -174,9 +174,23 @@ public class MemoryUserStore extends MonitoredMemoryStore<User> implements UserS
 
     }
 
+/*    @Override
+    public void update(User user, boolean noNewSerialID) {
+        if (!noNewSerialID) {
+            Identifier serialString = getUserProvider().newIdentifier();
+            if (containsKey(serialString)) {
+                throw new InvalidUserIdException("Error: user id \"" + serialString + "\" already in use.");
+            }
+            user.setSerialIdentifier(serialString); // or subsequent calls have wrong serial string!
+
+        }
+        super.update(user);
+
+    }*/
+
     @Override
     public void update(User value) {
-        update(value, false);
+        updateCheckSerialString(value, false);
     }
 
     UserConverter userConverter = null;

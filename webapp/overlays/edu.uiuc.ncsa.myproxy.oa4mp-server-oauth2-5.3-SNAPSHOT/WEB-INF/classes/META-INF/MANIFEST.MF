@@ -2,8 +2,8 @@ Manifest-Version: 1.0
 Created-By: Apache Maven
 Archiver-Version: Plexus Archiver
 Built-By: ncsa
-Build-Jdk: 11.0.21
+Build-Jdk: 11.0.22
 Build-Time: ${build.time}
 Application-Name: : OAuth 2 webapp
 Application-Version: : 5.3-SNAPSHOT
-Application-Description: Build: #11,672 (2024-02-23T16:50:24.475-06:00)
+Application-Description: Build: #11,832 (2024-03-15T16:24:42.285-05:00)

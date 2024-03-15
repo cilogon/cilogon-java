@@ -217,6 +217,19 @@ public class UserFileStore extends MonitoredFileStore<User> implements UserStore
     }
 
     @Override
+    public void updateCheckSerialString(User user, boolean noNewSerialID) {
+        if (!noNewSerialID) {
+            Identifier serialString = getUP().newIdentifier();
+            user.setSerialIdentifier(serialString); // or subsequent calls have wrong serial string!
+        }
+        user.setLastModifiedTS(new Date());
+
+        super.update(user);
+
+    }
+
+/*
+    @Override
     public void update(User user, boolean noNewSerialID) {
         if (!noNewSerialID) {
             Identifier serialString = getUP().newIdentifier();
@@ -227,6 +240,7 @@ public class UserFileStore extends MonitoredFileStore<User> implements UserStore
         super.update(user);
 
     }
+*/
 
     @Override
     public void update(User t) {

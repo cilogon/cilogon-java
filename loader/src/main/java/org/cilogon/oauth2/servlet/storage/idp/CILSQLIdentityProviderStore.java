@@ -4,8 +4,6 @@ import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.storage.monitored.MonitoredSQLStore;
 import edu.uiuc.ncsa.security.storage.sql.ConnectionPool;
 import edu.uiuc.ncsa.security.storage.sql.ConnectionRecord;
-import edu.uiuc.ncsa.security.storage.sql.internals.ColumnDescriptorEntry;
-import edu.uiuc.ncsa.security.storage.sql.internals.ColumnMap;
 import edu.uiuc.ncsa.security.storage.sql.internals.Table;
 import org.cilogon.oauth2.servlet.util.CILogonException;
 
@@ -90,11 +88,15 @@ public class CILSQLIdentityProviderStore extends MonitoredSQLStore<IdentityProvi
         Connection c = cr.connection;
         try {
             PreparedStatement stmt = c.prepareStatement(getIdpTable().createInsertStatement());
+            doRegisterStatement(stmt, idp);
+
+/*
             ColumnMap map = depopulate(idp);
             int i = 1;
             for (ColumnDescriptorEntry cde : getTable().getColumnDescriptor()) {
                 stmt.setObject(i++, map.get(cde.getName()));
             }
+*/
 
             //stmt.setString(1, idp.getDescription());
             //stmt.setString(2, idp.getIdentifierString());
@@ -121,14 +123,13 @@ public class CILSQLIdentityProviderStore extends MonitoredSQLStore<IdentityProvi
         ConnectionRecord cr = getConnection();
         Connection c = cr.connection;
         try {
-            c.setAutoCommit(false);
+             c.setAutoCommit(false);
             PreparedStatement stmt = c.prepareStatement(getIdpTable().createInsertStatement());
             for (IdentityProvider idp : idps) {
+
                 try {
-                    for (int i = 1; i <= getIdpTable().getColumnDescriptor().size(); i++) {
-                        stmt.setString(i, idp.getIdentifierString()); // Set everything to the IDP id by default.
-                    }
-                    stmt.execute();
+                    doRegisterStatement(stmt, idp);
+                    stmt.executeUpdate();
                 } catch (SQLException e) {
 
                     // The major database vendors we support, MySQL and PostgreSQL have the word "duplicate" in their
@@ -152,6 +153,7 @@ public class CILSQLIdentityProviderStore extends MonitoredSQLStore<IdentityProvi
         } catch (SQLException e) {
             try {
                 c.rollback();
+                c.setAutoCommit(true);
             } catch (SQLException e1) {
                 e1.printStackTrace();
             }
