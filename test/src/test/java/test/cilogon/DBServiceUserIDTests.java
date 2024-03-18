@@ -168,7 +168,7 @@ public class DBServiceUserIDTests extends RemoteDBServiceTest {
         User user = newUser();
         printUserNice("testOneThenTwoIds:", user);
         user.setUserMultiKey(key1);
-        getUserStore().update(user, true); // otherwise the next step returns a different user id.
+        getUserStore().updateCheckSerialString(user, true); // otherwise the next step returns a different user id.
 
         XMLMap map = getDBSClient().getUser(user.getUserMultiKey(),
                 user.getIdP(), user.getIDPName(), user.getFirstName(), user.getLastName(), user.getEmail(),
@@ -205,7 +205,7 @@ public class DBServiceUserIDTests extends RemoteDBServiceTest {
         UserMultiID eptidKey = new UserMultiID(umk.getEptid());
         User user = newUser();
         user.setUserMultiKey(eptidKey);
-        getUserStore().update(user, true); // otherwise the next step returns a different user id.
+        getUserStore().updateCheckSerialString(user, true); // otherwise the next step returns a different user id.
         XMLMap map = getDBSClient().getUser(user.getUserMultiKey(),
                 user.getIdP(),
                 user.getIDPName(),
@@ -288,7 +288,7 @@ public class DBServiceUserIDTests extends RemoteDBServiceTest {
             Date date = new Date(currentTime - (i + 1) * oneYear); // have these spaced one year apart.
             user.setCreationTS(date);
             user.setUserMultiKey(newUmk);
-            getUserStore().update(user, true);
+            getUserStore().updateCheckSerialString(user, true);
             user = newUser();
             user.setIdP(idp);
         }

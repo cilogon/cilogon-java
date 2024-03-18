@@ -48,7 +48,7 @@ public class CILSQLUserStore extends MonitoredSQLStore<User> implements UserStor
         ServletDebugUtil.trace(this, "created new user" + user);
 
         uid = user.getIdentifier();
-      //  System.err.println(this.getClass().getSimpleName() + ": start user uid = " + uid + " ss = " + user.getSerialIdentifier());
+        //  System.err.println(this.getClass().getSimpleName() + ": start user uid = " + uid + " ss = " + user.getSerialIdentifier());
         user.setCreationTS(new Date());
         user.setIdP(idP);
         user.setSerialIdentifier(uid); // for a new user these are identical. This might change though over time.
@@ -64,7 +64,7 @@ public class CILSQLUserStore extends MonitoredSQLStore<User> implements UserStor
 
         register(user);
         ServletDebugUtil.trace(this, "AFTER registering new user" + user);
-     //   System.err.println(this.getClass().getSimpleName() + ": AFTER user uid = " + user.getIdentifier() + " ss = " + user.getSerialIdentifier());
+        //   System.err.println(this.getClass().getSimpleName() + ": AFTER user uid = " + user.getIdentifier() + " ss = " + user.getSerialIdentifier());
 
         return user;
     }
@@ -176,7 +176,7 @@ public class CILSQLUserStore extends MonitoredSQLStore<User> implements UserStor
 
         } catch (SQLException e) {
             destroyConnection(cr);
-            DebugUtil.error(this, "Error getting user with ids =" +  userMultiKey, e);
+            DebugUtil.error(this, "Error getting user with ids =" + userMultiKey, e);
             throw new CILogonException("Error getting user with ids = \"" + userMultiKey + "\" and identity provider =\"" + idP + "\"", e);
         }
         if (users.isEmpty()) throw new UserNotFoundException();
@@ -318,16 +318,31 @@ public class CILSQLUserStore extends MonitoredSQLStore<User> implements UserStor
      * Update the user. <B>NOTE:</b> it is up to the programmer to archive the user prior to making any updates,
      * if that is warranted.
      * <b><it>This updates the serial string!!</it></b> If you do not want the serial string updated, you should use
-     * {@link #update(User, boolean)} with the second argument of <code>true</code>.
+     * {@link #updateCheckSerialString(User, boolean)} (User, boolean)} with the second argument of <code>true</code>.
      *
      * @param user
      * @
      */
 
     public void update(User user) {
-        update(user, false);
+        updateCheckSerialString(user, false);
     }
 
+    @Override
+    public void updateCheckSerialString(User user, boolean keepSerialID) {
+        ServletDebugUtil.trace(this, "user id = " + user.getIdentifierString() + ", serial string=" + user.getSerialString() + ", keepSerialID=" + keepSerialID);
+       // Fix for CIL-69: Any changes to the user (IDP, first name, last name, email) must change the serial identifier too.
+        if (!keepSerialID) {
+            Identifier serialString = getUserProvider().newIdentifier();
+            user.setSerialIdentifier(serialString); // or subsequent calls have wrong serial string!
+            ServletDebugUtil.trace(this, "setting serial string for user id = " + user.getIdentifierString() + ", serial string=" + user.getSerialString());
+
+        }
+        user.setLastModifiedTS(new Date());
+        super.update(user);
+    }
+
+/*
     public void update(User user, boolean keepSerialID) {
         ServletDebugUtil.trace(this,"user id = " + user.getIdentifierString() + ", serial string=" + user.getSerialString() + ", keepSerialID=" + keepSerialID);
         // Fix for CIL-69: Any changes to the user (IDP, first name, last name, email) must change the serial identifier too.
@@ -340,6 +355,7 @@ public class CILSQLUserStore extends MonitoredSQLStore<User> implements UserStor
         user.setLastModifiedTS(new Date());
         super.update(user);
     }
+*/
 
     public Identifier getUserID(String userKey, String personName, String idP) {
         ConnectionRecord cr = getConnection();

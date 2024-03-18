@@ -33,7 +33,8 @@ public interface UserStore extends Store<User> {
      *
      * @param noNewSerialID
      */
-    public void update(User user, boolean noNewSerialID);
+    // Fixes https://github.com/cilogon/cilogon-java/issues/44
+    public void updateCheckSerialString(User user, boolean noNewSerialID);
 
     /**
      * The remote user and idp together form a composite key for access. (Our URIs are internally generated unique identifiers
