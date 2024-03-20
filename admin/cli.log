@@ -1,7 +1,7 @@
 [INFO] Scanning for projects...
 [WARNING] 
-[WARNING] Some problems were encountered while building the effective model for org.cilogon:admin:jar:5.3-SNAPSHOT
-[WARNING] 'dependencies.dependency.(groupId:artifactId:type:classifier)' must be unique: org.cilogon:loader:jar -> duplicate declaration of version 5.3-SNAPSHOT @ line 77, column 43
+[WARNING] Some problems were encountered while building the effective model for org.cilogon:admin:jar:5.5
+[WARNING] 'dependencies.dependency.(groupId:artifactId:type:classifier)' must be unique: org.cilogon:loader:jar -> duplicate declaration of version 5.5 @ line 77, column 43
 [WARNING] 
 [WARNING] It is highly recommended to fix these problems because they threaten the stability of your build.
 [WARNING] 
@@ -9,7 +9,7 @@
 [WARNING] 
 [INFO] 
 [INFO] -------------------------< org.cilogon:admin >--------------------------
-[INFO] Building Cilogon administrative tools 5.3-SNAPSHOT
+[INFO] Building Cilogon administrative tools 5.5
 [INFO]   from pom.xml
 [INFO] --------------------------------[ jar ]---------------------------------
 [INFO] 
@@ -36,14 +36,10 @@
 [INFO] --- assembly:3.1.0:single (make-my-jar-with-dependencies) @ admin ---
 [WARNING] Parameter 'localRepository' is deprecated core expression; Avoid use of ArtifactRepository type. If you need access to local repository, switch to '${repositorySystemSession}' expression and get LRM from it instead.
 [WARNING] Parameter 'finalName' is read-only, must not be used in configuration
-Downloading from jvnet-nexus-snapshots: https://maven.java.net/content/repositories/snapshots/edu/uiuc/ncsa/security/crypt8/5.3-SNAPSHOT/maven-metadata.xml
-[WARNING] Could not transfer metadata edu.uiuc.ncsa.security:crypt8:5.3-SNAPSHOT/maven-metadata.xml from/to maven-default-http-blocker (http://0.0.0.0/): Blocked mirror for repositories: [apache.snapshots (http://people.apache.org/repo/m2-snapshot-repository, default, snapshots)]
-Downloading from jvnet-nexus-snapshots: https://maven.java.net/content/repositories/snapshots/edu/uiuc/ncsa/security/crypto-java8/5.3-SNAPSHOT/maven-metadata.xml
-[WARNING] Could not transfer metadata edu.uiuc.ncsa.security:crypto-java8:5.3-SNAPSHOT/maven-metadata.xml from/to maven-default-http-blocker (http://0.0.0.0/): Blocked mirror for repositories: [apache.snapshots (http://people.apache.org/repo/m2-snapshot-repository, default, snapshots)]
 [INFO] Building jar: /home/ncsa/dev/ncsa-git/cilogon/admin/target/cilogon-oa2-cli-jar-with-dependencies.jar
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time:  15.173 s
-[INFO] Finished at: 2024-03-13T12:02:40-05:00
+[INFO] Total time:  13.429 s
+[INFO] Finished at: 2024-03-19T13:39:08-05:00
 [INFO] ------------------------------------------------------------------------

@@ -1,13 +1,13 @@
 [INFO] Scanning for projects...
 [WARNING] 
-[WARNING] Some problems were encountered while building the effective model for org.cilogon:admin:jar:5.3-SNAPSHOT
-[WARNING] 'dependencies.dependency.(groupId:artifactId:type:classifier)' must be unique: org.cilogon:loader:jar -> duplicate declaration of version 5.3-SNAPSHOT @ line 77, column 43
+[WARNING] Some problems were encountered while building the effective model for org.cilogon:admin:jar:5.5
+[WARNING] 'dependencies.dependency.(groupId:artifactId:type:classifier)' must be unique: org.cilogon:loader:jar -> duplicate declaration of version 5.5 @ line 77, column 43
 [WARNING] 
-[WARNING] Some problems were encountered while building the effective model for org.cilogon:test:jar:5.3-SNAPSHOT
-[WARNING] 'dependencies.dependency.(groupId:artifactId:type:classifier)' must be unique: org.cilogon:loader:jar -> duplicate declaration of version 5.3-SNAPSHOT @ line 124, column 21
+[WARNING] Some problems were encountered while building the effective model for org.cilogon:test:jar:5.5
+[WARNING] 'dependencies.dependency.(groupId:artifactId:type:classifier)' must be unique: org.cilogon:loader:jar -> duplicate declaration of version 5.5 @ line 124, column 21
 [WARNING] 
-[WARNING] Some problems were encountered while building the effective model for org.cilogon:webapp:war:5.3-SNAPSHOT
-[WARNING] 'dependencies.dependency.(groupId:artifactId:type:classifier)' must be unique: org.cilogon:proxy:jar -> duplicate declaration of version 5.3-SNAPSHOT @ line 71, column 21
+[WARNING] Some problems were encountered while building the effective model for org.cilogon:webapp:war:5.5
+[WARNING] 'dependencies.dependency.(groupId:artifactId:type:classifier)' must be unique: org.cilogon:proxy:jar -> duplicate declaration of version 5.5 @ line 71, column 21
 [WARNING] 
 [WARNING] It is highly recommended to fix these problems because they threaten the stability of your build.
 [WARNING] 
@@ -29,7 +29,7 @@
 [INFO] skin                                                               [jar]
 [INFO] 
 [INFO] ------------------------< org.cilogon:cilogon >-------------------------
-[INFO] Building Cilogon parent module 5.3-SNAPSHOT                       [1/11]
+[INFO] Building Cilogon parent module 5.5                                [1/11]
 [INFO]   from pom.xml
 [INFO] --------------------------------[ pom ]---------------------------------
 [INFO] 
@@ -38,10 +38,10 @@
 [INFO] --- enforcer:1.2:enforce (enforce-maven) @ cilogon ---
 [INFO] 
 [INFO] --- install:3.1.0:install (default-install) @ cilogon ---
-[INFO] Installing /home/ncsa/dev/ncsa-git/cilogon/pom.xml to /home/ncsa/.m2/repository/org/cilogon/cilogon/5.3-SNAPSHOT/cilogon-5.3-SNAPSHOT.pom
+[INFO] Installing /home/ncsa/dev/ncsa-git/cilogon/pom.xml to /home/ncsa/.m2/repository/org/cilogon/cilogon/5.5/cilogon-5.5.pom
 [INFO] 
 [INFO] -------------------------< org.cilogon:loader >-------------------------
-[INFO] Building Cilogon loader 5.3-SNAPSHOT                              [2/11]
+[INFO] Building Cilogon loader 5.5                                       [2/11]
 [INFO]   from loader/pom.xml
 [INFO] --------------------------------[ jar ]---------------------------------
 [INFO] 
@@ -73,11 +73,11 @@
 [INFO] Building jar: /home/ncsa/dev/ncsa-git/cilogon/loader/target/oauth2.jar
 [INFO] 
 [INFO] --- install:3.1.0:install (default-install) @ loader ---
-[INFO] Installing /home/ncsa/dev/ncsa-git/cilogon/loader/pom.xml to /home/ncsa/.m2/repository/org/cilogon/loader/5.3-SNAPSHOT/loader-5.3-SNAPSHOT.pom
-[INFO] Installing /home/ncsa/dev/ncsa-git/cilogon/loader/target/oauth2.jar to /home/ncsa/.m2/repository/org/cilogon/loader/5.3-SNAPSHOT/loader-5.3-SNAPSHOT.jar
+[INFO] Installing /home/ncsa/dev/ncsa-git/cilogon/loader/pom.xml to /home/ncsa/.m2/repository/org/cilogon/loader/5.5/loader-5.5.pom
+[INFO] Installing /home/ncsa/dev/ncsa-git/cilogon/loader/target/oauth2.jar to /home/ncsa/.m2/repository/org/cilogon/loader/5.5/loader-5.5.jar
 [INFO] 
 [INFO] -------------------------< org.cilogon:admin >--------------------------
-[INFO] Building Cilogon administrative tools 5.3-SNAPSHOT                [3/11]
+[INFO] Building Cilogon administrative tools 5.5                         [3/11]
 [INFO]   from admin/pom.xml
 [INFO] --------------------------------[ jar ]---------------------------------
 [INFO] 
@@ -106,14 +106,14 @@
 [INFO] No tests to run.
 [INFO] 
 [INFO] --- jar:3.3.0:jar (default-jar) @ admin ---
-[INFO] Building jar: /home/ncsa/dev/ncsa-git/cilogon/admin/target/admin-5.3-SNAPSHOT.jar
+[INFO] Building jar: /home/ncsa/dev/ncsa-git/cilogon/admin/target/admin-5.5.jar
 [INFO] 
 [INFO] --- install:3.1.0:install (default-install) @ admin ---
-[INFO] Installing /home/ncsa/dev/ncsa-git/cilogon/admin/pom.xml to /home/ncsa/.m2/repository/org/cilogon/admin/5.3-SNAPSHOT/admin-5.3-SNAPSHOT.pom
-[INFO] Installing /home/ncsa/dev/ncsa-git/cilogon/admin/target/admin-5.3-SNAPSHOT.jar to /home/ncsa/.m2/repository/org/cilogon/admin/5.3-SNAPSHOT/admin-5.3-SNAPSHOT.jar
+[INFO] Installing /home/ncsa/dev/ncsa-git/cilogon/admin/pom.xml to /home/ncsa/.m2/repository/org/cilogon/admin/5.5/admin-5.5.pom
+[INFO] Installing /home/ncsa/dev/ncsa-git/cilogon/admin/target/admin-5.5.jar to /home/ncsa/.m2/repository/org/cilogon/admin/5.5/admin-5.5.jar
 [INFO] 
 [INFO] -------------------------< org.cilogon:client >-------------------------
-[INFO] Building CILogon client 5.3-SNAPSHOT                              [4/11]
+[INFO] Building CILogon client 5.5                                       [4/11]
 [INFO]   from client/pom.xml
 [INFO] --------------------------------[ war ]---------------------------------
 [INFO] 
@@ -149,13 +149,13 @@
 [INFO] --- gpg:1.6:sign (sign-artifacts) @ client ---
 [INFO] 
 [INFO] --- install:3.1.0:install (default-install) @ client ---
-[INFO] Installing /home/ncsa/dev/ncsa-git/cilogon/client/pom.xml to /home/ncsa/.m2/repository/org/cilogon/client/5.3-SNAPSHOT/client-5.3-SNAPSHOT.pom
-[INFO] Installing /home/ncsa/dev/ncsa-git/cilogon/client/target/cilogon-oa2-client.war to /home/ncsa/.m2/repository/org/cilogon/client/5.3-SNAPSHOT/client-5.3-SNAPSHOT.war
-[INFO] Installing /home/ncsa/dev/ncsa-git/cilogon/client/target/cilogon-oa2-client.war.asc to /home/ncsa/.m2/repository/org/cilogon/client/5.3-SNAPSHOT/client-5.3-SNAPSHOT.war.asc
-[INFO] Installing /home/ncsa/dev/ncsa-git/cilogon/client/target/cilogon-oa2-client.pom.asc to /home/ncsa/.m2/repository/org/cilogon/client/5.3-SNAPSHOT/client-5.3-SNAPSHOT.pom.asc
+[INFO] Installing /home/ncsa/dev/ncsa-git/cilogon/client/pom.xml to /home/ncsa/.m2/repository/org/cilogon/client/5.5/client-5.5.pom
+[INFO] Installing /home/ncsa/dev/ncsa-git/cilogon/client/target/cilogon-oa2-client.war to /home/ncsa/.m2/repository/org/cilogon/client/5.5/client-5.5.war
+[INFO] Installing /home/ncsa/dev/ncsa-git/cilogon/client/target/cilogon-oa2-client.war.asc to /home/ncsa/.m2/repository/org/cilogon/client/5.5/client-5.5.war.asc
+[INFO] Installing /home/ncsa/dev/ncsa-git/cilogon/client/target/cilogon-oa2-client.pom.asc to /home/ncsa/.m2/repository/org/cilogon/client/5.5/client-5.5.pom.asc
 [INFO] 
 [INFO] -------------------------< org.cilogon:proxy >--------------------------
-[INFO] Building CILogon proxy support 5.3-SNAPSHOT                       [5/11]
+[INFO] Building CILogon proxy support 5.5                                [5/11]
 [INFO]   from proxy/pom.xml
 [INFO] --------------------------------[ jar ]---------------------------------
 [INFO] 
@@ -184,14 +184,14 @@
 [INFO] No tests to run.
 [INFO] 
 [INFO] --- jar:3.3.0:jar (default-jar) @ proxy ---
-[INFO] Building jar: /home/ncsa/dev/ncsa-git/cilogon/proxy/target/proxy-5.3-SNAPSHOT.jar
+[INFO] Building jar: /home/ncsa/dev/ncsa-git/cilogon/proxy/target/proxy-5.5.jar
 [INFO] 
 [INFO] --- install:3.1.0:install (default-install) @ proxy ---
-[INFO] Installing /home/ncsa/dev/ncsa-git/cilogon/proxy/pom.xml to /home/ncsa/.m2/repository/org/cilogon/proxy/5.3-SNAPSHOT/proxy-5.3-SNAPSHOT.pom
-[INFO] Installing /home/ncsa/dev/ncsa-git/cilogon/proxy/target/proxy-5.3-SNAPSHOT.jar to /home/ncsa/.m2/repository/org/cilogon/proxy/5.3-SNAPSHOT/proxy-5.3-SNAPSHOT.jar
+[INFO] Installing /home/ncsa/dev/ncsa-git/cilogon/proxy/pom.xml to /home/ncsa/.m2/repository/org/cilogon/proxy/5.5/proxy-5.5.pom
+[INFO] Installing /home/ncsa/dev/ncsa-git/cilogon/proxy/target/proxy-5.5.jar to /home/ncsa/.m2/repository/org/cilogon/proxy/5.5/proxy-5.5.jar
 [INFO] 
 [INFO] --------------------------< org.cilogon:qdl >---------------------------
-[INFO] Building CILogon QDL extensions 5.3-SNAPSHOT                      [6/11]
+[INFO] Building CILogon QDL extensions 5.5                               [6/11]
 [INFO]   from qdl/pom.xml
 [INFO] --------------------------------[ jar ]---------------------------------
 [INFO] 
@@ -201,7 +201,7 @@
 [INFO] --- enforcer:1.2:enforce (enforce-maven) @ qdl ---
 [INFO] 
 [INFO] --- buildnumber:1.3:create (default) @ qdl ---
-[INFO] Storing buildNumber: Build: #1,331 (2024-03-13T12:02:12.550-05:00) at timestamp: 1710349332550
+[INFO] Storing buildNumber: Build: #1,344 (2024-03-19T13:38:46.495-05:00) at timestamp: 1710873526495
 [INFO] Executing: /bin/sh -c cd /home/ncsa/dev/ncsa-git/cilogon/qdl && svn --non-interactive info
 [INFO] Working directory: /home/ncsa/dev/ncsa-git/cilogon/qdl
 [INFO] Storing buildScmBranch: UNKNOWN_BRANCH
@@ -227,11 +227,11 @@
 [INFO] Building jar: /home/ncsa/dev/ncsa-git/cilogon/qdl/target/cil-qdl.jar
 [INFO] 
 [INFO] --- install:3.1.0:install (default-install) @ qdl ---
-[INFO] Installing /home/ncsa/dev/ncsa-git/cilogon/qdl/pom.xml to /home/ncsa/.m2/repository/org/cilogon/qdl/5.3-SNAPSHOT/qdl-5.3-SNAPSHOT.pom
-[INFO] Installing /home/ncsa/dev/ncsa-git/cilogon/qdl/target/cil-qdl.jar to /home/ncsa/.m2/repository/org/cilogon/qdl/5.3-SNAPSHOT/qdl-5.3-SNAPSHOT.jar
+[INFO] Installing /home/ncsa/dev/ncsa-git/cilogon/qdl/pom.xml to /home/ncsa/.m2/repository/org/cilogon/qdl/5.5/qdl-5.5.pom
+[INFO] Installing /home/ncsa/dev/ncsa-git/cilogon/qdl/target/cil-qdl.jar to /home/ncsa/.m2/repository/org/cilogon/qdl/5.5/qdl-5.5.jar
 [INFO] 
 [INFO] -------------------------< org.cilogon:server >-------------------------
-[INFO] Building Cilogon server 5.3-SNAPSHOT                              [7/11]
+[INFO] Building Cilogon server 5.5                                       [7/11]
 [INFO]   from server/pom.xml
 [INFO] --------------------------------[ war ]---------------------------------
 [INFO] 
@@ -241,7 +241,7 @@
 [INFO] --- enforcer:1.2:enforce (enforce-maven) @ server ---
 [INFO] 
 [INFO] --- buildnumber:1.0:create (default) @ server ---
-[INFO] Storing buildNumber: Build: #2,783 (2024-03-13T12:02:14.705-05:00) at timestamp: 1710349334705
+[INFO] Storing buildNumber: Build: #2,790 (2024-03-19T13:38:46.881-05:00) at timestamp: 1710873526881
 [INFO] Executing: /bin/sh -c cd /home/ncsa/dev/ncsa-git/cilogon/server && svn --non-interactive info
 [INFO] Working directory: /home/ncsa/dev/ncsa-git/cilogon/server
 [INFO] Storing buildScmBranch: UNKNOWN_BRANCH
@@ -277,13 +277,13 @@
 [INFO] Copying webapp resources [/home/ncsa/dev/ncsa-git/cilogon/server/src/main/webapp]
 [INFO] deleting outdated resource WEB-INF/lib/commons-logging-1.1.1.jar
 [INFO] deleting outdated resource WEB-INF/lib/mariadb-java-client-3.0.8.jar
-[INFO] deleting outdated resource WEB-INF/lib/sas-1.5-QDL-SNAPSHOT.jar
 [INFO] deleting outdated resource WEB-INF/lib/postgresql-42.4.3.jar
 [INFO] deleting outdated resource WEB-INF/lib/protobuf-java-3.19.4.jar
+[INFO] deleting outdated resource WEB-INF/lib/sas-1.5.5.jar
 [INFO] deleting outdated resource WEB-INF/lib/checker-qual-3.5.0.jar
-[INFO] deleting outdated resource WEB-INF/lib/proxy-5.3-SNAPSHOT.jar
 [INFO] deleting outdated resource WEB-INF/lib/servlet-api-2.5.jar
 [INFO] deleting outdated resource WEB-INF/lib/slf4j-api-1.7.30.jar
+[INFO] deleting outdated resource WEB-INF/lib/proxy-5.5.jar
 [INFO] deleting outdated resource WEB-INF/lib/mysql-connector-java-8.0.30.jar
 [INFO] Processing overlay [ id edu.uiuc.ncsa.myproxy:oa4mp-webapp]
 [INFO] Processing overlay [ id edu.uiuc.ncsa.myproxy:oa4mp-server-oauth2]
@@ -292,13 +292,13 @@
 [INFO] --- gpg:1.6:sign (sign-artifacts) @ server ---
 [INFO] 
 [INFO] --- install:3.1.0:install (default-install) @ server ---
-[INFO] Installing /home/ncsa/dev/ncsa-git/cilogon/server/pom.xml to /home/ncsa/.m2/repository/org/cilogon/server/5.3-SNAPSHOT/server-5.3-SNAPSHOT.pom
-[INFO] Installing /home/ncsa/dev/ncsa-git/cilogon/server/target/oauth2.war to /home/ncsa/.m2/repository/org/cilogon/server/5.3-SNAPSHOT/server-5.3-SNAPSHOT.war
-[INFO] Installing /home/ncsa/dev/ncsa-git/cilogon/server/target/oauth2.war.asc to /home/ncsa/.m2/repository/org/cilogon/server/5.3-SNAPSHOT/server-5.3-SNAPSHOT.war.asc
-[INFO] Installing /home/ncsa/dev/ncsa-git/cilogon/server/target/oauth2.pom.asc to /home/ncsa/.m2/repository/org/cilogon/server/5.3-SNAPSHOT/server-5.3-SNAPSHOT.pom.asc
+[INFO] Installing /home/ncsa/dev/ncsa-git/cilogon/server/pom.xml to /home/ncsa/.m2/repository/org/cilogon/server/5.5/server-5.5.pom
+[INFO] Installing /home/ncsa/dev/ncsa-git/cilogon/server/target/oauth2.war to /home/ncsa/.m2/repository/org/cilogon/server/5.5/server-5.5.war
+[INFO] Installing /home/ncsa/dev/ncsa-git/cilogon/server/target/oauth2.war.asc to /home/ncsa/.m2/repository/org/cilogon/server/5.5/server-5.5.war.asc
+[INFO] Installing /home/ncsa/dev/ncsa-git/cilogon/server/target/oauth2.pom.asc to /home/ncsa/.m2/repository/org/cilogon/server/5.5/server-5.5.pom.asc
 [INFO] 
 [INFO] --------------------------< org.cilogon:test >--------------------------
-[INFO] Building Cilogon test suite 5.3-SNAPSHOT                          [8/11]
+[INFO] Building Cilogon test suite 5.5                                   [8/11]
 [INFO]   from test/pom.xml
 [INFO] --------------------------------[ jar ]---------------------------------
 [INFO] 
@@ -308,7 +308,7 @@
 [INFO] --- enforcer:1.2:enforce (enforce-maven) @ test ---
 [INFO] 
 [INFO] --- buildnumber:1.0:create (default) @ test ---
-[INFO] Storing buildNumber: Build: #2,675 (2024-03-13T12:02:19.982-05:00) at timestamp: 1710349339982
+[INFO] Storing buildNumber: Build: #2,682 (2024-03-19T13:38:50.986-05:00) at timestamp: 1710873530986
 [INFO] Executing: /bin/sh -c cd /home/ncsa/dev/ncsa-git/cilogon/test && svn --non-interactive info
 [INFO] Working directory: /home/ncsa/dev/ncsa-git/cilogon/test
 [INFO] Storing buildScmBranch: UNKNOWN_BRANCH
@@ -337,11 +337,11 @@
 [INFO] Building jar: /home/ncsa/dev/ncsa-git/cilogon/test/target/oauth2.jar
 [INFO] 
 [INFO] --- install:3.1.0:install (default-install) @ test ---
-[INFO] Installing /home/ncsa/dev/ncsa-git/cilogon/test/pom.xml to /home/ncsa/.m2/repository/org/cilogon/test/5.3-SNAPSHOT/test-5.3-SNAPSHOT.pom
-[INFO] Installing /home/ncsa/dev/ncsa-git/cilogon/test/target/oauth2.jar to /home/ncsa/.m2/repository/org/cilogon/test/5.3-SNAPSHOT/test-5.3-SNAPSHOT.jar
+[INFO] Installing /home/ncsa/dev/ncsa-git/cilogon/test/pom.xml to /home/ncsa/.m2/repository/org/cilogon/test/5.5/test-5.5.pom
+[INFO] Installing /home/ncsa/dev/ncsa-git/cilogon/test/target/oauth2.jar to /home/ncsa/.m2/repository/org/cilogon/test/5.5/test-5.5.jar
 [INFO] 
 [INFO] -------------------------< org.cilogon:webapp >-------------------------
-[INFO] Building Cilogon webapp 5.3-SNAPSHOT                              [9/11]
+[INFO] Building Cilogon webapp 5.5                                       [9/11]
 [INFO]   from webapp/pom.xml
 [INFO] --------------------------------[ war ]---------------------------------
 [INFO] 
@@ -376,11 +376,11 @@
 [INFO] Building war: /home/ncsa/dev/ncsa-git/cilogon/webapp/target/oauth2.war
 [INFO] 
 [INFO] --- install:3.1.0:install (default-install) @ webapp ---
-[INFO] Installing /home/ncsa/dev/ncsa-git/cilogon/webapp/pom.xml to /home/ncsa/.m2/repository/org/cilogon/webapp/5.3-SNAPSHOT/webapp-5.3-SNAPSHOT.pom
-[INFO] Installing /home/ncsa/dev/ncsa-git/cilogon/webapp/target/oauth2.war to /home/ncsa/.m2/repository/org/cilogon/webapp/5.3-SNAPSHOT/webapp-5.3-SNAPSHOT.war
+[INFO] Installing /home/ncsa/dev/ncsa-git/cilogon/webapp/pom.xml to /home/ncsa/.m2/repository/org/cilogon/webapp/5.5/webapp-5.5.pom
+[INFO] Installing /home/ncsa/dev/ncsa-git/cilogon/webapp/target/oauth2.war to /home/ncsa/.m2/repository/org/cilogon/webapp/5.5/webapp-5.5.war
 [INFO] 
 [INFO] ------------------------< org.cilogon:website >-------------------------
-[INFO] Building website 5.3-SNAPSHOT                                    [10/11]
+[INFO] Building website 5.5                                             [10/11]
 [INFO]   from website/pom.xml
 [INFO] --------------------------------[ pom ]---------------------------------
 [INFO] 
@@ -389,10 +389,10 @@
 [INFO] --- enforcer:1.2:enforce (enforce-maven) @ website ---
 [INFO] 
 [INFO] --- install:3.1.0:install (default-install) @ website ---
-[INFO] Installing /home/ncsa/dev/ncsa-git/cilogon/website/pom.xml to /home/ncsa/.m2/repository/org/cilogon/website/5.3-SNAPSHOT/website-5.3-SNAPSHOT.pom
+[INFO] Installing /home/ncsa/dev/ncsa-git/cilogon/website/pom.xml to /home/ncsa/.m2/repository/org/cilogon/website/5.5/website-5.5.pom
 [INFO] 
 [INFO] -----------------------< org.cilogon.skin:skin >------------------------
-[INFO] Building skin 5.3-SNAPSHOT                                       [11/11]
+[INFO] Building skin 5.5                                                [11/11]
 [INFO]   from skin/pom.xml
 [INFO] --------------------------------[ jar ]---------------------------------
 [INFO] 
@@ -420,28 +420,28 @@
 [INFO] No tests to run.
 [INFO] 
 [INFO] --- jar:3.0.2:jar (default-jar) @ skin ---
-[INFO] Building jar: /home/ncsa/dev/ncsa-git/cilogon/skin/target/skin-5.3-SNAPSHOT.jar
+[INFO] Building jar: /home/ncsa/dev/ncsa-git/cilogon/skin/target/skin-5.5.jar
 [INFO] 
 [INFO] --- install:2.5.2:install (default-install) @ skin ---
-[INFO] Installing /home/ncsa/dev/ncsa-git/cilogon/skin/target/skin-5.3-SNAPSHOT.jar to /home/ncsa/.m2/repository/org/cilogon/skin/skin/5.3-SNAPSHOT/skin-5.3-SNAPSHOT.jar
-[INFO] Installing /home/ncsa/dev/ncsa-git/cilogon/skin/pom.xml to /home/ncsa/.m2/repository/org/cilogon/skin/skin/5.3-SNAPSHOT/skin-5.3-SNAPSHOT.pom
+[INFO] Installing /home/ncsa/dev/ncsa-git/cilogon/skin/target/skin-5.5.jar to /home/ncsa/.m2/repository/org/cilogon/skin/skin/5.5/skin-5.5.jar
+[INFO] Installing /home/ncsa/dev/ncsa-git/cilogon/skin/pom.xml to /home/ncsa/.m2/repository/org/cilogon/skin/skin/5.5/skin-5.5.pom
 [INFO] ------------------------------------------------------------------------
-[INFO] Reactor Summary for Cilogon parent module 5.3-SNAPSHOT:
+[INFO] Reactor Summary for Cilogon parent module 5.5:
 [INFO] 
-[INFO] Cilogon parent module .............................. SUCCESS [  1.428 s]
-[INFO] Cilogon loader ..................................... SUCCESS [  6.635 s]
-[INFO] Cilogon administrative tools ....................... SUCCESS [  1.283 s]
-[INFO] CILogon client ..................................... SUCCESS [  3.656 s]
-[INFO] CILogon proxy support .............................. SUCCESS [  1.056 s]
-[INFO] CILogon QDL extensions ............................. SUCCESS [  1.496 s]
-[INFO] Cilogon server ..................................... SUCCESS [  5.471 s]
-[INFO] Cilogon test suite ................................. SUCCESS [  1.431 s]
-[INFO] Cilogon webapp ..................................... SUCCESS [  2.433 s]
-[INFO] website ............................................ SUCCESS [  0.051 s]
-[INFO] skin ............................................... SUCCESS [  1.147 s]
+[INFO] Cilogon parent module .............................. SUCCESS [  0.589 s]
+[INFO] Cilogon loader ..................................... SUCCESS [  3.150 s]
+[INFO] Cilogon administrative tools ....................... SUCCESS [  0.424 s]
+[INFO] CILogon client ..................................... SUCCESS [  2.934 s]
+[INFO] CILogon proxy support .............................. SUCCESS [  0.287 s]
+[INFO] CILogon QDL extensions ............................. SUCCESS [  0.405 s]
+[INFO] Cilogon server ..................................... SUCCESS [  4.236 s]
+[INFO] Cilogon test suite ................................. SUCCESS [  0.414 s]
+[INFO] Cilogon webapp ..................................... SUCCESS [  1.655 s]
+[INFO] website ............................................ SUCCESS [  0.008 s]
+[INFO] skin ............................................... SUCCESS [  0.428 s]
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time:  26.486 s
-[INFO] Finished at: 2024-03-13T12:02:24-05:00
+[INFO] Total time:  14.769 s
+[INFO] Finished at: 2024-03-19T13:38:53-05:00
 [INFO] ------------------------------------------------------------------------
