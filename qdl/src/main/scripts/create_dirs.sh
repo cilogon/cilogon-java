@@ -10,4 +10,4 @@ CILOGON_QDL_DEPLOY=$NCSA_DEV_OUTPUT/cilogon-qdl
 cd $OA4MP_ROOT/qdl/src/main/scripts  || exit
 ./create_dirs.sh $QDL_ROOT $CILOGON_QDL_DEPLOY
 
-$CILOGON_ROOT/website/convert-docs.sh $CILOGON_ROOT $CILOGON_QDL_DEPLOY/docs
+$CILOGON_ROOT/website/convert-docs.sh $CILOGON_ROOT/website/docs $CILOGON_QDL_DEPLOY/docs

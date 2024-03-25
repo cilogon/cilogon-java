@@ -10,5 +10,5 @@ cd ${args[1]} || exit
 
 echo "converting CILogon docs to PDF"
 
-lowriter --headless --convert-to pdf ${args[0]}/website/docs/CILogon_db_servlet.odt        > /dev/null
+lowriter --headless --convert-to pdf ${args[0]}/CILogon_db_servlet.odt        > /dev/null
 echo "done converting CILogon docs"
