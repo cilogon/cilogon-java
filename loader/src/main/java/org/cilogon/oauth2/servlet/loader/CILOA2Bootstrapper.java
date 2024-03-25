@@ -5,7 +5,6 @@ import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.loader.OA2ServletInitializer;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.admin.adminClient.AdminClientStoreProviders;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.admin.things.SATFactory;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.servlet.AbstractBootstrapper;
-import edu.uiuc.ncsa.myproxy.oa4mp.server.servlet.EnvServlet;
 import edu.uiuc.ncsa.oa4mp.delegation.common.storage.clients.Client;
 import edu.uiuc.ncsa.oa4mp.delegation.common.storage.clients.ClientConverter;
 import edu.uiuc.ncsa.security.core.Identifiable;
@@ -45,8 +44,11 @@ public class CILOA2Bootstrapper extends AbstractBootstrapper {
     public static class CILOA2ServletInitializer extends OA2ServletInitializer {
         @Override
         public void init() throws ServletException {
-            EnvServlet mps = (EnvServlet) getServlet();
             CILogonOA2ServiceEnvironment se = (CILogonOA2ServiceEnvironment) getEnvironment();
+            // Setting up CM defaults so they don't end up in the configuration.
+            // CILogon policy is no refresh tokens unless explicitly ok'd.
+            se.getCmConfigs().getRFC7591Config().setDefaultRefreshTokenLifetime(0L);
+            se.getCmConfigs().getRFC7592Config().setDefaultRefreshTokenLifetime(0L);
             try {
                 SATFactory.setAdminClientConverter(AdminClientStoreProviders.getAdminClientConverter());
                 SATFactory.setClientConverter((ClientConverter<? extends Client>) se.getClientStore().getMapConverter());
