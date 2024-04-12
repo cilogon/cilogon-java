@@ -21,6 +21,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
+import static edu.uiuc.ncsa.security.core.util.StringUtils.isTrivial;
+
 /**
  * <p>Created by Jeff Gaynor<br>
  * on Mar 12, 2010 at  3:41:37 PM
@@ -125,6 +127,11 @@ public class CILSQLUserStore extends MonitoredSQLStore<User> implements UserStor
             zzz = zzz + (gotOne ? " OR " : " ") + snippet;
             gotOne = true;
         }
+        // Fix for CIL-1969: This should probably go away since it was mostly used
+        // in OAuth 1.0a servers. In theory we should never ever see one again,
+        // but it is possible (since CILogon serviced OAuth 1.0a and 2.0 and they shared user
+        // databases) someone who has not
+        // logged on in a very long time may present one.
         snippet = selectSnippet(userMultiKey.getOpenID(), userKeys.openID());
         if (snippet != null) {
             foundIds.add(userMultiKey.getOpenID().getName());
@@ -148,7 +155,16 @@ public class CILSQLUserStore extends MonitoredSQLStore<User> implements UserStor
         ServletDebugUtil.trace(this, "user select statement=\"" + selectStmt + "\"");
         ConnectionRecord cr = getConnection();
         Connection c = cr.connection;
-        selectStmt = selectStmt + " AND " + userKeys.idp() + " = ?";
+        // Fix for CIL-1969: The PHP layer will decide whether to send the IDP. If so,
+        // search on it, if not, do not add this clause. The reason is that
+        // EPPN/EPTID are already scoped to the institution and we have found in practice
+        // that IDP can and do change their name, causing the user search to fail and requiring
+        // intervention to fix. Therefore, as of 4/11/2024, the decision was made to have
+        // the PHP layer (which understands Shibboleth) decide if there is any reason to query on the IDP.
+        boolean hasIDP = !isTrivial(idP);
+        if(hasIDP) {
+            selectStmt = selectStmt + " AND " + userKeys.idp() + " = ?";
+        }
         User user = null;
         ArrayList<User> users
                 = new ArrayList<>();
@@ -160,7 +176,9 @@ public class CILSQLUserStore extends MonitoredSQLStore<User> implements UserStor
                 stmt.setString(i++, x);
 
             }
-            stmt.setString(i++, idP);
+            if(hasIDP) {
+                stmt.setString(i++, idP);
+            }
             stmt.execute();
             ResultSet rs = stmt.getResultSet();
             while (rs.next()) {
