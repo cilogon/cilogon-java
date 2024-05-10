@@ -1,6 +1,7 @@
 package org.cilogon.oauth2.servlet.loader;
 
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.OA2SE;
+import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.cm.oidc_cm.OIDCCMServlet;
 import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.loader.OA2ServletInitializer;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.admin.adminClient.AdminClientStoreProviders;
 import edu.uiuc.ncsa.myproxy.oa4mp.server.admin.things.SATFactory;
@@ -49,6 +50,9 @@ public class CILOA2Bootstrapper extends AbstractBootstrapper {
             // CILogon policy is no refresh tokens unless explicitly ok'd.
             se.getCmConfigs().getRFC7591Config().setDefaultRefreshTokenLifetime(0L);
             se.getCmConfigs().getRFC7592Config().setDefaultRefreshTokenLifetime(0L);
+            // CIL-1975. For version 5.5., keep CILogon at 5.4 so COmanage has time to
+            // catch up.
+            OIDCCMServlet.setDefaultAPIVersion(OIDCCMServlet.API_VERSION_5_4);
             try {
                 SATFactory.setAdminClientConverter(AdminClientStoreProviders.getAdminClientConverter());
                 SATFactory.setClientConverter((ClientConverter<? extends Client>) se.getClientStore().getMapConverter());
