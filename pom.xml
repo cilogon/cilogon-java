@@ -13,7 +13,7 @@
     <groupId>org.cilogon</groupId>
 
     <name>Cilogon parent module</name>
-    <version>5.5</version>
+    <version>5.5.1</version>
     <description>CILogon server code</description>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
