@@ -25,6 +25,9 @@ cp "$CILOGON_QDL_ROOT/target/cilogon-qdl-jar-with-dependencies.jar" $CILOGON_QDL
 unzip -p "$CILOGON_QDL_ROOT/target/cilogon-qdl-jar-with-dependencies.jar" META-INF/MANIFEST.MF > $CILOGON_QDL_DEPLOY/lib/build-info.txt
 
 cd $CILOGON_QDL_DEPLOY || exit
+java  edu.uiuc.ncsa.qdl.install.ListDistroFiles $CILOGON_QDL_DEPLOY
 # Get the actual manifest so that build info is available.
-jar cmf installer.mf "$JAR_NAME" edu/uiuc/ncsa/qdl/install/Installer.class version.txt  bin docs etc lib log var examples
+jar cmf installer.mf "$JAR_NAME" edu/uiuc/ncsa/qdl/install/Installer.class dir_list.txt file_list.txt version.txt  bin docs etc lib log var examples
+echo "done creating CILogon QDL installer!"
+
 
