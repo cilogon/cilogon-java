@@ -16,7 +16,7 @@
   <skin>
       <groupId>org.cilogon.skin</groupId>
       <artifactId>skin</artifactId>
-      <version>5.5.1</version>
+      <version>5.5.2</version>
   </skin>
   <body>
       <menu name="CILogon">
