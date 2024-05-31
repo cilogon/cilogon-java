@@ -11,7 +11,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="04234930-e14d-41d5-bfcd-bac41d340cf1" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/qdl/src/main/resources/cfg-cilogon.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/qdl/src/main/scripts/qdl" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/overlays/edu.uiuc.ncsa.myproxy.client-oauth2-5.3-SNAPSHOT.info" beforeDir="false" afterPath="$PROJECT_DIR$/client/overlays/edu.uiuc.ncsa.myproxy.client-oauth2-5.3-SNAPSHOT.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/overlays/edu.uiuc.ncsa.myproxy.client-oauth2-5.3-SNAPSHOT/WEB-INF/lib/client-5.3-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/client/overlays/edu.uiuc.ncsa.myproxy.client-oauth2-5.3-SNAPSHOT/WEB-INF/lib/client-5.3-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/overlays/edu.uiuc.ncsa.myproxy.client-oauth2-5.3-SNAPSHOT/WEB-INF/lib/client-api-5.3-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/client/overlays/edu.uiuc.ncsa.myproxy.client-oauth2-5.3-SNAPSHOT/WEB-INF/lib/client-api-5.3-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/overlays/edu.uiuc.ncsa.myproxy.client-oauth2-5.3-SNAPSHOT/WEB-INF/lib/client-loader-5.3-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/client/overlays/edu.uiuc.ncsa.myproxy.client-oauth2-5.3-SNAPSHOT/WEB-INF/lib/client-loader-5.3-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/overlays/edu.uiuc.ncsa.myproxy.client-oauth2-5.3-SNAPSHOT/WEB-INF/lib/common-5.3-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/client/overlays/edu.uiuc.ncsa.myproxy.client-oauth2-5.3-SNAPSHOT/WEB-INF/lib/common-5.3-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/overlays/edu.uiuc.ncsa.myproxy.client-oauth2-5.3-SNAPSHOT/WEB-INF/lib/core-5.3-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/client/overlays/edu.uiuc.ncsa.myproxy.client-oauth2-5.3-SNAPSHOT/WEB-INF/lib/core-5.3-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/overlays/edu.uiuc.ncsa.myproxy.client-oauth2-5.3-SNAPSHOT/WEB-INF/lib/jline-3.14.1.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/overlays/edu.uiuc.ncsa.myproxy.client-oauth2-5.3-SNAPSHOT/WEB-INF/lib/language-1.5-QDL-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/client/overlays/edu.uiuc.ncsa.myproxy.client-oauth2-5.3-SNAPSHOT/WEB-INF/lib/language-1.5-QDL-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/overlays/edu.uiuc.ncsa.myproxy.client-oauth2-5.3-SNAPSHOT/WEB-INF/lib/myproxy-logon-5.3-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/client/overlays/edu.uiuc.ncsa.myproxy.client-oauth2-5.3-SNAPSHOT/WEB-INF/lib/myproxy-logon-5.3-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/overlays/edu.uiuc.ncsa.myproxy.client-oauth2-5.3-SNAPSHOT/WEB-INF/lib/oauth2-5.3-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/client/overlays/edu.uiuc.ncsa.myproxy.client-oauth2-5.3-SNAPSHOT/WEB-INF/lib/oauth2-5.3-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/overlays/edu.uiuc.ncsa.myproxy.client-oauth2-5.3-SNAPSHOT/WEB-INF/lib/sas-server-5.3-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/client/overlays/edu.uiuc.ncsa.myproxy.client-oauth2-5.3-SNAPSHOT/WEB-INF/lib/sas-server-5.3-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/overlays/edu.uiuc.ncsa.myproxy.client-oauth2-5.3-SNAPSHOT/WEB-INF/lib/server-5.3-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/client/overlays/edu.uiuc.ncsa.myproxy.client-oauth2-5.3-SNAPSHOT/WEB-INF/lib/server-5.3-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/overlays/edu.uiuc.ncsa.myproxy.client-oauth2-5.3-SNAPSHOT/WEB-INF/lib/servlet-5.3-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/client/overlays/edu.uiuc.ncsa.myproxy.client-oauth2-5.3-SNAPSHOT/WEB-INF/lib/servlet-5.3-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/overlays/edu.uiuc.ncsa.myproxy.client-oauth2-5.3-SNAPSHOT/WEB-INF/lib/storage-5.3-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/client/overlays/edu.uiuc.ncsa.myproxy.client-oauth2-5.3-SNAPSHOT/WEB-INF/lib/storage-5.3-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/overlays/edu.uiuc.ncsa.myproxy.client-oauth2-5.3-SNAPSHOT/WEB-INF/lib/util-5.3-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/client/overlays/edu.uiuc.ncsa.myproxy.client-oauth2-5.3-SNAPSHOT/WEB-INF/lib/util-5.3-SNAPSHOT.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/apidocs/allclasses-index.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/apidocs/allclasses-index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/apidocs/allclasses.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/apidocs/allclasses.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/apidocs/allpackages-index.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/apidocs/allpackages-index.html" afterDir="false" />
@@ -430,9 +447,35 @@
       <change beforePath="$PROJECT_DIR$/qdl/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/qdl/buildNumber.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/qdl/qdl-maven.log" beforeDir="false" afterPath="$PROJECT_DIR$/qdl/qdl-maven.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/qdl/qdl.log" beforeDir="false" afterPath="$PROJECT_DIR$/qdl/qdl.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qdl/src/main/scripts/create_installer.sh" beforeDir="false" afterPath="$PROJECT_DIR$/qdl/src/main/scripts/create_installer.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/qdl/src/main/scripts/create_dirs.sh" beforeDir="false" afterPath="$PROJECT_DIR$/qdl/src/main/scripts/create_dirs.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/server/buildNumber.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/test/buildNumber.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webapp/overlays/edu.uiuc.ncsa.myproxy.oa4mp-server-oauth2-5.3-SNAPSHOT.info" beforeDir="false" afterPath="$PROJECT_DIR$/webapp/overlays/edu.uiuc.ncsa.myproxy.oa4mp-server-oauth2-5.3-SNAPSHOT.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webapp/overlays/edu.uiuc.ncsa.myproxy.oa4mp-server-oauth2-5.3-SNAPSHOT/WEB-INF/classes/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/webapp/overlays/edu.uiuc.ncsa.myproxy.oa4mp-server-oauth2-5.3-SNAPSHOT/WEB-INF/classes/META-INF/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webapp/overlays/edu.uiuc.ncsa.myproxy.oa4mp-server-oauth2-5.3-SNAPSHOT/WEB-INF/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/webapp/overlays/edu.uiuc.ncsa.myproxy.oa4mp-server-oauth2-5.3-SNAPSHOT/WEB-INF/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webapp/overlays/edu.uiuc.ncsa.myproxy.oa4mp-server-oauth2-5.3-SNAPSHOT/WEB-INF/lib/client-5.3-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/webapp/overlays/edu.uiuc.ncsa.myproxy.oa4mp-server-oauth2-5.3-SNAPSHOT/WEB-INF/lib/client-5.3-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webapp/overlays/edu.uiuc.ncsa.myproxy.oa4mp-server-oauth2-5.3-SNAPSHOT/WEB-INF/lib/client-api-5.3-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/webapp/overlays/edu.uiuc.ncsa.myproxy.oa4mp-server-oauth2-5.3-SNAPSHOT/WEB-INF/lib/client-api-5.3-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webapp/overlays/edu.uiuc.ncsa.myproxy.oa4mp-server-oauth2-5.3-SNAPSHOT/WEB-INF/lib/client-loader-5.3-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/webapp/overlays/edu.uiuc.ncsa.myproxy.oa4mp-server-oauth2-5.3-SNAPSHOT/WEB-INF/lib/client-loader-5.3-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webapp/overlays/edu.uiuc.ncsa.myproxy.oa4mp-server-oauth2-5.3-SNAPSHOT/WEB-INF/lib/common-5.3-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/webapp/overlays/edu.uiuc.ncsa.myproxy.oa4mp-server-oauth2-5.3-SNAPSHOT/WEB-INF/lib/common-5.3-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webapp/overlays/edu.uiuc.ncsa.myproxy.oa4mp-server-oauth2-5.3-SNAPSHOT/WEB-INF/lib/core-5.3-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/webapp/overlays/edu.uiuc.ncsa.myproxy.oa4mp-server-oauth2-5.3-SNAPSHOT/WEB-INF/lib/core-5.3-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webapp/overlays/edu.uiuc.ncsa.myproxy.oa4mp-server-oauth2-5.3-SNAPSHOT/WEB-INF/lib/jline-3.14.1.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/webapp/overlays/edu.uiuc.ncsa.myproxy.oa4mp-server-oauth2-5.3-SNAPSHOT/WEB-INF/lib/language-1.5-QDL-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/webapp/overlays/edu.uiuc.ncsa.myproxy.oa4mp-server-oauth2-5.3-SNAPSHOT/WEB-INF/lib/language-1.5-QDL-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webapp/overlays/edu.uiuc.ncsa.myproxy.oa4mp-server-oauth2-5.3-SNAPSHOT/WEB-INF/lib/myproxy-logon-5.3-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/webapp/overlays/edu.uiuc.ncsa.myproxy.oa4mp-server-oauth2-5.3-SNAPSHOT/WEB-INF/lib/myproxy-logon-5.3-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webapp/overlays/edu.uiuc.ncsa.myproxy.oa4mp-server-oauth2-5.3-SNAPSHOT/WEB-INF/lib/oauth2-5.3-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/webapp/overlays/edu.uiuc.ncsa.myproxy.oa4mp-server-oauth2-5.3-SNAPSHOT/WEB-INF/lib/oauth2-5.3-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webapp/overlays/edu.uiuc.ncsa.myproxy.oa4mp-server-oauth2-5.3-SNAPSHOT/WEB-INF/lib/proxy-5.3-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/webapp/overlays/edu.uiuc.ncsa.myproxy.oa4mp-server-oauth2-5.3-SNAPSHOT/WEB-INF/lib/proxy-5.3-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webapp/overlays/edu.uiuc.ncsa.myproxy.oa4mp-server-oauth2-5.3-SNAPSHOT/WEB-INF/lib/sas-1.5-QDL-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/webapp/overlays/edu.uiuc.ncsa.myproxy.oa4mp-server-oauth2-5.3-SNAPSHOT/WEB-INF/lib/sas-1.5-QDL-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webapp/overlays/edu.uiuc.ncsa.myproxy.oa4mp-server-oauth2-5.3-SNAPSHOT/WEB-INF/lib/sas-server-5.3-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/webapp/overlays/edu.uiuc.ncsa.myproxy.oa4mp-server-oauth2-5.3-SNAPSHOT/WEB-INF/lib/sas-server-5.3-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webapp/overlays/edu.uiuc.ncsa.myproxy.oa4mp-server-oauth2-5.3-SNAPSHOT/WEB-INF/lib/server-5.3-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/webapp/overlays/edu.uiuc.ncsa.myproxy.oa4mp-server-oauth2-5.3-SNAPSHOT/WEB-INF/lib/server-5.3-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webapp/overlays/edu.uiuc.ncsa.myproxy.oa4mp-server-oauth2-5.3-SNAPSHOT/WEB-INF/lib/server-admin-5.3-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/webapp/overlays/edu.uiuc.ncsa.myproxy.oa4mp-server-oauth2-5.3-SNAPSHOT/WEB-INF/lib/server-admin-5.3-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webapp/overlays/edu.uiuc.ncsa.myproxy.oa4mp-server-oauth2-5.3-SNAPSHOT/WEB-INF/lib/server-api-5.3-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/webapp/overlays/edu.uiuc.ncsa.myproxy.oa4mp-server-oauth2-5.3-SNAPSHOT/WEB-INF/lib/server-api-5.3-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webapp/overlays/edu.uiuc.ncsa.myproxy.oa4mp-server-oauth2-5.3-SNAPSHOT/WEB-INF/lib/server-loader-5.3-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/webapp/overlays/edu.uiuc.ncsa.myproxy.oa4mp-server-oauth2-5.3-SNAPSHOT/WEB-INF/lib/server-loader-5.3-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webapp/overlays/edu.uiuc.ncsa.myproxy.oa4mp-server-oauth2-5.3-SNAPSHOT/WEB-INF/lib/servlet-5.3-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/webapp/overlays/edu.uiuc.ncsa.myproxy.oa4mp-server-oauth2-5.3-SNAPSHOT/WEB-INF/lib/servlet-5.3-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webapp/overlays/edu.uiuc.ncsa.myproxy.oa4mp-server-oauth2-5.3-SNAPSHOT/WEB-INF/lib/storage-5.3-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/webapp/overlays/edu.uiuc.ncsa.myproxy.oa4mp-server-oauth2-5.3-SNAPSHOT/WEB-INF/lib/storage-5.3-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webapp/overlays/edu.uiuc.ncsa.myproxy.oa4mp-server-oauth2-5.3-SNAPSHOT/WEB-INF/lib/util-5.3-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/webapp/overlays/edu.uiuc.ncsa.myproxy.oa4mp-server-oauth2-5.3-SNAPSHOT/WEB-INF/lib/util-5.3-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webapp/overlays/edu.uiuc.ncsa.myproxy.oa4mp-server-oauth2-5.3-SNAPSHOT/WEB-INF/proxy.xml" beforeDir="false" afterPath="$PROJECT_DIR$/webapp/overlays/edu.uiuc.ncsa.myproxy.oa4mp-server-oauth2-5.3-SNAPSHOT/WEB-INF/proxy.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webapp/overlays/edu.uiuc.ncsa.myproxy.oa4mp-server-oauth2-5.3-SNAPSHOT/WEB-INF/remote-user.xml" beforeDir="false" afterPath="$PROJECT_DIR$/webapp/overlays/edu.uiuc.ncsa.myproxy.oa4mp-server-oauth2-5.3-SNAPSHOT/WEB-INF/remote-user.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webapp/overlays/edu.uiuc.ncsa.myproxy.oa4mp-server-oauth2-5.3-SNAPSHOT/WEB-INF/web.xml" beforeDir="false" afterPath="$PROJECT_DIR$/webapp/overlays/edu.uiuc.ncsa.myproxy.oa4mp-server-oauth2-5.3-SNAPSHOT/WEB-INF/web.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webapp/overlays/edu.uiuc.ncsa.myproxy.oa4mp-webapp-5.3-SNAPSHOT.info" beforeDir="false" afterPath="$PROJECT_DIR$/webapp/overlays/edu.uiuc.ncsa.myproxy.oa4mp-webapp-5.3-SNAPSHOT.info" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -522,7 +565,7 @@
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;jdk.selected.JAVA_MODULE&quot;: &quot;11 (2)&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/ncsa/dev/ncsa-git/cilogon/website&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/ncsa/dev/ncsa-git/cilogon/qdl/src/main/scripts&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -536,17 +579,17 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/website" />
       <recent name="$PROJECT_DIR$/qdl/src/main/scripts" />
+      <recent name="$PROJECT_DIR$/qdl/src/main/resources" />
+      <recent name="$PROJECT_DIR$/website" />
       <recent name="$PROJECT_DIR$/website/src/site/resources" />
       <recent name="$PROJECT_DIR$/skin/src/main/resources/images" />
-      <recent name="$PROJECT_DIR$" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/skin/src/main/resources/css" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.CLI">
+  <component name="RunManager" selected="Tomcat Server.CILogon">
     <configuration default="true" type="Applet" factoryName="Applet">
       <option name="WIDTH" value="400" />
       <option name="HEIGHT" value="300" />
@@ -828,7 +871,8 @@
       <workItem from="1714477568933" duration="3023000" />
       <workItem from="1715277264108" duration="9998000" />
       <workItem from="1716381154037" duration="1394000" />
-      <workItem from="1716724849458" duration="3140000" />
+      <workItem from="1716724849458" duration="9158000" />
+      <workItem from="1717101935776" duration="2502000" />
     </task>
     <task id="LOCAL-00001" summary="Fallout from moving a bunch of static methods into classes.">
       <created>1675892224728</created>
@@ -1152,14 +1196,6 @@
       <option name="project" value="LOCAL" />
       <updated>1692998536215</updated>
     </task>
-    <task id="LOCAL-00069" summary="https://github.com/cilogon/cilogon-java/issues/44 into the release">
-      <option name="closed" value="true" />
-      <created>1710800807142</created>
-      <option name="number" value="00069" />
-      <option name="presentableId" value="LOCAL-00069" />
-      <option name="project" value="LOCAL" />
-      <updated>1710800807142</updated>
-    </task>
     <task id="LOCAL-00070" summary="merge from master.">
       <option name="closed" value="true" />
       <created>1711379391780</created>
@@ -1176,7 +1212,15 @@
       <option name="project" value="LOCAL" />
       <updated>1715890899945</updated>
     </task>
-    <option name="localTasksCounter" value="72" />
+    <task id="LOCAL-00072" summary="build scripts updated.">
+      <option name="closed" value="true" />
+      <created>1716997823157</created>
+      <option name="number" value="00072" />
+      <option name="presentableId" value="LOCAL-00072" />
+      <option name="project" value="LOCAL" />
+      <updated>1716997823158</updated>
+    </task>
+    <option name="localTasksCounter" value="73" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1229,7 +1273,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Massive improvements to the build process that simplifies and streamlines it. The README.md file captures this." />
     <MESSAGE value="Pre-travel checkin" />
     <MESSAGE value="Recreated website." />
     <MESSAGE value="5.4 checkin" />
@@ -1254,7 +1297,8 @@
     <MESSAGE value="https://github.com/cilogon/cilogon-java/issues/44 into the release" />
     <MESSAGE value="merge from master." />
     <MESSAGE value="CIL-2006 checkin" />
-    <option name="LAST_COMMIT_MESSAGE" value="CIL-2006 checkin" />
+    <MESSAGE value="build scripts updated." />
+    <option name="LAST_COMMIT_MESSAGE" value="build scripts updated." />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -1302,8 +1346,18 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>jar://$MAVEN_REPOSITORY$/edu/uiuc/ncsa/myproxy/server-loader/5.3-SNAPSHOT/server-loader-5.3-SNAPSHOT-sources.jar!/edu/uiuc/ncsa/myproxy/oa4mp/oauth2/cm/oidc_cm/OIDCCMServlet.java</url>
-          <line>1066</line>
+          <line>1069</line>
           <option name="timeStamp" value="41" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$MAVEN_REPOSITORY$/edu/uiuc/ncsa/myproxy/server-loader/5.3-SNAPSHOT/server-loader-5.3-SNAPSHOT-sources.jar!/edu/uiuc/ncsa/myproxy/oa4mp/oauth2/cm/oidc_cm/OIDCCMServlet.java</url>
+          <line>124</line>
+          <option name="timeStamp" value="42" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$MAVEN_REPOSITORY$/edu/uiuc/ncsa/myproxy/server-loader/5.3-SNAPSHOT/server-loader-5.3-SNAPSHOT-sources.jar!/edu/uiuc/ncsa/myproxy/oa4mp/oauth2/cm/oidc_cm/OIDCCMServlet.java</url>
+          <line>350</line>
+          <option name="timeStamp" value="43" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
