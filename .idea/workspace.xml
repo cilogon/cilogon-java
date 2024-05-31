@@ -10,9 +10,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="04234930-e14d-41d5-bfcd-bac41d340cf1" name="Changes" comment="merge from master.">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="04234930-e14d-41d5-bfcd-bac41d340cf1" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -723,14 +721,6 @@
       <option name="project" value="LOCAL" />
       <updated>1692998536215</updated>
     </task>
-    <task id="LOCAL-00071" summary="merge from master.">
-      <option name="closed" value="true" />
-      <created>1715374179918</created>
-      <option name="number" value="00071" />
-      <option name="presentableId" value="LOCAL-00071" />
-      <option name="project" value="LOCAL" />
-      <updated>1715374179918</updated>
-    </task>
     <task id="LOCAL-00072" summary="merge from master.">
       <option name="closed" value="true" />
       <created>1715376530023</created>
@@ -747,7 +737,15 @@
       <option name="project" value="LOCAL" />
       <updated>1715636714095</updated>
     </task>
-    <option name="localTasksCounter" value="74" />
+    <task id="LOCAL-00074" summary="Fix for CIL-175, updated version numbers to 5.5.2">
+      <option name="closed" value="true" />
+      <created>1717186058430</created>
+      <option name="number" value="00074" />
+      <option name="presentableId" value="LOCAL-00074" />
+      <option name="project" value="LOCAL" />
+      <updated>1717186058430</updated>
+    </task>
+    <option name="localTasksCounter" value="75" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -800,7 +798,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Massive improvements to the build process that simplifies and streamlines it. The README.md file captures this." />
     <MESSAGE value="Pre-travel checkin" />
     <MESSAGE value="Recreated website." />
     <MESSAGE value="5.4 checkin" />
@@ -823,9 +820,10 @@
     <MESSAGE value="removing calls to old client mangement API" />
     <MESSAGE value="https://github.com/cilogon/cilogon-java/issues/42 and https://github.com/cilogon/cilogon-java/issues/43" />
     <MESSAGE value="https://github.com/cilogon/cilogon-java/issues/44 into the release" />
-    <MESSAGE value="merge from master." />
     <MESSAGE value="update website" />
-    <option name="LAST_COMMIT_MESSAGE" value="update website" />
+    <MESSAGE value="merge from master." />
+    <MESSAGE value="Fix for CIL-175, updated version numbers to 5.5.2" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix for CIL-175, updated version numbers to 5.5.2" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
   </component>
   <component name="XDebuggerManager">
