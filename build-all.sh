@@ -1,6 +1,7 @@
 # Top-level build script for everything. This build NCSA, QDL, OA4MP then CILogon.
 
 CILOGON_OA2_DEPLOY=$NCSA_DEV_OUTPUT/cilogon
+start_time=$(date +%s)
 
 echo "cleaning out old deploy in " $NCSA_DEV_OUTPUT
 if [ -d "$CILOGON_OA2_DEPLOY" ]
@@ -39,19 +40,23 @@ then
 fi
 if [ -d "$NCSA_DEV_INPUT/oa4mp/" ]
 then
-    $NCSA_DEV_INPUT/oa4mp/build-all.sh
+    $NCSA_DEV_INPUT/oa4mp/build-all.sh > oa4mp-maven.log
     if [ $? -ne 0 ]; then
-        echo "OA4MP build failed. Exiting build"
+        echo "OA4MP build failed. Exiting build. See "$NCSA_DEV_INPUT/oa4mp/oa4mp-maven.log""
         exit
     fi
 fi
 
 if [ -d "$NCSA_DEV_INPUT/cilogon/" ]
 then
-   $NCSA_DEV_INPUT/cilogon/build.sh
+   $NCSA_DEV_INPUT/cilogon/build.sh >cilogon-maven.log
   if [ $? -ne 0 ]; then
-    echo "CILogon build failed. Exiting build"
+    echo "CILogon build failed. Exiting build. see $NCSA_DEV_INPUT/cilogon/cilogon-maven.log"
     exit
   fi
 fi
 
+end_time=$(date +%s)
+
+elapsed=$((end_time - start_time))
+echo "Total elapsed time: $elapsed seconds"
