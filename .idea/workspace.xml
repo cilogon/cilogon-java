@@ -10,12 +10,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="04234930-e14d-41d5-bfcd-bac41d340cf1" name="Changes" comment="">
+    <list default="true" id="04234930-e14d-41d5-bfcd-bac41d340cf1" name="Changes" comment="Pruned unused directories.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build-all.sh" beforeDir="false" afterPath="$PROJECT_DIR$/build-all.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cilogon2-admin-oauth1/cilogon2-admin-oauth1.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cilogon2-admin-oauth2/cilogon2-admin-oauth2.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cilogon2-server-test/cilogon2-server-test.iml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/client/overlays/edu.uiuc.ncsa.myproxy.client-oauth2-5.3-SNAPSHOT.info" beforeDir="false" afterPath="$PROJECT_DIR$/client/overlays/edu.uiuc.ncsa.myproxy.client-oauth2-5.3-SNAPSHOT.info" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/overlays/edu.uiuc.ncsa.myproxy.client-oauth2-5.3-SNAPSHOT/WEB-INF/classes/client-derby.sql" beforeDir="false" afterPath="$PROJECT_DIR$/client/overlays/edu.uiuc.ncsa.myproxy.client-oauth2-5.3-SNAPSHOT/WEB-INF/classes/client-derby.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/overlays/edu.uiuc.ncsa.myproxy.client-oauth2-5.3-SNAPSHOT/WEB-INF/classes/client-postgres.sql" beforeDir="false" afterPath="$PROJECT_DIR$/client/overlays/edu.uiuc.ncsa.myproxy.client-oauth2-5.3-SNAPSHOT/WEB-INF/classes/client-postgres.sql" afterDir="false" />
@@ -36,12 +32,9 @@
       <change beforePath="$PROJECT_DIR$/client/overlays/edu.uiuc.ncsa.myproxy.client-oauth2-5.3-SNAPSHOT/WEB-INF/lib/storage-5.3-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/client/overlays/edu.uiuc.ncsa.myproxy.client-oauth2-5.3-SNAPSHOT/WEB-INF/lib/storage-5.3-SNAPSHOT.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/overlays/edu.uiuc.ncsa.myproxy.client-oauth2-5.3-SNAPSHOT/WEB-INF/lib/util-5.3-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/client/overlays/edu.uiuc.ncsa.myproxy.client-oauth2-5.3-SNAPSHOT/WEB-INF/lib/util-5.3-SNAPSHOT.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/client/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qdl/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/qdl/buildNumber.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/storage/user/CILSQLUserStore.java" beforeDir="false" afterPath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/storage/user/CILSQLUserStore.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/qdl/qdl-maven.log" beforeDir="false" afterPath="$PROJECT_DIR$/qdl/qdl-maven.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/qdl/qdl.log" beforeDir="false" afterPath="$PROJECT_DIR$/qdl/qdl.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/server/buildNumber.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/server/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/test/buildNumber.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/webapp/overlays/edu.uiuc.ncsa.myproxy.oa4mp-server-oauth2-5.3-SNAPSHOT.info" beforeDir="false" afterPath="$PROJECT_DIR$/webapp/overlays/edu.uiuc.ncsa.myproxy.oa4mp-server-oauth2-5.3-SNAPSHOT.info" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/webapp/overlays/edu.uiuc.ncsa.myproxy.oa4mp-server-oauth2-5.3-SNAPSHOT/WEB-INF/classes/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/webapp/overlays/edu.uiuc.ncsa.myproxy.oa4mp-server-oauth2-5.3-SNAPSHOT/WEB-INF/classes/META-INF/MANIFEST.MF" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/webapp/overlays/edu.uiuc.ncsa.myproxy.oa4mp-server-oauth2-5.3-SNAPSHOT/WEB-INF/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/webapp/overlays/edu.uiuc.ncsa.myproxy.oa4mp-server-oauth2-5.3-SNAPSHOT/WEB-INF/classes/application.properties" afterDir="false" />
@@ -74,6 +67,11 @@
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager">
+    <option name="groupingKeys">
+      <option value="module" />
+    </option>
   </component>
   <component name="CodeInsightWorkspaceSettings">
     <option name="optimizeImportsOnTheFly" value="true" />
@@ -490,7 +488,10 @@
       <workItem from="1720451742612" duration="28000" />
       <workItem from="1720451810769" duration="4996000" />
       <workItem from="1721307621117" duration="17000" />
-      <workItem from="1721560809481" duration="388000" />
+      <workItem from="1721560809481" duration="610000" />
+      <workItem from="1721561431976" duration="3209000" />
+      <workItem from="1721567259035" duration="14309000" />
+      <workItem from="1722355604282" duration="1537000" />
     </task>
     <task id="LOCAL-00001" summary="Fallout from moving a bunch of static methods into classes.">
       <created>1675892224728</created>
@@ -814,14 +815,6 @@
       <option name="project" value="LOCAL" />
       <updated>1692998536215</updated>
     </task>
-    <task id="LOCAL-00070" summary="merge from master.">
-      <option name="closed" value="true" />
-      <created>1711379391780</created>
-      <option name="number" value="00070" />
-      <option name="presentableId" value="LOCAL-00070" />
-      <option name="project" value="LOCAL" />
-      <updated>1711379391780</updated>
-    </task>
     <task id="LOCAL-00071" summary="CIL-2006 checkin">
       <option name="closed" value="true" />
       <created>1715890899945</created>
@@ -838,7 +831,15 @@
       <option name="project" value="LOCAL" />
       <updated>1716997823158</updated>
     </task>
-    <option name="localTasksCounter" value="73" />
+    <task id="LOCAL-00073" summary="Pruned unused directories.">
+      <option name="closed" value="true" />
+      <created>1721561328208</created>
+      <option name="number" value="00073" />
+      <option name="presentableId" value="LOCAL-00073" />
+      <option name="project" value="LOCAL" />
+      <updated>1721561328209</updated>
+    </task>
+    <option name="localTasksCounter" value="74" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -891,7 +892,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Pre-travel checkin" />
     <MESSAGE value="Recreated website." />
     <MESSAGE value="5.4 checkin" />
     <MESSAGE value="Tweaks to the build" />
@@ -916,7 +916,8 @@
     <MESSAGE value="merge from master." />
     <MESSAGE value="CIL-2006 checkin" />
     <MESSAGE value="build scripts updated." />
-    <option name="LAST_COMMIT_MESSAGE" value="build scripts updated." />
+    <MESSAGE value="Pruned unused directories." />
+    <option name="LAST_COMMIT_MESSAGE" value="Pruned unused directories." />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -954,7 +955,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>jar://$MAVEN_REPOSITORY$/edu/uiuc/ncsa/security/util/5.3-SNAPSHOT/util-5.3-SNAPSHOT-sources.jar!/edu/uiuc/ncsa/security/util/cli/ConfigurableCommandsImpl.java</url>
-          <line>337</line>
+          <line>351</line>
           <option name="timeStamp" value="38" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">

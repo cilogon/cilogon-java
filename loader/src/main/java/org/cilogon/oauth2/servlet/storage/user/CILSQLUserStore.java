@@ -127,7 +127,7 @@ public class CILSQLUserStore extends MonitoredSQLStore<User> implements UserStor
             zzz = zzz + (gotOne ? " OR " : " ") + snippet;
             gotOne = true;
         }
-        // Fix for CIL-1969: This should probably go away since it was mostly used
+        // This should probably go away since it was mostly used
         // in OAuth 1.0a servers. In theory we should never ever see one again,
         // but it is possible (since CILogon serviced OAuth 1.0a and 2.0 and they shared user
         // databases) someone who has not
