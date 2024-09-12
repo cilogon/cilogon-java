@@ -1,41 +1,45 @@
-[INFO] Scanning for projects...
-[INFO] 
-[INFO] --------------------------< org.cilogon:qdl >---------------------------
-[INFO] Building CILogon QDL extensions 5.3-SNAPSHOT
-[INFO]   from pom.xml
-[INFO] --------------------------------[ jar ]---------------------------------
-[INFO] 
-[INFO] --- enforcer:1.2:enforce (enforce-maven) @ qdl ---
-[INFO] 
-[INFO] --- buildnumber:1.3:create (default) @ qdl ---
-[INFO] Storing buildNumber: Build: #1,421 (2024-05-31T08:22:20.044-05:00) at timestamp: 1717161740044
-[INFO] Executing: /bin/sh -c cd /home/ncsa/dev/ncsa-git/cilogon/qdl && svn --non-interactive info
-[INFO] Working directory: /home/ncsa/dev/ncsa-git/cilogon/qdl
-[INFO] Storing buildScmBranch: UNKNOWN_BRANCH
-[INFO] 
-[INFO] --- resources:3.3.0:resources (default-resources) @ qdl ---
-[INFO] Copying 1 resource
-[INFO] 
-[INFO] --- compiler:3.10.1:compile (default-compile) @ qdl ---
-[INFO] Nothing to compile - all classes are up to date
-[INFO] 
-[INFO] --- resources:3.3.0:testResources (default-testResources) @ qdl ---
-[INFO] skip non existing resourceDirectory /home/ncsa/dev/ncsa-git/cilogon/qdl/src/test/resources
-[INFO] 
-[INFO] --- compiler:3.10.1:testCompile (default-testCompile) @ qdl ---
-[INFO] Nothing to compile - all classes are up to date
-[INFO] 
-[INFO] --- surefire:3.0.0:test (default-test) @ qdl ---
-[INFO] 
-[INFO] --- jar:3.3.0:jar (default-jar) @ qdl ---
-[INFO] Building jar: /home/ncsa/dev/ncsa-git/cilogon/qdl/target/cilogon-qdl.jar
-[INFO] 
-[INFO] --- assembly:3.1.0:single (make-my-jar-with-dependencies) @ qdl ---
-[WARNING] Parameter 'localRepository' is deprecated core expression; Avoid use of ArtifactRepository type. If you need access to local repository, switch to '${repositorySystemSession}' expression and get LRM from it instead.
-[INFO] Building jar: /home/ncsa/dev/ncsa-git/cilogon/qdl/target/cilogon-qdl-jar-with-dependencies.jar
-[INFO] ------------------------------------------------------------------------
-[INFO] BUILD SUCCESS
-[INFO] ------------------------------------------------------------------------
-[INFO] Total time:  17.503 s
-[INFO] Finished at: 2024-05-31T08:22:36-05:00
-[INFO] ------------------------------------------------------------------------
+[[1;34mINFO[m] Scanning for projects...
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--------------------------< [0;36morg.cilogon:qdl[0;1m >---------------------------[m
+[[1;34mINFO[m] [1mBuilding CILogon QDL extensions 5.3-SNAPSHOT[m
+[[1;34mINFO[m] [1m--------------------------------[ jar ]---------------------------------[m
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-enforcer-plugin:1.2:enforce[m [1m(enforce-maven)[m @ [36mqdl[0;1m ---[m
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mbuildnumber-maven-plugin:1.3:create[m [1m(default)[m @ [36mqdl[0;1m ---[m
+[[1;34mINFO[m] Storing buildNumber: Build: #1,469 (2024-09-09T15:14:44.997-05:00) at timestamp: 1725912884997
+[[1;34mINFO[m] Executing: /bin/sh -c cd /home/ncsa/dev/ncsa-git/cilogon/qdl && svn --non-interactive info
+[[1;34mINFO[m] Working directory: /home/ncsa/dev/ncsa-git/cilogon/qdl
+[[1;34mINFO[m] Storing buildScmBranch: UNKNOWN_BRANCH
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-resources-plugin:2.6:resources[m [1m(default-resources)[m @ [36mqdl[0;1m ---[m
+[[1;34mINFO[m] Using 'UTF-8' encoding to copy filtered resources.
+[[1;34mINFO[m] Copying 1 resource
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-compiler-plugin:3.1:compile[m [1m(default-compile)[m @ [36mqdl[0;1m ---[m
+[[1;34mINFO[m] Changes detected - recompiling the module!
+[[1;34mINFO[m] Compiling 10 source files to /home/ncsa/dev/ncsa-git/cilogon/qdl/target/classes
+[[1;33mWARNING[m] /home/ncsa/dev/ncsa-git/cilogon/qdl/src/main/java/org/cilogon/qdl/module/storage/CILOA2TransactionStemMC.java: Some input files use unchecked or unsafe operations.
+[[1;33mWARNING[m] /home/ncsa/dev/ncsa-git/cilogon/qdl/src/main/java/org/cilogon/qdl/module/storage/CILOA2TransactionStemMC.java: Recompile with -Xlint:unchecked for details.
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-resources-plugin:2.6:testResources[m [1m(default-testResources)[m @ [36mqdl[0;1m ---[m
+[[1;34mINFO[m] Using 'UTF-8' encoding to copy filtered resources.
+[[1;34mINFO[m] skip non existing resourceDirectory /home/ncsa/dev/ncsa-git/cilogon/qdl/src/test/resources
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-compiler-plugin:3.1:testCompile[m [1m(default-testCompile)[m @ [36mqdl[0;1m ---[m
+[[1;34mINFO[m] No sources to compile
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-surefire-plugin:2.12.4:test[m [1m(default-test)[m @ [36mqdl[0;1m ---[m
+[[1;34mINFO[m] No tests to run.
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-jar-plugin:2.4:jar[m [1m(default-jar)[m @ [36mqdl[0;1m ---[m
+[[1;34mINFO[m] Building jar: /home/ncsa/dev/ncsa-git/cilogon/qdl/target/cilogon-qdl.jar
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-assembly-plugin:3.1.0:single[m [1m(make-my-jar-with-dependencies)[m @ [36mqdl[0;1m ---[m
+[[1;34mINFO[m] Building jar: /home/ncsa/dev/ncsa-git/cilogon/qdl/target/cilogon-qdl-jar-with-dependencies.jar
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] [1;32mBUILD SUCCESS[m
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] Total time:  6.969 s
+[[1;34mINFO[m] Finished at: 2024-09-09T15:14:51-05:00
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m

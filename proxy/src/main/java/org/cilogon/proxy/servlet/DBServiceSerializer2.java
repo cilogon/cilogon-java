@@ -1,15 +1,16 @@
 package org.cilogon.proxy.servlet;
 
-import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.clients.OA2Client;
-import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.transactions.OA2ServiceTransaction;
-import edu.uiuc.ncsa.oa4mp.delegation.common.storage.clients.ClientApprovalKeys;
-import edu.uiuc.ncsa.oa4mp.delegation.common.storage.clients.ClientKeys;
 import edu.uiuc.ncsa.security.core.util.Iso8601;
 import org.cilogon.oauth2.servlet.impl.Err;
 import org.cilogon.oauth2.servlet.storage.idp.IDPKeys;
 import org.cilogon.oauth2.servlet.storage.twofactor.TwoFactorSerializationKeys;
 import org.cilogon.oauth2.servlet.storage.user.UserKeys;
 import org.cilogon.oauth2.servlet.util.DBServiceSerializer;
+import org.oa4mp.delegation.common.storage.clients.ClientKeys;
+import org.oa4mp.server.loader.oauth2.storage.clients.OA2Client;
+import org.oa4mp.server.loader.oauth2.storage.transactions.OA2ServiceTransaction;
+import org.oa4mp.delegation.common.storage.clients.ClientApprovalKeys;
+
 
 import java.io.IOException;
 import java.io.PrintWriter;

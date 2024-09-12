@@ -1,10 +1,10 @@
 package org.cilogon.oauth2.admin;
 
-import edu.uiuc.ncsa.myproxy.oauth2.base.StoreCommands2;
 import edu.uiuc.ncsa.security.core.Identifiable;
 import edu.uiuc.ncsa.security.core.Store;
 import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
 import org.cilogon.oauth2.servlet.storage.idp.IdentityProviderStore;
+import org.oa4mp.server.admin.myproxy.oauth2.base.StoreCommands2;
 
 /**
  * <p>Created by Jeff Gaynor<br>

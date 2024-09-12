@@ -1,13 +1,13 @@
 package org.cilogon.oauth2.servlet.storage.transaction;
 
-import edu.uiuc.ncsa.myproxy.oa4mp.server.admin.transactions.TransactionConverter;
-import edu.uiuc.ncsa.oa4mp.delegation.common.storage.clients.Client;
-import edu.uiuc.ncsa.oa4mp.delegation.common.token.TokenForge;
-import edu.uiuc.ncsa.oa4mp.delegation.server.storage.ClientStore;
 import edu.uiuc.ncsa.security.core.IdentifiableProvider;
 import edu.uiuc.ncsa.security.core.util.IdentifiableProviderImpl;
 import edu.uiuc.ncsa.security.storage.data.ConversionMap;
 import edu.uiuc.ncsa.security.storage.data.SerializationKeys;
+import org.oa4mp.delegation.common.storage.clients.Client;
+import org.oa4mp.delegation.common.token.TokenForge;
+import org.oa4mp.delegation.server.storage.ClientStore;
+import org.oa4mp.server.api.admin.transactions.TransactionConverter;
 
 /**
  * <p>Created by Jeff Gaynor<br>

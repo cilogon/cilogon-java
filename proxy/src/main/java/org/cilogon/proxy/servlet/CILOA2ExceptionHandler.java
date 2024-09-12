@@ -1,13 +1,13 @@
 package org.cilogon.proxy.servlet;
 
-import edu.uiuc.ncsa.oa4mp.delegation.oa2.OA2Errors;
-import edu.uiuc.ncsa.oa4mp.delegation.oa2.OA2GeneralError;
 import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
 import edu.uiuc.ncsa.security.servlet.ExceptionHandlerThingie;
 import org.cilogon.oauth2.servlet.StatusCodes;
 import org.cilogon.oauth2.servlet.impl.Err;
 import org.cilogon.oauth2.servlet.servlet.AbstractDBService;
 import org.cilogon.oauth2.servlet.servlet.CILogonExceptionHandler;
+import org.oa4mp.delegation.server.OA2Errors;
+import org.oa4mp.delegation.server.OA2GeneralError;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;

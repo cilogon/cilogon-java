@@ -1,11 +1,11 @@
 package test.cilogon.impl;
 
-import edu.uiuc.ncsa.myproxy.oa4mp.NewTransactionTest;
-import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.transactions.OA2ServiceTransaction;
-import edu.uiuc.ncsa.oa4mp.delegation.common.storage.TransactionStore;
 import org.cilogon.oauth2.servlet.storage.transaction.AbstractCILServiceTransaction;
 import org.cilogon.oauth2.servlet.storage.user.User;
 import org.junit.Test;
+import org.oa4mp.delegation.common.storage.TransactionStore;
+import org.oa4mp.server.loader.oauth2.storage.transactions.OA2ServiceTransaction;
+import org.oa4mp.server.test.NewTransactionTest;
 import test.cilogon.CILTestStoreProviderI2;
 
 import java.net.URI;

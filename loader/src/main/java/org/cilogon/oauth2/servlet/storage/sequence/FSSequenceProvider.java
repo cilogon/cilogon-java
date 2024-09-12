@@ -1,11 +1,11 @@
 package org.cilogon.oauth2.servlet.storage.sequence;
 
-import edu.uiuc.ncsa.myproxy.oa4mp.server.OA4MPConfigTags;
 import edu.uiuc.ncsa.security.core.exceptions.MyConfigurationException;
 import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.apache.commons.transaction.file.ResourceManagerException;
 import org.apache.commons.transaction.util.PrintWriterLogger;
 import org.cilogon.oauth2.servlet.util.Incrementable;
+import org.oa4mp.server.api.OA4MPConfigTags;
 
 import java.io.PrintWriter;
 

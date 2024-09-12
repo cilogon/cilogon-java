@@ -1,9 +1,5 @@
 package org.cilogon.oauth2.servlet.util;
 
-import edu.uiuc.ncsa.oa4mp.delegation.common.storage.clients.Client;
-import edu.uiuc.ncsa.oa4mp.delegation.common.storage.clients.ClientApprovalKeys;
-import edu.uiuc.ncsa.oa4mp.delegation.common.storage.clients.ClientKeys;
-import edu.uiuc.ncsa.oa4mp.delegation.server.ServiceTransaction;
 import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.exceptions.GeneralException;
 import edu.uiuc.ncsa.security.core.exceptions.NFWException;
@@ -18,6 +14,10 @@ import org.cilogon.oauth2.servlet.storage.idp.IdentityProvider;
 import org.cilogon.oauth2.servlet.storage.twofactor.TwoFactorInfo;
 import org.cilogon.oauth2.servlet.storage.twofactor.TwoFactorSerializationKeys;
 import org.cilogon.oauth2.servlet.storage.user.*;
+import org.oa4mp.delegation.common.storage.clients.Client;
+import org.oa4mp.delegation.common.storage.clients.ClientApprovalKeys;
+import org.oa4mp.delegation.common.storage.clients.ClientKeys;
+import org.oa4mp.delegation.server.ServiceTransaction;
 
 import java.io.*;
 import java.net.URI;
@@ -26,10 +26,10 @@ import java.net.URLEncoder;
 import java.text.ParseException;
 import java.util.*;
 
-import static edu.uiuc.ncsa.myproxy.oa4mp.server.ServiceConstantKeys.TOKEN_KEY;
-import static edu.uiuc.ncsa.myproxy.oa4mp.server.servlet.MyProxyDelegationServlet.getServiceEnvironment;
 import static org.cilogon.oauth2.servlet.servlet.AbstractDBService.STATUS_KEY;
 import static org.cilogon.oauth2.servlet.servlet.AbstractDBService.distinguishedNameField;
+import static org.oa4mp.server.api.ServiceConstantKeys.TOKEN_KEY;
+import static org.oa4mp.server.api.storage.servlet.MyProxyDelegationServlet.getServiceEnvironment;
 
 
 /**

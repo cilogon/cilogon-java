@@ -1,10 +1,5 @@
 package org.cilogon.qdl.module;
 
-import edu.uiuc.ncsa.oa2.qdl.storage.QDLStoreAccessor;
-import edu.uiuc.ncsa.oa2.qdl.storage.StoreFacade;
-import edu.uiuc.ncsa.oa2.qdl.storage.TransactionStemMC;
-import edu.uiuc.ncsa.oa4mp.delegation.common.storage.TransactionStore;
-import edu.uiuc.ncsa.oa4mp.delegation.server.storage.ClientStore;
 import edu.uiuc.ncsa.security.core.util.AbstractEnvironment;
 import edu.uiuc.ncsa.security.core.util.ConfigurationLoader;
 import org.cilogon.oauth2.servlet.loader.CILOA2ConfigurationLoader;
@@ -12,10 +7,15 @@ import org.cilogon.oauth2.servlet.loader.CILogonOA2ServiceEnvironment;
 import org.cilogon.qdl.module.storage.CILOA2TransactionStemMC;
 import org.cilogon.qdl.module.storage.TwoFactorMC;
 import org.cilogon.qdl.module.storage.UserStemMC;
+import org.oa4mp.delegation.common.storage.TransactionStore;
+import org.oa4mp.delegation.server.storage.ClientStore;
+import org.oa4mp.server.qdl.storage.QDLStoreAccessor;
+import org.oa4mp.server.qdl.storage.StoreFacade;
+import org.oa4mp.server.qdl.storage.TransactionStemMC;
+import org.qdl_lang.variables.QDLStem;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
-import java.util.List;
 
 /**
  * <p>Created by Jeff Gaynor<br>
@@ -30,11 +30,11 @@ public class CILStoreFacade extends StoreFacade {
     public static final String STORE_TYPE_2FACTOR_STORE = "two_factor";
 
     @Override
-    public List<String> getStoreTypes() {
-        List<String> x = super.getStoreTypes();
-        x.add(STORE_TYPE_2FACTOR_STORE);
-        x.add(STORE_TYPE_USER_STORE);
-        return x;
+    public QDLStem getStoreTypes() {
+        QDLStem types = super.getStoreTypes();
+        types.put("two_factor", STORE_TYPE_2FACTOR_STORE);
+        types.put("user", STORE_TYPE_USER_STORE);
+        return types;
     }
 
     @Override
@@ -77,8 +77,9 @@ public class CILStoreFacade extends StoreFacade {
         }
         return (CILogonOA2ServiceEnvironment) environment;
     }
+
     public ConfigurationLoader<? extends AbstractEnvironment> getLoader() {
-         return new CILOA2ConfigurationLoader<CILogonOA2ServiceEnvironment>(getConfigurationNode(), getLogger());
-     }
+        return new CILOA2ConfigurationLoader<CILogonOA2ServiceEnvironment>(getConfigurationNode(), getLogger());
+    }
 
 }

@@ -1,11 +1,11 @@
 package test;
 
-import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.OA2SE;
-import edu.uiuc.ncsa.myproxy.oa4mp.server.servlet.AbstractConfigurationLoader;
-import test.cilogon.CILTestStoreProvider;
 import org.cilogon.oauth2.servlet.loader.CILOA2ConfigurationLoader;
+import org.oa4mp.server.api.storage.servlet.AbstractConfigurationLoader;
+import org.oa4mp.server.loader.oauth2.OA2SE;
+import test.cilogon.CILTestStoreProvider;
 
-import static edu.uiuc.ncsa.myproxy.oa4mp.TestUtils.findConfigNode;
+import static org.oa4mp.server.test.TestUtils.findConfigNode;
 
 /**
  * <p>Created by Jeff Gaynor<br>

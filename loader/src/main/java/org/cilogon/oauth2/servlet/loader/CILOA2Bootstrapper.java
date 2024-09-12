@@ -1,13 +1,5 @@
 package org.cilogon.oauth2.servlet.loader;
 
-import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.OA2SE;
-import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.cm.oidc_cm.OIDCCMServlet;
-import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.loader.OA2ServletInitializer;
-import edu.uiuc.ncsa.myproxy.oa4mp.server.admin.adminClient.AdminClientStoreProviders;
-import edu.uiuc.ncsa.myproxy.oa4mp.server.admin.things.SATFactory;
-import edu.uiuc.ncsa.myproxy.oa4mp.server.servlet.AbstractBootstrapper;
-import edu.uiuc.ncsa.oa4mp.delegation.common.storage.clients.Client;
-import edu.uiuc.ncsa.oa4mp.delegation.common.storage.clients.ClientConverter;
 import edu.uiuc.ncsa.security.core.Identifiable;
 import edu.uiuc.ncsa.security.core.exceptions.MyConfigurationException;
 import edu.uiuc.ncsa.security.core.util.ConfigurationLoader;
@@ -16,6 +8,14 @@ import edu.uiuc.ncsa.security.storage.MonitoredStoreInterface;
 import edu.uiuc.ncsa.security.storage.events.LastAccessedEventListener;
 import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.cilogon.oauth2.servlet.util.DNUtil;
+import org.oa4mp.delegation.common.storage.clients.Client;
+import org.oa4mp.delegation.common.storage.clients.ClientConverter;
+import org.oa4mp.server.api.admin.adminClient.AdminClientStoreProviders;
+import org.oa4mp.server.api.admin.things.SATFactory;
+import org.oa4mp.server.api.storage.servlet.AbstractBootstrapper;
+import org.oa4mp.server.loader.oauth2.OA2SE;
+import org.oa4mp.server.loader.oauth2.loader.OA2ServletInitializer;
+import org.oa4mp.server.loader.oauth2.cm.oidc_cm.OIDCCMServlet;
 
 import javax.servlet.ServletException;
 

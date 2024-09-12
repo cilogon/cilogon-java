@@ -1,6 +1,7 @@
 package test.cilogon;
 
-import edu.uiuc.ncsa.myproxy.oa4mp.StoreTest;
+
+import org.oa4mp.server.test.StoreTest;
 
 /**
  * <p>Created by Jeff Gaynor<br>

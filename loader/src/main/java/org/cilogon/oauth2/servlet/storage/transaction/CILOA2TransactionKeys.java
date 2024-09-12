@@ -1,7 +1,7 @@
 package org.cilogon.oauth2.servlet.storage.transaction;
 
 
-import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.transactions.OA2TransactionKeys;
+import org.oa4mp.server.loader.oauth2.storage.transactions.OA2TransactionKeys;
 
 import java.util.List;
 

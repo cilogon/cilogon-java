@@ -1,10 +1,10 @@
 package org.cilogon.qdl.module.storage;
 
-import edu.uiuc.ncsa.oa2.qdl.storage.StoreAccessModule;
-import edu.uiuc.ncsa.oa2.qdl.storage.StoreFacade;
-import edu.uiuc.ncsa.qdl.module.Module;
-import edu.uiuc.ncsa.qdl.state.State;
 import org.cilogon.qdl.module.CILStoreFacade;
+import org.oa4mp.server.qdl.storage.StoreAccessModule;
+import org.oa4mp.server.qdl.storage.StoreFacade;
+import org.qdl_lang.module.Module;
+import org.qdl_lang.state.State;
 
 import java.net.URI;
 

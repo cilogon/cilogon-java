@@ -1,10 +1,10 @@
 package org.cilogon.qdl.module.storage;
 
-import edu.uiuc.ncsa.oa2.qdl.storage.StemConverter;
-import edu.uiuc.ncsa.qdl.variables.QDLStem;
 import edu.uiuc.ncsa.security.storage.data.MapConverter;
 import net.sf.json.JSONObject;
 import org.cilogon.oauth2.servlet.storage.user.*;
+import org.oa4mp.server.qdl.storage.StemConverter;
+import org.qdl_lang.variables.QDLStem;
 
 import static edu.uiuc.ncsa.security.core.util.BasicIdentifier.newID;
 

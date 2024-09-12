@@ -1,9 +1,9 @@
 package org.cilogon.qdl.module.storage;
 
-import edu.uiuc.ncsa.oa2.qdl.storage.PStoreAccessModule;
-import edu.uiuc.ncsa.oa2.qdl.storage.StoreAccessModule;
-import edu.uiuc.ncsa.qdl.extensions.QDLLoader;
-import edu.uiuc.ncsa.qdl.module.Module;
+import org.oa4mp.server.qdl.storage.PStoreAccessModule;
+import org.oa4mp.server.qdl.storage.StoreAccessModule;
+import org.qdl_lang.extensions.QDLLoader;
+import org.qdl_lang.module.Module;
 
 import java.util.ArrayList;
 import java.util.List;

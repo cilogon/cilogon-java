@@ -1,7 +1,7 @@
 package org.cilogon.oauth2.servlet.storage.transaction;
 
-import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.transactions.OA2TransactionTable;
 import edu.uiuc.ncsa.security.storage.sql.internals.ColumnDescriptorEntry;
+import org.oa4mp.server.loader.oauth2.storage.transactions.OA2TransactionTable;
 
 import java.sql.Types;
 

@@ -1,10 +1,10 @@
 package test.cilogon;
 
-import edu.uiuc.ncsa.myproxy.oa4mp.TestUtils;
 import edu.uiuc.ncsa.security.core.util.DateUtils;
 import edu.uiuc.ncsa.security.core.util.DoubleHashMap;
 import org.cilogon.oauth2.servlet.storage.sequence.SerialStrings;
 import org.cilogon.oauth2.servlet.storage.user.User;
+import org.oa4mp.server.test.TestUtils;
 
 import java.net.URI;
 

@@ -1,13 +1,5 @@
 package org.cilogon.oauth2.servlet.claims;
 
-import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.OA2SE;
-import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.claims.BasicClaimsSourceImpl;
-import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.claims.GroupElement;
-import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.claims.Groups;
-import edu.uiuc.ncsa.oa4mp.delegation.oa2.server.UnsupportedScopeException;
-import edu.uiuc.ncsa.oa4mp.delegation.oa2.server.claims.OA2Claims;
-import edu.uiuc.ncsa.oa4mp.delegation.server.ServiceTransaction;
-import edu.uiuc.ncsa.qdl.variables.QDLStem;
 import edu.uiuc.ncsa.security.core.exceptions.NFWException;
 import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
 import edu.uiuc.ncsa.security.servlet.ServletDebugUtil;
@@ -15,6 +7,14 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.cilogon.oauth2.servlet.loader.CILogonOA2ServiceEnvironment;
 import org.cilogon.oauth2.servlet.storage.user.User;
+import org.oa4mp.delegation.server.ServiceTransaction;
+import org.oa4mp.delegation.server.server.UnsupportedScopeException;
+import org.oa4mp.delegation.server.server.claims.OA2Claims;
+import org.oa4mp.server.loader.oauth2.OA2SE;
+import org.oa4mp.server.loader.oauth2.claims.BasicClaimsSourceImpl;
+import org.oa4mp.server.loader.oauth2.claims.GroupElement;
+import org.oa4mp.server.loader.oauth2.claims.Groups;
+import org.qdl_lang.variables.QDLStem;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.StringTokenizer;

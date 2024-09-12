@@ -1,8 +1,6 @@
 package org.cilogon.oauth2.servlet.util;
 
-import edu.uiuc.ncsa.myproxy.oa4mp.server.OA4MPConfigTags;
-import edu.uiuc.ncsa.myproxy.oa4mp.server.ServiceEnvironmentImpl;
-import edu.uiuc.ncsa.oa4mp.delegation.common.servlet.DBConfigLoader;
+
 import edu.uiuc.ncsa.security.core.configuration.Configurations;
 import edu.uiuc.ncsa.security.storage.sql.SQLStore;
 import edu.uiuc.ncsa.security.storage.sql.mysql.MySQLConnectionPoolProvider;
@@ -14,13 +12,13 @@ import org.cilogon.oauth2.servlet.storage.idp.*;
 import org.cilogon.oauth2.servlet.storage.sequence.*;
 import org.cilogon.oauth2.servlet.storage.twofactor.*;
 import org.cilogon.oauth2.servlet.storage.user.*;
+import org.oa4mp.delegation.common.servlet.DBConfigLoader;
+import org.oa4mp.server.api.OA4MPConfigTags;
+import org.oa4mp.server.api.ServiceEnvironmentImpl;
 
 import java.util.HashMap;
 
-import static edu.uiuc.ncsa.myproxy.oa4mp.server.OA4MPConfigTags.MYSQL_STORE;
-import static edu.uiuc.ncsa.myproxy.oa4mp.server.OA4MPConfigTags.POSTGRESQL_STORE;
-import static edu.uiuc.ncsa.security.core.configuration.StorageConfigurationTags.DERBY_STORE;
-import static edu.uiuc.ncsa.security.core.configuration.StorageConfigurationTags.MARIADB_STORE;
+import static edu.uiuc.ncsa.security.core.configuration.StorageConfigurationTags.*;
 
 /**
  * Stores specific to CILogon (as opposed to OA4MP generally).

@@ -1,10 +1,10 @@
 package org.cilogon.oauth2.servlet.storage.transaction;
 
-import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.transactions.OA2ServiceTransaction;
-import edu.uiuc.ncsa.myproxy.oa4mp.qdl.claims.ConfigtoCS;
-import edu.uiuc.ncsa.oa4mp.delegation.common.token.AuthorizationGrant;
 import edu.uiuc.ncsa.security.core.Identifier;
 import org.cilogon.oauth2.servlet.CILConfigToCS;
+import org.oa4mp.delegation.common.token.AuthorizationGrant;
+import org.oa4mp.server.loader.oauth2.storage.transactions.OA2ServiceTransaction;
+import org.oa4mp.server.loader.qdl.claims.ConfigtoCS;
 
 /**
  * <p>Created by Jeff Gaynor<br>

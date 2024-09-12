@@ -1,7 +1,7 @@
 package org.cilogon.oauth2.servlet.storage.transaction;
 
-import edu.uiuc.ncsa.myproxy.oa4mp.server.OA4MPServiceTransaction;
 import edu.uiuc.ncsa.security.core.Identifier;
+import org.oa4mp.server.api.OA4MPServiceTransaction;
 
 import static edu.uiuc.ncsa.security.core.util.BeanUtils.checkEquals;
 

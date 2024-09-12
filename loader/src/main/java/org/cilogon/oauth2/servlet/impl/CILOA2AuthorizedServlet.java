@@ -1,7 +1,8 @@
 package org.cilogon.oauth2.servlet.impl;
 
-import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.servlet.OA2AuthorizedServlet;
-import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.servlet.OA2AuthorizedServletUtil;
+
+import org.oa4mp.server.loader.oauth2.servlet.OA2AuthorizedServlet;
+import org.oa4mp.server.loader.oauth2.servlet.OA2AuthorizedServletUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

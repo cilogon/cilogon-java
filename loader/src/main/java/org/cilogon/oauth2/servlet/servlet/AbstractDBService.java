@@ -1,15 +1,6 @@
 package org.cilogon.oauth2.servlet.servlet;
 
-import edu.uiuc.ncsa.myproxy.oa4mp.server.ServiceConstantKeys;
-import edu.uiuc.ncsa.myproxy.oa4mp.server.ServiceEnvironmentImpl;
-import edu.uiuc.ncsa.myproxy.oa4mp.server.servlet.MyProxyDelegationServlet;
-import edu.uiuc.ncsa.oa4mp.delegation.common.storage.clients.Client;
-import edu.uiuc.ncsa.oa4mp.delegation.common.storage.clients.ClientApprovalKeys;
-import edu.uiuc.ncsa.oa4mp.delegation.common.storage.clients.ClientKeys;
-import edu.uiuc.ncsa.oa4mp.delegation.common.token.AuthorizationGrant;
-import edu.uiuc.ncsa.oa4mp.delegation.common.token.TokenForge;
-import edu.uiuc.ncsa.oa4mp.delegation.server.ServiceTransaction;
-import edu.uiuc.ncsa.oa4mp.delegation.server.request.IssuerResponse;
+
 import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.exceptions.GeneralException;
 import edu.uiuc.ncsa.security.core.exceptions.NFWException;
@@ -36,6 +27,16 @@ import org.cilogon.oauth2.servlet.storage.user.*;
 import org.cilogon.oauth2.servlet.util.CILogonSE;
 import org.cilogon.oauth2.servlet.util.DBServiceException;
 import org.cilogon.oauth2.servlet.util.DBServiceSerializer;
+import org.oa4mp.delegation.common.storage.clients.Client;
+import org.oa4mp.delegation.common.storage.clients.ClientApprovalKeys;
+import org.oa4mp.delegation.common.storage.clients.ClientKeys;
+import org.oa4mp.delegation.common.token.AuthorizationGrant;
+import org.oa4mp.delegation.common.token.TokenForge;
+import org.oa4mp.delegation.server.ServiceTransaction;
+import org.oa4mp.delegation.server.request.IssuerResponse;
+import org.oa4mp.server.api.ServiceConstantKeys;
+import org.oa4mp.server.api.ServiceEnvironmentImpl;
+import org.oa4mp.server.api.storage.servlet.MyProxyDelegationServlet;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -50,9 +51,9 @@ import java.util.BitSet;
 import java.util.Collection;
 import java.util.LinkedList;
 
-import static edu.uiuc.ncsa.myproxy.oa4mp.server.ServiceConstantKeys.FORM_ENCODING_KEY;
 import static edu.uiuc.ncsa.security.core.util.BasicIdentifier.newID;
 import static org.apache.http.HttpStatus.SC_OK;
+import static org.oa4mp.server.api.ServiceConstantKeys.FORM_ENCODING_KEY;
 
 /**
  * <p>Created by Jeff Gaynor<br>
@@ -374,9 +375,9 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
         }
 
         String idp = getParam(request, userKeys.idp());
-        if (idp == null || idp.length() == 0) {
+     /*   if (idp == null || idp.length() == 0) {
             throw new DBServiceException(StatusCodes.STATUS_NO_IDENTITY_PROVIDER);
-        }
+        }*/
 
         String email = getParam(request, userKeys.email(), true);
         String firstName = getParam(request, userKeys.firstName(), true);
@@ -644,7 +645,10 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
             keepSerialString = keepSerialString && user.getUserMultiKey().keepSerialString(newID);
             user.setUserMultiKey(newID);
         }
-        user.setIdP(idp);
+        if(idp != null) {
+            // CIL-1969
+            user.setIdP(idp);
+        }
         user.setUseUSinDN(useUSinDN);
         // Again, the second argument in the next call  means
         ServletDebugUtil.trace(this, "saved user " + user);

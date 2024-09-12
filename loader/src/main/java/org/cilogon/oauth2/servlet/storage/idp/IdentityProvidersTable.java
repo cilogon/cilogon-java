@@ -1,6 +1,7 @@
 package org.cilogon.oauth2.servlet.storage.idp;
 
-import edu.uiuc.ncsa.oa4mp.delegation.common.storage.monitored.MonitoredTable;
+
+import org.oa4mp.delegation.common.storage.monitored.MonitoredTable;
 
 /**
  * <p>Created by Jeff Gaynor<br>

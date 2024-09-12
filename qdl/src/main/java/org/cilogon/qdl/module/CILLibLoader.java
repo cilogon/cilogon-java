@@ -1,9 +1,9 @@
 package org.cilogon.qdl.module;
 
-import edu.uiuc.ncsa.oa2.qdl.OA2LibLoader2;
-import edu.uiuc.ncsa.qdl.state.State;
-import edu.uiuc.ncsa.qdl.variables.QDLStem;
 import org.cilogon.qdl.module.storage.CILStoreLoader;
+import org.oa4mp.server.qdl.OA2LibLoader2;
+import org.qdl_lang.state.State;
+import org.qdl_lang.variables.QDLStem;
 
 /**
  * <p>Created by Jeff Gaynor<br>

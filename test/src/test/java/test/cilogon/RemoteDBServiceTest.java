@@ -1,8 +1,5 @@
 package test.cilogon;
 
-import edu.uiuc.ncsa.myproxy.oa4mp.server.ServiceConstantKeys;
-import edu.uiuc.ncsa.oa4mp.delegation.common.storage.TransactionStore;
-import edu.uiuc.ncsa.oa4mp.delegation.server.storage.ClientStore;
 import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
 import edu.uiuc.ncsa.security.core.util.DateUtils;
 import edu.uiuc.ncsa.security.storage.XMLMap;
@@ -13,6 +10,9 @@ import org.cilogon.oauth2.servlet.storage.idp.IdentityProviderStore;
 import org.cilogon.oauth2.servlet.storage.twofactor.TwoFactorStore;
 import org.cilogon.oauth2.servlet.storage.user.*;
 import org.cilogon.oauth2.servlet.util.DBServiceClient;
+import org.oa4mp.delegation.common.storage.TransactionStore;
+import org.oa4mp.delegation.server.storage.ClientStore;
+import org.oa4mp.server.api.ServiceConstantKeys;
 
 import java.util.Map;
 

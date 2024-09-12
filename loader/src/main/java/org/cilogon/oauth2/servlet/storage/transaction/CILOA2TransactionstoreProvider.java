@@ -1,15 +1,15 @@
 package org.cilogon.oauth2.servlet.storage.transaction;
 
-import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.transactions.OA2SQLTStore;
-import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.transactions.OA2SQLTransactionStoreProvider;
-import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.transactions.OA2ServiceTransaction;
-import edu.uiuc.ncsa.myproxy.oa4mp.server.storage.MultiDSClientStoreProvider;
-import edu.uiuc.ncsa.oa4mp.delegation.common.token.TokenForge;
 import edu.uiuc.ncsa.security.storage.data.MapConverter;
 import edu.uiuc.ncsa.security.storage.sql.ConnectionPool;
 import edu.uiuc.ncsa.security.storage.sql.ConnectionPoolProvider;
 import edu.uiuc.ncsa.security.storage.sql.internals.Table;
 import org.apache.commons.configuration.tree.ConfigurationNode;
+import org.oa4mp.delegation.common.token.TokenForge;
+import org.oa4mp.server.api.storage.MultiDSClientStoreProvider;
+import org.oa4mp.server.loader.oauth2.storage.transactions.OA2SQLTStore;
+import org.oa4mp.server.loader.oauth2.storage.transactions.OA2SQLTransactionStoreProvider;
+import org.oa4mp.server.loader.oauth2.storage.transactions.OA2ServiceTransaction;
 
 import javax.inject.Provider;
 

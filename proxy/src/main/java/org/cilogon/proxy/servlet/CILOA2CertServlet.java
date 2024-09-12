@@ -1,14 +1,14 @@
 package org.cilogon.proxy.servlet;
 
-import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.transactions.OA2ServiceTransaction;
-import edu.uiuc.ncsa.oa2.servlet.OA2CertServlet;
-import edu.uiuc.ncsa.oa4mp.delegation.oa2.OA2Errors;
-import edu.uiuc.ncsa.oa4mp.delegation.oa2.OA2GeneralError;
-import edu.uiuc.ncsa.oa4mp.delegation.server.ServiceTransaction;
 import org.apache.http.HttpStatus;
 import org.cilogon.oauth2.servlet.loader.CILogonOA2ServiceEnvironment;
 import org.cilogon.oauth2.servlet.storage.transaction.CILOA2ServiceTransaction;
 import org.cilogon.oauth2.servlet.storage.user.User;
+import org.oa4mp.delegation.server.OA2Errors;
+import org.oa4mp.delegation.server.OA2GeneralError;
+import org.oa4mp.delegation.server.ServiceTransaction;
+import org.oa4mp.server.loader.oauth2.storage.transactions.OA2ServiceTransaction;
+import org.oa4mp.server.proxy.OA2CertServlet;
 
 import java.security.GeneralSecurityException;
 

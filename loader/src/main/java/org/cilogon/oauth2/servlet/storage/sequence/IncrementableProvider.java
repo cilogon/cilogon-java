@@ -7,8 +7,8 @@ import edu.uiuc.ncsa.security.storage.sql.ConnectionPoolProvider;
 import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.cilogon.oauth2.servlet.util.Incrementable;
 
-import static edu.uiuc.ncsa.myproxy.oa4mp.server.OA4MPConfigTags.SEQUENCE;
 import static edu.uiuc.ncsa.security.storage.sql.SQLStoreProvider.*;
+import static org.oa4mp.server.api.OA4MPConfigTags.SEQUENCE;
 
 
 /**

@@ -1,6 +1,7 @@
 package org.cilogon.oauth2.admin;
 
-import edu.uiuc.ncsa.myproxy.oauth2.tools.OA2CopyTool;
+
+import org.oa4mp.server.admin.myproxy.oauth2.tools.OA2CopyTool;
 
 /**
  * <p>Created by Jeff Gaynor<br>

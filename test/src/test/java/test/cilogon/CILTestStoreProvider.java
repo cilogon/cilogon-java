@@ -1,8 +1,5 @@
 package test.cilogon;
 
-import edu.uiuc.ncsa.myproxy.oa4mp.TestStoreProvider;
-import edu.uiuc.ncsa.myproxy.oa4mp.server.servlet.AbstractConfigurationLoader;
-import edu.uiuc.ncsa.oa4mp.delegation.common.token.TokenForge;
 import edu.uiuc.ncsa.security.util.TestBase;
 import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.cilogon.oauth2.servlet.storage.archiveUser.ArchivedUserStore;
@@ -14,6 +11,9 @@ import org.cilogon.oauth2.servlet.storage.user.User;
 import org.cilogon.oauth2.servlet.storage.user.UserStore;
 import org.cilogon.oauth2.servlet.util.CILogonSE;
 import org.cilogon.oauth2.servlet.util.Incrementable;
+import org.oa4mp.delegation.common.token.TokenForge;
+import org.oa4mp.server.api.storage.servlet.AbstractConfigurationLoader;
+import org.oa4mp.server.test.TestStoreProvider;
 
 import static edu.uiuc.ncsa.security.core.util.BasicIdentifier.newID;
 import static test.cilogon.RemoteDBServiceTest.createRU;

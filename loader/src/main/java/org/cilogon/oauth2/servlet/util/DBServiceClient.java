@@ -1,7 +1,5 @@
 package org.cilogon.oauth2.servlet.util;
 
-import edu.uiuc.ncsa.oa4mp.delegation.common.storage.clients.ClientApprovalKeys;
-import edu.uiuc.ncsa.oa4mp.delegation.common.storage.clients.ClientKeys;
 import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.exceptions.GeneralException;
 import edu.uiuc.ncsa.security.core.exceptions.NFWException;
@@ -27,6 +25,8 @@ import org.cilogon.oauth2.servlet.storage.user.PersonName;
 import org.cilogon.oauth2.servlet.storage.user.User;
 import org.cilogon.oauth2.servlet.storage.user.UserKeys;
 import org.cilogon.oauth2.servlet.storage.user.UserMultiID;
+import org.oa4mp.delegation.common.storage.clients.ClientApprovalKeys;
+import org.oa4mp.delegation.common.storage.clients.ClientKeys;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;

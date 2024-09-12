@@ -1,7 +1,8 @@
 package org.cilogon.oauth2.servlet.servlet;
 
-import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.servlet.OA2RegistrationServlet;
-import edu.uiuc.ncsa.oa4mp.delegation.oa2.OA2Scopes;
+
+import org.oa4mp.delegation.server.OA2Scopes;
+import org.oa4mp.server.loader.oauth2.servlet.OA2RegistrationServlet;
 
 import java.util.Collection;
 

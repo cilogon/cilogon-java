@@ -1,10 +1,10 @@
 package org.cilogon.oauth2.servlet.storage.sequence;
 
-import edu.uiuc.ncsa.myproxy.oa4mp.server.OA4MPConfigTags;
 import edu.uiuc.ncsa.security.core.configuration.provider.CfgEvent;
 import edu.uiuc.ncsa.security.core.configuration.provider.HierarchicalConfigProvider;
 import edu.uiuc.ncsa.security.core.util.DoubleHashMap;
 import org.apache.commons.configuration.tree.ConfigurationNode;
+import org.oa4mp.server.api.OA4MPConfigTags;
 
 import java.net.URI;
 import java.util.List;

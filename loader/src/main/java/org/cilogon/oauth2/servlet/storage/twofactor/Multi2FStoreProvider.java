@@ -1,9 +1,9 @@
 package org.cilogon.oauth2.servlet.storage.twofactor;
 
-import edu.uiuc.ncsa.myproxy.oa4mp.server.OA4MPConfigTags;
 import edu.uiuc.ncsa.security.core.configuration.provider.MultiTypeProvider;
 import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
 import org.apache.commons.configuration.tree.ConfigurationNode;
+import org.oa4mp.server.api.OA4MPConfigTags;
 
 /**
  * <p>Created by Jeff Gaynor<br>

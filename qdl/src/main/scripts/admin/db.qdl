@@ -1,0 +1,109 @@
+unused()→db#read('select client_id, name, creation_ts from ' + cfg.schema + '.clients where last_accessed IS NULL order by creation_ts');
+unused(days)→db#read('select client_id, last_accessed, creation_ts, name from '+ cfg.schema + '.clients where last_accessed<' + (date_ms()-days*24*3600*1000) + ' order by creation_ts');
+trivial_config()→db#read('select client_id, name, cfg from '+ cfg.schema + '.clients where INSTR(cfg, \'{"isSaved\') >0 AND last_accessed is NOT NULL');
+
+is_saved()->db#read('select client_id, name, last_accessed, creation_ts, cfg from '+ cfg.schema + '.clients where INSTR(cfg, \'{"isSaved\') >0 order by creation_ts')
+is_saved. := is_saved();
+
+s.'unused'≔~pick((k,v)->'last_accessed'∌v, is_saved.)
+s.'used'≔~pick((k,v)->'last_accessed'∋v, is_saved.)
+// all client ids that are unused and have a trivial old config
+s.unused\*\client_id
+
+unapproved()→db#read('select * from '+ cfg.schema + '.client_approvals where status=\'none\' order by approval_ts DESC')
+//unapproved(days)→db#read('select * from '+ cfg.schema + '.client_approvals where status=\'none\' order by approval_ts DESC')
+
+unapproved(days)-> db#read('select * from ' + cfg.schema + '.client_approvals where ?<approval_ts AND status=?', [date_iso(date_ms()-days*24*3600*1000),'none']);
+
+db#batch_read('select * from ' + cfg.schema + '.clients where client_id=?', remap(unapproved(4), [-5;-1])\*\client_id)
+db#batch_read('select * from ' + cfg.schema + '.clients where client_id=?', unapproved(4)\*\client_id)
+
+get_client(id)->block[
+  » Get the client. The assumption is that there is at most one of these,
+  » so the output is either that or an empty stem.
+  __c. := db#read('select * from ' + cfg.schema + '.clients where client_id=?',[id]);
+  return(size(__c.) == 0 ? __c. : __c.0);
+  ];
+
+ lookup_user(email)→block[
+   » Get the user from the registration email. Since some people give their EPPN,
+   » if the first attempt fails, try the lookup by that.
+    x. ≔ db#read('select user_uid from ' + cfg.schema + '.user where email=?', [email]);
+    if[size(x.) == 0][
+       x.≔ db#read('select user_uid from ' + cfg.schema + '.user where eppn=?', [email]);
+    ];
+    return(x\*\user_uid);
+ ];
+
+ is_valid_user(email)->block[
+   return(size(lookup_user(email)) != 0);
+ ];
+
+
+define[check_site(address)]
+ [
+  » This will check that an internet address is valid.
+  » It returns a stem with a status and message.
+  http ≔ j_load('http');
+  http#host(address);
+  http#open();
+  out. ≔ [];
+  try[
+     x. ≔ http#get();
+     out.status ≔ x.status.code;
+     out.message ≔ ('message'∋x.status)?x.status.message:x.content;
+  ]catch[
+     out.status ≔ -1;
+     out.message ≔ error_message;
+  ];
+  http#close();
+  return(out.);
+];
+
+define[check_sites(address.)]
+[
+ » Checks that a list of sites is reachable.
+ » This returns a conformable stem with the address, status (200 if it worked)
+ » and a message (ok if it worked). A negative status means that the address
+ » was not even resolvable.
+ out. ≔ [];
+ failures := 0;
+  while[i ∈ address.]
+     do[
+        rc. ≔ check_site(i);
+        if[rc.status ≠ 200]
+        then[
+           out.(failures++) ≔ {'host':i}~rc. ;
+        ]; // end if
+     ]; //end while
+     return(out.);
+];
+
+get_user(uid)→db#read('select * from '+ cfg.schema + '.user where user_uid=?', [uid])
+
+q. := ((no_status\*\client_id) ∈ (week_old\*\client_id)) ⌆ (no_status\*\client_id)
+
+// decoding raw traffic for ersatz flows
+rr(x)->replace(decode(x,1), '&', '&\n')
+
+vet_client(id)->block[
+» Vet a client. This will return an integer as follows
+» -1 = no email ==> probably administered. Why not approved?
+» 0 = user is valid
+» 2 = home uri is valid
+» 4 = at least one callback is valid.
+   client. := get_client(id);
+   say(client.);
+   if['email'∌client.]
+     [ // then this is probablly an administered client. Skip it.
+       return(-1);
+     ];
+   is_valid := is_valid_user(client.email);
+   rc := is_valid?1:0;
+   x. := check_site(client.'home_uri');
+   rc = rc + x.status == 200 ? 2 : 0;
+   x. := check_sites(client.'callback_uri');
+   cb_ok : = true ∈ 200 == x\*\status;  // see if one checks
+   rc := rc +  cb_ok ? 4 : 0;
+   return(rc);
+];

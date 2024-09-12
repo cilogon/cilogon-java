@@ -1,10 +1,10 @@
 package org.cilogon.oauth2.servlet.storage;
 
-import edu.uiuc.ncsa.myproxy.oa4mp.server.OA4MPConfigTags;
 import edu.uiuc.ncsa.security.core.configuration.provider.CfgEvent;
 import edu.uiuc.ncsa.security.core.configuration.provider.HierarchicalConfigProvider;
 import edu.uiuc.ncsa.security.core.exceptions.MyConfigurationException;
 import org.apache.commons.configuration.tree.ConfigurationNode;
+import org.oa4mp.server.api.OA4MPConfigTags;
 
 import java.util.List;
 

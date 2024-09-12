@@ -1,7 +1,7 @@
 package org.cilogon.oauth2.servlet.storage.transaction;
 
-import edu.uiuc.ncsa.myproxy.oa4mp.server.admin.transactions.DSTransactionTable;
 import edu.uiuc.ncsa.security.storage.sql.internals.ColumnDescriptorEntry;
+import org.oa4mp.server.api.admin.transactions.DSTransactionTable;
 
 import static java.sql.Types.BOOLEAN;
 import static java.sql.Types.LONGVARCHAR;

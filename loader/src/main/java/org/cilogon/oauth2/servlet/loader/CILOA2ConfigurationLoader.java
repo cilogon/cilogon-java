@@ -1,19 +1,5 @@
 package org.cilogon.oauth2.servlet.loader;
 
-import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.OA2SE;
-import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.claims.BasicClaimsSourceImpl;
-import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.loader.OA2ConfigurationLoader;
-import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.transactions.OA2SQLTransactionStoreProvider;
-import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.storage.transactions.OA2ServiceTransaction;
-import edu.uiuc.ncsa.myproxy.oa4mp.server.admin.transactions.DSTransactionProvider;
-import edu.uiuc.ncsa.myproxy.oa4mp.server.admin.transactions.OA4MPIdentifierProvider;
-import edu.uiuc.ncsa.myproxy.oa4mp.server.storage.MultiDSClientStoreProvider;
-import edu.uiuc.ncsa.oa4mp.delegation.common.storage.TransactionStore;
-import edu.uiuc.ncsa.oa4mp.delegation.common.storage.clients.Client;
-import edu.uiuc.ncsa.oa4mp.delegation.common.token.TokenForge;
-import edu.uiuc.ncsa.oa4mp.delegation.oa2.server.claims.ClaimSource;
-import edu.uiuc.ncsa.oa4mp.delegation.oa2.server.claims.ClaimSourceConfiguration;
-import edu.uiuc.ncsa.oa4mp.delegation.server.storage.ClientStore;
 import edu.uiuc.ncsa.security.core.IdentifiableProvider;
 import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.configuration.Configurations;
@@ -41,13 +27,27 @@ import org.cilogon.oauth2.servlet.storage.user.UserStore;
 import org.cilogon.oauth2.servlet.util.CILogonConfiguration;
 import org.cilogon.oauth2.servlet.util.CILogonConstants;
 import org.cilogon.oauth2.servlet.util.Incrementable;
+import org.oa4mp.delegation.common.storage.TransactionStore;
+import org.oa4mp.delegation.common.storage.clients.Client;
+import org.oa4mp.delegation.common.token.TokenForge;
+import org.oa4mp.delegation.server.server.claims.ClaimSource;
+import org.oa4mp.delegation.server.server.claims.ClaimSourceConfiguration;
+import org.oa4mp.delegation.server.storage.ClientStore;
+import org.oa4mp.server.api.admin.transactions.DSTransactionProvider;
+import org.oa4mp.server.api.admin.transactions.OA4MPIdentifierProvider;
+import org.oa4mp.server.api.storage.MultiDSClientStoreProvider;
+import org.oa4mp.server.loader.oauth2.OA2SE;
+import org.oa4mp.server.loader.oauth2.claims.BasicClaimsSourceImpl;
+import org.oa4mp.server.loader.oauth2.loader.OA2ConfigurationLoader;
+import org.oa4mp.server.loader.oauth2.storage.transactions.OA2SQLTransactionStoreProvider;
+import org.oa4mp.server.loader.oauth2.storage.transactions.OA2ServiceTransaction;
 
 import javax.inject.Provider;
 import java.util.List;
 
-import static edu.uiuc.ncsa.myproxy.oa4mp.server.admin.transactions.OA4MPIdentifierProvider.TRANSACTION_ID;
 import static edu.uiuc.ncsa.security.core.configuration.Configurations.getFirstAttribute;
 import static edu.uiuc.ncsa.security.core.configuration.Configurations.getFirstNode;
+import static org.oa4mp.server.api.admin.transactions.OA4MPIdentifierProvider.TRANSACTION_ID;
 
 /**
  * This handles the extensions to OA4MP and serves as a facade for the CILogon store loader.

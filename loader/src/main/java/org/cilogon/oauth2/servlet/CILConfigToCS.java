@@ -1,12 +1,12 @@
 package org.cilogon.oauth2.servlet;
 
-import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.OA2SE;
-import edu.uiuc.ncsa.myproxy.oa4mp.qdl.claims.ConfigtoCS;
-import edu.uiuc.ncsa.oa4mp.delegation.oa2.server.claims.ClaimSource;
-import edu.uiuc.ncsa.qdl.state.State;
-import edu.uiuc.ncsa.qdl.variables.QDLStem;
 import org.cilogon.oauth2.servlet.claims.CILCSConstants;
 import org.cilogon.oauth2.servlet.claims.SAMLAttributeClaimSource;
+import org.oa4mp.delegation.server.server.claims.ClaimSource;
+import org.oa4mp.server.loader.oauth2.OA2SE;
+import org.oa4mp.server.loader.qdl.claims.ConfigtoCS;
+import org.qdl_lang.state.State;
+import org.qdl_lang.variables.QDLStem;
 
 /**
  * <p>Created by Jeff Gaynor<br>

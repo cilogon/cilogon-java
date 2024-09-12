@@ -1,12 +1,13 @@
 package test;
 
-import edu.uiuc.ncsa.myproxy.oa4mp.AbstractTestSuiteInitializer;
-import edu.uiuc.ncsa.myproxy.oa4mp.server.admin.adminClient.AdminClientStoreProviders;
-import edu.uiuc.ncsa.myproxy.oa4mp.server.admin.things.SATFactory;
-import edu.uiuc.ncsa.myproxy.oa4mp.server.servlet.AbstractBootstrapper;
-import edu.uiuc.ncsa.myproxy.oa4mp.server.servlet.AbstractConfigurationLoader;
-import edu.uiuc.ncsa.oa4mp.delegation.common.storage.clients.Client;
-import edu.uiuc.ncsa.oa4mp.delegation.common.storage.clients.ClientConverter;
+import org.oa4mp.delegation.common.storage.clients.Client;
+import org.oa4mp.delegation.common.storage.clients.ClientConverter;
+import org.oa4mp.server.api.admin.adminClient.AdminClientStoreProviders;
+import org.oa4mp.server.api.admin.things.SATFactory;
+import org.oa4mp.server.api.storage.servlet.AbstractBootstrapper;
+import org.oa4mp.server.api.storage.servlet.AbstractConfigurationLoader;
+import org.oa4mp.server.test.AbstractTestSuiteInitializer;
+import org.oa4mp.server.test.TestStoreProvider2;
 import test.cilogon.RemoteDBServiceTest;
 import test.cilogon.ServiceTestUtils;
 

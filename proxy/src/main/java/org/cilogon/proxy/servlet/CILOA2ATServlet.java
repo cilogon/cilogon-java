@@ -1,6 +1,7 @@
 package org.cilogon.proxy.servlet;
 
-import edu.uiuc.ncsa.oa2.servlet.OA2ATServlet;
+
+import org.oa4mp.server.proxy.OA2ATServlet;
 
 /**
  * Once upon a time this had a bunch of code for processing claims but that has been replaced as of version 4.0.  This

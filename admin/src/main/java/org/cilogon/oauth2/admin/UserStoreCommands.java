@@ -1,6 +1,5 @@
 package org.cilogon.oauth2.admin;
 
-import edu.uiuc.ncsa.myproxy.oauth2.base.StoreCommands2;
 import edu.uiuc.ncsa.security.core.Identifiable;
 import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.Store;
@@ -11,6 +10,7 @@ import edu.uiuc.ncsa.security.util.cli.InputLine;
 import org.cilogon.oauth2.servlet.storage.archiveUser.ArchivedUserStore;
 import org.cilogon.oauth2.servlet.storage.user.*;
 import org.cilogon.oauth2.servlet.util.DNUtil;
+import org.oa4mp.server.admin.myproxy.oauth2.base.StoreCommands2;
 
 import java.io.IOException;
 

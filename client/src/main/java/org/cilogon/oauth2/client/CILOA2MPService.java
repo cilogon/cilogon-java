@@ -1,9 +1,9 @@
 package org.cilogon.oauth2.client;
 
-import edu.uiuc.ncsa.myproxy.oa4mp.client.ClientEnvironment;
-import edu.uiuc.ncsa.oa4mp.oauth2.client.OA2MPService;
-import edu.uiuc.ncsa.oa4mp.oauth2.client.OA2MPServiceProvider;
 
+import org.oa4mp.client.api.ClientEnvironment;
+import org.oa4mp.client.loader.OA2MPService;
+import org.oa4mp.client.loader.OA2MPServiceProvider;
 
 /**
  * <p>Created by Jeff Gaynor<br>

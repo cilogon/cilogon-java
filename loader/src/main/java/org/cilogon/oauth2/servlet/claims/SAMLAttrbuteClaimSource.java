@@ -1,6 +1,7 @@
 package org.cilogon.oauth2.servlet.claims;
 
-import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.OA2SE;
+
+import org.oa4mp.server.loader.oauth2.OA2SE;
 
 /**
  * Dummy class that only uses its superclass. Just to make sure it is referenced someplace.

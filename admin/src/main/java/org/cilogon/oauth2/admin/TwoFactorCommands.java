@@ -1,12 +1,12 @@
 package org.cilogon.oauth2.admin;
 
-import edu.uiuc.ncsa.myproxy.oauth2.base.StoreCommands2;
 import edu.uiuc.ncsa.security.core.Identifiable;
 import edu.uiuc.ncsa.security.core.Store;
 import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
 import org.cilogon.oauth2.servlet.storage.twofactor.TwoFactorInfo;
 import org.cilogon.oauth2.servlet.storage.twofactor.TwoFactorSerializationKeys;
 import org.cilogon.oauth2.servlet.storage.twofactor.TwoFactorStore;
+import org.oa4mp.server.admin.myproxy.oauth2.base.StoreCommands2;
 
 import java.io.IOException;
 

@@ -1,9 +1,5 @@
 package test.cilogon;
 
-import edu.uiuc.ncsa.myproxy.oa4mp.server.ServiceConstantKeys;
-import edu.uiuc.ncsa.oa4mp.delegation.common.storage.clients.Client;
-import edu.uiuc.ncsa.oa4mp.delegation.common.token.impl.AuthorizationGrantImpl;
-import edu.uiuc.ncsa.oa4mp.delegation.server.ServiceTransaction;
 import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
 import edu.uiuc.ncsa.security.storage.XMLMap;
 import org.cilogon.oauth2.servlet.StatusCodes;
@@ -13,6 +9,10 @@ import org.cilogon.oauth2.servlet.storage.user.*;
 import org.cilogon.oauth2.servlet.util.DBServiceException;
 import org.cilogon.oauth2.servlet.util.DBServiceSerializer;
 import org.junit.Test;
+import org.oa4mp.delegation.common.storage.clients.Client;
+import org.oa4mp.delegation.common.token.impl.AuthorizationGrantImpl;
+import org.oa4mp.delegation.server.ServiceTransaction;
+import org.oa4mp.server.api.ServiceConstantKeys;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

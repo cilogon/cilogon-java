@@ -1,6 +1,7 @@
 package org.cilogon.oauth2.servlet.claims;
 
-import edu.uiuc.ncsa.myproxy.oa4mp.qdl.claims.CSConstants;
+
+import org.oa4mp.server.loader.qdl.claims.CSConstants;
 
 /**
  * <p>Created by Jeff Gaynor<br>

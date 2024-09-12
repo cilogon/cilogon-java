@@ -1,6 +1,5 @@
 package org.cilogon.oauth2.servlet.storage.archiveUser;
 
-import edu.uiuc.ncsa.myproxy.oa4mp.server.OA4MPConfigTags;
 import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.util.IdentifiableImpl;
 import edu.uiuc.ncsa.security.core.util.IdentifiableProviderImpl;
@@ -9,6 +8,7 @@ import edu.uiuc.ncsa.security.storage.GenericStoreUtils;
 import edu.uiuc.ncsa.security.storage.data.MapConverter;
 import org.cilogon.oauth2.servlet.storage.user.User;
 import org.cilogon.oauth2.servlet.storage.user.UserStore;
+import org.oa4mp.server.api.OA4MPConfigTags;
 
 import java.io.File;
 import java.util.Iterator;

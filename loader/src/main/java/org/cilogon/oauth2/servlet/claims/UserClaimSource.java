@@ -1,11 +1,5 @@
 package org.cilogon.oauth2.servlet.claims;
 
-import edu.uiuc.ncsa.myproxy.oa4mp.oauth2.claims.BasicClaimsSourceImpl;
-import edu.uiuc.ncsa.oa4mp.delegation.oa2.OA2Scopes;
-import edu.uiuc.ncsa.oa4mp.delegation.oa2.server.UnsupportedScopeException;
-import edu.uiuc.ncsa.oa4mp.delegation.oa2.server.claims.OA2Claims;
-import edu.uiuc.ncsa.oa4mp.delegation.server.ServiceTransaction;
-import edu.uiuc.ncsa.qdl.variables.QDLStem;
 import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
 import edu.uiuc.ncsa.security.core.util.DebugUtil;
 import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
@@ -13,14 +7,20 @@ import edu.uiuc.ncsa.security.servlet.ServletDebugUtil;
 import net.freeutils.charset.UTF7Charset;
 import net.sf.json.JSONObject;
 import org.cilogon.oauth2.servlet.loader.CILogonOA2ServiceEnvironment;
+import org.cilogon.oauth2.servlet.storage.transaction.AbstractCILServiceTransaction;
 import org.cilogon.oauth2.servlet.storage.transaction.CILOA2ServiceTransaction;
 import org.cilogon.oauth2.servlet.storage.user.User;
 import org.cilogon.oauth2.servlet.storage.user.UserNotFoundException;
-import org.cilogon.oauth2.servlet.storage.transaction.AbstractCILServiceTransaction;
+import org.oa4mp.delegation.server.OA2Scopes;
+import org.oa4mp.delegation.server.ServiceTransaction;
+import org.oa4mp.delegation.server.server.UnsupportedScopeException;
+import org.oa4mp.delegation.server.server.claims.OA2Claims;
+import org.oa4mp.server.loader.oauth2.claims.BasicClaimsSourceImpl;
+import org.qdl_lang.variables.QDLStem;
 
 import javax.servlet.http.HttpServletRequest;
 
-import static edu.uiuc.ncsa.oa4mp.delegation.oa2.server.claims.OA2Claims.PREFERRED_USERNAME;
+import static org.oa4mp.delegation.server.server.claims.OA2Claims.PREFERRED_USERNAME;
 
 
 /**

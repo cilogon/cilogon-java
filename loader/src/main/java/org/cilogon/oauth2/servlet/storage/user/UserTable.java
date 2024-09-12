@@ -1,7 +1,7 @@
 package org.cilogon.oauth2.servlet.storage.user;
 
-import edu.uiuc.ncsa.oa4mp.delegation.common.storage.monitored.MonitoredTable;
 import edu.uiuc.ncsa.security.storage.sql.internals.ColumnDescriptorEntry;
+import org.oa4mp.delegation.common.storage.monitored.MonitoredTable;
 
 import java.sql.Types;
 

@@ -1,6 +1,5 @@
 package org.cilogon.oauth2.admin;
 
-import edu.uiuc.ncsa.myproxy.oauth2.base.StoreCommands2;
 import edu.uiuc.ncsa.security.core.Identifiable;
 import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.Store;
@@ -12,6 +11,7 @@ import org.cilogon.oauth2.servlet.storage.archiveUser.ArchivedUserStore;
 import org.cilogon.oauth2.servlet.storage.user.User;
 import org.cilogon.oauth2.servlet.storage.user.UserNotFoundException;
 import org.cilogon.oauth2.servlet.storage.user.UserStore;
+import org.oa4mp.server.admin.myproxy.oauth2.base.StoreCommands2;
 
 import java.util.HashSet;
 import java.util.List;

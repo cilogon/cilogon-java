@@ -5,14 +5,14 @@ package test.cilogon;
  * on 3/13/12 at  3:10 PM
  */
 
-import edu.uiuc.ncsa.myproxy.oa4mp.NewCAStoreTest;
 import junit.framework.TestSuite;
-import test.cilogon.impl.TwoFactorStoreTest;
-import test.cilogon.impl.UserStoreTest;
-import test.cilogon.util.TokenTest;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
+import org.oa4mp.server.test.NewCAStoreTest;
+import test.cilogon.impl.TwoFactorStoreTest;
+import test.cilogon.impl.UserStoreTest;
+import test.cilogon.util.TokenTest;
 
 
 /**

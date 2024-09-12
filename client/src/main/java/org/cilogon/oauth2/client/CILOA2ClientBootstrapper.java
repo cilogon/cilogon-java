@@ -1,9 +1,9 @@
 package org.cilogon.oauth2.client;
 
-import edu.uiuc.ncsa.oa4mp.oauth2.client.OA2ClientBootstrapper;
 import edu.uiuc.ncsa.security.core.exceptions.MyConfigurationException;
 import edu.uiuc.ncsa.security.core.util.ConfigurationLoader;
 import org.apache.commons.configuration.tree.ConfigurationNode;
+import org.oa4mp.client.loader.OA2ClientBootstrapper;
 
 /**
  * <p>Created by Jeff Gaynor<br>
