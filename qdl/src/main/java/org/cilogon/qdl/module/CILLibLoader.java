@@ -10,12 +10,12 @@ import org.qdl_lang.variables.QDLStem;
  * on 4/4/23 at  12:17 PM
  */
 public class CILLibLoader extends OA2LibLoader2 {
-    protected String cilogonKey = "cilogon";
+    public static String cilogonKey = "cilogon";
     @Override
     public void add(State state) {
         super.add(state);
         QDLStem x = new QDLStem();
-        x.put("description", "The CILogons specific modules to access users and two factor stores");
+        x.put("description", "CILogon's store module adds access for users and two factor stores");
         state.addLibEntries(cilogonKey, x);
         x.put("store", CILStoreLoader.class.getCanonicalName());
         state.addLibEntries(cilogonKey, x);

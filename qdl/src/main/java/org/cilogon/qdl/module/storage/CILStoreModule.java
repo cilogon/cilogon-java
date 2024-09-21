@@ -26,7 +26,7 @@ public class CILStoreModule extends StoreAccessModule {
         storeModule.storeFacade = newStoreFacade();
         doIt(storeModule, state);
         if(state != null){
-            state.addLibEntry("cilogon", "store", getClass().getCanonicalName());
+            storeModule.init(state);
         }
         setupModule(storeModule);
         return storeModule;
