@@ -10,15 +10,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="04234930-e14d-41d5-bfcd-bac41d340cf1" name="Changes" comment="https://github.com/cilogon/cilogon-java/issues/46">
-      <change afterPath="$PROJECT_DIR$/qdl/src/main/java/org/cilogon/qdl/workspace/CILogonQDLWorkspace.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/qdl/src/main/java/org/cilogon/qdl/workspace/CILogonQDLWorkspaceProvider.java" afterDir="false" />
+    <list default="true" id="04234930-e14d-41d5-bfcd-bac41d340cf1" name="Changes" comment="https://github.com/cilogon/cilogon-java/issues/47 plus Javadoc after package renames in QDL and OA4MP.">
+      <change afterPath="$PROJECT_DIR$/qdl/src/main/resources/cilogon-boot.qdl" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build-all.sh" beforeDir="false" afterPath="$PROJECT_DIR$/build-all.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/apidocs/allclasses-index.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/apidocs/allclasses-index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/apidocs/allclasses.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/apidocs/allclasses.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/apidocs/allpackages-index.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/apidocs/allpackages-index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/apidocs/constant-values.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/apidocs/constant-values.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/apidocs/deprecated-list.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/apidocs/deprecated-list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/apidocs/element-list" beforeDir="false" afterPath="$PROJECT_DIR$/docs/apidocs/element-list" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/apidocs/help-doc.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/apidocs/help-doc.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/apidocs/index-all.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/apidocs/index-all.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/apidocs/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/apidocs/index.html" afterDir="false" />
@@ -415,17 +416,17 @@
       <change beforePath="$PROJECT_DIR$/docs/apidocs/org/cilogon/qdl/module/storage/package-use.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/apidocs/org/cilogon/qdl/module/storage/package-use.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/apidocs/overview-summary.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/apidocs/overview-summary.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/apidocs/overview-tree.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/apidocs/overview-tree.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/apidocs/package-search-index.js" beforeDir="false" afterPath="$PROJECT_DIR$/docs/apidocs/package-search-index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/apidocs/package-search-index.zip" beforeDir="false" afterPath="$PROJECT_DIR$/docs/apidocs/package-search-index.zip" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/apidocs/serialized-form.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/apidocs/serialized-form.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/apidocs/type-search-index.js" beforeDir="false" afterPath="$PROJECT_DIR$/docs/apidocs/type-search-index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/apidocs/type-search-index.zip" beforeDir="false" afterPath="$PROJECT_DIR$/docs/apidocs/type-search-index.zip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/pdf/CILogon_db_servlet.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/docs/pdf/CILogon_db_servlet.pdf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/qdl/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/qdl/buildNumber.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qdl/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/qdl/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qdl/qdl-maven.log" beforeDir="false" afterPath="$PROJECT_DIR$/qdl/qdl-maven.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qdl/qdl.log" beforeDir="false" afterPath="$PROJECT_DIR$/qdl/qdl.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qdl/src/main/java/org/cilogon/qdl/module/CILLibLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/qdl/src/main/java/org/cilogon/qdl/module/CILLibLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qdl/src/main/java/org/cilogon/qdl/module/storage/CILStoreModule.java" beforeDir="false" afterPath="$PROJECT_DIR$/qdl/src/main/java/org/cilogon/qdl/module/storage/CILStoreModule.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/qdl/qdl-maven.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qdl/qdl.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qdl/src/main/resources/cfg-cilogon.xml" beforeDir="false" afterPath="$PROJECT_DIR$/qdl/src/main/resources/cfg-cilogon.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/qdl/src/main/scripts/admin/db.qdl" beforeDir="false" afterPath="$PROJECT_DIR$/qdl/src/main/scripts/admin/db.qdl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/qdl/src/main/scripts/create_dirs.sh" beforeDir="false" afterPath="$PROJECT_DIR$/qdl/src/main/scripts/create_dirs.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/server/buildNumber.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/test/buildNumber.properties" afterDir="false" />
     </list>
@@ -867,7 +868,7 @@
       <workItem from="1723846081845" duration="33069000" />
       <workItem from="1724498439816" duration="16373000" />
       <workItem from="1726051916645" duration="32985000" />
-      <workItem from="1726683858931" duration="28755000" />
+      <workItem from="1726683858931" duration="66112000" />
     </task>
     <task id="LOCAL-00001" summary="Fallout from moving a bunch of static methods into classes.">
       <created>1675892224728</created>
@@ -1191,14 +1192,6 @@
       <option name="project" value="LOCAL" />
       <updated>1692998536215</updated>
     </task>
-    <task id="LOCAL-00072" summary="build scripts updated.">
-      <option name="closed" value="true" />
-      <created>1716997823157</created>
-      <option name="number" value="00072" />
-      <option name="presentableId" value="LOCAL-00072" />
-      <option name="project" value="LOCAL" />
-      <updated>1716997823158</updated>
-    </task>
     <task id="LOCAL-00073" summary="Pruned unused directories.">
       <option name="closed" value="true" />
       <created>1721561328208</created>
@@ -1215,7 +1208,15 @@
       <option name="project" value="LOCAL" />
       <updated>1726164347573</updated>
     </task>
-    <option name="localTasksCounter" value="75" />
+    <task id="LOCAL-00075" summary="https://github.com/cilogon/cilogon-java/issues/47 plus Javadoc after package renames in QDL and OA4MP.">
+      <option name="closed" value="true" />
+      <created>1726922260529</created>
+      <option name="number" value="00075" />
+      <option name="presentableId" value="LOCAL-00075" />
+      <option name="project" value="LOCAL" />
+      <updated>1726922260535</updated>
+    </task>
+    <option name="localTasksCounter" value="76" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1268,7 +1269,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="5.4 checkin" />
     <MESSAGE value="Tweaks to the build" />
     <MESSAGE value="Fixed a constructor. Getting build messages to be informative, not overpowering." />
     <MESSAGE value="Fixed https://jira.ncsa.illinois.edu/browse/CIL-1880." />
@@ -1293,7 +1293,8 @@
     <MESSAGE value="build scripts updated." />
     <MESSAGE value="Pruned unused directories." />
     <MESSAGE value="https://github.com/cilogon/cilogon-java/issues/46" />
-    <option name="LAST_COMMIT_MESSAGE" value="https://github.com/cilogon/cilogon-java/issues/46" />
+    <MESSAGE value="https://github.com/cilogon/cilogon-java/issues/47 plus Javadoc after package renames in QDL and OA4MP." />
+    <option name="LAST_COMMIT_MESSAGE" value="https://github.com/cilogon/cilogon-java/issues/47 plus Javadoc after package renames in QDL and OA4MP." />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
   </component>
   <component name="XDebuggerManager">

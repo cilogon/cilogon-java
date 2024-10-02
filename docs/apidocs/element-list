@@ -17,3 +17,4 @@ org.cilogon.oauth2.servlet.util
 org.cilogon.proxy.servlet
 org.cilogon.qdl.module
 org.cilogon.qdl.module.storage
+org.cilogon.qdl.workspace

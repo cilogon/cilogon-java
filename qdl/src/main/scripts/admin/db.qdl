@@ -3,7 +3,7 @@ unused(days)→db#read('select client_id, last_accessed, creation_ts, name from 
 trivial_config()→db#read('select client_id, name, cfg from '+ cfg.schema + '.clients where INSTR(cfg, \'{"isSaved\') >0 AND last_accessed is NOT NULL');
 
 
-trivial_config()→db#read('select client_id, name, cfg from '+ cfg.schema + '.clients where INSTR(cfg, \'"isSaved"\') >0 AND last_accessed is NOT NULL');
+trivial_config()→db#read('select client_id, creation_ts, last_accessed, name, cfg from '+ cfg.schema + '.clients where INSTR(cfg, \'"isSaved"\') >0 AND last_accessed is NOT NULL');
 
 trivial_update()->block[
   » Remove the trivial configuration {"isSaved:true"} from clients. Several of them were
@@ -20,9 +20,6 @@ s.unused\*\client_id
 
 // All unapproved
 unapproved()→db#read('select * from '+ cfg.schema + '.client_approvals where status=\'none\' order by approval_ts DESC');
-//unapproved(days)→db#read('select * from '+ cfg.schema + '.client_approvals where status=\'none\' order by approval_ts DESC')
-
-// unapproved for last n days.
 unapproved(days)-> db#read('select * from ' + cfg.schema + '.client_approvals where ?<approval_ts AND status=?', [date_iso(date_ms()-days*24*3600*1000),'none']);
 
 // useful to get the records themselves, last 2 days
@@ -92,12 +89,12 @@ define[check_sites(address.)]
      return(out.);
 ];
 
-get_user(uid)→db#read('select * from '+ cfg.schema + '.user where user_uid=?', [uid])
+get_user(uid)→db#read('select * from '+ cfg.schema + '.user where user_uid=?', [uid]);
 
-q. := ((no_status\*\client_id) ∈ (week_old\*\client_id)) ⌆ (no_status\*\client_id)
+q. := ((no_status\*\client_id) ∈ (week_old\*\client_id)) ⌆ (no_status\*\client_id);
 
 // Random snippet: decoding raw traffic for ersatz flows
-rr(x)->replace(decode(x,1), '&', '&\n')
+rr(x)->replace(decode(x,1), '&', '&\n');
 
 vet_client(id)->block[
 » Vet a client. This will return an integer as follows

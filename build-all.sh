@@ -40,7 +40,7 @@ then
 fi
 if [ -d "$NCSA_DEV_INPUT/oa4mp/" ]
 then
-    $NCSA_DEV_INPUT/oa4mp/build-all.sh > oa4mp-maven.log
+    $NCSA_DEV_INPUT/oa4mp/build-all.sh
     if [ $? -ne 0 ]; then
         echo "OA4MP build failed. Exiting build. See "$NCSA_DEV_INPUT/oa4mp/oa4mp-maven.log""
         exit
@@ -49,7 +49,7 @@ fi
 
 if [ -d "$NCSA_DEV_INPUT/cilogon/" ]
 then
-   $NCSA_DEV_INPUT/cilogon/build.sh >cilogon-maven.log
+   $NCSA_DEV_INPUT/cilogon/build.sh
   if [ $? -ne 0 ]; then
     echo "CILogon build failed. Exiting build. see $NCSA_DEV_INPUT/cilogon/cilogon-maven.log"
     exit

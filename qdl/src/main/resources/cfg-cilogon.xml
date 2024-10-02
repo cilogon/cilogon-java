@@ -1,19 +1,20 @@
 <config>
     <!--
-    A few example configurations. These are OA4MP aware and will load a few utility classes
-    automatically.
-    "default" is the most minimal configuration possible: Just an editor and basic WS formatting.
-    This uses the current directory as the root. Not great.
+    This is very specific to CILogon servers. Since they are Docker images, the configuration
+    is immutable. There are a couple of hard-coded paths. These are external to  the server
+    and are remounted when the docker image is built, so  they are for persistent storage
     Be sure to read  the documentation, qdl_configuration.pdf,  in the docs directory of this distribution
     or on the main website: https://qdl-lang.org/pdf/qdl_configuration.pdf
     -->
     <qdl name="default" alias="basic"/>
     <qdl name="basic"
+         boot_script="${QDL_HOME}etc/cilogon-boot.qdl"
          module_path="${QDL_HOME}etc/modules/">
         <workspace logo="times"
                    editor_name="${EDITOR}"
                    use_editor="true"
                    prettyPrint="true"
+                   save_dir="/var/local/cilogon_service/oa4mp-server/work"
                    tty="ansi"
                    echoModeOn="true">
             <home_dir>${QDL_HOME}</home_dir>
@@ -26,30 +27,25 @@
                 logSize="100000"
                 logFileCount="2"
                 debug="false"/>
+        <virtual_file_systems>
+            <vfs type="pass_through"
+                 access="rw">
+                <root_dir>/var/local/cilogon_service/oa4mp-server/qdl/</root_dir>
+                <scheme><![CDATA[vfs]]></scheme>
+                <mount_point>/scripts</mount_point>
+            </vfs>
+        </virtual_file_systems>
 
         <modules lib_loader="org.cilogon.qdl.module.CILLibLoader"
-                 version="2.0">
-            <module type="java"
-                    import_on_start="true">
-                <class_name>edu.uiuc.ncsa.myproxy.oa4mp.qdl.OA2QDLLoader</class_name>
-            </module>
-            <module type="java"
-                    import_on_start="true">
-                <class_name>edu.uiuc.ncsa.oa2.qdl.QDLToolsLoader</class_name>
-            </module>
-            <module type="java"
-                    import_on_start="false">
-                <class_name>org.cilogon.qdl.module.storage.CILAccessLoader</class_name>
-            </module>
-        </modules>
-
-
+                 version="2.0"/>
     </qdl>
 
 
     <qdl name="run-it"
+         boot_script="/opt/qdl/etc/cilogon-boot.qdl"
          module_path="${QDL_HOME}etc/modules/">
         <workspace echoModeOn="false"
+                   save_dir="/var/local/cilogon_service/oa4mp-server/work"
                    prettyPrint="false">
             <home_dir>${QDL_HOME}</home_dir>
             <env>etc/qdl.properties</env>
@@ -58,24 +54,21 @@
         <logging
                 logFileName="${QDL_HOME}log/qdl.log"
                 logName="run-it"
+                logo="none"
+                show_banner="false"
                 disableLog4j="true"
                 logSize="100000"
                 logFileCount="2"
                 debug="false"/>
+        <virtual_file_systems>
+            <vfs type="pass_through"
+                 access="rw">
+                <root_dir>/var/local/cilogon_service/oa4mp-server/qdl/</root_dir>
+                <scheme><![CDATA[vfs]]></scheme>
+                <mount_point>/scripts</mount_point>
+            </vfs>
+        </virtual_file_systems>
         <modules lib_loader="org.cilogon.qdl.module.CILLibLoader"
-                 version="2.0">
-            <module type="java"
-                    import_on_start="true">
-                <class_name>edu.uiuc.ncsa.myproxy.oa4mp.qdl.OA2QDLLoader</class_name>
-            </module>
-            <module type="java"
-                    import_on_start="true">
-                <class_name>edu.uiuc.ncsa.oa2.qdl.QDLToolsLoader</class_name>
-            </module>
-            <module type="java"
-                    import_on_start="false">
-                <class_name>org.cilogon.qdl.module.storage.CILAccessLoader</class_name>
-            </module>
-        </modules>
+                 version="2.0"/>
     </qdl>
 </config>
