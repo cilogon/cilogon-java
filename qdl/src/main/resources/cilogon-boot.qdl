@@ -6,5 +6,6 @@
    If the lib path has oa2 (version 1.0) in it then use that, otherwise use
    oa4mp (post-rename, version 2.0)
 */
-$$OA4MP_PATH ≔ ('oa4mp'∋info().'lib')⇒'oa4mp':'oa2';
+$$OA4MP_PATH ≔ ('oa4mp'∋(info().'lib'))⇒'oa4mp':'oa2';
 acl := j_load($$OA4MP_PATH + '.util.acl'); // use lib path, not Java package name!
+claims := j_load($$OA4MP_PATH +'.util.claims');
