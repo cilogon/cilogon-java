@@ -112,6 +112,7 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
                                         long monitorInterval,
                                         Collection<LocalTime> monitorAlarms,
                                         MetaDebugUtil debugger,
+                                        boolean ccfEnabled,
                                         DBServiceConfig dbServiceConfig
     ) {
         super(logger,
@@ -172,6 +173,7 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
                 isMonitorEnabled,
                 monitorInterval,
                 monitorAlarms,
+                ccfEnabled,
                 debugger);
         ciLogonSE = new CILogonSEImpl(usp, ausp, idpsp, incp, tfsp, isComputeFNAL);
         ciLogonSE.setDBServiceConfig(dbServiceConfig);

@@ -223,6 +223,7 @@ public class CILOA2ConfigurationLoader<C extends OA2SE> extends OA2Configuration
                     getMonitorInterval(),
                     getMonitorAlarms(),
                     getDebugger(),
+                    isCCFEnabled(),
                     getDBSerivceConfig());
             return se;
         } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
