@@ -8,7 +8,7 @@
     <parent>
         <artifactId>cilogon</artifactId>
         <groupId>org.cilogon</groupId>
-        <version>6.0</version>
+        <version>6.0.1</version>
     </parent>
 
     <artifactId>proxy</artifactId>
