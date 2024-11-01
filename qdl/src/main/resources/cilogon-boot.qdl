@@ -6,8 +6,34 @@
    If the lib path has oa2 (version 1.0) in it then use that, otherwise use
    oa4mp (post-rename, version 2.0)
 */
+// If claims or acl are defined, just re-use.
 
+dbg_level := debugger().'level';
+debugger(1); // set the current debug level
+debugger(1, 'checking existence');
+is_v6_0 := ∃info().'lib'.'oa4mp';
+debugger(1, 'is_v6_0? ' + is_v6_0);
+claims := (∃claims) ⇒ claims : null;
+
+!is_v6_0 ⇒ module_import(module_load('edu.uiuc.ncsa.myproxy.oa4mp.qdl.acl.ACLoader', 'java'));
+if[!is_v6_0][
+      // Use old class paths
+      //module_import(module_load('edu.uiuc.ncsa.myproxy.oa4mp.qdl.acl.ACLoader', 'java'));
+      claims := import(load('edu.uiuc.ncsa.myproxy.oa4mp.qdl.claims.ClaimsLoader', 'java'));
+      debugger(1, 'loaded v5.6 classes');
+      debugger(dbg_level);
+      return();
+];
+
+// Version 6.0 bootstrap follows.
+
+(∃acl) ⇒ debugger(1, 'acl exists: ' + acl);
+   acl := (∃acl) ⇒ acl : null;
+
+debugger(1, 'loading  boot script, info().lib:\n' + print(info().'lib'));
 $$OA4MP_PATH := ('oa4mp'∋(info().'lib'))⇒'oa4mp':'oa2';
-//         acl := ∃acl ⇒ acl : j_load($$OA4MP_PATH + '.util.acl');
+      module_import(module_load(info().'lib'.$$OA4MP_PATH.'util'.'acl', 'java'));
          acl :=  j_load($$OA4MP_PATH + '.util.acl');
       claims := j_load($$OA4MP_PATH +'.util.claims');
+   debugger(1, 'loaded v6.0 classes');
+      debugger(dbg_level);
