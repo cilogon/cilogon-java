@@ -37,7 +37,7 @@ public class TwoFactorCommands extends StoreCommands2 {
 
     @Override
     public String getName() {
-        return "  two factor";
+        return "two factor";
     }
 
     @Override

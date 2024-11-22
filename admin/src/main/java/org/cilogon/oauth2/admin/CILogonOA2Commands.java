@@ -50,7 +50,7 @@ public class CILogonOA2Commands extends OA2Commands {
         try {
 
             CILogonOA2Commands ciLogonCommands = new CILogonOA2Commands(null);
-            ciLogonCommands.start(args);
+            ciLogonCommands.startup(args);
             if (ciLogonCommands.executeComponent()) {
                 return;
             }
@@ -79,7 +79,6 @@ public class CILogonOA2Commands extends OA2Commands {
     protected UserStoreCommands getUserStoreCommands(String indent) throws Throwable {
         if (userStoreCommands == null) {
             userStoreCommands = new UserStoreCommands(getMyLogger(), indent, getCILogonSE().getUserStore(), getCILogonSE().getArchivedUserStore());
-
         }
         return userStoreCommands;
     }
@@ -89,7 +88,6 @@ public class CILogonOA2Commands extends OA2Commands {
     protected IDPCommands getIdpCommands(String indent) throws Throwable {
         if (idpCommands == null) {
             idpCommands = new IDPCommands(getMyLogger(), indent, getCILogonSE().getIDPStore());
-
         }
         return idpCommands;
     }

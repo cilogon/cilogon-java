@@ -62,8 +62,6 @@ import static org.oa4mp.server.api.ServiceConstantKeys.FORM_ENCODING_KEY;
 public abstract class AbstractDBService extends MyProxyDelegationServlet {
 
 
-
-
     public static final String ACTION_PARAMETER = "action";
     public static final String CREATE_USER = "createUser";
     public static final String GET_ALL_IDPS = "getAllIdps";
@@ -150,17 +148,17 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
     protected void doIt(HttpServletRequest request, HttpServletResponse response) throws Throwable {
         ServletDebugUtil.trace(this, "doIt: request = \"" + request.getRequestURL().toString()
                 + "\", query = \"" + request.getQueryString() + "\"");
-        if(getCILSE().getDBServiceConfig().isEnabled()){
+        if (getCILSE().getDBServiceConfig().isEnabled()) {
             String username = request.getParameter("username");
             String password = request.getParameter("password");
-            if(StringUtils.isTrivial(username) || StringUtils.isTrivial(password)){
-               throw new UnknownDBSericeUserException();
+            if (StringUtils.isTrivial(username) || StringUtils.isTrivial(password)) {
+                throw new UnknownDBSericeUserException();
             }
             getCILSE().getDBServiceConfig().checkPassword(username, password);
         }
         String action = getParam(request, ACTION_PARAMETER);
-        if(doPing(request, response)){
-             return;
+        if (doPing(request, response)) {
+            return;
         }
         doAction(request, response, action);
     }
@@ -355,7 +353,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
 
     protected void getUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
         // Fix https://github.com/cilogon/cilogon-java/issues/38
-    //    printAllParameters(request);
+        //    printAllParameters(request);
         ServletDebugUtil.trace(this, "starting get user");
         String useruidString = getParam(request, userKeys.identifier(), true);
         ServletDebugUtil.trace(this, "useruidString = " + useruidString);
@@ -374,7 +372,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
             throw new DBServiceException(StatusCodes.STATUS_MISSING_ARGUMENT);
         }
 
-        String idp = getParam(request, userKeys.idp());
+        String idp = getParam(request, userKeys.idp(), true);
      /*   if (idp == null || idp.length() == 0) {
             throw new DBServiceException(StatusCodes.STATUS_NO_IDENTITY_PROVIDER);
         }*/
@@ -404,6 +402,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
 
             try {
                 user = findUser(userMultiKey, idp);
+
                 // if found
                 boolean keepSerialID = updateUser(user,
                         idp,
@@ -645,7 +644,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
             keepSerialString = keepSerialString && user.getUserMultiKey().keepSerialString(newID);
             user.setUserMultiKey(newID);
         }
-        if(idp != null) {
+        if (idp != null) {
             // CIL-1969
             user.setIdP(idp);
         }
@@ -784,7 +783,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
                 String identifier = t.getIdentifierString();
                 info("Trying to get legacy info for client with identifier " + identifier);
                 CILSQLTransactionStore transactionStore = (CILSQLTransactionStore) getTransactionStore();
-                ConnectionRecord cr =transactionStore.getConnection();
+                ConnectionRecord cr = transactionStore.getConnection();
                 Connection c = cr.connection;
 
                 String statement = "SELECT portal_name,success_uri,error_uri from cilogon.a_transaction where temp_cred=?";
@@ -929,6 +928,32 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
     }
 
     protected User findUser(UserMultiID userMultiKey, String idp) throws IOException {
+        if (StringUtils.isTrivial(idp)) {
+            return findUser(userMultiKey);
+        }
+        return OLDfindUser(userMultiKey, idp);
+    }
+
+    protected User findUser(UserMultiID userMultiKey) throws IOException {
+        // Fix for CIL-1969 when no IDP is sent
+        Collection<User> users = getUserStore().get(userMultiKey, null);
+        User user = null;
+        for (User currentUser : users) {
+            userLogic(currentUser, userMultiKey);
+            getUserStore().updateCheckSerialString(currentUser, true);
+            if (user == null) {
+                user = currentUser;
+            } else {
+                if (user.getCreationTS().compareTo(currentUser.getCreationTS()) < 0) {
+                    user = currentUser;
+                }
+            }
+        }
+
+        return user;
+    }
+
+    protected User OLDfindUser(UserMultiID userMultiKey, String idp) throws IOException {
         Collection<User> users = getUserStore().get(userMultiKey, idp);
         boolean idpFail = false;
         User user = null;
@@ -1190,8 +1215,8 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
 
     public void updateUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
         UserMultiID userMultiKey = getNames(request);
-        String idp = getParam(request, userKeys.idp());
         // The rest of these might be missing.
+        String idp = getParam(request, userKeys.idp(), true);
         String email = getParam(request, userKeys.email(), true);
         String firstName = getParam(request, userKeys.firstName(), true);
         String lastName = getParam(request, userKeys.lastName(), true);

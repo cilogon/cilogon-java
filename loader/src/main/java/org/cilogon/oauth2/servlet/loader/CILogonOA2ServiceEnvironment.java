@@ -33,8 +33,8 @@ import org.oa4mp.server.loader.oauth2.OA2SE;
 import org.oa4mp.server.loader.oauth2.cm.CMConfigs;
 import org.oa4mp.server.loader.oauth2.servlet.RFC8628ServletConfig;
 import org.oa4mp.server.loader.oauth2.storage.tx.TXStore;
-import org.oa4mp.server.loader.oauth2.storage.vo.VOStore;
 import org.oa4mp.server.loader.qdl.scripting.OA2QDLEnvironment;
+import org.oa4mp.server.loader.oauth2.storage.vi.VIStore;
 
 import javax.inject.Provider;
 import java.time.LocalTime;
@@ -50,7 +50,7 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
     public CILogonOA2ServiceEnvironment(MyLoggingFacade logger,
                                         Provider<TransactionStore> tsp,
                                         Provider<TXStore> txStoreProvider,
-                                        Provider<VOStore> voStoreProvider,
+                                        Provider<VIStore> voStoreProvider,
                                         Provider<ClientStore> csp,
                                         int maxAllowedNewClientRequests,
                                         long agLifetime,

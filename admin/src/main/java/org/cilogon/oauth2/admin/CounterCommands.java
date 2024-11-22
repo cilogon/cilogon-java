@@ -40,8 +40,13 @@ public class CounterCommands extends CommonCommands {
     }
 
     @Override
+    public String getName() {
+        return "counter";
+    }
+
+    @Override
     public String getPrompt() {
-        return "  counter>";
+        return getName() + ">";
     }
 
     protected void showNextValueHelp() {

@@ -200,6 +200,11 @@ public abstract class RemoteDBServiceTest extends TestBase {
         return getTSProvider().getIDP();
     }
 
+    public static User newUser(boolean useIDP) throws Exception {
+        if(useIDP) return newUser();
+        String x = getRandomString();
+        return newUser1969("Muhammed-" + x, "Chang-" + x);
+    }
     public static User newUser() throws Exception {
         String x = getRandomString();
         return newUser("Muhammed-" + x, "Chang-" + x);
@@ -244,6 +249,19 @@ public abstract class RemoteDBServiceTest extends TestBase {
         getIDPStore().add(idp);
         User bob = getUserStore().createAndRegisterUser(createRU("remote-" + rString),
                 idp.getIdentifier().toString(), "idp display name-" + rString,
+                firstName,
+                lastName,
+                firstName.toLowerCase() + "." + lastName.toLowerCase() + "@" + rString + ".edu",
+                "affiliation-" + rString,
+                firstName + " " + lastName,
+                "organization-" + rString);
+        return bob;
+    }
+    // For testing CIL-1969
+    protected static User newUser1969(String firstName, String lastName) throws Exception {
+        String rString = getRandomString();
+        User bob = getUserStore().createAndRegisterUser(createRU("remote-" + rString),
+                null, "idp display name-" + rString,
                 firstName,
                 lastName,
                 firstName.toLowerCase() + "." + lastName.toLowerCase() + "@" + rString + ".edu",

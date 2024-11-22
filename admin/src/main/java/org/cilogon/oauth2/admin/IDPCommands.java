@@ -31,7 +31,7 @@ public class IDPCommands extends StoreCommands2 {
 
     @Override
     public String getName() {
-        return "  idp";
+        return "idp";
     }
 
 /*    @Override

@@ -68,7 +68,7 @@ public class UserStoreCommands extends StoreCommands2 {
 
     @Override
     public String getName() {
-        return "  user";
+        return "user";
     }
 
     protected void showArchiveHelp() {

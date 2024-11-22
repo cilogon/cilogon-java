@@ -14,11 +14,11 @@ debugger(1, 'checking existence');
 is_v6_0 := ∃info().'lib'.'oa4mp';
 debugger(1, 'is_v6_0? ' + is_v6_0);
 claims := (∃claims) ⇒ claims : null;
-
+// Have to put old modules in ambient state,not in conditional's state. The claims variable is set outside of
+// the conditional block on this account too.
 !is_v6_0 ⇒ module_import(module_load('edu.uiuc.ncsa.myproxy.oa4mp.qdl.acl.ACLoader', 'java'));
 if[!is_v6_0][
       // Use old class paths
-      //module_import(module_load('edu.uiuc.ncsa.myproxy.oa4mp.qdl.acl.ACLoader', 'java'));
       claims := import(load('edu.uiuc.ncsa.myproxy.oa4mp.qdl.claims.ClaimsLoader', 'java'));
       debugger(1, 'loaded v5.6 classes');
       debugger(dbg_level);
@@ -31,9 +31,8 @@ if[!is_v6_0][
    acl := (∃acl) ⇒ acl : null;
 
 debugger(1, 'loading  boot script, info().lib:\n' + print(info().'lib'));
-$$OA4MP_PATH := ('oa4mp'∋(info().'lib'))⇒'oa4mp':'oa2';
-      module_import(module_load(info().'lib'.$$OA4MP_PATH.'util'.'acl', 'java'));
-         acl :=  j_load($$OA4MP_PATH + '.util.acl');
-      claims := j_load($$OA4MP_PATH +'.util.claims');
+      module_import(module_load(info().'lib'.'oa4mp'.'util'.'acl', 'java'));
+         acl :=  j_load( 'oa4mp.util.acl');
+      claims := j_load('oa4mp.util.claims');
    debugger(1, 'loaded v6.0 classes');
       debugger(dbg_level);
