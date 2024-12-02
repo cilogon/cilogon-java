@@ -5,7 +5,7 @@
     <parent>
         <artifactId>cilogon</artifactId>
         <groupId>org.cilogon</groupId>
-        <version>6.x-SNAPSHOT</version>
+        <version>6.0.2</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -22,23 +22,23 @@
         <dependency>
             <groupId>org.qdl_lang</groupId>
             <artifactId>language</artifactId>
-            <version>1.6-QDL-SNAPSHOT</version>
+            <version>1.6.0.2</version>
         </dependency>
 
         <dependency>
             <artifactId>admin</artifactId>
             <groupId>org.cilogon</groupId>
-            <version>6.x-SNAPSHOT</version>
+            <version>6.0.2</version>
         </dependency>
         <dependency>
             <artifactId>loader</artifactId>
             <groupId>org.cilogon</groupId>
-            <version>6.x-SNAPSHOT</version>
+            <version>6.0.2</version>
         </dependency>
         <dependency>
             <groupId>org.oa4mp</groupId>
             <artifactId>qdl</artifactId>
-            <version>6.x-SNAPSHOT</version>
+            <version>6.0.2</version>
         </dependency>
 
     </dependencies>
@@ -62,7 +62,7 @@
                                     <application-version>${project.version}</application-version>
                                     <application-name>${project.name}</application-name>
                                     <build-time>${timestamp}</build-time>
-                                    <implementation-version>1.6-QDL-SNAPSHOT</implementation-version>
+                                    <implementation-version></implementation-version>
                                     <implementation-build>${buildNumber}</implementation-build>
                                 </manifestEntries>
                             </archive>
