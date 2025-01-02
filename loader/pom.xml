@@ -64,10 +64,16 @@
             <version>42.2.25.jre7</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
+<!--        <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.30</version>
+            <scope>provided</scope>
+        </dependency>-->
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <version>9.1.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
