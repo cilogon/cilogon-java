@@ -6,7 +6,7 @@ CILOGON_ROOT=/home/ncsa/dev/ncsa-git/cilogon
 # Output of everything goes to WEBSITE_ROOT
 WEBSITE_ROOT=$CILOGON_ROOT/docs
 
-./convert-docs.sh $CILOGON_ROOT/website/docs $WEBSITE_ROOT/pdf
+./convert-docs.sh $CILOGON_ROOT $WEBSITE_ROOT/pdf
 
 cd $CILOGON_ROOT  || exit
 mvn clean javadoc:javadoc javadoc:aggregate

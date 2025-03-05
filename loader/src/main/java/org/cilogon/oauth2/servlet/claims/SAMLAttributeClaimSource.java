@@ -39,7 +39,7 @@ public class SAMLAttributeClaimSource extends BasicClaimsSourceImpl {
     public SAMLAttributeClaimSource(QDLStem stem) {
         super(stem);
     }
-    public String SHIBBOLETH_MEMBER_OF_KEY = "member_of";
+    public static final String SHIBBOLETH_MEMBER_OF_KEY = "member_of";
     public static String SHIBBOLETH_LIST_DELIMITER = ";";
 
     @Override
@@ -47,43 +47,6 @@ public class SAMLAttributeClaimSource extends BasicClaimsSourceImpl {
         return oldProcess(claims, transaction);
     }
 
-    /**
-     * The assumption is that all attributes will be JSONArrays since SAML supports multi-valued attributes.
-     * <br/>Update: CIL-532 requires eduPersonEntitlement support. After discussions, we have decided not to
-     * have pre-parsed JSON, but stick with the {@link #oldProcess(JSONObject, ServiceTransaction)}. This code
-     * should be kept for a bit in case we decide to change our minds, since it is debugged and works, but it
-     * may ultimately go away.
-     *
-     * @param claims
-     * @param transaction
-     * @return
-     * @throws UnsupportedScopeException
-     */
-    protected JSONObject newProcess(JSONObject claims, ServiceTransaction transaction) throws UnsupportedScopeException {
-        // the default group handler will create a group structure from a JSON array.
-        CILogonOA2ServiceEnvironment se = (CILogonOA2ServiceEnvironment) getOa2SE();
-        User user = se.getUserStore().get(BasicIdentifier.newID(transaction.getUsername()));
-        if (user == null) {
-            throw new NFWException("Error: user not found for identifier \"" + transaction.getUsername() + "\"");
-        }
-        if (user.getAttr_json() == null || user.getAttr_json().isEmpty()) {
-            return claims; // basically there were no specific Shib headers that were passed in for this user, which is just fine.
-        }
-        JSONObject saml = JSONObject.fromObject(user.getAttr_json());
-        for (Object key0 : saml.keySet()) {
-            String key = key0.toString();
-            String value = saml.getString(key);
-            if (key.equals(SHIBBOLETH_MEMBER_OF_KEY)) {
-                JSONArray array = JSONArray.fromObject(value);
-                Groups g = getGroupHandler().parse(array);
-                claims.put(OA2Claims.IS_MEMBER_OF, g);
-                // parse into a group structure
-            } else {
-                claims.put(key.toString(), value);
-            }
-        }
-        return claims;
-    }
 
     /**
      * As of next release (4.1) we should be getting SAML attributes that have been parsed into JSON, so we do not
@@ -99,17 +62,17 @@ public class SAMLAttributeClaimSource extends BasicClaimsSourceImpl {
      */
     protected JSONObject oldProcess(JSONObject claims, ServiceTransaction transaction) throws UnsupportedScopeException {
         /*
-        This is what a typical argument looks like as a JSON object:
+        This is what a typical argument looks like as a JSON object -- it is a map of unparsed SAML values:
 
         {
-         "member_of":"c13b7ba3-b038-4abb-b062-4491d1f9f12b;09895d05-1b79-4529-9f9d-9367752a1d0a","
-        acr":"urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport",
-        "entitlement":"urn:mace:exampleIdP.org:demoservice:demo-admin"}
+          "member_of" : "c13b7ba3-b038-4abb-b062-4491d1f9f12b;09895d05-1b79-4529-9f9d-9367752a1d0a",
+                "acr" : "urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport",
+        "entitlement" : "urn:mace:exampleIdP.org:demoservice:demo-admin"
+        }
 
          */
         // In the case of CILogon, the username on the transaction is the unique user id in the database, so get the user
         CILogonOA2ServiceEnvironment se = (CILogonOA2ServiceEnvironment) getOa2SE();
-        //   ServletDebugUtil.trace(this, ".oldProcess: username=" + transaction.getUsername());
         ServletDebugUtil.trace(this, ".oldProcess: service env=" + se);
         if (se == null) {
             throw new NFWException("Error: The current environment has not been set!");
@@ -130,10 +93,10 @@ public class SAMLAttributeClaimSource extends BasicClaimsSourceImpl {
             ServletDebugUtil.trace(this, ".oldProcess: No SAML attributes found for user " + transaction.getUsername() + ". Skipping.");
             return claims;
         }
-        return getJsonObject(claims, saml);
+        return parseSAML(claims, saml);
     }
 
-    private JSONObject getJsonObject(JSONObject claims, JSONObject saml) {
+    private JSONObject parseSAML(JSONObject claims, JSONObject saml) {
 
         for (Object key0 : saml.keySet()) {
             String key = key0.toString();
@@ -155,8 +118,15 @@ public class SAMLAttributeClaimSource extends BasicClaimsSourceImpl {
                 // parse into a JSON array since SAML supports multiple values for any attribute,
                 String values = saml.getString(key);
                 if (values.indexOf(SHIBBOLETH_LIST_DELIMITER) < 0) {
-                    // A single value.
-                    claims.put(key.toString(), values);
+                    // Fix for https://github.com/ncsa/oa4mp/issues/233 -- amr claim always is a json array
+             /*       if(key.equals(AUTHENTICATION_METHOD_REFERENCE)){
+                        JSONArray jsonArray = new JSONArray();
+                        jsonArray.add(values);
+                        claims.put(key, jsonArray);
+                    }else{*/
+                        // A single value.
+                        claims.put(key, values);
+               /*     } */
                 } else {
                     // split it up.
                     StringTokenizer st = new StringTokenizer(values, SHIBBOLETH_LIST_DELIMITER, false);
@@ -164,7 +134,7 @@ public class SAMLAttributeClaimSource extends BasicClaimsSourceImpl {
                     while (st.hasMoreElements()) {
                         array.add(st.nextToken());
                     }
-                    claims.put(key.toString(), array);
+                    claims.put(key, array);
                 }
             }
 
@@ -174,10 +144,6 @@ public class SAMLAttributeClaimSource extends BasicClaimsSourceImpl {
 
     @Override
     public JSONObject process(JSONObject claims, HttpServletRequest request, ServiceTransaction transaction) throws UnsupportedScopeException {
- /*     Different control flow does send this, but we can and do ignore it anyway.
-        if (request != null) {
-            throw new IllegalArgumentException("Error: this is not supported for servlet requests.");
-        }*/
         return process(claims, transaction);
     }
 
@@ -218,7 +184,7 @@ public class SAMLAttributeClaimSource extends BasicClaimsSourceImpl {
         SAMLAttributeClaimSource samlAttrbuteClaimSource = new SAMLAttributeClaimSource();
         //JSONObject claims = samlAttrbuteClaimSource.process(new JSONObject(), null);
         JSONObject claims = new JSONObject();
-        claims = samlAttrbuteClaimSource.getJsonObject(claims, saml);
+        claims = samlAttrbuteClaimSource.parseSAML(claims, saml);
     }
 
     protected static void test1() throws Exception {
@@ -244,7 +210,7 @@ public class SAMLAttributeClaimSource extends BasicClaimsSourceImpl {
         System.out.println("\nFrom attr_json processor:");
         SAMLAttributeClaimSource samlAttrbuteClaimSource = new SAMLAttributeClaimSource();
 
-        System.out.println(samlAttrbuteClaimSource.getJsonObject(new JSONObject(), saml).toString(2));
+        System.out.println(samlAttrbuteClaimSource.parseSAML(new JSONObject(), saml).toString(2));
     }
 
     @Override
