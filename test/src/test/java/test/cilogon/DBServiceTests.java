@@ -60,7 +60,10 @@ public class DBServiceTests extends RemoteDBServiceTest {
         // now there should be a user in the archived user store for this id.
         Map<String, Object> map3 = getDBSClient().getLastArchivedUser(user.getIdentifier());
         for (String k : map3.keySet()) {
-            assert map3.get(k).equals(userMap.get(k)) : "user and archived user failed to match for key \"" + k + "\"";
+            if(!k.equals("last_modified_ts")) {
+                // modified timestamps cannot match, so skip them.
+                assert map3.get(k).equals(userMap.get(k)) : "user and archived user failed to match for key \"" + k + "\"";
+            }
         }
     }
 
@@ -205,7 +208,6 @@ public class DBServiceTests extends RemoteDBServiceTest {
     @Test
     public void testIDPs() throws Exception {
         List<IdentityProvider> originalIdps = getDBSClient().getAllIdps();
-
         // ok, so we add a couple to this list, save it, read it back and compare.
         originalIdps.add(new IdentityProvider(newID(createToken("idp"))));
         originalIdps.add(new IdentityProvider(newID(createToken("idp"))));
@@ -214,9 +216,9 @@ public class DBServiceTests extends RemoteDBServiceTest {
         // Test that adding idps to the list preserves the original set.
         List<IdentityProvider> newIdps = getDBSClient().getAllIdps();
         // ok, now compare
-        assert originalIdps.size() == newIdps.size();
+        assert originalIdps.size() == newIdps.size() : "new and old IDP list are different sizes";
         for (IdentityProvider idp : originalIdps) {
-            assert newIdps.contains(idp);
+            assert newIdps.contains(idp) : "failed to find idp " + idp + " in list of IDPS from service";
         }
 
         // Check that a complete replace of every idp does the right thing.
@@ -257,7 +259,7 @@ public class DBServiceTests extends RemoteDBServiceTest {
         // Test that adding idps to the list preserves the original set.
         List<IdentityProvider> newIdps = getDBSClient().getAllIdps();
         assert newIdps.size() == originalIdps.size() : "Testing of IDP list with one removed failed. Expected " + originalIdps.size() + " elements and got " + newIdps.size();
-        assert newIdps.contains(removedIDP);
+        assert newIdps.contains(removedIDP): "Removing IDP " + removedIDP + " failed. Still in list of IDPS from service";
     }
 
     @Test

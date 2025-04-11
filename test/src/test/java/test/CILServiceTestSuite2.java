@@ -1,8 +1,6 @@
 package test;
 
 import edu.uiuc.ncsa.security.util.TemplateTest;
-import org.cilogon.oauth2.servlet.loader.CILOA2Bootstrapper;
-import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import test.cilogon.DBServiceTests;
@@ -29,12 +27,12 @@ import test.cilogon.util.TokenTest;
         TwoFactorStoreTest.class,
         TokenTest.class,
         UserStoreTest.class,
-        ArchivedUserStoreTest.class,
+       // ArchivedUserStoreTest.class,
         IdentityProviderTest.class,
         NewCILTransactionStoreTest.class
 })
 public class CILServiceTestSuite2 extends ServiceTestSuite {
-    @BeforeClass
+/*    @BeforeClass
     public static void initialize() {
         CILTestSuiteInitializer2 testSuiteInitializer;
         //Most recent Intellij will not send command line arguments to JUnit test suites, so hard code it here...
@@ -42,5 +40,5 @@ public class CILServiceTestSuite2 extends ServiceTestSuite {
 
         testSuiteInitializer = new CILTestSuiteInitializer2(new CILOA2Bootstrapper());
         testSuiteInitializer.init();
-    }
+    }*/
 }

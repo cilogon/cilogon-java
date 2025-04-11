@@ -216,7 +216,7 @@ public class DBServiceClient {
 
     protected String[][] createUserRequest(UserMultiID umk,
                                            String idp) {
-        return createUserRequest(umk, idp, null, null, null, null, null, null, null);
+        return createUserRequest(umk, idp, null, null, null, null, null, null, null, null, null);
 
     }
 
@@ -256,7 +256,10 @@ public class DBServiceClient {
                                            String email,
                                            String affilation,
                                            String displayName,
-                                           String organizationalUnit) {
+                                           String organizationalUnit,
+                                           String attrJSON,
+                                           Boolean useUSinDN
+            ) {
         ArrayList<String> arrayList = new ArrayList<>();
         if (umk.hasRemoteUser()) {
             arrayList.add(userKeys.remoteUser());
@@ -311,6 +314,14 @@ public class DBServiceClient {
             arrayList.add(userKeys.organizationalUnit());
             arrayList.add(organizationalUnit);
         }
+        if (!isEmpty(attrJSON)) {
+            arrayList.add(userKeys.attr_json());
+            arrayList.add(attrJSON);
+        }
+        if (useUSinDN != null) {
+            arrayList.add(userKeys.useUSinDN());
+            arrayList.add(useUSinDN?"1":"0"); // required
+        }
         return pairwiseStringArray(arrayList);
     }
 
@@ -322,9 +333,12 @@ public class DBServiceClient {
                              String email,
                              String affiliation,
                              String displayName,
-                             String organizationalUnit
+                             String organizationalUnit,
+                             String attrJSON,
+                             Boolean useUSinDN
     ) throws IOException {
-        return doGet(AbstractDBService.UPDATE_USER, createUserRequest(umk, idp, idpDisplayName, firstName, lastName, email, affiliation, displayName, organizationalUnit));
+        return doGet(AbstractDBService.UPDATE_USER,
+                createUserRequest(umk, idp, idpDisplayName, firstName, lastName, email, affiliation, displayName, organizationalUnit, attrJSON, useUSinDN));
     }
 
 
@@ -344,7 +358,9 @@ public class DBServiceClient {
                 user.getEmail(),
                 user.getAffiliation(),
                 user.getDisplayName(),
-                user.getOrganizationalUnit());
+                user.getOrganizationalUnit(),
+                user.getAttr_json(),
+                user.isUseUSinDN());
     }
 
     public XMLMap getUser(UserMultiID umk,
@@ -355,8 +371,11 @@ public class DBServiceClient {
                           String email,
                           String affiliation,
                           String displayName,
-                          String organizationalUnit) {
-        return doGet(AbstractDBService.GET_USER, createUserRequest(umk, idp, idpDisplayName, firstName, lastName, email, affiliation, displayName, organizationalUnit));
+                          String organizationalUnit,
+                          String attrJSON,
+                          Boolean useUSinDN) {
+        return doGet(AbstractDBService.GET_USER,
+                createUserRequest(umk, idp, idpDisplayName, firstName, lastName, email, affiliation, displayName, organizationalUnit, attrJSON, useUSinDN));
     }
 
     public XMLMap getUser(Identifier userUid) {
@@ -371,8 +390,11 @@ public class DBServiceClient {
                              String email,
                              String affiliation,
                              String displayName,
-                             String organizationalUnit) {
-        return doGet(AbstractDBService.CREATE_USER, createUserRequest(umk, idp, idpDisplayName, firstName, lastName, email, affiliation, displayName, organizationalUnit));
+                             String organizationalUnit,
+                             String attrJSON,
+                             Boolean useUSinDN) {
+        return doGet(AbstractDBService.CREATE_USER,
+                createUserRequest(umk, idp, idpDisplayName, firstName, lastName, email, affiliation, displayName, organizationalUnit, attrJSON, useUSinDN));
     }
 
     public void setTwoFactorInfo(TwoFactorInfo tfi) {

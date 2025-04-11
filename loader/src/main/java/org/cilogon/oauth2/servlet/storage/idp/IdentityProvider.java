@@ -24,8 +24,9 @@ public class IdentityProvider extends Monitored {     // fixes https://github.co
 
     @Override
     public boolean equals(Object obj) {
-        if(!super.equals(obj)) return false;
         if (!(obj instanceof IdentityProvider)) return false;
+        IdentityProvider other = (IdentityProvider) obj;
+        if(!other.getIdentifierString().equals(getIdentifierString())) return false;
         return true;
     }
 

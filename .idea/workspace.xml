@@ -10,16 +10,28 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="04234930-e14d-41d5-bfcd-bac41d340cf1" name="Changes" comment="https://github.com/cilogon/cilogon-java/issues/48">
+    <list default="true" id="04234930-e14d-41d5-bfcd-bac41d340cf1" name="Changes" comment="Comment updated">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/claims/SAMLAttributeClaimSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/claims/SAMLAttributeClaimSource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/src/main/scripts/approve.qdl" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/scripts/approve.qdl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/loader/CILOA2ConfigurationLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/loader/CILOA2ConfigurationLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/loader/CILogonOA2ServiceEnvironment.java" beforeDir="false" afterPath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/loader/CILogonOA2ServiceEnvironment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/servlet/AbstractDBService.java" beforeDir="false" afterPath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/servlet/AbstractDBService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/storage/idp/IdentityProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/storage/idp/IdentityProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/storage/user/CILSQLUserStore.java" beforeDir="false" afterPath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/storage/user/CILSQLUserStore.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/storage/user/UserMultiID.java" beforeDir="false" afterPath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/storage/user/UserMultiID.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/util/DBServiceClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/util/DBServiceClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/util/DBServiceSerializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/util/DBServiceSerializer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/qdl/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/qdl/buildNumber.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qdl/src/main/java/org/cilogon/qdl/module/storage/CILStoreModule.java" beforeDir="false" afterPath="$PROJECT_DIR$/qdl/src/main/java/org/cilogon/qdl/module/storage/CILStoreModule.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/server/buildNumber.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/test/buildNumber.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/website/convert-docs.sh" beforeDir="false" afterPath="$PROJECT_DIR$/website/convert-docs.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/website/make-website.sh" beforeDir="false" afterPath="$PROJECT_DIR$/website/make-website.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/website/src/site/apt/index.apt" beforeDir="false" afterPath="$PROJECT_DIR$/website/src/site/apt/index.apt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/test/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/src/test/java/test/CILServiceTestSuite2.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/src/test/java/test/CILServiceTestSuite2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/src/test/java/test/cilogon/DBServiceTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/src/test/java/test/cilogon/DBServiceTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/src/test/java/test/cilogon/DBServiceUserIDTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/src/test/java/test/cilogon/DBServiceUserIDTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/src/test/java/test/cilogon/DBServiceUserTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/src/test/java/test/cilogon/DBServiceUserTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/src/test/java/test/cilogon/RemoteDBServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/src/test/java/test/cilogon/RemoteDBServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/src/test/java/test/cilogon/ServiceTestSuite.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/src/test/java/test/cilogon/ServiceTestSuite.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/src/test/java/test/cilogon/impl/UserStoreTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/src/test/java/test/cilogon/impl/UserStoreTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -117,34 +129,35 @@
     <option name="showMembers" value="true" />
     <option name="showModules" value="false" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.CLI.executor&quot;: &quot;Run&quot;,
-    &quot;Application.QDL.executor&quot;: &quot;Run&quot;,
-    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
-    &quot;JUnit.DBServiceUserTests.testUpdateUser.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.Test suite.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;Tomcat Server.CILogon.executor&quot;: &quot;Run&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;11 (2)&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/ncsa/dev/ncsa-git/cilogon&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.5883041&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.CLI.executor": "Run",
+    "Application.QDL.executor": "Run",
+    "DefaultHtmlFileTemplate": "HTML File",
+    "JUnit.DBServiceUserTests.testCIL2201Basic.executor": "Debug",
+    "JUnit.DBServiceUserTests.testUpdateUser.executor": "Run",
+    "JUnit.Test suite.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Tomcat Server.CILogon.executor": "Run",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "master",
+    "jdk.selected.JAVA_MODULE": "11 (2)",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/home/ncsa/dev/ncsa-git/cilogon",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.5883041",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/qdl/src/main/scripts" />
@@ -157,7 +170,7 @@
       <recent name="$PROJECT_DIR$/skin/src/main/resources/css" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.CLI">
+  <component name="RunManager" selected="JUnit.Test suite">
     <configuration default="true" type="Applet" factoryName="Applet">
       <option name="WIDTH" value="400" />
       <option name="HEIGHT" value="300" />
@@ -200,6 +213,27 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="DBServiceUserTests.testCIL2201Basic" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="test.cilogon.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="test.cilogon" />
+      <option name="MAIN_CLASS_NAME" value="test.cilogon.DBServiceUserTests" />
+      <option name="METHOD_NAME" value="testCIL2201Basic" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="DBServiceUserTests.testUpdateUser" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="test" />
       <extension name="coverage">
@@ -229,7 +263,7 @@
       <option name="MAIN_CLASS_NAME" value="test.CILServiceTestSuite2" />
       <option name="METHOD_NAME" value="" />
       <option name="TEST_OBJECT" value="class" />
-      <option name="VM_PARAMETERS" value="-Dstore=&quot;$USER_HOME$/certs/localhost-2020.jks&quot; -Dpassword=&quot;vnlH814i&quot;" />
+      <option name="VM_PARAMETERS" value="-ea -Dstore=&quot;$USER_HOME$/certs/localhost-2020.jks&quot; -Dpassword=&quot;vnlH814i&quot;" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="TEST_SEARCH_SCOPE">
         <value defaultName="moduleWithDependencies" />
@@ -349,11 +383,13 @@
       <item itemvalue="Application.CLI" />
       <item itemvalue="Application.QDL" />
       <item itemvalue="JUnit.Test suite" />
+      <item itemvalue="JUnit.DBServiceUserTests.testCIL2201Basic" />
       <item itemvalue="JUnit.DBServiceUserTests.testUpdateUser" />
       <item itemvalue="Tomcat Server.CILogon" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.DBServiceUserTests.testCIL2201Basic" />
         <item itemvalue="JUnit.DBServiceUserTests.testUpdateUser" />
       </list>
     </recent_temporary>
@@ -502,7 +538,10 @@
       <workItem from="1739288551139" duration="474000" />
       <workItem from="1739392980269" duration="3853000" />
       <workItem from="1741119248960" duration="2542000" />
-      <workItem from="1741174516244" duration="8348000" />
+      <workItem from="1741174516244" duration="8380000" />
+      <workItem from="1742332239260" duration="2538000" />
+      <workItem from="1742913759045" duration="54308000" />
+      <workItem from="1743939160444" duration="54389000" />
     </task>
     <task id="LOCAL-00001" summary="Fallout from moving a bunch of static methods into classes.">
       <created>1675892224728</created>
@@ -826,14 +865,6 @@
       <option name="project" value="LOCAL" />
       <updated>1692998536215</updated>
     </task>
-    <task id="LOCAL-00081" summary="CIL-1916 fixes, including a complete set of unit tests.">
-      <option name="closed" value="true" />
-      <created>1732294795524</created>
-      <option name="number" value="00081" />
-      <option name="presentableId" value="LOCAL-00081" />
-      <option name="project" value="LOCAL" />
-      <updated>1732294795524</updated>
-    </task>
     <task id="LOCAL-00082" summary="Client servlet not initializing correctly.">
       <option name="closed" value="true" />
       <created>1732644509389</created>
@@ -850,7 +881,15 @@
       <option name="project" value="LOCAL" />
       <updated>1741207564725</updated>
     </task>
-    <option name="localTasksCounter" value="84" />
+    <task id="LOCAL-00084" summary="Comment updated">
+      <option name="closed" value="true" />
+      <created>1741212630644</created>
+      <option name="number" value="00084" />
+      <option name="presentableId" value="LOCAL-00084" />
+      <option name="project" value="LOCAL" />
+      <updated>1741212630644</updated>
+    </task>
+    <option name="localTasksCounter" value="85" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -903,7 +942,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="5.4.2 release" />
     <MESSAGE value="Changed a constructor, needs to be propagated." />
     <MESSAGE value="Improved creating the CILogon QDL command line interface." />
     <MESSAGE value="5.4.3 release" />
@@ -928,7 +966,8 @@
     <MESSAGE value="CIL-1916 fixes, including a complete set of unit tests." />
     <MESSAGE value="Client servlet not initializing correctly." />
     <MESSAGE value="https://github.com/cilogon/cilogon-java/issues/48" />
-    <option name="LAST_COMMIT_MESSAGE" value="https://github.com/cilogon/cilogon-java/issues/48" />
+    <MESSAGE value="Comment updated" />
+    <option name="LAST_COMMIT_MESSAGE" value="Comment updated" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -936,7 +975,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/storage/user/CILSQLUserStore.java</url>
-          <line>277</line>
+          <line>284</line>
           <option name="timeStamp" value="6" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -963,11 +1002,6 @@
           <url>jar://$MAVEN_REPOSITORY$/edu/uiuc/ncsa/security/util/5.3-SNAPSHOT/util-5.3-SNAPSHOT-sources.jar!/edu/uiuc/ncsa/security/util/cli/ConfigurableCommandsImpl.java</url>
           <line>351</line>
           <option name="timeStamp" value="38" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/storage/user/CILSQLUserStore.java</url>
-          <line>372</line>
-          <option name="timeStamp" value="39" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>jar://$MAVEN_REPOSITORY$/edu/uiuc/ncsa/myproxy/server-loader/5.3-SNAPSHOT/server-loader-5.3-SNAPSHOT-sources.jar!/edu/uiuc/ncsa/myproxy/oa4mp/oauth2/cm/oidc_cm/OIDCCMServlet.java</url>
@@ -1005,24 +1039,24 @@
           <option name="timeStamp" value="51" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/servlet/AbstractDBService.java</url>
-          <line>202</line>
-          <option name="timeStamp" value="59" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>jar://$MAVEN_REPOSITORY$/org/oa4mp/proxy/6.x-SNAPSHOT/proxy-6.x-SNAPSHOT-sources.jar!/org/oa4mp/server/proxy/RFC8628AuthorizationServer.java</url>
           <line>145</line>
           <option name="timeStamp" value="60" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/proxy/src/main/java/org/cilogon/proxy/servlet/CILOA2ExceptionHandler.java</url>
-          <line>30</line>
-          <option name="timeStamp" value="61" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>jar://$MAVEN_REPOSITORY$/org/oa4mp/server-loader/6.x-SNAPSHOT/server-loader-6.x-SNAPSHOT-sources.jar!/org/oa4mp/server/loader/oauth2/servlet/OA2ExceptionHandler.java</url>
           <line>67</line>
           <option name="timeStamp" value="62" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/test/src/test/java/test/cilogon/DBServiceUserTests.java</url>
+          <line>257</line>
+          <option name="timeStamp" value="88" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/util/DBServiceSerializer.java</url>
+          <line>108</line>
+          <option name="timeStamp" value="89" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

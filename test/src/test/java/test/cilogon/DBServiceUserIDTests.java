@@ -66,11 +66,13 @@ public class DBServiceUserIDTests extends RemoteDBServiceTest {
         UserMultiID eptid = new UserMultiID(umk.getEptid());
         user.setUserMultiKey(new UserMultiID(ru));
         getUserStore().save(user);
-        // This puts a new user with a remote user fireld (legacy case) in the store. Now we try and get the user
+        // This puts a new user with a remote user field (legacy case) in the store. Now we try and get the user
         // with *both* the remote user and an eptid
 
         user.setUserMultiKey(new UserMultiID(ru, null, eptid.getEptid(), null, null));
         XMLMap userMap = getDBSClient().getUser(user);
+        System.out.println("user = " + user);
+        System.out.println("map = " + userMap);
         Collection<User> users = getUserStore().get(eptid, user.getIdP());
         assert users.size() == 1 : "Incorrect number of users found. Expected one and got " + users.size();
         User testUser = users.iterator().next();
@@ -174,7 +176,9 @@ public class DBServiceUserIDTests extends RemoteDBServiceTest {
                 user.getIdP(), user.getIDPName(), user.getFirstName(), user.getLastName(), user.getEmail(),
                 user.getAffiliation(),
                 user.getDisplayName(),
-                user.getOrganizationalUnit());
+                user.getOrganizationalUnit(),
+                user.getAttr_json(),
+                user.isUseUSinDN());
         JSONObject jsonObject = new JSONObject();
         jsonObject.putAll(map);
 
@@ -214,7 +218,9 @@ public class DBServiceUserIDTests extends RemoteDBServiceTest {
                 user.getEmail(),
                 user.getAffiliation(),
                 user.getDisplayName(),
-                user.getOrganizationalUnit());
+                user.getOrganizationalUnit(),
+                user.getAttr_json(),
+                user.isUseUSinDN());
 
         checkUserAgainstMap(map, user);
         // now reget with both eppn and eptid

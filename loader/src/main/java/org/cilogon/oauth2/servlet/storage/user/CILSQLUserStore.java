@@ -87,6 +87,13 @@ public class CILSQLUserStore extends MonitoredSQLStore<User> implements UserStor
         return out;
     }
 
+    /**
+     * Get the user using the {@link UserMultiID} and entity ID (aka IDP).
+     * This returns a match if at least one of the IDs matches.
+     * @param userMultiKey
+     * @param idP
+     * @return
+     */
     @Override
     public Collection<User> get(UserMultiID userMultiKey, String idP) {
         ServletDebugUtil.trace(this, "getting user for multi-key=" + userMultiKey + ", and idp=" + idP);
@@ -349,7 +356,7 @@ public class CILSQLUserStore extends MonitoredSQLStore<User> implements UserStor
     @Override
     public void updateCheckSerialString(User user, boolean keepSerialID) {
         ServletDebugUtil.trace(this, "user id = " + user.getIdentifierString() + ", serial string=" + user.getSerialString() + ", keepSerialID=" + keepSerialID);
-       // Fix for CIL-69: Any changes to the user (IDP, first name, last name, email) must change the serial identifier too.
+       // Fix for CIL-68: Any changes to the user (IDP, first name, last name, email) must change the serial identifier too.
         if (!keepSerialID) {
             Identifier serialString = getUserProvider().newIdentifier();
             user.setSerialIdentifier(serialString); // or subsequent calls have wrong serial string!
@@ -359,21 +366,6 @@ public class CILSQLUserStore extends MonitoredSQLStore<User> implements UserStor
         user.setLastModifiedTS(new Date());
         super.update(user);
     }
-
-/*
-    public void update(User user, boolean keepSerialID) {
-        ServletDebugUtil.trace(this,"user id = " + user.getIdentifierString() + ", serial string=" + user.getSerialString() + ", keepSerialID=" + keepSerialID);
-        // Fix for CIL-69: Any changes to the user (IDP, first name, last name, email) must change the serial identifier too.
-        if (!keepSerialID) {
-            Identifier serialString = getUserProvider().newIdentifier();
-            user.setSerialIdentifier(serialString); // or subsequent calls have wrong serial string!
-            ServletDebugUtil.trace(this,"setting serial string for user id = " + user.getIdentifierString() + ", serial string=" + user.getSerialString());
-
-        }
-        user.setLastModifiedTS(new Date());
-        super.update(user);
-    }
-*/
 
     public Identifier getUserID(String userKey, String personName, String idP) {
         ConnectionRecord cr = getConnection();

@@ -5,13 +5,15 @@ package test.cilogon;
  * on 3/13/12 at  3:10 PM
  */
 
+import edu.uiuc.ncsa.security.util.TemplateTest;
 import junit.framework.TestSuite;
+import org.cilogon.oauth2.servlet.loader.CILOA2Bootstrapper;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.oa4mp.server.test.NewCAStoreTest;
-import test.cilogon.impl.TwoFactorStoreTest;
-import test.cilogon.impl.UserStoreTest;
+import test.CILTestSuiteInitializer2;
+import test.cilogon.impl.*;
 import test.cilogon.util.TokenTest;
 
 
@@ -30,15 +32,24 @@ import test.cilogon.util.TokenTest;
 
         /* Uncomment these to test which of them you want/need. */
         //RemoteDBServiceTest.class,
+        //ArchivedUserStoreTest.class,
+        IdentityProviderTest.class,
         NewCAStoreTest.class,
-        DBServiceUserTests.class,
-        TwoFactorStoreTest.class,
+        NewCILTransactionStoreTest.class,
+        TemplateTest.class,
         TokenTest.class,
-        UserStoreTest.class,
+        TwoFactorStoreTest.class,
+        UserStoreTest.class
 })
 public class ServiceTestSuite extends TestSuite {
     @BeforeClass
     public static void initialize() {
+        CILTestSuiteInitializer2 testSuiteInitializer;
+        //Most recent Intellij will not send command line arguments to JUnit test suites, so hard code it here...
+        System.setProperty(CILOA2Bootstrapper.CIL_CONFIG_FILE_KEY, "/home/ncsa/dev/csd/config/servers.xml");
+
+        testSuiteInitializer = new CILTestSuiteInitializer2(new CILOA2Bootstrapper());
+        testSuiteInitializer.init();
     }
 
 

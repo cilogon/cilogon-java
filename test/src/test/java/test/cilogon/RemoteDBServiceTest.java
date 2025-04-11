@@ -205,6 +205,13 @@ public abstract class RemoteDBServiceTest extends TestBase {
         String x = getRandomString();
         return newUser1969("Muhammed-" + x, "Chang-" + x);
     }
+
+    /**
+     * Create a new user in the store randomized information. This creates a random IDP
+     * identifier and registers it too. The ID created is a remote user id.
+     * @return
+     * @throws Exception
+     */
     public static User newUser() throws Exception {
         String x = getRandomString();
         return newUser("Muhammed-" + x, "Chang-" + x);

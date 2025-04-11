@@ -224,7 +224,8 @@ public class CILOA2ConfigurationLoader<C extends OA2SE> extends OA2Configuration
                     getMonitorAlarms(),
                     getDebugger(),
                     isCCFEnabled(),
-                    getDBSerivceConfig());
+                    getDBSerivceConfig(),
+                    isAllowPromptNone());
             return se;
         } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
             throw new GeneralException("Error: Could not create the runtime environment", e);

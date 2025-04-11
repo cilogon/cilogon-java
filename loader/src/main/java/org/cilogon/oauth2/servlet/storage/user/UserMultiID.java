@@ -10,6 +10,18 @@ import java.util.Iterator;
  * Once upon a time, the remote user and idp were sufficient to completely determine a user.
  * This key now takes the place of that at every turn. Any place that remote user would be used,
  * this class should be substituted.
+ * <p>
+ *     There is usually at most one of these for a user, so this is almost a facade for
+ *     <ol>
+ *         <li>{@link EduPersonPrincipleName}</li>
+ *         <li>{@link EduPersonTargetedID}</li>
+ *         <li>{@link OpenID}</li>
+ *         <li>{@link OpenIDConnect}</li>
+ *         <li>{@link PairwiseID}</li>
+ *         <li>{@link SubjectID}</li>
+ *         <li>{@link RemoteUserName}</li>
+ *     </ol>
+ * </p>
  * <p>Created by Jeff Gaynor<br>
  * on 5/6/14 at  9:32 AM
  */

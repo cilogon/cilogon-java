@@ -107,6 +107,10 @@ public class DBServiceSerializer {
      */
     protected void doUserSerialization(PrintWriter w, User user) throws IOException {
         ServletDebugUtil.trace(this, "in doUserSer: user=" + user);
+        if(user == null){
+            // As of CIL-2201, a null user can happen if none is found,
+            return;
+        }
         if (user.hasRemoteUser()) {
             print(w, userKeys.remoteUser(), user.getRemoteUser());
         }
@@ -138,6 +142,7 @@ public class DBServiceSerializer {
         onlyPrintIfNotTrivial(w, userKeys.affiliation(), user.getAffiliation());
         onlyPrintIfNotTrivial(w, userKeys.displayName(), user.getDisplayName());
         onlyPrintIfNotTrivial(w, userKeys.organizationalUnit(), user.getOrganizationalUnit());
+        print(w, userKeys.useUSinDN(), user.isUseUSinDN()?"1":"0");
 
         try {
             if (user.canGetCert()) {
@@ -158,6 +163,7 @@ public class DBServiceSerializer {
         if (user.getLastModifiedTS() != null) {
             onlyPrintIfNotTrivial(w, userKeys.lastModifiedTS(), Iso8601.date2String(user.getLastModifiedTS()));
         }
+
 
     }
 

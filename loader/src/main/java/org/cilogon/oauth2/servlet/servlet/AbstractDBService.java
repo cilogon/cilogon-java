@@ -52,6 +52,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 
 import static edu.uiuc.ncsa.security.core.util.BasicIdentifier.newID;
+import static edu.uiuc.ncsa.security.core.util.StringUtils.isTrivial;
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.oa4mp.server.api.ServiceConstantKeys.FORM_ENCODING_KEY;
 
@@ -151,7 +152,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
         if (getCILSE().getDBServiceConfig().isEnabled()) {
             String username = request.getParameter("username");
             String password = request.getParameter("password");
-            if (StringUtils.isTrivial(username) || StringUtils.isTrivial(password)) {
+            if (isTrivial(username) || isTrivial(password)) {
                 throw new UnknownDBSericeUserException();
             }
             getCILSE().getDBServiceConfig().checkPassword(username, password);
@@ -352,51 +353,184 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
 
 
     protected void getUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        // Fix https://github.com/cilogon/cilogon-java/issues/38
+
+        // Fix https://github.com/cilogon/cilogon-java/issues/38 -- re-enable for local debugging only if needed
         //    printAllParameters(request);
+
+        // case 1: a user id is supplied. Return information about the user.
+        // Easy case -- the request has the unique identifier.
         ServletDebugUtil.trace(this, "starting get user");
         String useruidString = getParam(request, userKeys.identifier(), true);
         ServletDebugUtil.trace(this, "useruidString = " + useruidString);
-        // case 1: a user id is supplied. Return information about the user.
         if (useruidString != null) {
             getUserbyUID(request, response, useruidString);
             // Note the last call writes the response, so nothing further needs to be done.
             return;
         }
+        // check if there is a multi-ID
         UserMultiID userMultiKey = getNames(request);
-
         ServletDebugUtil.trace(this, "no user uid: Multi-id isTrivial? " + userMultiKey.isTrivial() + " = " + userMultiKey);
-
         if (userMultiKey.isTrivial()) {
             ServletDebugUtil.trace(this, "trivial multi-id =" + userMultiKey);
             throw new DBServiceException(StatusCodes.STATUS_MISSING_ARGUMENT);
         }
 
         String idp = getParam(request, userKeys.idp(), true);
-     /*   if (idp == null || idp.length() == 0) {
-            throw new DBServiceException(StatusCodes.STATUS_NO_IDENTITY_PROVIDER);
-        }*/
-
-        String email = getParam(request, userKeys.email(), true);
-        String firstName = getParam(request, userKeys.firstName(), true);
-        String lastName = getParam(request, userKeys.lastName(), true);
-        String idpDisplayName = getParam(request, userKeys.idpDisplayName(), true);
-
-        String affiliation = request.getParameter(AFFILIATION);
-        String attr_json = request.getParameter(ATTR_JSON);
-        String displayName = request.getParameter(DISPLAY_NAME);
-        String organizationalUnit = request.getParameter(OU);
-
-        String useUSinDNString = getParam(request, userKeys.useUSinDN(), true);
-        Boolean useUSinDN = parseUseUSinDNString(useUSinDNString);
-        if (useUSinDNString == null) {
-            getMyLogger().warn("No us_idp flag set for this request, assuming IDP is US");
-            useUSinDN = Boolean.TRUE;
+        if (StringUtils.isTrivial(idp)) {
+            writeMessage(response, StatusCodes.STATUS_MISSING_ARGUMENT);
         }
+        // Strategy to not break existing CILogon. If the user exists with the given IDP,
+        // return that. If not, return most recently created as per CIL-2201.
+        // The motivation for the ticket is that universities can change their IDPs without warning,
+        // resulting in users that cannot be located this way.
+        User user = null;
+        try {
+            findUser(userMultiKey, idp); // completely standard, get the user and return it.
+            getUserWithIDP(request, response, userMultiKey, idp);
+            //writeUser(user, StatusCodes.STATUS_OK, response);
+            return;
+        } catch (UserNotFoundException userNotFoundException) {
+            // no such user for that IDP.
+        }
+        user = getUserNoIDP(request, response, userMultiKey);
+        if (user == null) {
+            // new user. treat as per legacy case
+            getUserWithIDP(request, response, userMultiKey, idp);
+            return;
+        }
+        // new case, we found at least one user with the given (unique) identifier
+        // and must now update the IDP and determine if we will update the serial
+        // string too.
+        UserProperties userProperties = getUserProperties(request);
+        boolean keepSS = updateUserfromProperties(user, userProperties);
+        // The user may send several identifiers, e.g. EPPN, EPTID and subject id
+        // and some of these may change. If we are here, at least one of them did not
+        // but that is the best we can say.
+        user.setUserMultiKey(userMultiKey);
+        user.setIdP(idp); // since the IDP changed, reset it.
+        getUserStore().updateCheckSerialString(user, keepSS);
+        writeUser(user, StatusCodes.STATUS_OK, response);
+    }
+
+    boolean equalWithNull(String x, String y) {
+        if (x == null) {
+            if (y == null) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            if (y == null) {
+                return false;
+            } else {
+                return x.equals(y);
+            }
+        }
+    }
+
+    /**
+     * User properties are sent in the request. This does the laborious task of updating them
+     * and returns true if the change to require a serial string update.
+     *
+     * @param user
+     * @param userProperties
+     * @return
+     */
+    protected boolean updateUserfromProperties(User user, UserProperties userProperties) {
+        boolean keepSerialString = true;
+        if (!equalWithNull(userProperties.email, user.getEmail())) {
+            user.setEmail(userProperties.email);
+            keepSerialString = false;
+        }
+        if (!equalWithNull(userProperties.firstName, user.getFirstName())) {
+            user.setFirstName(userProperties.firstName);
+            keepSerialString =  false;
+        }
+        if (!equalWithNull(userProperties.lastName, user.getLastName())) {
+            user.setLastName(userProperties.lastName);
+            keepSerialString =  false;
+        }
+        if (!equalWithNull(userProperties.idpDisplayName, user.getIDPName())) {
+            user.setIDPName(userProperties.idpDisplayName);
+            keepSerialString =  false;
+        }
+        user.setDisplayName(userProperties.displayName);
+        user.setAttr_json(userProperties.attr_json);
+        user.setAffiliation(userProperties.affiliation);
+        user.setOrganizationalUnit(userProperties.organizationalUnit);
+        user.setUseUSinDN(userProperties.useUSinDNString);
+        return keepSerialString;
+    }
+
+    /**
+     * Finds the most recently created user with a specific {@link UserMultiID}.
+     * <h3>Nota Bene</h3>
+     * This should always work and return a unique user. SAML  requires
+     * that the entity ID (aka dip parameter) restricts the domain of multi-id
+     * (So no matter what the IDP lists, say umissouri vs mizzou, no other institution can
+     * create an eppn with those domains.) If they should ever change that, then this might
+     * not work right. Unlikely, but this contract is implicit and necessary.
+     *
+     * @param request
+     * @param response
+     * @param userMultiKey
+     * @return
+     * @throws IOException
+     */
+    protected User getUserNoIDP(HttpServletRequest request, HttpServletResponse response, UserMultiID userMultiKey) throws IOException {
+        // Fix for CIL-1969 when no IDP is sent
+        // Fix for https://jira.ncsa.illinois.edu/browse/CIL-2201
+        // Updates logic for getUser when there is no IDP.
+        Collection<User> users;
+        User user = null;
+        try {
+            users = getUserStore().get(userMultiKey, null);
+        } catch (UserNotFoundException userNotFoundException) {
+            return null;
+        }
+        if (users == null || users.size() == 0) {
+            return null;
+        }
+        for (User currentUser : users) {
+            if (user == null) {
+                user = currentUser;
+            } else {
+                // JIRA task specifies using the creation timestamp to differentiate these.
+                if (user.getCreationTS().compareTo(currentUser.getCreationTS()) < 0) {
+                    user = currentUser;
+                }
+            }
+        }
+/*        if (user == null) {
+            writeUser(user, StatusCodes.STATUS_USER_NOT_FOUND, response);
+        }
+        writeUser(user, StatusCodes.STATUS_OK, response);*/
+        return user;
+    }
+
+    /**
+     * Legacy code. This does all the logic for users who have their IDP sent. Note that this uniquely identifies
+     * a user in the system, unlike the no IDP case. It will also make very complex logic decisions about whether the
+     * user's serial string needs to be changed -- a requirement for X509 certificates.
+     * <h2>DO NOT TOUCH</h2>
+     * <i>... without <b>great</b> probity first...</i>
+     *
+     * @param request
+     * @param response
+     * @param idp
+     * @throws IOException
+     */
+    protected void getUserWithIDP(HttpServletRequest request,
+                                  HttpServletResponse response,
+                                  UserMultiID userMultiKey,
+                                  String idp) throws IOException {
+
+        UserProperties userProperties = getUserProperties(request);
 
         if (!userMultiKey.isTrivial()) {
             // CIL-540
-            // case 1.5 -- if the request has IDP and one of eptid, eppn or oidc, then this is sufficient to identify the user.
+            // case 1.5 -- if the request has the IDP and one of eptid, eppn or oidc,
+            // then this is sufficient to identify the user uniquely.
             User user = null;
             int status = StatusCodes.STATUS_OK;
 
@@ -406,16 +540,16 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
                 // if found
                 boolean keepSerialID = updateUser(user,
                         idp,
-                        email,
-                        firstName,
-                        lastName,
-                        idpDisplayName,
+                        userProperties.email,
+                        userProperties.firstName,
+                        userProperties.lastName,
+                        userProperties.idpDisplayName,
                         userMultiKey,
-                        affiliation,
-                        attr_json,
-                        displayName,
-                        organizationalUnit,
-                        useUSinDN);
+                        userProperties.affiliation,
+                        userProperties.attr_json,
+                        userProperties.displayName,
+                        userProperties.organizationalUnit,
+                        userProperties.useUSinDNString);
                 status = (keepSerialID) ? StatusCodes.STATUS_OK : StatusCodes.STATUS_USER_SERIAL_STRING_UPDATED;
             } catch (EPTIDMismatchException | PairwiseIDMismatchException | SubjectIDMismatchException x) {
                 throw x;
@@ -424,16 +558,16 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
                 // was sent. There is no requirement for anything else.
                 user = makeNewUser(response,
                         idp,
-                        email,
-                        firstName,
-                        lastName,
-                        idpDisplayName,
+                        userProperties.email,
+                        userProperties.firstName,
+                        userProperties.lastName,
+                        userProperties.idpDisplayName,
                         userMultiKey,
-                        affiliation,
-                        attr_json,
-                        displayName,
-                        organizationalUnit,
-                        useUSinDN);
+                        userProperties.affiliation,
+                        userProperties.attr_json,
+                        userProperties.displayName,
+                        userProperties.organizationalUnit,
+                        userProperties.useUSinDNString);
                 status = StatusCodes.STATUS_NEW_USER;
             }
             TwoFactorInfo tfi = get2FStore().get(user.getIdentifier());
@@ -445,17 +579,17 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
         // case 2, use remote user to see if user has been updated or not.
 
 
-        if (isEmpty(idpDisplayName) && isEmpty(firstName) && isEmpty(lastName) && isEmpty(email)) {
+        if (isEmpty(userProperties.idpDisplayName) && isEmpty(userProperties.firstName) && isEmpty(userProperties.lastName) && isEmpty(userProperties.email)) {
             ServletDebugUtil.trace(this, "Some value is empty, finding user by umk and idp");
 
             try {
                 User user = findUser(userMultiKey, idp);
 
-                user.setUseUSinDN(useUSinDN);
+                user.setUseUSinDN(userProperties.useUSinDNString);
 
                 TwoFactorInfo tfi = get2FStore().get(user.getIdentifier());
                 ServletDebugUtil.trace(this, "found user " + user);
-                if (user.isUseUSinDN() != useUSinDN) {
+                if (user.isUseUSinDN() != userProperties.useUSinDNString) {
                     ServletDebugUtil.trace(this, "saving user");
                     // only actually save this if this changes.
                     getUserStore().save(user);
@@ -466,15 +600,15 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
                 return;
             } catch (UserNotFoundException x) {
                 User user = makeNewUser(response, idp,
-                        email,
-                        firstName,
-                        lastName,
-                        idpDisplayName,
-                        userMultiKey, affiliation,
-                        attr_json,
-                        displayName,
-                        organizationalUnit,
-                        useUSinDN);
+                        userProperties.email,
+                        userProperties.firstName,
+                        userProperties.lastName,
+                        userProperties.idpDisplayName,
+                        userMultiKey, userProperties.affiliation,
+                        userProperties.attr_json,
+                        userProperties.displayName,
+                        userProperties.organizationalUnit,
+                        userProperties.useUSinDNString);
                 writeUser(user, StatusCodes.STATUS_NEW_USER, response);
                 return;
             }
@@ -483,21 +617,21 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
             // check that the user is valid and if something has changed, archive the user's old information.
             // user id's are immutable, so this will not create a new one, though it will create a new archived user id.
             ServletDebugUtil.trace(this, "Checking and maybe archiving user");
-            if (firstName == null) {
+            if (userProperties.firstName == null) {
                 System.err.println("got a null first name");
             }
             checkAndArchiveUser(response,
                     userMultiKey,
                     idp,
-                    idpDisplayName,
-                    firstName,
-                    lastName,
-                    email,
-                    affiliation,
-                    displayName,
-                    organizationalUnit,
-                    useUSinDN,
-                    attr_json);
+                    userProperties.idpDisplayName,
+                    userProperties.firstName,
+                    userProperties.lastName,
+                    userProperties.email,
+                    userProperties.affiliation,
+                    userProperties.displayName,
+                    userProperties.organizationalUnit,
+                    userProperties.useUSinDNString,
+                    userProperties.attr_json);
         } catch (UserNotFoundException unfx) {
 
             // case 3: no such user, create one.
@@ -513,15 +647,15 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
                 try {
                     user3 = getUserStore().createAndRegisterUser(userMultiKey,
                             idp,
-                            idpDisplayName,
-                            firstName,
-                            lastName,
-                            email,
-                            affiliation,
-                            displayName,
-                            organizationalUnit);
-                    user3.setUseUSinDN(useUSinDN);
-                    user3.setAttr_json(attr_json);
+                            userProperties.idpDisplayName,
+                            userProperties.firstName,
+                            userProperties.lastName,
+                            userProperties.email,
+                            userProperties.affiliation,
+                            userProperties.displayName,
+                            userProperties.organizationalUnit);
+                    user3.setUseUSinDN(userProperties.useUSinDNString);
+                    user3.setAttr_json(userProperties.attr_json);
                     ServletDebugUtil.trace(this, "created user " + user3);
 
                     //CIL-503 fix:
@@ -542,6 +676,54 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
             TwoFactorInfo tfi = get2FStore().get(user3.getIdentifier());
             writeUser(user3, tfi, StatusCodes.STATUS_NEW_USER, response);
             info("DONE WRITING NEW USER, ID = " + user3.getIdentifier());
+        }
+    }
+
+
+    private UserProperties getUserProperties(HttpServletRequest request) throws UnsupportedEncodingException {
+        String email = getParam(request, userKeys.email(), true);
+        String firstName = getParam(request, userKeys.firstName(), true);
+        String lastName = getParam(request, userKeys.lastName(), true);
+        String idpDisplayName = getParam(request, userKeys.idpDisplayName(), true);
+
+        String affiliation = request.getParameter(userKeys.affiliation());
+        String attr_json = request.getParameter(userKeys.attr_json());
+        String displayName = request.getParameter(userKeys.displayName());
+        String organizationalUnit = request.getParameter(userKeys.organizationalUnit());
+
+        String isUSDN = getParam(request, userKeys.useUSinDN(), true);
+        boolean useUSinDN = true;
+        if (isUSDN != null) {
+            useUSinDN = parseUseUSinDNString(isUSDN);
+        }
+
+        UserProperties userProperties = new UserProperties(email, firstName, lastName, idpDisplayName, affiliation, attr_json, displayName, organizationalUnit, useUSinDN);
+        return userProperties;
+    }
+
+    private static class UserProperties {
+        public final String email;
+        public final String firstName;
+        public final String lastName;
+        public final String idpDisplayName;
+        public final String affiliation;
+        public final String attr_json;
+        public final String displayName;
+        public final String organizationalUnit;
+        public final boolean useUSinDNString;
+
+        public UserProperties(String email, String firstName, String lastName, String idpDisplayName,
+                              String affiliation, String attr_json, String displayName, String organizationalUnit,
+                              boolean useUSinDNString) {
+            this.email = email;
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.idpDisplayName = idpDisplayName;
+            this.affiliation = affiliation;
+            this.attr_json = attr_json;
+            this.displayName = displayName;
+            this.organizationalUnit = organizationalUnit;
+            this.useUSinDNString = useUSinDNString;
         }
     }
 
@@ -646,7 +828,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
         }
         if (idp != null) {
             // CIL-1969
-            user.setIdP(idp);
+            user.setIdP(idp); // Does **not** trigger a serial string update!
         }
         user.setUseUSinDN(useUSinDN);
         // Again, the second argument in the next call  means
@@ -898,6 +1080,13 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
         writeUser(user, StatusCodes.STATUS_NEW_USER, response);
     }
 
+    /**
+     * Handles parsing the "use in us " string, which is either absent or the strings
+     * "0" or "1"
+     *
+     * @param useUSinDN
+     * @return
+     */
     protected Boolean parseUseUSinDNString(String useUSinDN) {
         if (useUSinDN == null) {
             return null;
@@ -928,30 +1117,14 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
     }
 
     protected User findUser(UserMultiID userMultiKey, String idp) throws IOException {
-        if (StringUtils.isTrivial(idp)) {
-            return findUser(userMultiKey);
+        if (isTrivial(idp)) {
+            NFWException nfwException = new NFWException("Trivial IDP found"); // stop this cold if it ever happens.
+            nfwException.printStackTrace();
+            throw nfwException;
         }
         return OLDfindUser(userMultiKey, idp);
     }
 
-    protected User findUser(UserMultiID userMultiKey) throws IOException {
-        // Fix for CIL-1969 when no IDP is sent
-        Collection<User> users = getUserStore().get(userMultiKey, null);
-        User user = null;
-        for (User currentUser : users) {
-            userLogic(currentUser, userMultiKey);
-            getUserStore().updateCheckSerialString(currentUser, true);
-            if (user == null) {
-                user = currentUser;
-            } else {
-                if (user.getCreationTS().compareTo(currentUser.getCreationTS()) < 0) {
-                    user = currentUser;
-                }
-            }
-        }
-
-        return user;
-    }
 
     protected User OLDfindUser(UserMultiID userMultiKey, String idp) throws IOException {
         Collection<User> users = getUserStore().get(userMultiKey, idp);
@@ -1213,10 +1386,12 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
         return x.equals(y);
     }
 
+
     public void updateUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
         UserMultiID userMultiKey = getNames(request);
         // The rest of these might be missing.
-        String idp = getParam(request, userKeys.idp(), true);
+        String idp = getParam(request, userKeys.idp(), false);
+        UserProperties userProperties = getUserProperties(request);
         String email = getParam(request, userKeys.email(), true);
         String firstName = getParam(request, userKeys.firstName(), true);
         String lastName = getParam(request, userKeys.lastName(), true);

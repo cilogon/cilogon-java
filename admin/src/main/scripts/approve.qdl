@@ -7,8 +7,7 @@
  ⊨ 0 < script_args(): 'you must supply a user code';
 
 db_service := 'https://localhost:9443/oauth2/dbService';
-q := module_load('edu.uiuc.ncsa.qdl.extensions.http.QDLHTTPLoader','java') ;
-module_import(q) ;
+http := j_load('http');
 http#host(db_service);
 http#open(true); // Opens for self-signed cert, no hostname verification.
 resp. := http#get({'action':'userCodeApproved','approved':'1','user_code':script_args(0)});

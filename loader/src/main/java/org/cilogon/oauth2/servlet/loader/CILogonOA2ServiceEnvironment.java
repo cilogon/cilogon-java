@@ -113,7 +113,8 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
                                         Collection<LocalTime> monitorAlarms,
                                         MetaDebugUtil debugger,
                                         boolean ccfEnabled,
-                                        DBServiceConfig dbServiceConfig
+                                        DBServiceConfig dbServiceConfig,
+                                        boolean isAllowPromptNone
     ) {
         super(logger,
                 tsp,
@@ -174,7 +175,8 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
                 monitorInterval,
                 monitorAlarms,
                 ccfEnabled,
-                debugger);
+                debugger,
+                isAllowPromptNone);
         ciLogonSE = new CILogonSEImpl(usp, ausp, idpsp, incp, tfsp, isComputeFNAL);
         ciLogonSE.setDBServiceConfig(dbServiceConfig);
         this.dbServiceConfig = dbServiceConfig;

@@ -48,7 +48,7 @@ public class UserStoreTest extends TestBase {
         testUTF7(provider.getUserStore());
         testUTF7RegressionTest(provider.getUserStore());
         testNextValue(provider.getSequence());
-        testSerialStringIncrement(provider.getUserStore());
+        doSerialStringIncrement(provider.getUserStore());
         testMapInterface(provider.getUserStore());
         testGetUser(provider.getUserStore());
         testUserCreate(provider.getUserStore(), provider.getIDP());
@@ -137,6 +137,7 @@ public class UserStoreTest extends TestBase {
             assert true;
         }
     }
+
 
     /**
      * Test to show OAUTH-108 is resolved.
@@ -554,20 +555,23 @@ public class UserStoreTest extends TestBase {
 
     }
 
-    public void testSerialStringIncrement(UserStore userStore) throws Exception {
+    public void doSerialStringIncrement(UserStore userStore) throws Exception {
         User user = userStore.create(true);
         String x = getRandomString();
         user.setFirstName("first-" + x);
         user.setLastName("last-" + x);
         user.setIdP("urn:idp:" + x);
         userStore.save(user);
+        System.out.println("doSerialStringIncrement: original user =" + user);
 
 
         Identifier identifier = user.getSerialIdentifier();
         // so change a field and update the user. The serial string should be different
         String y = getRandomString();
-        user.setFirstName("first-" + y);
+        user.setFirstName("first-" + y); // This should trigger a change
         userStore.update(user);
+        System.out.println("doSerialStringIncrement: user =" + user);
+        System.out.println("doSerialStringIncrement: post update user =" + userStore.get(user.getIdentifier()));
         assert !user.getSerialIdentifier().equals(identifier) :
                 "old serial id=" + identifier + ", new id=" + user.getSerialIdentifier() + ". These should not be equal.";
 
@@ -577,7 +581,7 @@ public class UserStoreTest extends TestBase {
         user.setLastName("last-" + y);
         userStore.save(user);
         assert !user.getSerialIdentifier().equals(identifier) :
-                "old serial id=" + identifier + ", new id=" + user.getSerialIdentifier() + ". These should not be equal.";
+                "old serial id=" + identifier + ", new id=" + user.getSerialIdentifier() + ". These should not be equal for store " + userStore;
         userStore.remove(user.getIdentifier());
     }
 
