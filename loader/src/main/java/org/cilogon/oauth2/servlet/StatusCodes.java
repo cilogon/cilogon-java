@@ -19,6 +19,7 @@ public class StatusCodes {
     public static final int STATUS_USER_SERIAL_STRING_UPDATED = 0x4; //4
     public static final int STATUS_USER_NOT_FOUND = 0x6;  //6
     public static final int STATUS_USER_EXISTS = 0x8; //8
+    public static final int STATUS_IDP_UPDATED = 0xA; //8
     /*
     error codes
      */

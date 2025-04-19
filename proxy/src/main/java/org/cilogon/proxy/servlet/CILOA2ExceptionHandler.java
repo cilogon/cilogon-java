@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static org.cilogon.oauth2.servlet.StatusCodes.STATUS_CLIENT_NOT_FOUND;
 import static org.cilogon.proxy.servlet.DBService2.*;
 
 /**
@@ -103,7 +104,7 @@ public class CILOA2ExceptionHandler extends CILogonExceptionHandler implements O
             case OA2Errors.INVALID_REQUEST_URI:
                 return new YAErr(StatusCodes.STATUS_INTERNAL_ERROR, null);
             case OA2Errors.UNAUTHORIZED_CLIENT:
-                return new YAErr(STATUS_NO_CLIENT_FOUND, null);
+                return new YAErr(STATUS_CLIENT_NOT_FOUND, null);
             case OA2Errors.ACCESS_DENIED:
                 return new YAErr(StatusCodes.STATUS_INTERNAL_ERROR, null);
             case OA2Errors.UNSUPPORTED_RESPONSE_TYPE:

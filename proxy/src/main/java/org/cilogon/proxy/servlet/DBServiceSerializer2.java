@@ -60,7 +60,7 @@ public class DBServiceSerializer2 extends DBServiceSerializer {
         boolean firstPass = true;
         Iterator iterator = callbackUris.iterator();
         while (iterator.hasNext()) {
-            cbs = cbs + (firstPass ? "" : ",") + iterator.next();
+            cbs = cbs + (firstPass ? "" : " ") + iterator.next();
             if (firstPass) {
                 firstPass = false;
             }

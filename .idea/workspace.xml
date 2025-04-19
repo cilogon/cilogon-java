@@ -10,28 +10,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="04234930-e14d-41d5-bfcd-bac41d340cf1" name="Changes" comment="Comment updated">
+    <list default="true" id="04234930-e14d-41d5-bfcd-bac41d340cf1" name="Changes" comment="https://github.com/cilogon/cilogon-java/issues/49 and https://jira.ncsa.illinois.edu/browse/CIL-2201. This includes very detailed regression tests for every case we've been able to identify. This was very finicky to write.">
+      <change afterPath="$PROJECT_DIR$/admin/src/main/docs/CILogon-DB-service.odt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/src/main/scripts/approve.qdl" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/scripts/approve.qdl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/loader/CILOA2ConfigurationLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/loader/CILOA2ConfigurationLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/loader/CILogonOA2ServiceEnvironment.java" beforeDir="false" afterPath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/loader/CILogonOA2ServiceEnvironment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/src/main/docs/dbservice-ref.odt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/ArchivedUserStoreCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/ArchivedUserStoreCommands.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/UserStoreCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/UserStoreCommands.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/StatusCodes.java" beforeDir="false" afterPath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/StatusCodes.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/servlet/AbstractDBService.java" beforeDir="false" afterPath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/servlet/AbstractDBService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/storage/idp/IdentityProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/storage/idp/IdentityProvider.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/storage/user/CILSQLUserStore.java" beforeDir="false" afterPath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/storage/user/CILSQLUserStore.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/storage/user/UserMultiID.java" beforeDir="false" afterPath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/storage/user/UserMultiID.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/util/DBServiceClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/util/DBServiceClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/util/DBServiceSerializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/util/DBServiceSerializer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proxy/src/main/java/org/cilogon/proxy/servlet/CILOA2ExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/proxy/src/main/java/org/cilogon/proxy/servlet/CILOA2ExceptionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proxy/src/main/java/org/cilogon/proxy/servlet/DBService2.java" beforeDir="false" afterPath="$PROJECT_DIR$/proxy/src/main/java/org/cilogon/proxy/servlet/DBService2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proxy/src/main/java/org/cilogon/proxy/servlet/DBServiceSerializer2.java" beforeDir="false" afterPath="$PROJECT_DIR$/proxy/src/main/java/org/cilogon/proxy/servlet/DBServiceSerializer2.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/qdl/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/qdl/buildNumber.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/server/buildNumber.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/test/buildNumber.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/test/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/src/test/java/test/CILServiceTestSuite2.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/src/test/java/test/CILServiceTestSuite2.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/src/test/java/test/cilogon/DBServiceTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/src/test/java/test/cilogon/DBServiceTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/src/test/java/test/cilogon/DBServiceUserIDTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/src/test/java/test/cilogon/DBServiceUserIDTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/src/test/java/test/cilogon/DBServiceUserTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/src/test/java/test/cilogon/DBServiceUserTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/src/test/java/test/cilogon/RemoteDBServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/src/test/java/test/cilogon/RemoteDBServiceTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/src/test/java/test/cilogon/ServiceTestSuite.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/src/test/java/test/cilogon/ServiceTestSuite.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/src/test/java/test/cilogon/impl/UserStoreTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/src/test/java/test/cilogon/impl/UserStoreTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/website/convert-docs.sh" beforeDir="false" afterPath="$PROJECT_DIR$/website/convert-docs.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/website/docs/CILogon DB Servlet.odt" beforeDir="false" afterPath="$PROJECT_DIR$/website/docs/CILogon DB Servlet.odt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/website/docs/CILogon_db_servlet.odt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/website/src/site/apt/index.apt" beforeDir="false" afterPath="$PROJECT_DIR$/website/src/site/apt/index.apt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -541,7 +537,7 @@
       <workItem from="1741174516244" duration="8380000" />
       <workItem from="1742332239260" duration="2538000" />
       <workItem from="1742913759045" duration="54308000" />
-      <workItem from="1743939160444" duration="54389000" />
+      <workItem from="1743939160444" duration="71895000" />
     </task>
     <task id="LOCAL-00001" summary="Fallout from moving a bunch of static methods into classes.">
       <created>1675892224728</created>
@@ -865,14 +861,6 @@
       <option name="project" value="LOCAL" />
       <updated>1692998536215</updated>
     </task>
-    <task id="LOCAL-00082" summary="Client servlet not initializing correctly.">
-      <option name="closed" value="true" />
-      <created>1732644509389</created>
-      <option name="number" value="00082" />
-      <option name="presentableId" value="LOCAL-00082" />
-      <option name="project" value="LOCAL" />
-      <updated>1732644509389</updated>
-    </task>
     <task id="LOCAL-00083" summary="https://github.com/cilogon/cilogon-java/issues/48">
       <option name="closed" value="true" />
       <created>1741207564725</created>
@@ -889,7 +877,15 @@
       <option name="project" value="LOCAL" />
       <updated>1741212630644</updated>
     </task>
-    <option name="localTasksCounter" value="85" />
+    <task id="LOCAL-00085" summary="https://github.com/cilogon/cilogon-java/issues/49 and https://jira.ncsa.illinois.edu/browse/CIL-2201. This includes very detailed regression tests for every case we've been able to identify. This was very finicky to write.">
+      <option name="closed" value="true" />
+      <created>1744409199032</created>
+      <option name="number" value="00085" />
+      <option name="presentableId" value="LOCAL-00085" />
+      <option name="project" value="LOCAL" />
+      <updated>1744409199032</updated>
+    </task>
+    <option name="localTasksCounter" value="86" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -942,7 +938,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Changed a constructor, needs to be propagated." />
     <MESSAGE value="Improved creating the CILogon QDL command line interface." />
     <MESSAGE value="5.4.3 release" />
     <MESSAGE value="5.4.3 website" />
@@ -967,7 +962,8 @@
     <MESSAGE value="Client servlet not initializing correctly." />
     <MESSAGE value="https://github.com/cilogon/cilogon-java/issues/48" />
     <MESSAGE value="Comment updated" />
-    <option name="LAST_COMMIT_MESSAGE" value="Comment updated" />
+    <MESSAGE value="https://github.com/cilogon/cilogon-java/issues/49 and https://jira.ncsa.illinois.edu/browse/CIL-2201. This includes very detailed regression tests for every case we've been able to identify. This was very finicky to write." />
+    <option name="LAST_COMMIT_MESSAGE" value="https://github.com/cilogon/cilogon-java/issues/49 and https://jira.ncsa.illinois.edu/browse/CIL-2201. This includes very detailed regression tests for every case we've been able to identify. This was very finicky to write." />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -1020,7 +1016,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>jar://$MAVEN_REPOSITORY$/org/qdl_lang/language/1.6-QDL-SNAPSHOT/language-1.6-QDL-SNAPSHOT-sources.jar!/org/qdl_lang/evaluate/ModuleEvaluator.java</url>
-          <line>1075</line>
+          <line>1079</line>
           <option name="timeStamp" value="46" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">

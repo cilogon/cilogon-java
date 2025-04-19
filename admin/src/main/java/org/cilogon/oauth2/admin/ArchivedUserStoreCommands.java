@@ -73,8 +73,8 @@ public class ArchivedUserStoreCommands extends StoreCommands2 {
         return false;
     }
 
-    protected User findUser(InputLine inputLine) {
-        Identifiable x = super.findItem(inputLine);
+    protected User findUser(InputLine inputLine) throws Throwable {
+        Identifiable x = super.findSingleton(inputLine);
         if (x == null) {
             // then this was not found in the default store and was not recognized as
             // having an integer argument. Try to get it from the user store
@@ -125,7 +125,7 @@ public class ArchivedUserStoreCommands extends StoreCommands2 {
     }
 
     @Override
-    public void ls(InputLine inputLine) {
+    public void ls(InputLine inputLine) throws Throwable {
         if (showHelp(inputLine) || 3 < inputLine.size()) {
             showLSHelp();
             return;
@@ -160,8 +160,8 @@ public class ArchivedUserStoreCommands extends StoreCommands2 {
         super.ls(inputLine);
     }
 
-    protected void extractUser(InputLine inputLine) {
-        Identifiable x = findItem(inputLine);
+    protected void extractUser(InputLine inputLine) throws Throwable {
+        Identifiable x = findSingleton(inputLine, "user not found");
         if (x != null) {
             longFormat(x);
             return;
@@ -188,11 +188,12 @@ public class ArchivedUserStoreCommands extends StoreCommands2 {
     protected void showLSHelp() {
         say("List users and archived users.");
         say("Syntax:\n");
-        say("ls [-u] [index|id]\n");
+        say("ls [-u] index\n");
         say("Entering \"ls\" alone will display every archived user in a single (maybe very) long list.");
         say("Entering \"ls index\" or equivalently \"ls /unique-id\" (NOTE the '/' that escapes an id) will display that specific entry.");
         say("If the id refers to an archived entry, that will be shown.");
         say("Entering \"ls -u\" will list every archived user, but organized by user id.");
+        printIndexHelp(true);
     }
 
 /*    @Override
@@ -227,7 +228,7 @@ public class ArchivedUserStoreCommands extends StoreCommands2 {
         ArchivedUser archivedUser = null;
         String NOT_FOUND_MSG = "Sorry, but I cannot seem to find the archived user with that index or id. Try again.";
         try {
-            archivedUser = (ArchivedUser) findItem(inputLine);
+            archivedUser = (ArchivedUser) findSingleton(inputLine);
         } catch (Throwable t) {
             info("Attempt to restore archived user failed since no user was found for the given id");
             sayi(NOT_FOUND_MSG);

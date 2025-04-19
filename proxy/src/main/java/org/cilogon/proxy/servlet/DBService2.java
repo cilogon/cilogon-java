@@ -55,6 +55,8 @@ import java.net.URI;
 import java.net.URLDecoder;
 import java.util.Date;
 
+import static org.cilogon.oauth2.servlet.StatusCodes.STATUS_CLIENT_NOT_FOUND;
+
 /**
  * <p>Created by Jeff Gaynor<br>
  * on 1/22/15 at  12:15 PM
@@ -93,6 +95,8 @@ public class DBService2 extends AbstractDBService {
             case GET_CLIENT_CASE:
                 getClient(request, response);
                 return;
+                // Near as I can tell, neither of these can be used since they do not return any
+            // usable information -- just an ok
             case SET_TRANSACTION_STATE_CASE:
                 setTransactionState(request, response);
                 return;
@@ -231,7 +235,6 @@ public class DBService2 extends AbstractDBService {
      * 0 = Success
      * 1048569 = missing parameter
      * 65537 = transaction not found
-     * 65539 = expired user_code (token)
      */
     protected void userCodeApproved(HttpServletRequest request, HttpServletResponse response) throws IOException {
         if (!request.getParameterMap().containsKey(USER_CODE_PARAMETER)) {
@@ -310,7 +313,7 @@ public class DBService2 extends AbstractDBService {
             // means they cancelled the whole thing. Remove the transaction and the cache entry.
             getTransactionStore().remove(transaction.getIdentifier());
             //    RFC8628Servlet.getCache().remove(userCode);
-            // Now tell the, that it was cancelled. This means to return a status of 0, meaning
+            // Now tell the system that it was cancelled. This means to return a status of 0, meaning
             // the requested action was done.
             startWrite(response);
             PrintWriter printWriter = response.getWriter();
@@ -354,7 +357,8 @@ public class DBService2 extends AbstractDBService {
         stopWrite(response);
     }
 
-    protected void writeTransaction(OA2ServiceTransaction oa2ServiceTransaction, int status, HttpServletResponse response) throws IOException {
+    protected void writeTransaction(OA2ServiceTransaction oa2ServiceTransaction,
+                                    int status, HttpServletResponse response) throws IOException {
         startWrite(response);
         ((DBServiceSerializer2) serializer).serialize(response.getWriter(), oa2ServiceTransaction, status);
         stopWrite(response);
@@ -562,10 +566,12 @@ public class DBService2 extends AbstractDBService {
         user.setLastAccessed(t.getAuthTime()); // make sure user accesses are tracked as well.
         t.setAuthGrantValid(true);
         t.setUsername(userUID.toString());
-
+       // Next block is critical since it puts the user claims from authorization in the transaction.
+       // If there are server-wide claims to be processed, they are done here aw well. This takes the
+       // place of the similar call in the OA4MP authorization leg, which CILogon replaces.
         try {
             debugger.trace(this, "Starting to process claims");
-            doClaims2((CILogonOA2ServiceEnvironment) MyProxyDelegationServlet.getServiceEnvironment(), t, req, debugger);
+            doUserClaims((CILogonOA2ServiceEnvironment) MyProxyDelegationServlet.getServiceEnvironment(), t, req, debugger);
         } catch (ScriptRuntimeException srx) {
             // The user threw one of these explicitly as part of the control flow, e.g. user was not in the right group.
             debugger.trace(this, "Script runtime exception", srx);
@@ -605,10 +611,18 @@ public class DBService2 extends AbstractDBService {
         debugger.trace(this, "done setting transaction state for user " + user.getIdentifierString());
         getTransactionStore().save(t);
 
-        writeTransaction(t, StatusCodes.STATUS_OK, resp);
+        writeTransaction(t, StatusCodes.STATUS_OK, resp); // just returns an ok if state written.
     }
 
-    protected void doClaims2(CILogonOA2ServiceEnvironment env, CILOA2ServiceTransaction t, HttpServletRequest request, MetaDebugUtil debugger) throws Throwable {
+    /**
+     * Runs the user claims to populate the transaction.
+     * @param env
+     * @param t
+     * @param request
+     * @param debugger
+     * @throws Throwable
+     */
+    protected void doUserClaims(CILogonOA2ServiceEnvironment env, CILOA2ServiceTransaction t, HttpServletRequest request, MetaDebugUtil debugger) throws Throwable {
         // try {
         debugger.trace(this, "Doing user claims");
         UserClaimSource userClaimSource = new UserClaimSource(getMyLogger());
@@ -630,12 +644,15 @@ public class DBService2 extends AbstractDBService {
     // Fixes CIL-105.
     protected void getClient(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Identifier clientID = BasicIdentifier.newID(req.getParameter("client_id"));
+        if(clientID == null) {
+            writeMessage(resp, new Err(STATUS_MISSING_CLIENT_ID, "missing_client_id", StatusCodes.getMessage(STATUS_MISSING_CLIENT_ID)));
+        }
         OA2Client client = (OA2Client) MyProxyDelegationServlet.getServiceEnvironment().getClientStore().get(clientID);
         if (client == null) {
             // None of these have been archived. We *could* check if the user has a valid uid
             // in the store and return user not found if so and user not found error if not,
             // but that would be messier to use. If this is even an issue
-            writeMessage(resp, new Err(STATUS_NO_CLIENT_FOUND, "client_not_found", StatusCodes.getMessage(StatusCodes.STATUS_CLIENT_NOT_FOUND)));
+            writeMessage(resp, new Err(STATUS_CLIENT_NOT_FOUND, "client_not_found", StatusCodes.getMessage(STATUS_CLIENT_NOT_FOUND)));
             return;
         }
         // the last of these is the last archived user. Note that the returned list is always sorted,

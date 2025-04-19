@@ -13,6 +13,7 @@ import org.cilogon.oauth2.servlet.util.DNUtil;
 import org.oa4mp.server.admin.myproxy.oauth2.base.StoreCommands2;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * <p>Created by Jeff Gaynor<br>
@@ -74,8 +75,9 @@ public class UserStoreCommands extends StoreCommands2 {
     protected void showArchiveHelp() {
         say("Archive a given user.");
         say("Syntax:\n");
-        say("archive [index|uid]\n");
+        say("archive index\n");
         say("where index is the one given by the list (ls) command or you may supply the user's identifier, escaped with a /");
+        printIndexHelp(true);
         say("Archiving a user has the following effects:\n");
         say("* it will create a new archived user entry in that store");
         say("* this entry will have all the current user information in it.");
@@ -85,16 +87,16 @@ public class UserStoreCommands extends StoreCommands2 {
         say("Examples\n");
         say("archive 4");
         say("This creates an archive entry for the user with index 4 in the list command\n");
-        say("archive /http://cilogon.org/serverX/users/43ab44e8df7345cba");
+        say("archive http://cilogon.org/serverX/users/43ab44e8df7345cba");
         say("This archives the user with the given unique identifier.");
     }
 
-    public void archive(InputLine inputLine) {
+    public void archive(InputLine inputLine) throws Throwable {
         if (showHelp(inputLine)) {
             showArchiveHelp();
             return;
         }
-        User user = (User) findItem(inputLine);
+        User user = (User) findSingleton(inputLine, "user not found");
         Identifier newID = getArchivedUserStore().archiveUser(user.getIdentifier());
         sayi("New archived user id=" + newID);
     }
@@ -202,38 +204,44 @@ public class UserStoreCommands extends StoreCommands2 {
     }
 
     @Override
-    public void rm(InputLine inputLine) throws IOException {
+    public void rm(InputLine inputLine) throws Throwable {
         if (showHelp(inputLine)) {
             showRMHelp();
             return;
         }
-        Identifiable x = findItem(inputLine);
-
-        if (isOk(readline("Archive user record before removing it? [y/n]:"))) {
-            Identifier auId = getArchivedUserStore().archiveUser(x.getIdentifier());
-            sayi("User archive record create with id =\"" + auId + "\".");
+        List<Identifiable> x = findItem(inputLine);
+        if (x == null || x.isEmpty()) {
+            say("No users found");
+            return;
         }
-        getStore().remove(x.getIdentifier());
-        say("Done. object with id = " + x.getIdentifierString() + " has been removed from the store");
+        boolean archiveUsers = isOk(readline("Archive user record before removing it? [y/n]:"));
+        for (Identifiable id : x) {
+            if (archiveUsers) {
+                Identifier auId = getArchivedUserStore().archiveUser(id.getIdentifier());
+            }
+            getStore().remove(id.getIdentifier());
+        }
+        say("Done. " + x.size() + " users have been removed from the store");
         clearEntries();
     }
 
     // CIL-1310
-    public void dn(InputLine inputLine) {
+    public void dn(InputLine inputLine) throws Throwable {
         if (showHelp(inputLine)) {
-            say("dn [-email] [id]");
+            say("dn [-email] index");
             say("Compute the DN for the current user");
             say(" -email - return the email for the user");
             return;
         }
-        Identifiable x = findItem(inputLine);
+        List<Identifiable> x = findItem(inputLine);
         if (x == null) {
             say("no such user");
             return;
         }
 
-
-        say(DNUtil.getDN((User) x, null, inputLine.hasArg("-email")));
+        for (Identifiable id : x) {
+            say(DNUtil.getDN((User) id, null, inputLine.hasArg("-email")));
+        }
     }
 
     @Override
