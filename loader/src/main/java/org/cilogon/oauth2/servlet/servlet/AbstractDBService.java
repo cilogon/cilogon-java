@@ -1096,9 +1096,6 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
     protected void hasUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
         // this parameter might be missing, so we have to allow for that. If present, it has priority over other parameters
         String useruidString = getParam(request, userKeys.identifier(), true);
-        if(useruidString == null) {
-            writeMessage(response, STATUS_USER_NOT_FOUND_ERROR);
-        }
         boolean hasUser = false;
         if (isEmpty(useruidString)) {
             UserMultiID userMultiKey = getNames(request);

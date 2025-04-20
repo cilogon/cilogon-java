@@ -34,9 +34,9 @@ public class UserStoreTest extends TestBase {
     public void testAll() throws Exception {
         doTests((CILTestStoreProviderI2) ServiceTestUtils.getMemoryStoreProvider());
         doTests((CILTestStoreProviderI2) ServiceTestUtils.getFsStoreProvider());
-        doTests((CILTestStoreProviderI2) ServiceTestUtils.getMySQLStoreProvider());
         doTests((CILTestStoreProviderI2) ServiceTestUtils.getPgStoreProvider());
         doTests((CILTestStoreProviderI2) ServiceTestUtils.getDerbyStoreProvider());
+        doTests((CILTestStoreProviderI2) ServiceTestUtils.getMySQLStoreProvider());
     }
 
 
@@ -586,7 +586,7 @@ public class UserStoreTest extends TestBase {
     }
 
     /**
-     * This tests that the incommon flag in the user object behaves correctly, viz., that it is not setm
+     * This tests that the incommon flag in the user object behaves correctly, viz., that it is not set,
      * then once set, attempts to change it fail.
      *
      * @throws Exception

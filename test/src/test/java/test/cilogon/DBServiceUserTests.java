@@ -167,6 +167,7 @@ public class DBServiceUserTests extends RemoteDBServiceTest {
         assert !getDBSClient().hasUser(createRU("foo"), "bar");
 
         User user = newUser(useIDP);
+        System.out.println(user);
         assert getDBSClient().hasUser(user.getIdentifier());
         assert getDBSClient().hasUser(user.getUserMultiKey(), user.getIdP());
     }
