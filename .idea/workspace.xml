@@ -10,23 +10,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="04234930-e14d-41d5-bfcd-bac41d340cf1" name="Changes" comment="https://github.com/cilogon/cilogon-java/issues/49 and https://jira.ncsa.illinois.edu/browse/CIL-2201. This includes very detailed regression tests for every case we've been able to identify. This was very finicky to write.">
-      <change afterPath="$PROJECT_DIR$/admin/src/main/docs/CILogon-DB-service.odt" afterDir="false" />
+    <list default="true" id="04234930-e14d-41d5-bfcd-bac41d340cf1" name="Changes" comment="https://github.com/cilogon/cilogon-java/issues/52 Rewrote the CILogon DB service manual (PDF) and made changes to the comments in the code.&#10;&#10;Made sure that on IDP change for a user, the correct success code (0xA) is returned.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/src/main/docs/dbservice-ref.odt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/ArchivedUserStoreCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/ArchivedUserStoreCommands.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/UserStoreCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/UserStoreCommands.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/StatusCodes.java" beforeDir="false" afterPath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/StatusCodes.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/servlet/AbstractDBService.java" beforeDir="false" afterPath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/servlet/AbstractDBService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proxy/src/main/java/org/cilogon/proxy/servlet/CILOA2ExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/proxy/src/main/java/org/cilogon/proxy/servlet/CILOA2ExceptionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/src/main/docs/CILogon-DB-service.odt" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/docs/CILogon-DB-service.odt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/proxy/src/main/java/org/cilogon/proxy/servlet/DBService2.java" beforeDir="false" afterPath="$PROJECT_DIR$/proxy/src/main/java/org/cilogon/proxy/servlet/DBService2.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proxy/src/main/java/org/cilogon/proxy/servlet/DBServiceSerializer2.java" beforeDir="false" afterPath="$PROJECT_DIR$/proxy/src/main/java/org/cilogon/proxy/servlet/DBServiceSerializer2.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qdl/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/qdl/buildNumber.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/server/buildNumber.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/test/buildNumber.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/website/convert-docs.sh" beforeDir="false" afterPath="$PROJECT_DIR$/website/convert-docs.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/website/docs/CILogon DB Servlet.odt" beforeDir="false" afterPath="$PROJECT_DIR$/website/docs/CILogon DB Servlet.odt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/website/docs/CILogon_db_servlet.odt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/website/src/site/apt/index.apt" beforeDir="false" afterPath="$PROJECT_DIR$/website/src/site/apt/index.apt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -537,7 +524,7 @@
       <workItem from="1741174516244" duration="8380000" />
       <workItem from="1742332239260" duration="2538000" />
       <workItem from="1742913759045" duration="54308000" />
-      <workItem from="1743939160444" duration="71895000" />
+      <workItem from="1743939160444" duration="82360000" />
     </task>
     <task id="LOCAL-00001" summary="Fallout from moving a bunch of static methods into classes.">
       <created>1675892224728</created>
@@ -861,14 +848,6 @@
       <option name="project" value="LOCAL" />
       <updated>1692998536215</updated>
     </task>
-    <task id="LOCAL-00083" summary="https://github.com/cilogon/cilogon-java/issues/48">
-      <option name="closed" value="true" />
-      <created>1741207564725</created>
-      <option name="number" value="00083" />
-      <option name="presentableId" value="LOCAL-00083" />
-      <option name="project" value="LOCAL" />
-      <updated>1741207564725</updated>
-    </task>
     <task id="LOCAL-00084" summary="Comment updated">
       <option name="closed" value="true" />
       <created>1741212630644</created>
@@ -885,7 +864,15 @@
       <option name="project" value="LOCAL" />
       <updated>1744409199032</updated>
     </task>
-    <option name="localTasksCounter" value="86" />
+    <task id="LOCAL-00086" summary="https://github.com/cilogon/cilogon-java/issues/52 Rewrote the CILogon DB service manual (PDF) and made changes to the comments in the code.&#10;&#10;Made sure that on IDP change for a user, the correct success code (0xA) is returned.">
+      <option name="closed" value="true" />
+      <created>1745072676468</created>
+      <option name="number" value="00086" />
+      <option name="presentableId" value="LOCAL-00086" />
+      <option name="project" value="LOCAL" />
+      <updated>1745072676468</updated>
+    </task>
+    <option name="localTasksCounter" value="87" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -938,7 +925,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Improved creating the CILogon QDL command line interface." />
     <MESSAGE value="5.4.3 release" />
     <MESSAGE value="5.4.3 website" />
     <MESSAGE value="Enabled building CILogon QDL installer in the main build script." />
@@ -963,7 +949,8 @@
     <MESSAGE value="https://github.com/cilogon/cilogon-java/issues/48" />
     <MESSAGE value="Comment updated" />
     <MESSAGE value="https://github.com/cilogon/cilogon-java/issues/49 and https://jira.ncsa.illinois.edu/browse/CIL-2201. This includes very detailed regression tests for every case we've been able to identify. This was very finicky to write." />
-    <option name="LAST_COMMIT_MESSAGE" value="https://github.com/cilogon/cilogon-java/issues/49 and https://jira.ncsa.illinois.edu/browse/CIL-2201. This includes very detailed regression tests for every case we've been able to identify. This was very finicky to write." />
+    <MESSAGE value="https://github.com/cilogon/cilogon-java/issues/52 Rewrote the CILogon DB service manual (PDF) and made changes to the comments in the code.&#10;&#10;Made sure that on IDP change for a user, the correct success code (0xA) is returned." />
+    <option name="LAST_COMMIT_MESSAGE" value="https://github.com/cilogon/cilogon-java/issues/52 Rewrote the CILogon DB service manual (PDF) and made changes to the comments in the code.&#10;&#10;Made sure that on IDP change for a user, the correct success code (0xA) is returned." />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
   </component>
   <component name="XDebuggerManager">

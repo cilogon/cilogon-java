@@ -16,7 +16,8 @@ CILogon Java Module
   The main documenation for how to use CILogon is at {{{https://www.cilogon.org}CILogon}}
   and covers a wide variety of topics.
 
-  A quick overview is that {{{https://ncsa.github.io/oa4mp/}OA4MP}} is the underlying OAuth 2
+  A quick overview of this project is that
+  {{{https://ncsa.github.io/oa4mp/}OA4MP}} is the underlying OAuth 2
   implementation. It does not, however, have a concept of a user per se, and the authorization
   machinery is modular so that it may be replaced, in this case, with CILogon's PHP layer.
   This module contains stores for user management, IDPs and other information as well as a

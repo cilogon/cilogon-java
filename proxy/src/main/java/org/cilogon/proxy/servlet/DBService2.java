@@ -375,6 +375,21 @@ public class DBService2 extends AbstractDBService {
         writeTransaction(null, new Err(errorCode, "create_transaction_failed", message), resp);
     }
 
+    /**
+     * This accepts the following parameters
+     * <pre>
+     * client_id
+     * scopes
+     * state
+     * code_challenge          (RFC 7636)
+     * code_challenge_method      "   "
+     * </pre>
+     * and the response
+     *
+     * @param req
+     * @param resp
+     * @throws IOException
+     */
     protected void createTransaction(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         ServletDebugUtil.trace(this, "createTransaction: ******** NEW CALL ******** ");
         ServletDebugUtil.trace(this, "createTransaction: printing request ");
@@ -429,7 +444,9 @@ public class DBService2 extends AbstractDBService {
         MetaDebugUtil debugger = MyProxyDelegationServlet.createDebugger(client);
 
         try {
-            CILOA2ServiceTransaction transaction = (CILOA2ServiceTransaction) initUtil.doDelegation(req, resp, true);
+            CILOA2ServiceTransaction transaction = (CILOA2ServiceTransaction) initUtil.doDelegation(req,
+                    resp,
+                    true);
             if (debugger instanceof ClientDebugUtil) {
                 ((ClientDebugUtil) debugger).setTransaction(transaction);
             }
