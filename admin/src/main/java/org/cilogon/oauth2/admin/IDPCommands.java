@@ -1,6 +1,7 @@
 package org.cilogon.oauth2.admin;
 
 import edu.uiuc.ncsa.security.core.Identifiable;
+import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.Store;
 import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
 import org.cilogon.oauth2.servlet.storage.idp.IdentityProviderStore;
@@ -34,12 +35,10 @@ public class IDPCommands extends StoreCommands2 {
         return "idp";
     }
 
-/*    @Override
-    public boolean update(Identifiable identifiable) throws IOException {
-        info("Updating IDP =" + identifiable.getIdentifierString());
-        getIDPStore().save(new IdentityProvider(identifiable.getIdentifier()));
-        return isOk(readline("save changes [y/n]?"));
-    }*/
+    @Override
+    protected int updateStorePermissions(Identifier newID, Identifier oldID, boolean copy) {
+        return 0; // no permissions for IDPs
+    }
 
     @Override
     public void bootstrap() throws Throwable {

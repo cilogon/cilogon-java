@@ -1,8 +1,10 @@
 package org.cilogon.oauth2.admin;
 
 import edu.uiuc.ncsa.security.core.Identifiable;
+import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.Store;
 import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
+import edu.uiuc.ncsa.security.util.cli.InputLine;
 import org.cilogon.oauth2.servlet.storage.twofactor.TwoFactorInfo;
 import org.cilogon.oauth2.servlet.storage.twofactor.TwoFactorSerializationKeys;
 import org.cilogon.oauth2.servlet.storage.twofactor.TwoFactorStore;
@@ -58,43 +60,13 @@ public class TwoFactorCommands extends StoreCommands2 {
 
     }
 
-/*
     @Override
-    public boolean update(Identifiable identifiable) throws IOException {
-        boolean saveIt = false;
-        TwoFactorInfo tfi = (TwoFactorInfo) identifiable;
-        String currentID = tfi.getIdentifierString();
-        info("Updating two-factor information for id=" + tfi.getIdentifierString());
-        String newID = getInput("Enter new id", currentID);
-
-        String defaultInfo = tfi.getInfo();
-        if (defaultInfo == null || defaultInfo.length() == 0) {
-            defaultInfo = "(null)";
-        } else {
-            int len = Math.min(25, defaultInfo.length());
-            defaultInfo = defaultInfo.substring(0, len) + (defaultInfo.length() == len ? "" : "...");
-        }
-
-        String newInfo = getInput("Enter new info", defaultInfo);
-        if (!newInfo.equals(defaultInfo)) {
-            tfi.setInfo(newInfo);
-            saveIt = true;
-        }
-        sayi("save changes [y/n]?");
-        saveIt = isOk(readline());
-        if (saveIt) {
-            if (!currentID.equals(newID)) {
-                Identifier id2 = BasicIdentifier.newID(newID);
-                info("New two-factor id of " + newID + " does not match current ID, removing it to create a new one with the given id");
-                getTFStore().remove(id2);
-                info("Two-factor entry removed.");
-                tfi.setIdentifier(id2);
-            }
-
-        }
-        return saveIt;
+    public void change_id(InputLine inputLine) throws Throwable {
+        say("Not supported for Two factor stores");
     }
-*/
 
-
+    @Override
+    protected int updateStorePermissions(Identifier newID, Identifier oldID, boolean copy) {
+        return 0;
+    }
 }

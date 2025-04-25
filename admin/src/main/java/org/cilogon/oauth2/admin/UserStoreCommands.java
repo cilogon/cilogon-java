@@ -7,9 +7,14 @@ import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
 import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
 import edu.uiuc.ncsa.security.util.cli.BasicSorter;
 import edu.uiuc.ncsa.security.util.cli.InputLine;
+import org.cilogon.oauth2.servlet.loader.CILogonOA2ServiceEnvironment;
+import org.cilogon.oauth2.servlet.storage.archiveUser.ArchivedUser;
 import org.cilogon.oauth2.servlet.storage.archiveUser.ArchivedUserStore;
+import org.cilogon.oauth2.servlet.storage.transaction.CILOA2ServiceTransaction;
+import org.cilogon.oauth2.servlet.storage.transaction.CILOA2TransactionKeys;
 import org.cilogon.oauth2.servlet.storage.user.*;
 import org.cilogon.oauth2.servlet.util.DNUtil;
+import org.oa4mp.delegation.server.ServiceTransaction;
 import org.oa4mp.server.admin.myproxy.oauth2.base.StoreCommands2;
 
 import java.io.IOException;
@@ -248,5 +253,52 @@ public class UserStoreCommands extends StoreCommands2 {
     public void bootstrap() throws Throwable {
         super.bootstrap();
         getHelpUtil().load("/help/user_help.xml");
+    }
+
+    @Override
+    public void change_id(InputLine inputLine) throws Throwable {
+        // Fix for https://github.com/ncsa/oa4mp/issues/243 make sure they understand the full ramifications!
+        if(!"y".equals(getInput("This will also update the user uid for all pending transactions. Proceed(y/n)?", "n"))){
+            return;
+        }
+        super.change_id(inputLine);
+    }
+
+    /**
+     * This will update any current transactions to the new user id.
+     * @param updatedUser
+     * @param newID
+     * @param updatePermissions
+     * @return
+     */
+    // Fallout from https://github.com/ncsa/oa4mp/issues/243
+    @Override
+    public ChangeIDRecord doChangeID(Identifiable updatedUser, Identifier newID, boolean updatePermissions) {
+        ChangeIDRecord changeIDRecord = super.doChangeID(updatedUser, newID, updatePermissions);
+        CILOA2TransactionKeys keys = new CILOA2TransactionKeys();
+        CILogonOA2ServiceEnvironment cilSE = (CILogonOA2ServiceEnvironment) getEnvironment();
+        List<ServiceTransaction> transactions = cilSE.getTransactionStore().search(keys.userUID(), changeIDRecord.oldID.toString(), false );
+        for(ServiceTransaction transaction : transactions) {
+            if(transaction instanceof CILOA2ServiceTransaction){
+                CILOA2ServiceTransaction stx = (CILOA2ServiceTransaction) transaction;
+                stx.setUserUID(newID);
+                getEnvironment().getTransactionStore().save(stx);
+            }
+        }
+        changeIDRecord.updateCount = changeIDRecord.updateCount + transactions.size();
+        // Now for archived users.
+        UserKeys userKeys = new UserKeys();
+        List<ArchivedUser> aUsers = cilSE.getArchivedUserStore().search(userKeys.userID(), changeIDRecord.oldID.toString(), false );
+        for(ArchivedUser archivedUser : aUsers) {
+            archivedUser.setUser((User) updatedUser);
+            cilSE.getArchivedUserStore().save(archivedUser);
+        }
+        changeIDRecord.updateCount = changeIDRecord.updateCount + aUsers.size();
+        return changeIDRecord;
+    }
+
+    @Override
+    protected int updateStorePermissions(Identifier newID, Identifier oldID, boolean copy) {
+        return 0;
     }
 }

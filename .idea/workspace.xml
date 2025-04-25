@@ -10,11 +10,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="04234930-e14d-41d5-bfcd-bac41d340cf1" name="Changes" comment="lagging file">
+    <list default="true" id="04234930-e14d-41d5-bfcd-bac41d340cf1" name="Changes" comment="Backed out of change.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/servlet/AbstractDBService.java" beforeDir="false" afterPath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/servlet/AbstractDBService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/src/test/java/test/cilogon/DBServiceUserTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/src/test/java/test/cilogon/DBServiceUserTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/src/test/java/test/cilogon/impl/UserStoreTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/src/test/java/test/cilogon/impl/UserStoreTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/ArchivedUserStoreCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/ArchivedUserStoreCommands.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/IDPCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/IDPCommands.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/TwoFactorCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/TwoFactorCommands.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/UserStoreCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/UserStoreCommands.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/qdl/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/qdl/buildNumber.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/server/buildNumber.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/test/buildNumber.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -114,7 +118,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "Application.CLI.executor": "Run",
+    "Application.CLI.executor": "Debug",
     "Application.QDL.executor": "Run",
     "DefaultHtmlFileTemplate": "HTML File",
     "JUnit.DBServiceUserTests.testCIL2201Basic.executor": "Debug",
@@ -153,7 +157,7 @@
       <recent name="$PROJECT_DIR$/skin/src/main/resources/css" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.Test suite">
+  <component name="RunManager" selected="Application.CLI">
     <configuration default="true" type="Applet" factoryName="Applet">
       <option name="WIDTH" value="400" />
       <option name="HEIGHT" value="300" />
@@ -524,7 +528,7 @@
       <workItem from="1741174516244" duration="8380000" />
       <workItem from="1742332239260" duration="2538000" />
       <workItem from="1742913759045" duration="54308000" />
-      <workItem from="1743939160444" duration="86616000" />
+      <workItem from="1743939160444" duration="99346000" />
     </task>
     <task id="LOCAL-00001" summary="Fallout from moving a bunch of static methods into classes.">
       <created>1675892224728</created>
@@ -848,14 +852,6 @@
       <option name="project" value="LOCAL" />
       <updated>1692998536215</updated>
     </task>
-    <task id="LOCAL-00087" summary="https://github.com/cilogon/cilogon-java/issues/52 Rewrote the CILogon DB service manual (PDF) and made changes to the comments in the code.&#10; More of that, including updating the website build scripts.">
-      <option name="closed" value="true" />
-      <created>1745159326762</created>
-      <option name="number" value="00087" />
-      <option name="presentableId" value="LOCAL-00087" />
-      <option name="project" value="LOCAL" />
-      <updated>1745159326762</updated>
-    </task>
     <task id="LOCAL-00088" summary="website update">
       <option name="closed" value="true" />
       <created>1745160772099</created>
@@ -872,7 +868,15 @@
       <option name="project" value="LOCAL" />
       <updated>1745161028025</updated>
     </task>
-    <option name="localTasksCounter" value="90" />
+    <task id="LOCAL-00090" summary="Backed out of change.">
+      <option name="closed" value="true" />
+      <created>1745163397156</created>
+      <option name="number" value="00090" />
+      <option name="presentableId" value="LOCAL-00090" />
+      <option name="project" value="LOCAL" />
+      <updated>1745163397156</updated>
+    </task>
+    <option name="localTasksCounter" value="91" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -925,7 +929,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Fix https://jira.ncsa.illinois.edu/browse/CIL-1919. Remove the getcert endpoint from CILogon." />
     <MESSAGE value="renamed a few classes in Sec-Lib, so propagated them here." />
     <MESSAGE value="removing calls to old client mangement API" />
     <MESSAGE value="https://github.com/cilogon/cilogon-java/issues/42 and https://github.com/cilogon/cilogon-java/issues/43" />
@@ -950,7 +953,8 @@
     <MESSAGE value="https://github.com/cilogon/cilogon-java/issues/52 Rewrote the CILogon DB service manual (PDF) and made changes to the comments in the code.&#10; More of that, including updating the website build scripts." />
     <MESSAGE value="website update" />
     <MESSAGE value="lagging file" />
-    <option name="LAST_COMMIT_MESSAGE" value="lagging file" />
+    <MESSAGE value="Backed out of change." />
+    <option name="LAST_COMMIT_MESSAGE" value="Backed out of change." />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -1040,6 +1044,21 @@
           <url>file://$PROJECT_DIR$/test/src/test/java/test/cilogon/impl/UserStoreTest.java</url>
           <line>36</line>
           <option name="timeStamp" value="95" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$MAVEN_REPOSITORY$/edu/uiuc/ncsa/security/storage/6.x-SNAPSHOT/storage-6.x-SNAPSHOT-sources.jar!/edu/uiuc/ncsa/security/storage/cli/StoreCommands.java</url>
+          <line>1884</line>
+          <option name="timeStamp" value="98" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$MAVEN_REPOSITORY$/edu/uiuc/ncsa/security/storage/6.x-SNAPSHOT/storage-6.x-SNAPSHOT-sources.jar!/edu/uiuc/ncsa/security/storage/cli/StoreCommands.java</url>
+          <line>1763</line>
+          <option name="timeStamp" value="99" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$MAVEN_REPOSITORY$/edu/uiuc/ncsa/security/storage/6.x-SNAPSHOT/storage-6.x-SNAPSHOT-sources.jar!/edu/uiuc/ncsa/security/storage/cli/StoreCommands.java</url>
+          <line>1739</line>
+          <option name="timeStamp" value="100" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

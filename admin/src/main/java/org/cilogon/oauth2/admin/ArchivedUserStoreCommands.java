@@ -130,33 +130,24 @@ public class ArchivedUserStoreCommands extends StoreCommands2 {
             showLSHelp();
             return;
         }
-        if (!inputLine.hasArgs()) {
-            // lists everything.
-            listAll(false, "");
-            return;
-        }
-        if (inputLine.getArg(inputLine.size() - 1).startsWith("-")) {
-            // no id. This is just switches and implied -a
-            if (inputLine.getLastArg().contains(USER_FLAG)) {
+        if (inputLine.hasArg(USER_FLAG)) {
+            // no id. This means show everyone.
+            if (inputLine.getLastArg().equals(USER_FLAG)) {
                 listByUser();
                 return;
-            }
-
-        } else {
-            // then they want to the specific users for this archive entry
-            if (inputLine.getArg(1).contains(USER_FLAG)) {
-                User u = findUser(inputLine);
-                if (u == null) {
-                    sayi("user not found for the given identifier.");
+            }else {
+                // then they want to the specific users for this archive entry
+                if (inputLine.getArg(1).contains(USER_FLAG)) {
+                    User u = findUser(inputLine);
+                    if (u == null) {
+                        sayi("user not found for the given identifier.");
+                        return;
+                    }
+                    printUsers(-1, u);
                     return;
                 }
-                printUsers(-1, u);
-                return;
             }
-
         }
-
-     //   extractUser(inputLine);
         super.ls(inputLine);
     }
 
@@ -186,30 +177,18 @@ public class ArchivedUserStoreCommands extends StoreCommands2 {
 
     @Override
     protected void showLSHelp() {
-        say("List users and archived users.");
+        super.showLSHelp();
+        say("Listing users and archived users.");
+        say("--------------------------------.");
         say("Syntax:\n");
-        say("ls [-u] index\n");
-        say("Entering \"ls\" alone will display every archived user in a single (maybe very) long list.");
-        say("Entering \"ls index\" or equivalently \"ls /unique-id\" (NOTE the '/' that escapes an id) will display that specific entry.");
+        say("ls [-u [user]] index\n");
+        say("List the entries of a user.");
         say("If the id refers to an archived entry, that will be shown.");
         say("Entering \"ls -u\" will list every archived user, but organized by user id.");
+        say("Warning: That means teh entire store is show, which may be simply enormous. ");
         printIndexHelp(true);
     }
 
-/*    @Override
-    protected void longFormat(Identifiable identifiable) {
-        if (identifiable == null) return;
-
-        ArchivedUser archivedUser = (ArchivedUser) identifiable;
-        ArchivedUserStore archivedUserStore = (ArchivedUserStore) getStore();
-        User user = archivedUser.getUser();
-        sayi("archive date=" + archivedUser.getArchivedDate());
-        sayi("archived id=" + archivedUser.getIdentifier());
-        UserStoreCommands usc = new UserStoreCommands(logger, getUserStore());
-        usc.longFormat(user);
-        boolean isActive = getUserStore().containsKey(user.getIdentifier());
-        sayi("user is " + (isActive ? " " : "not ") + "currently active.");
-    }*/
 
     protected void showRestoreHelp() {
         sayi("This restores an archived user's record. Syntax:\n");
@@ -280,11 +259,13 @@ public class ArchivedUserStoreCommands extends StoreCommands2 {
 
     }
 
-/*    @Override
-    protected void create() {
-        info("Attempt to create a new archived user. This was rejected because it is not supported in the CLI.");
-        sayi("Sorry but you cannot create an archived user this way. Switch to using \"users\"");
-        sayi("and then archive a specific user. Archived users only exist in reference to a given user");
-    }*/
+    @Override
+    public void change_id(InputLine inputLine) throws Throwable {
+        say("Altering the ID for an archived user is not supported");
+    }
 
+    @Override
+    protected int updateStorePermissions(Identifier newID, Identifier oldID, boolean copy) {
+        return 0;
+    }
 }
