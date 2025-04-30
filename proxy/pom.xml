@@ -8,7 +8,7 @@
     <parent>
         <artifactId>cilogon</artifactId>
         <groupId>org.cilogon</groupId>
-        <version>6.x-SNAPSHOT</version>
+        <version>6.1-rc0</version>
     </parent>
 
     <artifactId>proxy</artifactId>
@@ -30,12 +30,12 @@
         <dependency>
             <groupId>org.oa4mp</groupId>
             <artifactId>proxy</artifactId>
-            <version>6.x-SNAPSHOT</version>
+            <version>6.1-rc0</version>
         </dependency>
         <dependency>
             <groupId>org.oa4mp</groupId>
             <artifactId>common</artifactId>
-            <version>6.x-SNAPSHOT</version>
+            <version>6.1-rc0</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
@@ -43,14 +43,14 @@
         <dependency>
             <groupId>org.oa4mp</groupId>
             <artifactId>server-test</artifactId>
-            <version>6.x-SNAPSHOT</version>
+            <version>6.1-rc0</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.oa4mp</groupId>
             <artifactId>oauth2</artifactId>
-            <version>6.x-SNAPSHOT</version>
+            <version>6.1-rc0</version>
         </dependency>
 <!--        <dependency>
             <groupId>mysql</groupId>
@@ -91,7 +91,7 @@
         <dependency>
             <groupId>org.cilogon</groupId>
             <artifactId>loader</artifactId>
-            <version>6.x-SNAPSHOT</version>
+            <version>6.1-rc0</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

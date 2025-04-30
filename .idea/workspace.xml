@@ -10,11 +10,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="04234930-e14d-41d5-bfcd-bac41d340cf1" name="Changes" comment="Final fallout from CIL-2201. Tests for memory and file stores needed to be updated.">
+    <list default="true" id="04234930-e14d-41d5-bfcd-bac41d340cf1" name="Changes" comment="Pre-release, checkin with website updates.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qdl/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/qdl/buildNumber.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/server/buildNumber.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/test/buildNumber.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -524,7 +521,7 @@
       <workItem from="1741174516244" duration="8380000" />
       <workItem from="1742332239260" duration="2538000" />
       <workItem from="1742913759045" duration="54308000" />
-      <workItem from="1743939160444" duration="117835000" />
+      <workItem from="1743939160444" duration="118460000" />
     </task>
     <task id="LOCAL-00001" summary="Fallout from moving a bunch of static methods into classes.">
       <created>1675892224728</created>
@@ -848,14 +845,6 @@
       <option name="project" value="LOCAL" />
       <updated>1692998536215</updated>
     </task>
-    <task id="LOCAL-00090" summary="Backed out of change.">
-      <option name="closed" value="true" />
-      <created>1745163397156</created>
-      <option name="number" value="00090" />
-      <option name="presentableId" value="LOCAL-00090" />
-      <option name="project" value="LOCAL" />
-      <updated>1745163397156</updated>
-    </task>
     <task id="LOCAL-00091" summary="Mostly formatting updates in the CLI to support result set printing.">
       <option name="closed" value="true" />
       <created>1745620404110</created>
@@ -872,7 +861,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746017126075</updated>
     </task>
-    <option name="localTasksCounter" value="93" />
+    <task id="LOCAL-00093" summary="Pre-release, checkin with website updates.">
+      <option name="closed" value="true" />
+      <created>1746019867815</created>
+      <option name="number" value="00093" />
+      <option name="presentableId" value="LOCAL-00093" />
+      <option name="project" value="LOCAL" />
+      <updated>1746019867815</updated>
+    </task>
+    <option name="localTasksCounter" value="94" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -925,7 +922,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="https://github.com/cilogon/cilogon-java/issues/42 and https://github.com/cilogon/cilogon-java/issues/43" />
     <MESSAGE value="https://github.com/cilogon/cilogon-java/issues/44 into the release" />
     <MESSAGE value="merge from master." />
     <MESSAGE value="CIL-2006 checkin" />
@@ -950,7 +946,8 @@
     <MESSAGE value="Backed out of change." />
     <MESSAGE value="Mostly formatting updates in the CLI to support result set printing." />
     <MESSAGE value="Final fallout from CIL-2201. Tests for memory and file stores needed to be updated." />
-    <option name="LAST_COMMIT_MESSAGE" value="Final fallout from CIL-2201. Tests for memory and file stores needed to be updated." />
+    <MESSAGE value="Pre-release, checkin with website updates." />
+    <option name="LAST_COMMIT_MESSAGE" value="Pre-release, checkin with website updates." />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
   </component>
   <component name="XDebuggerManager">
