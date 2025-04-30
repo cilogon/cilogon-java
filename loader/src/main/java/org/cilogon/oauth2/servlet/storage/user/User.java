@@ -5,12 +5,13 @@ import edu.uiuc.ncsa.security.core.exceptions.GeneralException;
 import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
 import edu.uiuc.ncsa.security.core.util.BeanUtils;
 import edu.uiuc.ncsa.security.core.util.DateUtils;
+import edu.uiuc.ncsa.security.core.util.StringUtils;
 import edu.uiuc.ncsa.security.servlet.ServletDebugUtil;
 import edu.uiuc.ncsa.security.storage.monitored.Monitored;
 import net.sf.json.JSONObject;
+import org.cilogon.oauth2.servlet.storage.sequence.SerialStrings;
 import org.cilogon.oauth2.servlet.storage.transaction.AbstractCILServiceTransaction;
 import org.cilogon.oauth2.servlet.util.DNUtil;
-import org.cilogon.oauth2.servlet.storage.sequence.SerialStrings;
 
 import static edu.uiuc.ncsa.security.core.util.BeanUtils.checkNoNulls;
 
@@ -24,7 +25,7 @@ public class User extends Monitored {
     public UserMultiID getUserMultiKey() {
         if (userMultiKey == null) {
             // Need an empty one. Easiest to construct one with a forced single null entry since the other are set null too.
-            userMultiKey = new UserMultiID((EduPersonTargetedID)null);
+            userMultiKey = new UserMultiID((EduPersonTargetedID) null);
         }
         return userMultiKey;
     }
@@ -69,7 +70,7 @@ public class User extends Monitored {
         u2.idP = idP;
         u2.iDPName = iDPName;
         u2.lastName = lastName;
-        UserMultiID userMultiKey2 = new UserMultiID(getRemoteUser(), getePPN(), getePTID(), getOpenID(), getOpenIDConnect(),getPairwiseID(),getSubjectID());
+        UserMultiID userMultiKey2 = new UserMultiID(getRemoteUser(), getePPN(), getePTID(), getOpenID(), getOpenIDConnect(), getPairwiseID(), getSubjectID());
         u2.setUserMultiKey(userMultiKey2);
         u2.serialIdentifier = serialIdentifier;
         u2.affiliation = affiliation;
@@ -335,15 +336,24 @@ public class User extends Monitored {
     }
 
     public String toString() {
-        String out = "User[uid=\"" + getIdentifier() + "\",key=" + getUserMultiKey() + ",IdP=" + getIdP() + "\", ";
-        out = out + "serial string=\"" + getSerialString() + "\", ";
-        out = out + "first name=\"" + getFirstName() + "\", ";
-        out = out + "last name=\"" + getLastName() + "\", ";
-        out = out + "email=\"" + getEmail() + "\", ";
-        out = out + "idp display=\"" + getIDPName() + "\",";
-        out = out + "US IDP?=\"" + isUseUSinDN() + "\",";
-        out = out + "ou=" + getOrganizationalUnit() + ",affiliation=" + getAffiliation() + ",displayName=" + getDisplayName() + "\",";
-        out = out + "attr_json=" + getAttr_json();
+        return toString(0);
+    }
+
+    public String toString(int indent) {
+        String pad = "";
+        if (0 < indent) {
+            pad = "\n" + StringUtils.getBlanks(indent);
+        }
+        String out = "User[";
+        out = out + pad + "uid=\"" + getIdentifier() + "\",key=" + getUserMultiKey() + ",IdP=" + getIdP() + "\", ";
+        out = out + pad + "serial string=\"" + getSerialString() + "\", ";
+        out = out + pad + "first name=\"" + getFirstName() + "\", ";
+        out = out + pad + "last name=\"" + getLastName() + "\", ";
+        out = out + pad + "email=\"" + getEmail() + "\", ";
+        out = out + pad + "idp display=\"" + getIDPName() + "\",";
+        out = out + pad + "US IDP?=\"" + isUseUSinDN() + "\",";
+        out = out + pad + "ou=" + getOrganizationalUnit() + ",affiliation=" + getAffiliation() + ",displayName=" + getDisplayName() + "\",";
+        out = out + pad + "attr_json=" + getAttr_json();
         out = out + "]";
         return out;
     }
@@ -470,12 +480,13 @@ public class User extends Monitored {
     }
 
     public void setPairwiseId(PairwiseID pairwiseID) {
-         userMultiKey.setPairwiseID(pairwiseID);
-     }
+        userMultiKey.setPairwiseID(pairwiseID);
+    }
 
     public void setSubjectId(SubjectID subjectID) {
-         userMultiKey.setSubjectID(subjectID);
-     }
+        userMultiKey.setSubjectID(subjectID);
+    }
+
     public OpenID getOpenID() {
         if (hasOpenID()) {
             return getUserMultiKey().getOpenID();

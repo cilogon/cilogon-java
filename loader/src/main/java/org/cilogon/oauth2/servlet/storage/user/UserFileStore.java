@@ -50,11 +50,8 @@ public class UserFileStore extends MonitoredFileStore<User> implements UserStore
 
     @Override
     public void save(User t) {
-        if (containsKey(t.getIdentifierString())) {
-            update(t);
-        } else {
-            realSave(false, t);
-        }
+        t.setLastModifiedTS(new Date());
+        super.save(t);
     }
 
     @Override

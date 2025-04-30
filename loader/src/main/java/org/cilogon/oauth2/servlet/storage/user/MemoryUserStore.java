@@ -132,11 +132,12 @@ public class MemoryUserStore extends MonitoredMemoryStore<User> implements UserS
     @Override
     public void save(User value) {
         value.setLastModifiedTS(new Date());
-        if (containsKey(value.getIdentifier())) {
+        super.save(value); // update and save are different in SQL stores, not in a memory store.
+/*        if (containsKey(value.getIdentifier())) {
             update(value);
         } else {
             realSave(value);
-        }
+        }*/
     }
 
     static final String INFIX = "*"; // used to make unique key for remote user / idp lookup
@@ -161,8 +162,8 @@ public class MemoryUserStore extends MonitoredMemoryStore<User> implements UserS
     }
 
     @Override
-    public void updateCheckSerialString(User user, boolean noNewSerialID) {
-        if (!noNewSerialID) {
+    public void updateCheckSerialString(User user, boolean keepSerialID) {
+        if (!keepSerialID) {
             Identifier serialString = getUserProvider().newIdentifier();
             if (containsKey(serialString)) {
                 throw new InvalidUserIdException("Error: user id \"" + serialString + "\" already in use.");
@@ -170,23 +171,10 @@ public class MemoryUserStore extends MonitoredMemoryStore<User> implements UserS
             user.setSerialIdentifier(serialString); // or subsequent calls have wrong serial string!
 
         }
+        user.setLastModifiedTS(new Date());
         super.update(user);
 
     }
-
-/*    @Override
-    public void update(User user, boolean noNewSerialID) {
-        if (!noNewSerialID) {
-            Identifier serialString = getUserProvider().newIdentifier();
-            if (containsKey(serialString)) {
-                throw new InvalidUserIdException("Error: user id \"" + serialString + "\" already in use.");
-            }
-            user.setSerialIdentifier(serialString); // or subsequent calls have wrong serial string!
-
-        }
-        super.update(user);
-
-    }*/
 
     @Override
     public void update(User value) {

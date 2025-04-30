@@ -10,15 +10,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="04234930-e14d-41d5-bfcd-bac41d340cf1" name="Changes" comment="Backed out of change.">
+    <list default="true" id="04234930-e14d-41d5-bfcd-bac41d340cf1" name="Changes" comment="Mostly formatting updates in the CLI to support result set printing.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/ArchivedUserStoreCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/ArchivedUserStoreCommands.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/IDPCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/IDPCommands.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/TwoFactorCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/TwoFactorCommands.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/UserStoreCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/UserStoreCommands.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/storage/user/CILSQLUserStore.java" beforeDir="false" afterPath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/storage/user/CILSQLUserStore.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/storage/user/MemoryUserStore.java" beforeDir="false" afterPath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/storage/user/MemoryUserStore.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/storage/user/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/storage/user/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/storage/user/UserFileStore.java" beforeDir="false" afterPath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/storage/user/UserFileStore.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/qdl/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/qdl/buildNumber.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/server/buildNumber.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/test/buildNumber.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/src/test/java/test/cilogon/impl/UserStoreTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/src/test/java/test/cilogon/impl/UserStoreTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -123,7 +128,7 @@
     "DefaultHtmlFileTemplate": "HTML File",
     "JUnit.DBServiceUserTests.testCIL2201Basic.executor": "Debug",
     "JUnit.DBServiceUserTests.testUpdateUser.executor": "Run",
-    "JUnit.Test suite.executor": "Debug",
+    "JUnit.Test suite.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
@@ -157,7 +162,7 @@
       <recent name="$PROJECT_DIR$/skin/src/main/resources/css" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.CLI">
+  <component name="RunManager" selected="JUnit.Test suite">
     <configuration default="true" type="Applet" factoryName="Applet">
       <option name="WIDTH" value="400" />
       <option name="HEIGHT" value="300" />
@@ -528,7 +533,7 @@
       <workItem from="1741174516244" duration="8380000" />
       <workItem from="1742332239260" duration="2538000" />
       <workItem from="1742913759045" duration="54308000" />
-      <workItem from="1743939160444" duration="99346000" />
+      <workItem from="1743939160444" duration="116821000" />
     </task>
     <task id="LOCAL-00001" summary="Fallout from moving a bunch of static methods into classes.">
       <created>1675892224728</created>
@@ -852,14 +857,6 @@
       <option name="project" value="LOCAL" />
       <updated>1692998536215</updated>
     </task>
-    <task id="LOCAL-00088" summary="website update">
-      <option name="closed" value="true" />
-      <created>1745160772099</created>
-      <option name="number" value="00088" />
-      <option name="presentableId" value="LOCAL-00088" />
-      <option name="project" value="LOCAL" />
-      <updated>1745160772099</updated>
-    </task>
     <task id="LOCAL-00089" summary="lagging file">
       <option name="closed" value="true" />
       <created>1745161028025</created>
@@ -876,7 +873,15 @@
       <option name="project" value="LOCAL" />
       <updated>1745163397156</updated>
     </task>
-    <option name="localTasksCounter" value="91" />
+    <task id="LOCAL-00091" summary="Mostly formatting updates in the CLI to support result set printing.">
+      <option name="closed" value="true" />
+      <created>1745620404110</created>
+      <option name="number" value="00091" />
+      <option name="presentableId" value="LOCAL-00091" />
+      <option name="project" value="LOCAL" />
+      <updated>1745620404111</updated>
+    </task>
+    <option name="localTasksCounter" value="92" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -929,7 +934,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="renamed a few classes in Sec-Lib, so propagated them here." />
     <MESSAGE value="removing calls to old client mangement API" />
     <MESSAGE value="https://github.com/cilogon/cilogon-java/issues/42 and https://github.com/cilogon/cilogon-java/issues/43" />
     <MESSAGE value="https://github.com/cilogon/cilogon-java/issues/44 into the release" />
@@ -954,7 +958,8 @@
     <MESSAGE value="website update" />
     <MESSAGE value="lagging file" />
     <MESSAGE value="Backed out of change." />
-    <option name="LAST_COMMIT_MESSAGE" value="Backed out of change." />
+    <MESSAGE value="Mostly formatting updates in the CLI to support result set printing." />
+    <option name="LAST_COMMIT_MESSAGE" value="Mostly formatting updates in the CLI to support result set printing." />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -962,7 +967,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/storage/user/CILSQLUserStore.java</url>
-          <line>284</line>
+          <line>285</line>
           <option name="timeStamp" value="6" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -1042,23 +1047,28 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/test/src/test/java/test/cilogon/impl/UserStoreTest.java</url>
-          <line>36</line>
+          <line>37</line>
           <option name="timeStamp" value="95" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>jar://$MAVEN_REPOSITORY$/edu/uiuc/ncsa/security/storage/6.x-SNAPSHOT/storage-6.x-SNAPSHOT-sources.jar!/edu/uiuc/ncsa/security/storage/cli/StoreCommands.java</url>
-          <line>1884</line>
+          <line>1971</line>
           <option name="timeStamp" value="98" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>jar://$MAVEN_REPOSITORY$/edu/uiuc/ncsa/security/storage/6.x-SNAPSHOT/storage-6.x-SNAPSHOT-sources.jar!/edu/uiuc/ncsa/security/storage/cli/StoreCommands.java</url>
-          <line>1763</line>
+          <line>1840</line>
           <option name="timeStamp" value="99" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>jar://$MAVEN_REPOSITORY$/edu/uiuc/ncsa/security/storage/6.x-SNAPSHOT/storage-6.x-SNAPSHOT-sources.jar!/edu/uiuc/ncsa/security/storage/cli/StoreCommands.java</url>
-          <line>1739</line>
+          <line>1816</line>
           <option name="timeStamp" value="100" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/test/src/test/java/test/cilogon/impl/UserStoreTest.java</url>
+          <line>277</line>
+          <option name="timeStamp" value="106" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -1,5 +1,6 @@
 package org.cilogon.oauth2.servlet.storage.user;
 
+import edu.uiuc.ncsa.security.core.Identifiable;
 import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.cache.SimpleEntryImpl;
 import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
@@ -344,7 +345,11 @@ public class CILSQLUserStore extends MonitoredSQLStore<User> implements UserStor
      * if that is warranted.
      * <b><it>This updates the serial string!!</it></b> If you do not want the serial string updated, you should use
      * {@link #updateCheckSerialString(User, boolean)} (User, boolean)} with the second argument of <code>true</code>.
-     *
+     * Also, {@link #save(Identifiable)} will update the user if it exists but is a synonym for<br/><br/>
+     * updateCheckSerialString(user, true);<br/><br/>
+     * since the store itself has no logic for checking if the user should change. That is the programmer's
+     * responsibility. The {@link org.cilogon.oauth2.servlet.servlet.AbstractDBService} contains the logic for that.
+     * The aim of these calls are low level operations that do exactly what is required without adding logic.
      * @param user
      * @
      */
@@ -361,7 +366,6 @@ public class CILSQLUserStore extends MonitoredSQLStore<User> implements UserStor
             Identifier serialString = getUserProvider().newIdentifier();
             user.setSerialIdentifier(serialString); // or subsequent calls have wrong serial string!
             ServletDebugUtil.trace(this, "setting serial string for user id = " + user.getIdentifierString() + ", serial string=" + user.getSerialString());
-
         }
         user.setLastModifiedTS(new Date());
         super.update(user);

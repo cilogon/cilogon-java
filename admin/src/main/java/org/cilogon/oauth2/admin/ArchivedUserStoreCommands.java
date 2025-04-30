@@ -11,7 +11,7 @@ import org.cilogon.oauth2.servlet.storage.archiveUser.ArchivedUserStore;
 import org.cilogon.oauth2.servlet.storage.user.User;
 import org.cilogon.oauth2.servlet.storage.user.UserNotFoundException;
 import org.cilogon.oauth2.servlet.storage.user.UserStore;
-import org.oa4mp.server.admin.myproxy.oauth2.base.StoreCommands2;
+import org.oa4mp.server.admin.myproxy.oauth2.base.OA4MPStoreCommands;
 
 import java.util.HashSet;
 import java.util.List;
@@ -21,7 +21,7 @@ import java.util.Set;
  * <p>Created by Jeff Gaynor<br>
  * on 5/23/13 at  11:45 AM
  */
-public class ArchivedUserStoreCommands extends StoreCommands2 {
+public class ArchivedUserStoreCommands extends OA4MPStoreCommands {
 
     public static final String USER_FLAG = "u";
 

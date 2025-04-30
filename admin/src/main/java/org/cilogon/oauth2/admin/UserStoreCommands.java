@@ -15,7 +15,7 @@ import org.cilogon.oauth2.servlet.storage.transaction.CILOA2TransactionKeys;
 import org.cilogon.oauth2.servlet.storage.user.*;
 import org.cilogon.oauth2.servlet.util.DNUtil;
 import org.oa4mp.delegation.server.ServiceTransaction;
-import org.oa4mp.server.admin.myproxy.oauth2.base.StoreCommands2;
+import org.oa4mp.server.admin.myproxy.oauth2.base.OA4MPStoreCommands;
 
 import java.io.IOException;
 import java.util.List;
@@ -24,7 +24,7 @@ import java.util.List;
  * <p>Created by Jeff Gaynor<br>
  * on 5/23/13 at  9:47 AM
  */
-public class UserStoreCommands extends StoreCommands2 {
+public class UserStoreCommands extends OA4MPStoreCommands {
 
 
     public UserStoreCommands(MyLoggingFacade logger, String defaultIndent, Store userStore, ArchivedUserStore archivedUserStore) throws Throwable {
@@ -77,8 +77,8 @@ public class UserStoreCommands extends StoreCommands2 {
         return "user";
     }
 
-    protected void showArchiveHelp() {
-        say("Archive a given user.");
+    protected void showArchiveUserHelp() {
+        say("(deprecated) Archive a given user, using the archive store.");
         say("Syntax:\n");
         say("archive index\n");
         say("where index is the one given by the list (ls) command or you may supply the user's identifier, escaped with a /");
@@ -96,9 +96,9 @@ public class UserStoreCommands extends StoreCommands2 {
         say("This archives the user with the given unique identifier.");
     }
 
-    public void archive(InputLine inputLine) throws Throwable {
+    public void archiveUser(InputLine inputLine) throws Throwable {
         if (showHelp(inputLine)) {
-            showArchiveHelp();
+            showArchiveUserHelp();
             return;
         }
         User user = (User) findSingleton(inputLine, "user not found");

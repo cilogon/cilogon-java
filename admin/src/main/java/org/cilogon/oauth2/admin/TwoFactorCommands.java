@@ -8,7 +8,7 @@ import edu.uiuc.ncsa.security.util.cli.InputLine;
 import org.cilogon.oauth2.servlet.storage.twofactor.TwoFactorInfo;
 import org.cilogon.oauth2.servlet.storage.twofactor.TwoFactorSerializationKeys;
 import org.cilogon.oauth2.servlet.storage.twofactor.TwoFactorStore;
-import org.oa4mp.server.admin.myproxy.oauth2.base.StoreCommands2;
+import org.oa4mp.server.admin.myproxy.oauth2.base.OA4MPStoreCommands;
 
 import java.io.IOException;
 
@@ -16,7 +16,7 @@ import java.io.IOException;
  * <p>Created by Jeff Gaynor<br>
  * on 11/6/13 at  1:40 PM
  */
-public class TwoFactorCommands extends StoreCommands2 {
+public class TwoFactorCommands extends OA4MPStoreCommands {
 
 
     public TwoFactorCommands(MyLoggingFacade logger, String defaultIndent, Store store) throws Throwable{

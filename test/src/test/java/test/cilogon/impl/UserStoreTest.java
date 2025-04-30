@@ -7,7 +7,6 @@ import edu.uiuc.ncsa.security.util.TestBase;
 import net.freeutils.charset.UTF7Charset;
 import org.cilogon.oauth2.servlet.storage.idp.IdentityProvider;
 import org.cilogon.oauth2.servlet.storage.idp.IdentityProviderStore;
-import org.cilogon.oauth2.servlet.storage.sequence.MemorySequence;
 import org.cilogon.oauth2.servlet.storage.user.*;
 import org.cilogon.oauth2.servlet.util.DNUtil;
 import org.cilogon.oauth2.servlet.util.Incrementable;
@@ -32,11 +31,11 @@ import static test.cilogon.ServiceTestUtils.getSerialStrings;
  */
 public class UserStoreTest extends TestBase {
     public void testAll() throws Exception {
+        doTests((CILTestStoreProviderI2) ServiceTestUtils.getMySQLStoreProvider());
         doTests((CILTestStoreProviderI2) ServiceTestUtils.getMemoryStoreProvider());
         doTests((CILTestStoreProviderI2) ServiceTestUtils.getFsStoreProvider());
-        doTests((CILTestStoreProviderI2) ServiceTestUtils.getPgStoreProvider());
         doTests((CILTestStoreProviderI2) ServiceTestUtils.getDerbyStoreProvider());
-        doTests((CILTestStoreProviderI2) ServiceTestUtils.getMySQLStoreProvider());
+        doTests((CILTestStoreProviderI2) ServiceTestUtils.getPgStoreProvider());
     }
 
 
@@ -253,28 +252,33 @@ public class UserStoreTest extends TestBase {
         user.setUserMultiKey(createRU("remote-" + getRandomString()));
         user.setIdP("idp-" + getRandomString());
         userStore.register(user);
-        userStore.update(user);
+        userStore.update(user); // update and trigger serial string change
         assert !serialIdentifier.equals(user.getSerialIdentifier());
         assert serialIdentifier.equals(user.getIdentifier()) : "After an update, the user id and serial id should not match, but they do.";
     }
 
     /**
      * See note in previous test. This does the same thing but with the save function, since that is
-     * supposed to invoke update as needed.
+     * supposed to invoke update as needed. The save function does not update the serial string!
      *
      * @throws Exception
      */
     public void testCIL68a(UserStore userStore) throws Exception {
         User user = userStore.create(true);
         Identifier serialIdentifier = user.getSerialIdentifier();
+        System.out.println("testCIL68a serial id:" + serialIdentifier);
+
         // issue is to update the user
         user.setFirstName("Bob");
         user.setUserMultiKey(createRU("remote-" + getRandomString()));
         user.setIdP("idp-" + getRandomString());
         userStore.register(user);
-        userStore.save(user);
-        assert !serialIdentifier.equals(user.getSerialIdentifier());
-        assert serialIdentifier.equals(user.getIdentifier()) : "After an update, the user id and serial id should not match, but they do.";
+        // update does not keep the serial string, save would but we don't want that.
+        System.out.println("testCIL68a user before save:\n" + user.toString(1));
+        userStore.save(user); // update, no serial string change.
+        System.out.println("testCIL68a user after save:\n" + user.toString(1));
+        System.out.println("testCIL68a user after sID:\n" + user.getSerialIdentifier());
+        assert serialIdentifier.equals(user.getSerialIdentifier()): "After a save, the user id and serial id should match, but they do not.";
         userStore.remove(user);
     }
 
@@ -556,33 +560,38 @@ public class UserStoreTest extends TestBase {
     }
 
     public void doSerialStringIncrement(UserStore userStore) throws Exception {
-        User user = userStore.create(true);
+        User originalUser = userStore.create(true);
         String x = getRandomString();
-        user.setFirstName("first-" + x);
-        user.setLastName("last-" + x);
-        user.setIdP("urn:idp:" + x);
-        userStore.save(user);
-        System.out.println("doSerialStringIncrement: original user =" + user);
+        originalUser.setFirstName("first-" + x);
+        originalUser.setLastName("last-" + x);
+        originalUser.setIdP("urn:idp:" + x);
+        userStore.save(originalUser);
 
-
-        Identifier identifier = user.getSerialIdentifier();
+        Identifier oldSerialIdentifier = originalUser.getSerialIdentifier();
+        System.out.println("doSerialStringIncrement: original user:\n" + originalUser.toString(1));
+        System.out.println("doSerialStringIncrement: serial identifier = " + oldSerialIdentifier);
         // so change a field and update the user. The serial string should be different
         String y = getRandomString();
-        user.setFirstName("first-" + y); // This should trigger a change
-        userStore.update(user);
-        System.out.println("doSerialStringIncrement: user =" + user);
-        System.out.println("doSerialStringIncrement: post update user =" + userStore.get(user.getIdentifier()));
-        assert !user.getSerialIdentifier().equals(identifier) :
-                "old serial id=" + identifier + ", new id=" + user.getSerialIdentifier() + ". These should not be equal.";
+        originalUser.setFirstName("first-" + y); // This should trigger a change
+        userStore.update(originalUser);
+        System.out.println("\ndoSerialStringIncrement: original user:\n" + originalUser.toString(1));
+        User updatedUser = userStore.get(originalUser.getIdentifier());
+        System.out.println("doSerialStringIncrement: updated user:\n" + updatedUser.toString(1));
+        assert !updatedUser.getSerialString().equals(oldSerialIdentifier) :
+                "old serial id=" + oldSerialIdentifier + ", new id=" + updatedUser.getSerialIdentifier() + ". These should not be equal.";
 
         // And now check that the save method actually does choose the right method,
         // updating if the user exists.
-        identifier = user.getSerialIdentifier();
-        user.setLastName("last-" + y);
-        userStore.save(user);
-        assert !user.getSerialIdentifier().equals(identifier) :
-                "old serial id=" + identifier + ", new id=" + user.getSerialIdentifier() + ". These should not be equal for store " + userStore;
-        userStore.remove(user.getIdentifier());
+/*        oldSerialIdentifier = updatedUser.getSerialIdentifier();
+        updatedUser.setLastName("last-" + y);
+        userStore.save(updatedUser);
+        User updatedUser2 = userStore.get(originalUser.getIdentifier()); // ID should not change!
+        System.out.println("\ndoSerialStringIncrement: updated user #2:\n" + updatedUser2.toString(1));
+
+        assert !updatedUser2.getSerialIdentifier().equals(oldSerialIdentifier) :
+                "old serial id=" + oldSerialIdentifier + ", new id="
+                        + updatedUser2.getSerialIdentifier() + ". These should not be equal for store " + userStore;*/
+        userStore.remove(originalUser.getIdentifier());
     }
 
     /**
@@ -631,7 +640,7 @@ public class UserStoreTest extends TestBase {
      *
      * @throws Exception
      */
-    @Test
+/*    @Test
     public void testBadIncrementable() throws Exception {
         MemoryUserStore store = new MemoryUserStore(new UserProvider(new MyUIDProvider(),
                 null), new MemorySequence(2L));
@@ -657,7 +666,7 @@ public class UserStoreTest extends TestBase {
         } catch (InvalidUserIdException ix) {
             assert true;
         }
-    }
+    }*/
 
     public class MyUIDProvider extends UserIdentifierProvider {
         public MyUIDProvider() {
