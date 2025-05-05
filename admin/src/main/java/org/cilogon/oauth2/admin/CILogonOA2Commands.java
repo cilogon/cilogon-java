@@ -159,47 +159,28 @@ public class CILogonOA2Commands extends OA2Commands {
 
     @Override
     public boolean use(InputLine inputLine) throws Throwable {
+        CommonCommands commands = null;
 
         String indent = "  ";
         if (inputLine.hasArg(USERS)) {
-            UserStoreCommands usc = new UserStoreCommands(getMyLogger(), indent, getCILogonSE().getUserStore(), getCILogonSE().getArchivedUserStore());
-            CLIDriver cli = new CLIDriver(usc);
-            cli.start();
-            return true;
+            commands = getUserStoreCommands(indent);
         }
-
         if (inputLine.hasArg(IDPS)) {
-            IDPCommands usc = new IDPCommands(getMyLogger(), indent, getCILogonSE().getIDPStore());
-            CLIDriver cli = new CLIDriver(usc);
-            cli.start();
-            return true;
+            commands = getIdpCommands(indent);
         }
 
         if (inputLine.hasArg(COUNTER)) {
-            CounterCommands cc = new CounterCommands(getMyLogger(), indent, getCILogonSE().getIncrementable(), getCILogonSE().getUserStore());
-            CLIDriver cli = new CLIDriver(cc);
-            cli.start();
-            return true;
+            commands = getCounterCommands(indent);
         }
-
         if (inputLine.hasArg(ARCHIVED_USER)) {
-            ArchivedUserStoreCommands usc = new ArchivedUserStoreCommands(getMyLogger(), indent, getCILogonSE().getArchivedUserStore(), getCILogonSE().getUserStore());
-            CLIDriver cli = new CLIDriver(usc);
-            cli.start();
-            return true;
+            commands = getArchivedUserStoreCommands(indent);
         }
         if (inputLine.hasArg(TWO_FACTOR)) {
-            TwoFactorCommands tfc = new TwoFactorCommands(getMyLogger(), indent, getCILogonSE().getTwoFactorStore());
-            CLIDriver cli = new CLIDriver(tfc);
-            cli.start();
-            return true;
+            commands = getTwoFactorCommands(indent);
         }
-        if (inputLine.hasArg(COPY)) {
-            // need a different copy tool than the standard, so load that here.
-            CopyCommands cc = new CopyCommands(getMyLogger(), new CILogonOA2CopyTool(), new CILogonOA2CopyToolVerifier(), getConfigFile());
-            CLIDriver cli = new CLIDriver(cc);
-            cli.start();
-            return true;
+
+        if (commands != null) {
+            return switchOrRun(inputLine, commands);
         }
         if (super.use(inputLine)) {
             return true;

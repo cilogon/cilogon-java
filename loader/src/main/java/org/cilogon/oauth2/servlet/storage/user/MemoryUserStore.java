@@ -133,11 +133,6 @@ public class MemoryUserStore extends MonitoredMemoryStore<User> implements UserS
     public void save(User value) {
         value.setLastModifiedTS(new Date());
         super.save(value); // update and save are different in SQL stores, not in a memory store.
-/*        if (containsKey(value.getIdentifier())) {
-            update(value);
-        } else {
-            realSave(value);
-        }*/
     }
 
     static final String INFIX = "*"; // used to make unique key for remote user / idp lookup
