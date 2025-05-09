@@ -69,14 +69,23 @@ public class UserConverter<T extends User> extends MonitoredConverter<T> {
         map.put(uk().firstName(), replaceNull(user.getFirstName()));
         map.put(uk().lastName(), replaceNull(user.getLastName()));
         map.put(uk().email(), replaceNull(user.getEmail()));
-        map.put(uk().serialString(), user.getSerialIdentifier().toString());
-      //  map.put(uk().creationTS(), user.getCreationTS());
+        // Fixes for  https://github.com/cilogon/cilogon-java/issues/53
+        if(user.getSerialIdentifier() != null) {
+            map.put(uk().serialString(), user.getSerialIdentifier().toString());
+        }
         map.put(uk().affiliation(), user.getAffiliation());
         map.put(uk().displayName(), user.getDisplayName());
-        map.put(uk().organizationalUnit(), user.getOrganizationalUnit());
+        if(user.getOrganizationalUnit() != null) {
+            map.put(uk().organizationalUnit(), user.getOrganizationalUnit());
+        }
+
         map.put(uk().useUSinDN(), user.isUseUSinDN());
-        map.put(uk().attr_json(), replaceNull(user.getAttr_json()));
-        map.put(uk().state(), user.getState().toString());
+        if(user.getAttr_json() != null) {
+            map.put(uk().attr_json(), replaceNull(user.getAttr_json()));
+        }
+        if(user.getState() != null) {
+            map.put(uk().state(), user.getState().toString());
+        }
     }
 
     protected String replaceNull(PersonName x) {
