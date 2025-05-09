@@ -5,7 +5,7 @@
     <parent>
         <artifactId>cilogon</artifactId>
         <groupId>org.cilogon</groupId>
-        <version>6.x-SNAPSHOT</version>
+        <version>6.1-rc1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -46,14 +46,14 @@
         <dependency>
             <groupId>org.oa4mp</groupId>
             <artifactId>oa4mp-webapp</artifactId>
-            <version>6.x-SNAPSHOT</version>
+            <version>6.1-rc1</version>
             <type>war</type>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.oa4mp</groupId>
             <artifactId>oa4mp-server-oauth2</artifactId>
-            <version>6.x-SNAPSHOT</version>
+            <version>6.1-rc1</version>
             <type>war</type>
             <scope>runtime</scope>
         </dependency>
@@ -86,36 +86,36 @@
         <dependency>
             <groupId>org.oa4mp</groupId>
             <artifactId>server-test</artifactId>
-            <version>6.x-SNAPSHOT</version>
+            <version>6.1-rc1</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.oa4mp</groupId>
             <artifactId>oauth2</artifactId>
-            <version>6.x-SNAPSHOT</version>
+            <version>6.1-rc1</version>
         </dependency>
         <dependency>
             <groupId>org.oa4mp</groupId>
             <artifactId>server-loader</artifactId>
-            <version>6.x-SNAPSHOT</version>
+            <version>6.1-rc1</version>
         </dependency>
         <dependency>
             <groupId>org.oa4mp</groupId>
             <artifactId>common</artifactId>
-            <version>6.x-SNAPSHOT</version>
+            <version>6.1-rc1</version>
         </dependency>
         <dependency>
             <artifactId>util</artifactId>
             <groupId>edu.uiuc.ncsa.security</groupId>
-            <version>6.x-SNAPSHOT</version>
+            <version>6.1-rc1</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
         <dependency>
             <artifactId>common</artifactId>
             <groupId>org.oa4mp</groupId>
-            <version>6.x-SNAPSHOT</version>
+            <version>6.1-rc1</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
