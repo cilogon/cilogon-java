@@ -213,7 +213,7 @@ public class CILogonOA2Commands extends OA2Commands {
             String stars = StringUtils.rightPad("", width + 1, "*");
             say(stars);
             say(padLineWithBlanks("* CILogon CLI (Command Line Interpreter)", width) + "*");
-            say(padLineWithBlanks("* Version " + CILogonConfiguration.VERSION_NUMBER, width) + "*");
+            say(padLineWithBlanks("* Version " + CILogonConfiguration.CILOGON_VERSION_NUMBER, width) + "*");
             say(padLineWithBlanks("* By Jeff Gaynor  NCSA", width) + "*");
             say(padLineWithBlanks("* type 'help' for a list of commands", width) + "*");
             say(padLineWithBlanks("*      'exit' or 'quit' to end this session.", width) + "*");
