@@ -143,7 +143,8 @@ public class UserClaimSource extends BasicClaimsSourceImpl implements OA2Scopes 
                 claims.put(OA2Claims.NAME, convertFromUTF7ToUTF8(user.getDisplayName()));
             }
             //Fixes CIL-1019
-            if (!user.getAttr_json().isEmpty()) {
+            // Fix https://github.com/cilogon/cilogon-java/issues/55 -- check if attrib_json is  null
+            if (user.getAttr_json()!= null && !user.getAttr_json().isEmpty()) {
                 DebugUtil.trace(this, "has a json attrib");
                 JSONObject saml = JSONObject.fromObject(user.getAttr_json());
                 if (saml.containsKey(PREFERRED_USERNAME)) {

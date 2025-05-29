@@ -88,6 +88,13 @@ public class UserConverter<T extends User> extends MonitoredConverter<T> {
         }
     }
 
+    /**
+     * Checks that the {@link PersonName} is not trivial. If it is, an
+     * empty string is returned rather than a Java null. Otherwise, the
+     * {@link PersonName#getName()} value is returned.
+     * @param x
+     * @return
+     */
     protected String replaceNull(PersonName x) {
         if (x == null) {
             return "";
@@ -96,6 +103,12 @@ public class UserConverter<T extends User> extends MonitoredConverter<T> {
         return x.getName();
     }
 
+    /**
+     * If a null String is encountered, it is replaced with an empty string,
+     * otherwise it is left alone.
+     * @param x
+     * @return
+     */
     protected String replaceNull(String x) {
         if (x == null) {
             return "";

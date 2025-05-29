@@ -156,7 +156,7 @@ public class User extends Monitored {
 
     String firstName;
     String lastName;
-    String email;
+    String email="";
     String iDPName; //remote_user
     String idP;
 
@@ -173,7 +173,7 @@ public class User extends Monitored {
         this.attr_json = attr_json;
     }
 
-    String attr_json;
+    String attr_json="";
 
     public boolean isUseUSinDN() {
         return useUSinDN;
@@ -559,9 +559,9 @@ public class User extends Monitored {
         return userMultiKey.hasPairwiseID();
     }
 
-    String affiliation;
-    String organizationalUnit;
-    String displayName;
+    String affiliation = "";
+    String organizationalUnit="";
+    String displayName="";
 
     public String getAffiliation() {
         return affiliation;
