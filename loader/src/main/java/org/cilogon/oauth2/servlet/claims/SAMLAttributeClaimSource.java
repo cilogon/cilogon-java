@@ -19,6 +19,8 @@ import org.qdl_lang.variables.QDLStem;
 import javax.servlet.http.HttpServletRequest;
 import java.util.StringTokenizer;
 
+import static org.qdl_lang.variables.StemUtility.put;
+
 /**
  * This will read SAML attributes that are sent in the header from the IDP then stored in an attribute that
  * is sent. At the right time, this attribute is read and parsed into information about the user and
@@ -216,7 +218,7 @@ public class SAMLAttributeClaimSource extends BasicClaimsSourceImpl {
     @Override
     public QDLStem toQDL() {
         QDLStem stem = super.toQDL();
-                    stem.put(CILCSConstants.CS_DEFAULT_TYPE, CILCSConstants.CS_TYPE_SAML);
+                    put(stem, CILCSConstants.CS_DEFAULT_TYPE, CILCSConstants.CS_TYPE_SAML);
         return stem;
     }
 }

@@ -3,7 +3,7 @@ package org.cilogon.qdl.module.storage;
 import org.oa4mp.server.qdl.storage.PStoreAccessModule;
 import org.oa4mp.server.qdl.storage.StoreAccessModule;
 import org.qdl_lang.extensions.QDLLoader;
-import org.qdl_lang.module.Module;
+import org.qdl_lang.expressions.module.Module;
 
 import java.util.ArrayList;
 import java.util.List;

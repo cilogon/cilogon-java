@@ -39,7 +39,6 @@ public class NewCILTransactionStoreTest extends NewTransactionTest {
                   "urn:test:idp/" + r, "idp display name", "first-Name", "last-Name", r + "@foo.com",
                   "archmage", "first and last", "my:fake:university");
 
-          st.setVerifier(provider.getTokenForge().getVerifier());
           st.setUsername(user.getIdentifierString());
           st.setLifetime(12 * 60 * 60 * 1000); // set for 12 hours
           String loa = "http://incommonfederation.org/assurance/silver";
@@ -47,7 +46,6 @@ public class NewCILTransactionStoreTest extends NewTransactionTest {
           ((AbstractCILServiceTransaction)st).setLoa(loa);
           store.save(st);
 
-          assert st.equals(store.get(st.getVerifier()));
           // next leg creates the access tokens and invalidates the temp credentials
           st.setAccessToken(provider.getTokenForge().getAccessToken());
           st.setAuthGrantValid(false);

@@ -17,6 +17,8 @@ import org.qdl_lang.variables.QDLStem;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
+import static org.qdl_lang.variables.StemUtility.put;
+
 /**
  * <p>Created by Jeff Gaynor<br>
  * on 12/22/20 at  1:36 PM
@@ -32,8 +34,8 @@ public class CILStoreFacade extends StoreFacade {
     @Override
     public QDLStem getStoreTypes() {
         QDLStem types = super.getStoreTypes();
-        types.put("two_factor", STORE_TYPE_2FACTOR_STORE);
-        types.put("user", STORE_TYPE_USER_STORE);
+        put(types,"two_factor", STORE_TYPE_2FACTOR_STORE);
+        put(types,"user", STORE_TYPE_USER_STORE);
         return types;
     }
 

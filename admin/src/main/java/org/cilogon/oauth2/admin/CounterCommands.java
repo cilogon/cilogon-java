@@ -15,8 +15,10 @@ import java.io.IOException;
  * on 10/30/13 at  4:05 PM
  */
 public class CounterCommands extends CommonCommands {
+
     @Override
-    public void bootstrap() throws Throwable {
+    protected void initHelp() throws Throwable {
+        super.initHelp();
         getHelpUtil().load("/help/counter_commands_help.xml");
     }
 

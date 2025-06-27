@@ -42,7 +42,6 @@ public class UserConverter<T extends User> extends MonitoredConverter<T> {
                 new PairwiseID(map.getString(uk().pairwiseId())),
                 new SubjectID(map.getString(uk().subjectId())));
         user.setUserMultiKey(userMultiKey);
-      //  user.setCreationTime(map.getDate(uk().creationTS()));
         user.setIdentifier(newID(map.getString(uk().userID())));
         user.setAffiliation(map.getString(uk().affiliation()));
         user.setDisplayName(map.getString(uk().displayName()));
@@ -80,12 +79,16 @@ public class UserConverter<T extends User> extends MonitoredConverter<T> {
         }
 
         map.put(uk().useUSinDN(), user.isUseUSinDN());
-        if(user.getAttr_json() != null) {
+        if(user.getAttr_json() == null) {
+            map.put(uk().attr_json(), ""); // CIL
+        }else{
+
             map.put(uk().attr_json(), replaceNull(user.getAttr_json()));
         }
         if(user.getState() != null) {
             map.put(uk().state(), user.getState().toString());
         }
+        System.err.println(getClass().getSimpleName() + ".toMap:\n" + map);
     }
 
     /**

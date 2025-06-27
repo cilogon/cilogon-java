@@ -36,7 +36,7 @@ import org.oa4mp.delegation.server.ServiceTransaction;
 import org.oa4mp.delegation.server.request.IssuerResponse;
 import org.oa4mp.server.api.ServiceConstantKeys;
 import org.oa4mp.server.api.ServiceEnvironmentImpl;
-import org.oa4mp.server.api.storage.servlet.MyProxyDelegationServlet;
+import org.oa4mp.server.api.storage.servlet.OA4MPServlet;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -61,7 +61,7 @@ import static org.oa4mp.server.api.ServiceConstantKeys.FORM_ENCODING_KEY;
  * <p>Created by Jeff Gaynor<br>
  * on 4/19/12 at  4:23 PM
  */
-public abstract class AbstractDBService extends MyProxyDelegationServlet {
+public abstract class AbstractDBService extends OA4MPServlet {
 
 
     public static final String ACTION_PARAMETER = "action";
@@ -220,11 +220,11 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
     }
 
     ServiceEnvironmentImpl getSE() throws IOException {
-        return (ServiceEnvironmentImpl) MyProxyDelegationServlet.getServiceEnvironment();
+        return (ServiceEnvironmentImpl) OA4MPServlet.getServiceEnvironment();
     }
 
     CILogonSE getCILSE() throws IOException {
-        return (CILogonSE) MyProxyDelegationServlet.getServiceEnvironment();
+        return (CILogonSE) OA4MPServlet.getServiceEnvironment();
     }
 
     UserStore getUserStore() throws IOException {
@@ -1547,7 +1547,7 @@ public abstract class AbstractDBService extends MyProxyDelegationServlet {
     }
 
     /**
-     * Empty method. Since this servlet extends {@link MyProxyDelegationServlet} this method is
+     * Empty method. Since this servlet extends {@link OA4MPServlet} this method is
      * required, but there is nothing to verify, since this servlet does not issue {@link IssuerResponse}'s.
      *
      * @param iResponse@return

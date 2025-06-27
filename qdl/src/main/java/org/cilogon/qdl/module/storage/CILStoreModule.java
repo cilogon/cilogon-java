@@ -3,7 +3,7 @@ package org.cilogon.qdl.module.storage;
 import org.cilogon.qdl.module.CILStoreFacade;
 import org.oa4mp.server.qdl.storage.StoreAccessModule;
 import org.oa4mp.server.qdl.storage.StoreFacade;
-import org.qdl_lang.module.Module;
+import org.qdl_lang.expressions.module.Module;
 import org.qdl_lang.state.State;
 
 import java.net.URI;

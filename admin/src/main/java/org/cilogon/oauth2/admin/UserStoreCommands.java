@@ -249,9 +249,10 @@ public class UserStoreCommands extends OA4MPStoreCommands {
         }
     }
 
+
     @Override
-    public void bootstrap() throws Throwable {
-        super.bootstrap();
+    protected void initHelp() throws Throwable {
+        super.initHelp();
         getHelpUtil().load("/help/user_help.xml");
     }
 

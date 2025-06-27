@@ -21,6 +21,7 @@ import org.qdl_lang.variables.QDLStem;
 import javax.servlet.http.HttpServletRequest;
 
 import static org.oa4mp.delegation.server.server.claims.OA2Claims.PREFERRED_USERNAME;
+import static org.qdl_lang.variables.StemUtility.put;
 
 
 /**
@@ -235,7 +236,7 @@ public class UserClaimSource extends BasicClaimsSourceImpl implements OA2Scopes 
     @Override
     public QDLStem toQDL() {
         QDLStem stem = super.toQDL();
-        stem.put(CILCSConstants.CS_DEFAULT_TYPE, CILCSConstants.CS_TYPE_USER);
+        put(stem,CILCSConstants.CS_DEFAULT_TYPE, CILCSConstants.CS_TYPE_USER);
         return stem;
     }
 

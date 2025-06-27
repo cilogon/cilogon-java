@@ -29,7 +29,7 @@ import java.util.*;
 import static org.cilogon.oauth2.servlet.servlet.AbstractDBService.STATUS_KEY;
 import static org.cilogon.oauth2.servlet.servlet.AbstractDBService.distinguishedNameField;
 import static org.oa4mp.server.api.ServiceConstantKeys.TOKEN_KEY;
-import static org.oa4mp.server.api.storage.servlet.MyProxyDelegationServlet.getServiceEnvironment;
+import static org.oa4mp.server.api.storage.servlet.OA4MPServlet.getServiceEnvironment;
 
 
 /**

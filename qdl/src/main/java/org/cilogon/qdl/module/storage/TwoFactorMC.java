@@ -7,6 +7,7 @@ import org.oa4mp.server.qdl.storage.StemConverter;
 import org.qdl_lang.variables.QDLStem;
 
 import static edu.uiuc.ncsa.security.core.util.StringUtils.isTrivial;
+import static org.qdl_lang.variables.StemUtility.put;
 
 /**
  * <p>Created by Jeff Gaynor<br>
@@ -34,7 +35,7 @@ public class TwoFactorMC<V extends TwoFactorInfo> extends StemConverter<V> {
     public QDLStem toMap(V v, QDLStem stem) {
         stem = super.toMap(v, stem);
         if (!isTrivial(v.getInfo())) {
-            stem.put(kk().info(), v.getInfo());
+            put(stem, kk().info(), v.getInfo());
         }
         return stem;
     }

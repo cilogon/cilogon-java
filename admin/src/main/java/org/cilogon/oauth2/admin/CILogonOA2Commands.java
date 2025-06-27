@@ -47,8 +47,20 @@ public class CILogonOA2Commands extends OA2Commands {
 
 
     public static void main(String[] args) {
-        try {
 
+            try {
+                InputLine inputLine = new InputLine(OA2Commands.class.getSimpleName(), args);
+                CILogonOA2Commands ciLogonCommands = new CILogonOA2Commands(null);
+
+                CLIDriver cli = new CLIDriver(ciLogonCommands); // actually run the driver that parses commands and passes them along
+                inputLine = cli.bootstrap(inputLine);
+                ciLogonCommands.bootstrap(inputLine); // read the command line options and such to set the state
+                cli.start();
+            } catch (Throwable t) {
+                t.printStackTrace();
+            }
+
+/*
             CILogonOA2Commands ciLogonCommands = new CILogonOA2Commands(null);
             ciLogonCommands.startup(args);
             if (ciLogonCommands.executeComponent()) {
@@ -58,9 +70,9 @@ public class CILogonOA2Commands extends OA2Commands {
             cli.start();
         } catch (Throwable t) {
             t.printStackTrace();
-        }
+        }*/
 
-    }
+        }
 
     protected CILogonOA2ServiceEnvironment getCILogonSE() throws Exception {
         return (CILogonOA2ServiceEnvironment) getEnvironment();
@@ -213,7 +225,7 @@ public class CILogonOA2Commands extends OA2Commands {
             String stars = StringUtils.rightPad("", width + 1, "*");
             say(stars);
             say(padLineWithBlanks("* CILogon CLI (Command Line Interpreter)", width) + "*");
-            say(padLineWithBlanks("* Version " + CILogonConfiguration.VERSION_NUMBER, width) + "*");
+            say(padLineWithBlanks("* Version " + CILogonConfiguration.CILOGON_VERSION_NUMBER, width) + "*");
             say(padLineWithBlanks("* By Jeff Gaynor  NCSA", width) + "*");
             say(padLineWithBlanks("* type 'help' for a list of commands", width) + "*");
             say(padLineWithBlanks("*      'exit' or 'quit' to end this session.", width) + "*");

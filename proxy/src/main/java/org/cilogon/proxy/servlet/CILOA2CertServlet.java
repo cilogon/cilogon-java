@@ -7,8 +7,8 @@ import org.cilogon.oauth2.servlet.storage.user.User;
 import org.oa4mp.delegation.server.OA2Errors;
 import org.oa4mp.delegation.server.OA2GeneralError;
 import org.oa4mp.delegation.server.ServiceTransaction;
+import org.oa4mp.myproxy.servlet.OA2CertServlet;
 import org.oa4mp.server.loader.oauth2.storage.transactions.OA2ServiceTransaction;
-import org.oa4mp.server.proxy.OA2CertServlet;
 
 import java.security.GeneralSecurityException;
 

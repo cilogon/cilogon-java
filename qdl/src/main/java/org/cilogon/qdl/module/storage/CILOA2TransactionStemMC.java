@@ -9,6 +9,9 @@ import org.oa4mp.delegation.server.storage.ClientStore;
 import org.oa4mp.server.loader.oauth2.storage.transactions.OA2ServiceTransaction;
 import org.qdl_lang.variables.QDLStem;
 import org.oa4mp.server.qdl.storage.TransactionStemMC;
+
+import static org.qdl_lang.variables.StemUtility.put;
+
 /**
  * <p>Created by Jeff Gaynor<br>
  * on 3/11/22 at  1:10 PM
@@ -35,11 +38,11 @@ public class CILOA2TransactionStemMC extends TransactionStemMC {
     public QDLStem toMap(OA2ServiceTransaction oa2ServiceTransaction, QDLStem stem) {
         CILOA2ServiceTransaction t = (CILOA2ServiceTransaction)oa2ServiceTransaction;
         stem = super.toMap(t, stem);
-        if(!StringUtils.isTrivial(t.getAffiliation())){stem.put(getK().affiliation(), t.getAffiliation());}
-        if(!StringUtils.isTrivial(t.getDisplayName())){stem.put(getK().displayName(), t.getDisplayName());}
-        if(!StringUtils.isTrivial(t.getLoa())){stem.put(getK().LOA(), t.getLoa());}
-        if(!StringUtils.isTrivial(t.getOrganizationalUnit())){stem.put(getK().organizationalUnit(), t.getOrganizationalUnit());}
-        if(t.getUserUID()!=null){stem.put(getK().userUID(), t.getUserUID().toString());}
+        if(!StringUtils.isTrivial(t.getAffiliation())){put(stem,getK().affiliation(), t.getAffiliation());}
+        if(!StringUtils.isTrivial(t.getDisplayName())){put(stem,getK().displayName(), t.getDisplayName());}
+        if(!StringUtils.isTrivial(t.getLoa())){put(stem,getK().LOA(), t.getLoa());}
+        if(!StringUtils.isTrivial(t.getOrganizationalUnit())){put(stem,getK().organizationalUnit(), t.getOrganizationalUnit());}
+        if(t.getUserUID()!=null){put(stem,getK().userUID(), t.getUserUID().toString());}
         return stem;
     }
 }

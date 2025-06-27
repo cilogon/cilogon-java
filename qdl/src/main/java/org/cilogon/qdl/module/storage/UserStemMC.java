@@ -7,6 +7,7 @@ import org.oa4mp.server.qdl.storage.StemConverter;
 import org.qdl_lang.variables.QDLStem;
 
 import static edu.uiuc.ncsa.security.core.util.BasicIdentifier.newID;
+import static org.qdl_lang.variables.StemUtility.put;
 
 /**
  * <p>Created by Jeff Gaynor<br>
@@ -76,7 +77,7 @@ public class UserStemMC<V extends User> extends StemConverter<V> {
         if (isStringKeyOK(stem, kk().serialString())) {v.setSerialIdentifier(newID(stem.getString(kk().serialString())));}
 
         if (isStringKeyOK(stem, kk().state())) {
-            QDLStem QDLStem = (QDLStem) stem.get(kk().state());
+            QDLStem QDLStem = stem.get(kk().state()).asStem();
             v.setState((JSONObject) QDLStem.toJSON());
         }
         v.setUseUSinDN(stem.getBoolean(kk().useUSinDN()));
@@ -87,37 +88,37 @@ public class UserStemMC<V extends User> extends StemConverter<V> {
         stem = super.toMap(v, stem);
         setNonNullStemValue(stem,kk().affiliation(), v.getAffiliation());
         if(v.getLastAccessed() != null){
-            stem.put(kk().lastAccessed(), v.getLastAccessed().getTime());
+            put(stem,kk().lastAccessed(), v.getLastAccessed().getTime());
         }
         if(v.getLastModifiedTS() != null){
-            stem.put(kk().lastModifiedTS(), v.getLastModifiedTS().getTime());
+            put(stem,kk().lastModifiedTS(), v.getLastModifiedTS().getTime());
         }
 
         setNonNullStemValue(stem,kk().attr_json(), v.getAttr_json());
-        stem.put(kk().creationTS(), v.getCreationTS().getTime());
+        put(stem,kk().creationTS(), v.getCreationTS().getTime());
         setNonNullStemValue(stem,kk().idpDisplayName(), v.getIDPName());
         setNonNullStemValue(stem,kk().email(), v.getEmail());
-        if (v.getePPN() != null) {stem.put(kk().eppn(), v.getePPN().getName());}
-        if (v.getePTID() != null) {stem.put(kk().eptid(), v.getePTID().getName());}
+        if (v.getePPN() != null) {put(stem,kk().eppn(), v.getePPN().getName());}
+        if (v.getePTID() != null) {put(stem,kk().eptid(), v.getePTID().getName());}
         setNonNullStemValue(stem,kk().firstName(), v.getFirstName());
         setNonNullStemValue(stem,kk().idp(), v.getIdP());
         setNonNullStemValue(stem,kk().displayName(), v.getDisplayName());
         setNonNullStemValue(stem,kk().lastName(), v.getLastName());
-        if (v.getOpenIDConnect() != null) {stem.put(kk().oidc(), v.getOpenIDConnect().getName());}
-        if (v.getOpenID() != null) {stem.put(kk().openID(), v.getOpenID().getName());}
+        if (v.getOpenIDConnect() != null) {put(stem,kk().oidc(), v.getOpenIDConnect().getName());}
+        if (v.getOpenID() != null) {put(stem,kk().openID(), v.getOpenID().getName());}
         setNonNullStemValue(stem,kk().organizationalUnit(), v.getOrganizationalUnit());
-        if (v.getPairwiseID() != null) {stem.put(kk().pairwiseId(), v.getPairwiseID().getName());}
-        if (v.getRemoteUser() != null) {stem.put(kk().remoteUser(), v.getRemoteUser().getName());}
-        if (v.getSerialIdentifier() != null) {stem.put(kk().serialString(), v.getSerialIdentifier().toString());}
+        if (v.getPairwiseID() != null) {put(stem,kk().pairwiseId(), v.getPairwiseID().getName());}
+        if (v.getRemoteUser() != null) {put(stem,kk().remoteUser(), v.getRemoteUser().getName());}
+        if (v.getSerialIdentifier() != null) {put(stem,kk().serialString(), v.getSerialIdentifier().toString());}
         //    setNonNullStemValue(stem,kk().serialString(), v.getSerialString());
         if (v.getState() != null) {
             QDLStem QDLStem = new QDLStem();
             QDLStem.fromJSON(v.getState());
-            stem.put(kk().state(), QDLStem);
+            put(stem,kk().state(), QDLStem);
         }
-        if (v.getSubjectID() != null) {stem.put(kk().subjectId(), v.getSubjectID().getName());}
+        if (v.getSubjectID() != null) {put(stem,kk().subjectId(), v.getSubjectID().getName());}
          // User UID is the identifier for htis object and is set in super.
-        stem.put(kk().useUSinDN(), v.isUseUSinDN());
+        put(stem,kk().useUSinDN(), v.isUseUSinDN());
         return stem;
     }
 

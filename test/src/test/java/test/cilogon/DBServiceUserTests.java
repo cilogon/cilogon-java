@@ -89,9 +89,10 @@ public class DBServiceUserTests extends RemoteDBServiceTest {
         }
         // create a new user.
         XMLMap map = getDBSClient().getUser(umk, idp);
-        assert getDBSClient().hasUser(umk, idp);
+        assert getDBSClient().hasUser(umk, idp) : "user not found by service after create";
         Identifier uid = BasicIdentifier.newID(map.get(userKeys.identifier()).toString());
         User user2 = getUserStore().get(uid);
+        assert user2.getAttr_json().equals("") : "Incorrect " + userKeys.attr_json() + " value. Got \"" + user2.getAttr_json() + "\", expected empty string";
         checkUserAgainstMap(map, user2);
     }
 
@@ -301,8 +302,7 @@ public class DBServiceUserTests extends RemoteDBServiceTest {
             assert m.getString(userKeys.remoteUser()).equals(run1.getName()) : " remote user does not match";
             assert m.getString(userKeys.serialString()).equals(serialString) : " serial string should not change.";
         }finally {
-            getUserStore().remove(user.getIdentifier());
-        }
+            getUserStore().remove(user.getIdentifier());}
     }
 
 

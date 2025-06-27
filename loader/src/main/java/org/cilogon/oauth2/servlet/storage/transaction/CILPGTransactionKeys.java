@@ -15,7 +15,6 @@ public class CILPGTransactionKeys extends CILTransactionKeys {
         tempCredValid("temp_cred_ok");
         accessTokenValid("access_token_ok");
         callbackUri("callback_uri");
-        verifier("verifier");
         lifetime("lifetime");
         username("userid");
     }

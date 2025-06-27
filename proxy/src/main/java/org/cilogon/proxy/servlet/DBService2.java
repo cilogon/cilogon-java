@@ -28,9 +28,9 @@ import org.oa4mp.delegation.common.token.impl.TokenUtils;
 import org.oa4mp.delegation.server.OA2Constants;
 import org.oa4mp.delegation.server.OA2Errors;
 import org.oa4mp.delegation.server.OA2GeneralError;
-import org.oa4mp.delegation.server.jwt.JWTRunner;
+import org.oa4mp.delegation.server.jwt.HandlerRunner;
 import org.oa4mp.delegation.server.jwt.ScriptRuntimeException;
-import org.oa4mp.server.api.storage.servlet.MyProxyDelegationServlet;
+import org.oa4mp.server.api.storage.servlet.OA4MPServlet;
 import org.oa4mp.server.api.util.ClientDebugUtil;
 import org.oa4mp.server.loader.oauth2.OA2SE;
 import org.oa4mp.server.loader.oauth2.servlet.OA2ClientUtils;
@@ -159,11 +159,11 @@ public class DBService2 extends AbstractDBService {
         if (StringUtils.isTrivial(userCode)) {
             doError("No user code parameter was found.", StatusCodes.STATUS_MISSING_ARGUMENT, response);
         }
-        RFC8628ServletConfig rfc8628ServletConfig = ((OA2SE) MyProxyDelegationServlet.getServiceEnvironment()).getRfc8628ServletConfig();
+        RFC8628ServletConfig rfc8628ServletConfig = ((OA2SE) OA4MPServlet.getServiceEnvironment()).getRfc8628ServletConfig();
 
         userCode = RFC8628Servlet.convertToCanonicalForm(userCode, rfc8628ServletConfig);
 
-        CILogonOA2ServiceEnvironment se = (CILogonOA2ServiceEnvironment) MyProxyDelegationServlet.getServiceEnvironment();
+        CILogonOA2ServiceEnvironment se = (CILogonOA2ServiceEnvironment) OA4MPServlet.getServiceEnvironment();
         if (!se.isRfc8628Enabled()) {
             doError("Device flow is not available on this server.", STATUS_SERVICE_UNAVAILABLE, response);
             return;
@@ -190,7 +190,7 @@ public class DBService2 extends AbstractDBService {
             doError("transaction not found.", STATUS_TRANSACTION_NOT_FOUND, response);
             return;
         }
-        MetaDebugUtil debugger = MyProxyDelegationServlet.createDebugger(transaction.getClient());
+        MetaDebugUtil debugger = OA4MPServlet.createDebugger(transaction.getClient());
         debugger.trace(this, "checking transaction.");
         if (!transaction.isRFC8628Request()) {
             doError("invalid token.", STATUS_TRANSACTION_NOT_FOUND, response);
@@ -275,10 +275,10 @@ public class DBService2 extends AbstractDBService {
             doError("No user code parameter was found.", StatusCodes.STATUS_MISSING_ARGUMENT, response);
             return;
         }
-        RFC8628ServletConfig rfc8628ServletConfig = ((OA2SE) MyProxyDelegationServlet.getServiceEnvironment()).getRfc8628ServletConfig();
+        RFC8628ServletConfig rfc8628ServletConfig = ((OA2SE) OA4MPServlet.getServiceEnvironment()).getRfc8628ServletConfig();
         userCode = RFC8628Servlet.convertToCanonicalForm(userCode, rfc8628ServletConfig);
 
-        CILogonOA2ServiceEnvironment se = (CILogonOA2ServiceEnvironment) MyProxyDelegationServlet.getServiceEnvironment();
+        CILogonOA2ServiceEnvironment se = (CILogonOA2ServiceEnvironment) OA4MPServlet.getServiceEnvironment();
         if (!se.isRfc8628Enabled()) {
             doError("Device flow is not available on this server.", STATUS_SERVICE_UNAVAILABLE, response);
             return;
@@ -294,7 +294,7 @@ public class DBService2 extends AbstractDBService {
         // It is possible that the transaction was garbage collected but the GC hasn't removed it
         // from the cache, so we do have to check if the ag is expired.
         AuthorizationGrantImpl ag = (AuthorizationGrantImpl) transaction.getAuthorizationGrant();
-        MetaDebugUtil debugger = MyProxyDelegationServlet.createDebugger(transaction.getOA2Client());
+        MetaDebugUtil debugger = OA4MPServlet.createDebugger(transaction.getOA2Client());
         debugger.trace(this, "checking if server is RFC 8628 enabled");
         if (!transaction.isRFC8628Request()) {
             doError("invalid token.", STATUS_TRANSACTION_NOT_FOUND, response);
@@ -429,19 +429,19 @@ public class DBService2 extends AbstractDBService {
             doError("Invalid client id syntax.", StatusCodes.STATUS_MALFORMED_INPUT, resp);
             return;
         }
-        if (!MyProxyDelegationServlet.getServiceEnvironment().getClientStore().containsKey(client_id)) {
+        if (!OA4MPServlet.getServiceEnvironment().getClientStore().containsKey(client_id)) {
             // Unknown client.
             doError("Unknown client", STATUS_UNKNOWN_CLIENT, resp);
             return;
         }
-        if (!MyProxyDelegationServlet.getServiceEnvironment().getClientApprovalStore().isApproved(client_id)) {
+        if (!OA4MPServlet.getServiceEnvironment().getClientApprovalStore().isApproved(client_id)) {
             // unapproved client
             doError("Unapproved client.", STATUS_UNAPPROVED_CLIENT, resp);
             return;
         }
         // This also checks that the client is correct and throws an exception if not.
         OA2Client client = (OA2Client) getClient(req);
-        MetaDebugUtil debugger = MyProxyDelegationServlet.createDebugger(client);
+        MetaDebugUtil debugger = OA4MPServlet.createDebugger(client);
 
         try {
             CILOA2ServiceTransaction transaction = (CILOA2ServiceTransaction) initUtil.doDelegation(req,
@@ -563,7 +563,7 @@ public class DBService2 extends AbstractDBService {
             writeTransaction(t, new Err(STATUS_TRANSACTION_NOT_FOUND, "transaction_not_found", StatusCodes.getMessage(STATUS_TRANSACTION_NOT_FOUND)), resp);
             return;
         }
-        MetaDebugUtil debugger = MyProxyDelegationServlet.createDebugger(t.getClient());
+        MetaDebugUtil debugger = OA4MPServlet.createDebugger(t.getClient());
         if (debugger instanceof ClientDebugUtil) {
             ((ClientDebugUtil) debugger).setTransaction(t);
         }
@@ -588,7 +588,7 @@ public class DBService2 extends AbstractDBService {
        // place of the similar call in the OA4MP authorization leg, which CILogon replaces.
         try {
             debugger.trace(this, "Starting to process claims");
-            doUserClaims((CILogonOA2ServiceEnvironment) MyProxyDelegationServlet.getServiceEnvironment(), t, req, debugger);
+            doUserClaims((CILogonOA2ServiceEnvironment) OA4MPServlet.getServiceEnvironment(), t, req, debugger);
         } catch (ScriptRuntimeException srx) {
             // The user threw one of these explicitly as part of the control flow, e.g. user was not in the right group.
             debugger.trace(this, "Script runtime exception", srx);
@@ -643,13 +643,13 @@ public class DBService2 extends AbstractDBService {
         // try {
         debugger.trace(this, "Doing user claims");
         UserClaimSource userClaimSource = new UserClaimSource(getMyLogger());
-        userClaimSource.setOa2SE((OA2SE) MyProxyDelegationServlet.getServiceEnvironment());
+        userClaimSource.setOa2SE((OA2SE) OA4MPServlet.getServiceEnvironment());
         t.setUserMetaData(userClaimSource.process(t.getUserMetaData(), t));
         debugger.trace(this, "Done user claims" + t.getUserMetaData().toString(1));
         debugger.trace(this, "Starting  post_auth claims");
         env.getTransactionStore().save(t); // make SURE the user claims get saved.
 
-        JWTRunner jwtRunner = new JWTRunner(t, ScriptRuntimeEngineFactory.createRTE(env, t, t.getOA2Client().getConfig()));
+        HandlerRunner jwtRunner = new HandlerRunner(t, ScriptRuntimeEngineFactory.createRTE(env, t, t.getOA2Client().getConfig()));
         OA2Client resolvedClient = OA2ClientUtils.resolvePrototypes(env.getClientStore(), t.getOA2Client());
         OA2ClientUtils.setupHandlers(jwtRunner, env, t, resolvedClient, request);
 
@@ -664,7 +664,7 @@ public class DBService2 extends AbstractDBService {
         if(clientID == null) {
             writeMessage(resp, new Err(STATUS_MISSING_CLIENT_ID, "missing_client_id", StatusCodes.getMessage(STATUS_MISSING_CLIENT_ID)));
         }
-        OA2Client client = (OA2Client) MyProxyDelegationServlet.getServiceEnvironment().getClientStore().get(clientID);
+        OA2Client client = (OA2Client) OA4MPServlet.getServiceEnvironment().getClientStore().get(clientID);
         if (client == null) {
             // None of these have been archived. We *could* check if the user has a valid uid
             // in the store and return user not found if so and user not found error if not,

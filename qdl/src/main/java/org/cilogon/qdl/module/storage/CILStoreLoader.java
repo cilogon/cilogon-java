@@ -1,7 +1,7 @@
 package org.cilogon.qdl.module.storage;
 
 import org.qdl_lang.extensions.QDLLoader;
-import org.qdl_lang.module.Module;
+import org.qdl_lang.expressions.module.Module;
 
 import java.util.ArrayList;
 import java.util.List;

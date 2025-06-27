@@ -36,15 +36,12 @@ public  class TokenTest extends TestBase {
         TokenForge tf = provider.getTokenForge();
         AuthorizationGrant ag = tf.getAuthorizationGrant();
         AccessToken token = tf.getAccessToken("urn:test:/test/accessToken/" + System.currentTimeMillis(), "urn:test:/test/accessToken/SharedSecret/" + System.currentTimeMillis());
-        Verifier v = tf.getVerifier("urn:test:/test/verfier/" + System.currentTimeMillis());
         System.out.println(ag);
         System.out.println(token);
-        System.out.println(v);
 
         // This just checks that there are no errors parsing the dates.
         try {
             DateUtils.getDate(token.getToken());
-            DateUtils.getDate(v.getToken());
             assert true;
         } catch (Exception x) {
             assert false : "Error parsing the dates: \"" + x.getMessage() + "\"";

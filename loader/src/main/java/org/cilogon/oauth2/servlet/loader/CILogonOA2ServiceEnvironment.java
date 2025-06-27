@@ -24,7 +24,6 @@ import org.oa4mp.delegation.server.server.claims.ClaimSource;
 import org.oa4mp.delegation.server.server.config.LDAPConfiguration;
 import org.oa4mp.delegation.server.storage.ClientApprovalStore;
 import org.oa4mp.delegation.server.storage.ClientStore;
-import org.oa4mp.server.api.MyProxyFacadeProvider;
 import org.oa4mp.server.api.ServiceEnvironmentImpl;
 import org.oa4mp.server.api.admin.adminClient.AdminClientStore;
 import org.oa4mp.server.api.admin.permissions.PermissionsStore;
@@ -33,8 +32,8 @@ import org.oa4mp.server.loader.oauth2.OA2SE;
 import org.oa4mp.server.loader.oauth2.cm.CMConfigs;
 import org.oa4mp.server.loader.oauth2.servlet.RFC8628ServletConfig;
 import org.oa4mp.server.loader.oauth2.storage.tx.TXStore;
-import org.oa4mp.server.loader.qdl.scripting.OA2QDLEnvironment;
 import org.oa4mp.server.loader.oauth2.storage.vi.VIStore;
+import org.oa4mp.server.loader.qdl.scripting.OA2QDLEnvironment;
 
 import javax.inject.Provider;
 import java.time.LocalTime;
@@ -62,7 +61,6 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
                                         long rtLifetime,
                                         long maxRTLifetime,
                                         Provider<ClientApprovalStore> casp,
-                                        List<MyProxyFacadeProvider> mfp,
                                         MailUtilProvider mup,
                                         ServiceEnvironmentImpl.MessagesProvider messagesProvider,
                                         Provider<AGIssuer> agip,
@@ -131,7 +129,6 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
                 rtLifetime,
                 maxRTLifetime,
                 casp,
-                mfp,
                 mup,
                 messagesProvider,
                 agip,

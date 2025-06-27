@@ -173,7 +173,6 @@ public class CILOA2ConfigurationLoader<C extends OA2SE> extends OA2Configuration
                     getRTLifetime(),
                     getMaxRTLifetime(),
                     getClientApprovalStoreProvider(),
-                    getMyProxyFacadeProvider(),
                     getMailUtilProvider(),
                     getMP(),
                     getAGIProvider(),
