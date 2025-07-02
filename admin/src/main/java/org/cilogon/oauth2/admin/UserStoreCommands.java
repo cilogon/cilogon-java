@@ -4,8 +4,8 @@ import edu.uiuc.ncsa.security.core.Identifiable;
 import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.Store;
 import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
-import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
 import edu.uiuc.ncsa.security.util.cli.BasicSorter;
+import edu.uiuc.ncsa.security.util.cli.CLIDriver;
 import edu.uiuc.ncsa.security.util.cli.InputLine;
 import org.cilogon.oauth2.servlet.loader.CILogonOA2ServiceEnvironment;
 import org.cilogon.oauth2.servlet.storage.archiveUser.ArchivedUser;
@@ -15,7 +15,7 @@ import org.cilogon.oauth2.servlet.storage.transaction.CILOA2TransactionKeys;
 import org.cilogon.oauth2.servlet.storage.user.*;
 import org.cilogon.oauth2.servlet.util.DNUtil;
 import org.oa4mp.delegation.server.ServiceTransaction;
-import org.oa4mp.server.admin.myproxy.oauth2.base.OA4MPStoreCommands;
+import org.oa4mp.server.admin.oauth2.base.OA4MPStoreCommands;
 
 import java.io.IOException;
 import java.util.List;
@@ -27,16 +27,16 @@ import java.util.List;
 public class UserStoreCommands extends OA4MPStoreCommands {
 
 
-    public UserStoreCommands(MyLoggingFacade logger, String defaultIndent, Store userStore, ArchivedUserStore archivedUserStore) throws Throwable {
-        super(logger, defaultIndent, userStore);
+    public UserStoreCommands(CLIDriver driver, String defaultIndent, Store userStore, ArchivedUserStore archivedUserStore) throws Throwable {
+        super(driver, defaultIndent, userStore);
         this.archivedUserStore = archivedUserStore;
         setSortable(new BasicSorter());
     }
 
     ArchivedUserStore archivedUserStore;
 
-    public UserStoreCommands(MyLoggingFacade logger, UserStore userStore) throws Throwable {
-        super(logger, userStore);
+    public UserStoreCommands(CLIDriver driver, UserStore userStore) throws Throwable {
+        super(driver, userStore);
         setSortable(new BasicSorter());
     }
 
@@ -65,12 +65,6 @@ public class UserStoreCommands extends OA4MPStoreCommands {
         return lastName + ", " + firstName + ", id=" + user.getIdentifierString();
     }
 
-    @Override
-    public void print_help() throws Exception {
-        super.print_help();
-        say("--Archive specific:");
-        sayi("archive = archive a given user.");
-    }
 
     @Override
     public String getName() {

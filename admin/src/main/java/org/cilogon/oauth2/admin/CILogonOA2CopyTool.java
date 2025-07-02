@@ -1,7 +1,7 @@
 package org.cilogon.oauth2.admin;
 
 
-import org.oa4mp.server.admin.myproxy.oauth2.tools.OA2CopyTool;
+import org.oa4mp.server.admin.oauth2.tools.OA2CopyTool;
 
 /**
  * <p>Created by Jeff Gaynor<br>

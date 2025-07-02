@@ -3,12 +3,12 @@ package org.cilogon.oauth2.admin;
 import edu.uiuc.ncsa.security.core.Identifiable;
 import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.Store;
-import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
+import edu.uiuc.ncsa.security.util.cli.CLIDriver;
 import edu.uiuc.ncsa.security.util.cli.InputLine;
 import org.cilogon.oauth2.servlet.storage.twofactor.TwoFactorInfo;
 import org.cilogon.oauth2.servlet.storage.twofactor.TwoFactorSerializationKeys;
 import org.cilogon.oauth2.servlet.storage.twofactor.TwoFactorStore;
-import org.oa4mp.server.admin.myproxy.oauth2.base.OA4MPStoreCommands;
+import org.oa4mp.server.admin.oauth2.base.OA4MPStoreCommands;
 
 import java.io.IOException;
 
@@ -19,12 +19,8 @@ import java.io.IOException;
 public class TwoFactorCommands extends OA4MPStoreCommands {
 
 
-    public TwoFactorCommands(MyLoggingFacade logger, String defaultIndent, Store store) throws Throwable{
-        super(logger, defaultIndent, store);
-    }
-
-    public TwoFactorCommands(MyLoggingFacade logger, Store store) throws Throwable {
-        super(logger, store);
+    public TwoFactorCommands(CLIDriver driver, String defaultIndent, Store store) throws Throwable{
+        super(driver, defaultIndent, store);
     }
 
     protected TwoFactorStore getTFStore() {

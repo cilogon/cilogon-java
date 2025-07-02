@@ -10,39 +10,25 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="04234930-e14d-41d5-bfcd-bac41d340cf1" name="Changes" comment="6.1.1 checkin, fixed https://github.com/cilogon/cilogon-java/issues/56 (startup message in CLI)">
+    <list default="true" id="04234930-e14d-41d5-bfcd-bac41d340cf1" name="Changes" comment="https://jira.ncsa.illinois.edu/browse/CIL-2249 Removing MyProxy code.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/ArchivedUserStoreCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/ArchivedUserStoreCommands.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/CILogonCopyExtension.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/CILogonCopyExtension.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/CILogonOA2Commands.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/CILogonOA2Commands.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/CILogonOA2CopyTool.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/CILogonOA2CopyTool.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/CILogonOA2CopyToolVerifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/CILogonOA2CopyToolVerifier.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/CounterCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/CounterCommands.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/IDPCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/IDPCommands.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/TwoFactorCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/TwoFactorCommands.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/UserStoreCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/UserStoreCommands.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/claims/SAMLAttributeClaimSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/claims/SAMLAttributeClaimSource.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/claims/UserClaimSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/claims/UserClaimSource.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/impl/CILOA2AuthorizedServletUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/impl/CILOA2AuthorizedServletUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/loader/CILOA2ConfigurationLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/loader/CILOA2ConfigurationLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/loader/CILogonOA2ServiceEnvironment.java" beforeDir="false" afterPath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/loader/CILogonOA2ServiceEnvironment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/servlet/AbstractDBService.java" beforeDir="false" afterPath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/servlet/AbstractDBService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/storage/transaction/CILPGTransactionKeys.java" beforeDir="false" afterPath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/storage/transaction/CILPGTransactionKeys.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/storage/user/UserConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/storage/user/UserConverter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/util/CILogonConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/util/CILogonConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/util/DBServiceSerializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/util/DBServiceSerializer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/loader/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/loader/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/proxy/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/proxy/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proxy/src/main/java/org/cilogon/proxy/servlet/CILOA2CertServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/proxy/src/main/java/org/cilogon/proxy/servlet/CILOA2CertServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proxy/src/main/java/org/cilogon/proxy/servlet/DBService2.java" beforeDir="false" afterPath="$PROJECT_DIR$/proxy/src/main/java/org/cilogon/proxy/servlet/DBService2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proxy/src/main/java/org/cilogon/proxy/servlet/CILOA2CertServlet.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/qdl/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/qdl/buildNumber.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qdl/src/main/java/org/cilogon/qdl/module/CILLibLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/qdl/src/main/java/org/cilogon/qdl/module/CILLibLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qdl/src/main/java/org/cilogon/qdl/module/CILStoreFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/qdl/src/main/java/org/cilogon/qdl/module/CILStoreFacade.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qdl/src/main/java/org/cilogon/qdl/module/storage/CILAccessLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/qdl/src/main/java/org/cilogon/qdl/module/storage/CILAccessLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qdl/src/main/java/org/cilogon/qdl/module/storage/CILOA2TransactionStemMC.java" beforeDir="false" afterPath="$PROJECT_DIR$/qdl/src/main/java/org/cilogon/qdl/module/storage/CILOA2TransactionStemMC.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qdl/src/main/java/org/cilogon/qdl/module/storage/CILStoreLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/qdl/src/main/java/org/cilogon/qdl/module/storage/CILStoreLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qdl/src/main/java/org/cilogon/qdl/module/storage/CILStoreModule.java" beforeDir="false" afterPath="$PROJECT_DIR$/qdl/src/main/java/org/cilogon/qdl/module/storage/CILStoreModule.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qdl/src/main/java/org/cilogon/qdl/module/storage/TwoFactorMC.java" beforeDir="false" afterPath="$PROJECT_DIR$/qdl/src/main/java/org/cilogon/qdl/module/storage/TwoFactorMC.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qdl/src/main/java/org/cilogon/qdl/module/storage/UserStemMC.java" beforeDir="false" afterPath="$PROJECT_DIR$/qdl/src/main/java/org/cilogon/qdl/module/storage/UserStemMC.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/qdl/src/main/resources/cilogon-boot.qdl" beforeDir="false" afterPath="$PROJECT_DIR$/qdl/src/main/resources/cilogon-boot.qdl" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/server/buildNumber.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/test/buildNumber.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/src/test/java/test/cilogon/DBServiceUserTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/src/test/java/test/cilogon/DBServiceUserTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/src/test/java/test/cilogon/impl/NewCILTransactionStoreTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/src/test/java/test/cilogon/impl/NewCILTransactionStoreTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/src/test/java/test/cilogon/util/TokenTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/src/test/java/test/cilogon/util/TokenTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webapp/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/webapp/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -163,7 +149,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
+    "project.structure.last.edited": "Libraries",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.5883041",
     "vue.rearranger.settings.migration": "true"
@@ -181,7 +167,7 @@
       <recent name="$PROJECT_DIR$/skin/src/main/resources/css" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.CLI">
+  <component name="RunManager" selected="Tomcat Server.CILogon">
     <configuration default="true" type="Applet" factoryName="Applet">
       <option name="WIDTH" value="400" />
       <option name="HEIGHT" value="300" />
@@ -561,7 +547,7 @@
       <workItem from="1748896206951" duration="1998000" />
       <workItem from="1749756923287" duration="1098000" />
       <workItem from="1749946834463" duration="4723000" />
-      <workItem from="1750708179244" duration="3479000" />
+      <workItem from="1750708179244" duration="17988000" />
     </task>
     <task id="LOCAL-00001" summary="Fallout from moving a bunch of static methods into classes.">
       <created>1675892224728</created>
@@ -885,14 +871,6 @@
       <option name="project" value="LOCAL" />
       <updated>1692998536215</updated>
     </task>
-    <task id="LOCAL-00093" summary="CLI niggling fix. For OA4MP stores, issuing &#10;&#10;// component commands&#10;&#10;just fires that component and runs the command then returns. The CILogon components (specifically users, which gets used a lot for the client approval cycle) did not return automatically, which got to be annoying. Fixed.">
-      <option name="closed" value="true" />
-      <created>1746448920687</created>
-      <option name="number" value="00093" />
-      <option name="presentableId" value="LOCAL-00093" />
-      <option name="project" value="LOCAL" />
-      <updated>1746448920687</updated>
-    </task>
     <task id="LOCAL-00094" summary="Getting website updates from 6.1.0">
       <option name="closed" value="true" />
       <created>1747141482056</created>
@@ -909,7 +887,15 @@
       <option name="project" value="LOCAL" />
       <updated>1747777336044</updated>
     </task>
-    <option name="localTasksCounter" value="96" />
+    <task id="LOCAL-00096" summary="https://jira.ncsa.illinois.edu/browse/CIL-2249 Removing MyProxy code.">
+      <option name="closed" value="true" />
+      <created>1751022984458</created>
+      <option name="number" value="00096" />
+      <option name="presentableId" value="LOCAL-00096" />
+      <option name="project" value="LOCAL" />
+      <updated>1751022984458</updated>
+    </task>
+    <option name="localTasksCounter" value="97" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -962,7 +948,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="CIL-2006 checkin" />
     <MESSAGE value="build scripts updated." />
     <MESSAGE value="Pruned unused directories." />
     <MESSAGE value="https://github.com/cilogon/cilogon-java/issues/46" />
@@ -987,7 +972,8 @@
     <MESSAGE value="CLI niggling fix. For OA4MP stores, issuing &#10;&#10;// component commands&#10;&#10;just fires that component and runs the command then returns. The CILogon components (specifically users, which gets used a lot for the client approval cycle) did not return automatically, which got to be annoying. Fixed." />
     <MESSAGE value="Getting website updates from 6.1.0" />
     <MESSAGE value="Fix https://github.com/cilogon/cilogon-java/issues/55" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix https://github.com/cilogon/cilogon-java/issues/55" />
+    <MESSAGE value="https://jira.ncsa.illinois.edu/browse/CIL-2249 Removing MyProxy code." />
+    <option name="LAST_COMMIT_MESSAGE" value="https://jira.ncsa.illinois.edu/browse/CIL-2249 Removing MyProxy code." />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
   </component>
   <component name="XDebuggerManager">

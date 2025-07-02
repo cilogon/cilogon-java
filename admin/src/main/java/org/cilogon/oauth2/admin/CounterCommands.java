@@ -1,9 +1,6 @@
 package org.cilogon.oauth2.admin;
 
-import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
-import edu.uiuc.ncsa.security.util.cli.ArgumentNotFoundException;
-import edu.uiuc.ncsa.security.util.cli.CommonCommands;
-import edu.uiuc.ncsa.security.util.cli.InputLine;
+import edu.uiuc.ncsa.security.util.cli.*;
 import org.cilogon.oauth2.servlet.storage.user.User;
 import org.cilogon.oauth2.servlet.storage.user.UserStore;
 import org.cilogon.oauth2.servlet.util.Incrementable;
@@ -14,7 +11,21 @@ import java.io.IOException;
  * <p>Created by Jeff Gaynor<br>
  * on 10/30/13 at  4:05 PM
  */
-public class CounterCommands extends CommonCommands {
+public class CounterCommands extends CommonCommands2 {
+    @Override
+    public void about(boolean showBanner, boolean showHeader) {
+
+    }
+
+    @Override
+    public void initialize() throws Throwable {
+
+    }
+
+    @Override
+    public void load(InputLine inputLine) throws Throwable {
+
+    }
 
     @Override
     protected void initHelp() throws Throwable {
@@ -34,8 +45,8 @@ public class CounterCommands extends CommonCommands {
 
     Incrementable incrementable;
 
-    public CounterCommands(MyLoggingFacade logger, String indent, Incrementable incrementable, UserStore userStore) throws Throwable {
-        super(logger);
+    public CounterCommands(CLIDriver driver, String indent, Incrementable incrementable, UserStore userStore) throws Throwable {
+        super(driver);
         this.defaultIndent = indent;
         this.incrementable = incrementable;
         this.userStore = userStore;
@@ -66,13 +77,6 @@ public class CounterCommands extends CommonCommands {
         sayi("next value is " + getIncrementable().nextValue());
     }
 
-    @Override
-    public void print_help() throws Exception {
-        super.print_help();
-        say("--Counter specific commands");
-        sayi("next_value = show the next value. Note this does increment itFCILogon in the store.");
-        sayi("reset = reset the counter to a new value. WARNING since ids are made using this, do not use it lightly!");;
-    }
 
     protected void showResetHelp() {
         say2("This will reset the counter for the entire system to a value you specify.");

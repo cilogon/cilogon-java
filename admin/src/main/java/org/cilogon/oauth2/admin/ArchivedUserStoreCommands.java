@@ -4,14 +4,14 @@ import edu.uiuc.ncsa.security.core.Identifiable;
 import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.Store;
 import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
-import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
+import edu.uiuc.ncsa.security.util.cli.CLIDriver;
 import edu.uiuc.ncsa.security.util.cli.InputLine;
 import org.cilogon.oauth2.servlet.storage.archiveUser.ArchivedUser;
 import org.cilogon.oauth2.servlet.storage.archiveUser.ArchivedUserStore;
 import org.cilogon.oauth2.servlet.storage.user.User;
 import org.cilogon.oauth2.servlet.storage.user.UserNotFoundException;
 import org.cilogon.oauth2.servlet.storage.user.UserStore;
-import org.oa4mp.server.admin.myproxy.oauth2.base.OA4MPStoreCommands;
+import org.oa4mp.server.admin.oauth2.base.OA4MPStoreCommands;
 
 import java.util.HashSet;
 import java.util.List;
@@ -26,8 +26,8 @@ public class ArchivedUserStoreCommands extends OA4MPStoreCommands {
     public static final String USER_FLAG = "u";
 
 
-    public ArchivedUserStoreCommands(MyLoggingFacade logger, String defaultIndent, ArchivedUserStore archivedUserStore, UserStore userStore) throws Throwable{
-        super(logger, defaultIndent, archivedUserStore);
+    public ArchivedUserStoreCommands(CLIDriver driver, String defaultIndent, ArchivedUserStore archivedUserStore, UserStore userStore) throws Throwable{
+        super(driver, defaultIndent, archivedUserStore);
         this.userStore = userStore;
     }
 
@@ -41,8 +41,8 @@ public class ArchivedUserStoreCommands extends OA4MPStoreCommands {
 
     UserStore userStore;
 
-    public ArchivedUserStoreCommands(MyLoggingFacade logger, Store store) throws Throwable {
-        super(logger, store);
+    public ArchivedUserStoreCommands(CLIDriver driver, Store store) throws Throwable {
+        super(driver, store);
     }
 
     @Override

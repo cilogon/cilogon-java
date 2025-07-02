@@ -9,7 +9,7 @@
 // If claims or acl are defined, just re-use.
 
 dbg_level := debugger().'level';
-debugger(1); // set the current debug level
+debugger(10); // set the current debug level
 debugger(1, 'checking existence');
 is_v6_0 := ∃info().'lib'.'oa4mp';
 debugger(1, 'is_v6_0? ' + is_v6_0);

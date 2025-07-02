@@ -2,18 +2,17 @@ package org.cilogon.oauth2.admin;
 
 import edu.uiuc.ncsa.security.core.util.AbstractEnvironment;
 import edu.uiuc.ncsa.security.core.util.ConfigurationLoader;
-import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
+import edu.uiuc.ncsa.security.core.util.StringUtils;
 import edu.uiuc.ncsa.security.util.cli.CLIDriver;
-import edu.uiuc.ncsa.security.util.cli.CommonCommands;
+import edu.uiuc.ncsa.security.util.cli.CommonCommands2;
 import edu.uiuc.ncsa.security.util.cli.InputLine;
 import edu.uiuc.ncsa.security.util.configuration.XMLConfigUtil;
 import org.apache.commons.configuration.tree.ConfigurationNode;
-import org.apache.commons.lang.StringUtils;
 import org.cilogon.oauth2.servlet.loader.CILOA2ConfigurationLoader;
 import org.cilogon.oauth2.servlet.loader.CILogonOA2ServiceEnvironment;
 import org.cilogon.oauth2.servlet.util.CILogonConfiguration;
-import org.oa4mp.server.admin.myproxy.oauth2.base.CopyCommands;
-import org.oa4mp.server.admin.myproxy.oauth2.tools.OA2Commands;
+import org.oa4mp.server.admin.oauth2.base.CopyCommands;
+import org.oa4mp.server.admin.oauth2.tools.OA2Commands;
 import org.oa4mp.server.loader.oauth2.OA2SE;
 
 import static org.cilogon.oauth2.admin.Banners.*;
@@ -24,8 +23,8 @@ import static org.cilogon.oauth2.admin.CommandConstants.*;
  * on 3/25/15 at  2:53 PM
  */
 public class CILogonOA2Commands extends OA2Commands {
-    public CILogonOA2Commands(MyLoggingFacade logger) {
-        super(logger);
+    public CILogonOA2Commands(CLIDriver driver) {
+        super(driver);
 
     }
 
@@ -39,7 +38,7 @@ public class CILogonOA2Commands extends OA2Commands {
         if (loader == null) {
             ConfigurationNode node =
                     XMLConfigUtil.findConfiguration(getConfigFile(), getConfigName(), getComponentName());
-            loader = new CILOA2ConfigurationLoader<OA2SE>(node, getMyLogger());
+            loader = new CILOA2ConfigurationLoader<OA2SE>(node, getDriver().getLogger());
         }
         return loader;
 
@@ -90,7 +89,7 @@ public class CILogonOA2Commands extends OA2Commands {
 
     protected UserStoreCommands getUserStoreCommands(String indent) throws Throwable {
         if (userStoreCommands == null) {
-            userStoreCommands = new UserStoreCommands(getMyLogger(), indent, getCILogonSE().getUserStore(), getCILogonSE().getArchivedUserStore());
+            userStoreCommands = new UserStoreCommands(getDriver(), indent, getCILogonSE().getUserStore(), getCILogonSE().getArchivedUserStore());
         }
         return userStoreCommands;
     }
@@ -99,7 +98,7 @@ public class CILogonOA2Commands extends OA2Commands {
 
     protected IDPCommands getIdpCommands(String indent) throws Throwable {
         if (idpCommands == null) {
-            idpCommands = new IDPCommands(getMyLogger(), indent, getCILogonSE().getIDPStore());
+            idpCommands = new IDPCommands(getDriver(), indent, getCILogonSE().getIDPStore());
         }
         return idpCommands;
     }
@@ -108,7 +107,7 @@ public class CILogonOA2Commands extends OA2Commands {
 
     protected CounterCommands getCounterCommands(String indent) throws Throwable {
         if (counterCommands == null) {
-            counterCommands = new CounterCommands(getMyLogger(), indent, getCILogonSE().getIncrementable(), getCILogonSE().getUserStore());
+            counterCommands = new CounterCommands(getDriver(), indent, getCILogonSE().getIncrementable(), getCILogonSE().getUserStore());
         }
         return counterCommands;
     }
@@ -117,7 +116,7 @@ public class CILogonOA2Commands extends OA2Commands {
 
     protected ArchivedUserStoreCommands getArchivedUserStoreCommands(String indent) throws Throwable {
         if (archivedUserStoreCommands == null) {
-            archivedUserStoreCommands = new ArchivedUserStoreCommands(getMyLogger(), indent, getCILogonSE().getArchivedUserStore(), getCILogonSE().getUserStore());
+            archivedUserStoreCommands = new ArchivedUserStoreCommands(getDriver(), indent, getCILogonSE().getArchivedUserStore(), getCILogonSE().getUserStore());
         }
         return archivedUserStoreCommands;
     }
@@ -126,7 +125,7 @@ public class CILogonOA2Commands extends OA2Commands {
 
     protected TwoFactorCommands getTwoFactorCommands(String indent) throws Throwable {
         if (twoFactorCommands == null) {
-            twoFactorCommands = new TwoFactorCommands(getMyLogger(), indent, getCILogonSE().getTwoFactorStore());
+            twoFactorCommands = new TwoFactorCommands(getDriver(), indent, getCILogonSE().getTwoFactorStore());
         }
         return twoFactorCommands;
 
@@ -136,7 +135,7 @@ public class CILogonOA2Commands extends OA2Commands {
     @Override
     protected void runComponent(String componentName) throws Throwable {
         String indent = "  ";
-        CommonCommands commands = null;
+        CommonCommands2 commands = null;
         switch (componentName) {
             case USERS:
                 commands = getUserStoreCommands(indent);
@@ -155,7 +154,7 @@ public class CILogonOA2Commands extends OA2Commands {
                 break;
             case COPY:
                 // older command component. Just make a new one every time.
-                commands = new CopyCommands(getMyLogger(), new CILogonOA2CopyTool(), new CILogonOA2CopyToolVerifier(), getConfigFile());
+                commands = new CopyCommands(getDriver(), new CILogonOA2CopyTool(), new CILogonOA2CopyToolVerifier(), getConfigFile());
                 break;
         }
 
@@ -171,7 +170,7 @@ public class CILogonOA2Commands extends OA2Commands {
 
     @Override
     public boolean use(InputLine inputLine) throws Throwable {
-        CommonCommands commands = null;
+        CommonCommands2 commands = null;
 
         String indent = "  ";
         if (inputLine.hasArg(USERS)) {
@@ -222,13 +221,13 @@ public class CILogonOA2Commands extends OA2Commands {
             say(TIMES);
         }
         if (showHeader) {
-            String stars = StringUtils.rightPad("", width + 1, "*");
+            String stars = StringUtils.repeatString("*", width + 1);
             say(stars);
-            say(padLineWithBlanks("* CILogon CLI (Command Line Interpreter)", width) + "*");
-            say(padLineWithBlanks("* Version " + CILogonConfiguration.CILOGON_VERSION_NUMBER, width) + "*");
-            say(padLineWithBlanks("* By Jeff Gaynor  NCSA", width) + "*");
-            say(padLineWithBlanks("* type 'help' for a list of commands", width) + "*");
-            say(padLineWithBlanks("*      'exit' or 'quit' to end this session.", width) + "*");
+            say(StringUtils.pad2("* CILogon CLI (Command Line Interpreter)", width) + "*");
+            say(StringUtils.pad2("* Version " + CILogonConfiguration.CILOGON_VERSION_NUMBER, width) + "*");
+            say(StringUtils.pad2("* By Jeff Gaynor  NCSA", width) + "*");
+            say(StringUtils.pad2("* type 'help' for a list of commands", width) + "*");
+            say(StringUtils.pad2("*      'exit' or 'quit' to end this session.", width) + "*");
             say(stars);
         }
     }

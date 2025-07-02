@@ -3,9 +3,9 @@ package org.cilogon.oauth2.admin;
 import edu.uiuc.ncsa.security.core.Identifiable;
 import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.Store;
-import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
+import edu.uiuc.ncsa.security.util.cli.CLIDriver;
 import org.cilogon.oauth2.servlet.storage.idp.IdentityProviderStore;
-import org.oa4mp.server.admin.myproxy.oauth2.base.OA4MPStoreCommands;
+import org.oa4mp.server.admin.oauth2.base.OA4MPStoreCommands;
 
 /**
  * <p>Created by Jeff Gaynor<br>
@@ -13,12 +13,12 @@ import org.oa4mp.server.admin.myproxy.oauth2.base.OA4MPStoreCommands;
  */
 public class IDPCommands extends OA4MPStoreCommands {
 
-    public IDPCommands(MyLoggingFacade logger, String defaultIndent, Store store) throws Throwable {
-        super(logger, defaultIndent, store);
+    public IDPCommands(CLIDriver driver, String defaultIndent, Store store) throws Throwable {
+        super(driver, defaultIndent, store);
     }
 
-    public IDPCommands(MyLoggingFacade logger, Store store)throws Throwable {
-        super(logger, store);
+    public IDPCommands(CLIDriver driver, Store store)throws Throwable {
+        super(driver, store);
     }
 
     protected IdentityProviderStore getIDPStore() {

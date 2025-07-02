@@ -26,11 +26,7 @@
             <version>1.2</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.oa4mp</groupId>
-            <artifactId>myproxy</artifactId>
-            <version>6.x-SNAPSHOT</version>
-        </dependency>
+
         <dependency>
             <groupId>org.oa4mp</groupId>
             <artifactId>proxy</artifactId>

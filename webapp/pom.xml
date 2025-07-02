@@ -37,7 +37,7 @@
         </dependency>
         <dependency>
             <groupId>org.oa4mp</groupId>
-            <artifactId>oa4mp-webapp</artifactId>
+            <artifactId>oa4mp-server-oauth2</artifactId>
             <version>6.x-SNAPSHOT</version>
             <type>war</type>
             <scope>runtime</scope>
