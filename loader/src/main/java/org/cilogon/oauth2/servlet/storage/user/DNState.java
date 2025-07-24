@@ -17,7 +17,7 @@ public class DNState {
     public static int DN_STATE_NULL = 0;
     public int DN_STATE_SET = 1;
     public int DN_STATE_CHANGED = 2;
-    // If any of these indices ever change, you will break this! If you need to add new state to tract, just
+    // If any of these indices ever change, you will break this! If you need to add new state to track, just
     // add to the bit vector.
     public static int DN_STATE_EMAIL_INDEX = 0;
     public static int DN_STATE_IDP_NAME = 1;

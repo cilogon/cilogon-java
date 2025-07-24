@@ -202,27 +202,6 @@ public class UserStoreCommands extends OA4MPStoreCommands {
         return width;
     }
 
-    @Override
-    public void rm(InputLine inputLine) throws Throwable {
-        if (showHelp(inputLine)) {
-            showRMHelp();
-            return;
-        }
-        List<Identifiable> x = findItem(inputLine);
-        if (x == null || x.isEmpty()) {
-            say("No users found");
-            return;
-        }
-        boolean archiveUsers = isOk(readline("Archive user record before removing it? [y/n]:"));
-        for (Identifiable id : x) {
-            if (archiveUsers) {
-                Identifier auId = getArchivedUserStore().archiveUser(id.getIdentifier());
-            }
-            getStore().remove(id.getIdentifier());
-        }
-        say("Done. " + x.size() + " users have been removed from the store");
-        clearEntries();
-    }
 
     // CIL-1310
     public void dn(InputLine inputLine) throws Throwable {

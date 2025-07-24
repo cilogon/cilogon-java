@@ -10,22 +10,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="04234930-e14d-41d5-bfcd-bac41d340cf1" name="Changes" comment="https://jira.ncsa.illinois.edu/browse/CIL-2249 Removing MyProxy code.">
+    <list default="true" id="04234930-e14d-41d5-bfcd-bac41d340cf1" name="Changes" comment="https://github.com/cilogon/cilogon-java/issues/57 propagating bootstrap changes to CLIs">
+      <change afterPath="$PROJECT_DIR$/admin/src/main/scripts/test-set-transaction.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/ArchivedUserStoreCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/ArchivedUserStoreCommands.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/CILogonCopyExtension.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/CILogonCopyExtension.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/CILogonOA2Commands.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/CILogonOA2Commands.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/CILogonOA2CopyTool.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/CILogonOA2CopyTool.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/CILogonOA2CopyToolVerifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/CILogonOA2CopyToolVerifier.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/CounterCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/CounterCommands.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/IDPCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/IDPCommands.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/TwoFactorCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/TwoFactorCommands.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/UserStoreCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/UserStoreCommands.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/loader/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/loader/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proxy/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/proxy/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proxy/src/main/java/org/cilogon/proxy/servlet/CILOA2CertServlet.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/storage/user/DNState.java" beforeDir="false" afterPath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/storage/user/DNState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proxy/src/main/java/org/cilogon/proxy/servlet/DBService2.java" beforeDir="false" afterPath="$PROJECT_DIR$/proxy/src/main/java/org/cilogon/proxy/servlet/DBService2.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/qdl/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/qdl/buildNumber.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qdl/src/main/resources/cilogon-boot.qdl" beforeDir="false" afterPath="$PROJECT_DIR$/qdl/src/main/resources/cilogon-boot.qdl" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/server/buildNumber.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/test/buildNumber.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/webapp/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/webapp/pom.xml" afterDir="false" />
@@ -126,42 +118,42 @@
     <option name="showMembers" value="true" />
     <option name="showModules" value="false" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.CLI.executor": "Run",
-    "Application.QDL.executor": "Run",
-    "DefaultHtmlFileTemplate": "HTML File",
-    "JUnit.DBServiceUserTests.testCIL2201Basic.executor": "Debug",
-    "JUnit.DBServiceUserTests.testUpdateUser.executor": "Run",
-    "JUnit.Test suite.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Tomcat Server.CILogon.executor": "Run",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "master",
-    "jdk.selected.JAVA_MODULE": "11 (2)",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/home/ncsa/dev/ncsa-git/cilogon",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Libraries",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.5883041",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.CLI.executor&quot;: &quot;Debug&quot;,
+    &quot;Application.QDL.executor&quot;: &quot;Run&quot;,
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;JUnit.DBServiceUserTests.testCIL2201Basic.executor&quot;: &quot;Debug&quot;,
+    &quot;JUnit.DBServiceUserTests.testUpdateUser.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.Test suite.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Tomcat Server.CILogon.executor&quot;: &quot;Debug&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;11 (2)&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/ncsa/dev/ncsa-git/cilogon/admin/src/main/scripts&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.5883041&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/admin/src/main/scripts" />
       <recent name="$PROJECT_DIR$/qdl/src/main/scripts" />
       <recent name="$PROJECT_DIR$/qdl/src/main/resources" />
       <recent name="$PROJECT_DIR$/website" />
       <recent name="$PROJECT_DIR$/website/src/site/resources" />
-      <recent name="$PROJECT_DIR$/skin/src/main/resources/images" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/skin/src/main/resources/css" />
@@ -547,7 +539,8 @@
       <workItem from="1748896206951" duration="1998000" />
       <workItem from="1749756923287" duration="1098000" />
       <workItem from="1749946834463" duration="4723000" />
-      <workItem from="1750708179244" duration="17988000" />
+      <workItem from="1750708179244" duration="58393000" />
+      <workItem from="1752785630197" duration="2643000" />
     </task>
     <task id="LOCAL-00001" summary="Fallout from moving a bunch of static methods into classes.">
       <created>1675892224728</created>
@@ -871,14 +864,6 @@
       <option name="project" value="LOCAL" />
       <updated>1692998536215</updated>
     </task>
-    <task id="LOCAL-00094" summary="Getting website updates from 6.1.0">
-      <option name="closed" value="true" />
-      <created>1747141482056</created>
-      <option name="number" value="00094" />
-      <option name="presentableId" value="LOCAL-00094" />
-      <option name="project" value="LOCAL" />
-      <updated>1747141482056</updated>
-    </task>
     <task id="LOCAL-00095" summary="Fix https://github.com/cilogon/cilogon-java/issues/55">
       <option name="closed" value="true" />
       <created>1747777336044</created>
@@ -895,7 +880,15 @@
       <option name="project" value="LOCAL" />
       <updated>1751022984458</updated>
     </task>
-    <option name="localTasksCounter" value="97" />
+    <task id="LOCAL-00097" summary="https://github.com/cilogon/cilogon-java/issues/57 propagating bootstrap changes to CLIs">
+      <option name="closed" value="true" />
+      <created>1751463474963</created>
+      <option name="number" value="00097" />
+      <option name="presentableId" value="LOCAL-00097" />
+      <option name="project" value="LOCAL" />
+      <updated>1751463474963</updated>
+    </task>
+    <option name="localTasksCounter" value="98" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -948,7 +941,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="build scripts updated." />
     <MESSAGE value="Pruned unused directories." />
     <MESSAGE value="https://github.com/cilogon/cilogon-java/issues/46" />
     <MESSAGE value="https://github.com/cilogon/cilogon-java/issues/47 plus Javadoc after package renames in QDL and OA4MP." />
@@ -973,7 +965,8 @@
     <MESSAGE value="Getting website updates from 6.1.0" />
     <MESSAGE value="Fix https://github.com/cilogon/cilogon-java/issues/55" />
     <MESSAGE value="https://jira.ncsa.illinois.edu/browse/CIL-2249 Removing MyProxy code." />
-    <option name="LAST_COMMIT_MESSAGE" value="https://jira.ncsa.illinois.edu/browse/CIL-2249 Removing MyProxy code." />
+    <MESSAGE value="https://github.com/cilogon/cilogon-java/issues/57 propagating bootstrap changes to CLIs" />
+    <option name="LAST_COMMIT_MESSAGE" value="https://github.com/cilogon/cilogon-java/issues/57 propagating bootstrap changes to CLIs" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -1063,6 +1056,16 @@
           <url>file://$PROJECT_DIR$/test/src/test/java/test/cilogon/DBServiceUserTests.java</url>
           <line>95</line>
           <option name="timeStamp" value="117" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/proxy/src/main/java/org/cilogon/proxy/servlet/DBService2.java</url>
+          <line>100</line>
+          <option name="timeStamp" value="118" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$MAVEN_REPOSITORY$/edu/uiuc/ncsa/security/storage/6.x-SNAPSHOT/storage-6.x-SNAPSHOT-sources.jar!/edu/uiuc/ncsa/security/storage/cli/StoreCommands2.java</url>
+          <line>1668</line>
+          <option name="timeStamp" value="119" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

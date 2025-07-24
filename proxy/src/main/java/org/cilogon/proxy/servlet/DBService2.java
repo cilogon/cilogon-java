@@ -567,9 +567,12 @@ public class DBService2 extends AbstractDBService {
         if (debugger instanceof ClientDebugUtil) {
             ((ClientDebugUtil) debugger).setTransaction(t);
         }
-        if (myproxyUsername == null) {
+        if (myproxyUsername == null)
+        {
+// https://jira.ncsa.illinois.edu/browse/CIL-2274
             t.setMyproxyUsername(user.getDN(t, true));
             debugger.info(this, "Setting myproxy username to default user DN, since no cilogon_info sent.");
+
         } else {
             t.setMyproxyUsername(URLDecoder.decode(myproxyUsername, "UTF-8"));
         }
