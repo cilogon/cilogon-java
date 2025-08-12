@@ -4,6 +4,9 @@ import org.cilogon.oauth2.servlet.impl.CILOA2AuthorizedServletUtil;
 import org.oa4mp.server.loader.oauth2.servlet.OA2AuthorizedServletUtil;
 import org.oa4mp.server.proxy.OA2AuthorizationServer;
 
+/**
+ * Used by proxies. This is the /authorize endpoint.
+ */
 public class CILAuthorizationServer extends OA2AuthorizationServer {
     @Override
     protected OA2AuthorizedServletUtil getInitUtil() {

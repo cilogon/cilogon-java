@@ -594,7 +594,7 @@ public class DBService2 extends AbstractDBService {
             doUserClaims((CILogonOA2ServiceEnvironment) OA4MPServlet.getServiceEnvironment(), t, req, debugger);
         } catch (ScriptRuntimeException srx) {
             // The user threw one of these explicitly as part of the control flow, e.g. user was not in the right group.
-            debugger.trace(this, "Script runtime exception", srx);
+            debugger.trace(this, "Explicit script runtime exception:" + srx.getMessage(), srx);
             // CIL-1388
             // CIL-1342
             Err err = new Err(

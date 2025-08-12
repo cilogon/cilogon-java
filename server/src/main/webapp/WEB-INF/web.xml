@@ -7,15 +7,28 @@
 
     <display-name>The CILogon OIDC MyProxy Delegation Service</display-name>
 
-<!-- Fix https://jira.ncsa.illinois.edu/browse/CIL-1782
+    <!-- DO NOT DEPLOY THIS TO CILOGON, SINCE IT IS ONLY FOR MY SYSTEM. -->
+    <!-- Start proxy block -->
     <servlet>
-        <servlet-name>clientServlet</servlet-name>
-        <servlet-class>edu.uiuc.ncsa.myproxy.oa4mp.oauth2.servlet.ClientServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>clientServlet</servlet-name>
-        <url-pattern>/clients</url-pattern>
-    </servlet-mapping>-->
+            <servlet-name>authorize</servlet-name>
+            <servlet-class>org.cilogon.proxy.servlet.CILAuthorizationServer</servlet-class>
+        </servlet>
+        <servlet-mapping>
+            <servlet-name>authorize</servlet-name>
+            <url-pattern>/authorize</url-pattern>
+        </servlet-mapping>
+        <servlet>
+            <servlet-name>callback</servlet-name>
+            <servlet-class>org.oa4mp.server.proxy.ProxyCallbackServlet</servlet-class>
+            <load-on-startup>0</load-on-startup>
+        </servlet>
+        <servlet-mapping>
+            <servlet-name>callback</servlet-name>
+            <url-pattern>/ready</url-pattern>
+        </servlet-mapping>
+
+    <!-- End proxy block -->
+
 
  <!-- RFC 8628 support. -->
 
@@ -33,15 +46,7 @@
         <url-pattern>/certs/*</url-pattern>
     </servlet-mapping>
 
-    <servlet>
-        <servlet-name>initiate</servlet-name>
-        <servlet-class>org.cilogon.oauth2.servlet.impl.CILOA2AuthorizedServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>initiate</servlet-name>
-        <url-pattern>/init</url-pattern>
-    </servlet-mapping>
+
     <servlet>
         <servlet-name>admin-register</servlet-name>
         <servlet-class>org.oa4mp.server.loader.oauth2.servlet.OA2AdminRegistrationServlet</servlet-class>
@@ -77,26 +82,7 @@
         <servlet-name>oidc-cm</servlet-name>
         <url-pattern>/oidc-cm/*</url-pattern>
     </servlet-mapping>
-    <!-- DO NOT DEPLOY THIS TO CILOGON, SINCE IT IS ONLY FOR MY SYSTEM. -->
-    <!-- Start proxy block -->
-    <servlet>
-        <servlet-name>authorize</servlet-name>
-        <servlet-class>org.cilogon.proxy.servlet.CILAuthorizationServer</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>authorize</servlet-name>
-        <url-pattern>/authorize</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>callback</servlet-name>
-        <servlet-class>org.oa4mp.server.proxy.ProxyCallbackServlet</servlet-class>
-        <load-on-startup>0</load-on-startup>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>callback</servlet-name>
-        <url-pattern>/ready</url-pattern>
-    </servlet-mapping>
-    <!-- End proxy block -->
+
     <!--
        Note that we don't need the RFC8628AuthorizationServer servlet since that is done in PHP
        and communicates through a back channel. Do not deploy that servlet!
