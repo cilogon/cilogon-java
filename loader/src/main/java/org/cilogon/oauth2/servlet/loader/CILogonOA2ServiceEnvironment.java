@@ -7,7 +7,6 @@ import edu.uiuc.ncsa.security.servlet.UsernameTransformer;
 import edu.uiuc.ncsa.security.util.jwk.JSONWebKeys;
 import edu.uiuc.ncsa.security.util.mail.MailUtilProvider;
 import org.cilogon.oauth2.servlet.claims.UserClaimSource;
-import org.cilogon.oauth2.servlet.servlet.DBServiceConfig;
 import org.cilogon.oauth2.servlet.storage.archiveUser.ArchivedUserStore;
 import org.cilogon.oauth2.servlet.storage.idp.IdentityProviderStore;
 import org.cilogon.oauth2.servlet.storage.twofactor.TwoFactorStore;
@@ -30,6 +29,7 @@ import org.oa4mp.server.api.admin.permissions.PermissionsStore;
 import org.oa4mp.server.api.storage.servlet.AuthorizationServletConfig;
 import org.oa4mp.server.loader.oauth2.OA2SE;
 import org.oa4mp.server.loader.oauth2.cm.CMConfigs;
+import org.oa4mp.server.loader.oauth2.servlet.DBServiceConfig;
 import org.oa4mp.server.loader.oauth2.servlet.RFC8628ServletConfig;
 import org.oa4mp.server.loader.oauth2.storage.tx.TXStore;
 import org.oa4mp.server.loader.oauth2.storage.vi.VIStore;
@@ -173,10 +173,11 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
                 monitorAlarms,
                 ccfEnabled,
                 debugger,
-                isAllowPromptNone);
+                isAllowPromptNone,
+                dbServiceConfig);
         ciLogonSE = new CILogonSEImpl(usp, ausp, idpsp, incp, tfsp, isComputeFNAL);
-        ciLogonSE.setDBServiceConfig(dbServiceConfig);
-        this.dbServiceConfig = dbServiceConfig;
+/*        ciLogonSE.setDBServiceConfig(dbServiceConfig);
+        this.dbServiceConfig = dbServiceConfig;*/
         if (claimSource instanceof UserClaimSource) {
             ((UserClaimSource) claimSource).setOa2SE(this);
         }
@@ -235,7 +236,7 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
         return stores;
     }
 
-    public DBServiceConfig getDBServiceConfig() {
+/*    public DBServiceConfig getDBServiceConfig() {
         return dbServiceConfig;
     }
 
@@ -243,7 +244,7 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
         this.dbServiceConfig = dbServiceConfig;
     }
 
-    DBServiceConfig dbServiceConfig = null;
+    DBServiceConfig dbServiceConfig = null;*/
 
     @Override
     public List<Store> getAllStores() {

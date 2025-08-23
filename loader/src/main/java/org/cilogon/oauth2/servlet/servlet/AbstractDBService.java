@@ -13,7 +13,6 @@ import org.cilogon.oauth2.servlet.StatusCodes;
 import org.cilogon.oauth2.servlet.exceptions.EPTIDMismatchException;
 import org.cilogon.oauth2.servlet.exceptions.PairwiseIDMismatchException;
 import org.cilogon.oauth2.servlet.exceptions.SubjectIDMismatchException;
-import org.cilogon.oauth2.servlet.exceptions.UnknownDBSericeUserException;
 import org.cilogon.oauth2.servlet.storage.archiveUser.ArchivedUser;
 import org.cilogon.oauth2.servlet.storage.archiveUser.ArchivedUserStore;
 import org.cilogon.oauth2.servlet.storage.idp.IDPKeys;
@@ -150,14 +149,15 @@ public abstract class AbstractDBService extends OA4MPServlet {
     protected void doIt(HttpServletRequest request, HttpServletResponse response) throws Throwable {
         ServletDebugUtil.trace(this, "doIt: request = \"" + request.getRequestURL().toString()
                 + "\", query = \"" + request.getQueryString() + "\"");
-        if (getCILSE().getDBServiceConfig().isEnabled()) {
+        // In CILogon, access is localhost only, handled externally.
+/*        if (((OA2SE)getSE()).getDBServiceConfig().isEnabled()) {
             String username = request.getParameter("username");
             String password = request.getParameter("password");
             if (isTrivial(username) || isTrivial(password)) {
                 throw new UnknownDBSericeUserException();
             }
-            getCILSE().getDBServiceConfig().checkPassword(username, password);
-        }
+            ((OA2SE)getSE()).getDBServiceConfig().checkPassword(username, password);
+        }*/
         String action = getParam(request, ACTION_PARAMETER);
         if (doPing(request, response)) {
             return;

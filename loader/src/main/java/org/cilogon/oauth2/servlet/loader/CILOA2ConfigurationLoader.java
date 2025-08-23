@@ -5,12 +5,14 @@ import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.configuration.Configurations;
 import edu.uiuc.ncsa.security.core.configuration.provider.MultiTypeProvider;
 import edu.uiuc.ncsa.security.core.exceptions.GeneralException;
-import edu.uiuc.ncsa.security.core.util.*;
+import edu.uiuc.ncsa.security.core.util.DebugUtil;
+import edu.uiuc.ncsa.security.core.util.IdentifiableProviderImpl;
+import edu.uiuc.ncsa.security.core.util.IdentifierProvider;
+import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
 import edu.uiuc.ncsa.security.storage.data.MapConverter;
 import edu.uiuc.ncsa.security.storage.sql.ConnectionPoolProvider;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.configuration.tree.ConfigurationNode;
-import org.cilogon.oauth2.servlet.servlet.DBServiceConfig;
 import org.cilogon.oauth2.servlet.storage.TokenPrefixProvider;
 import org.cilogon.oauth2.servlet.storage.archiveUser.ArchivedUser;
 import org.cilogon.oauth2.servlet.storage.archiveUser.ArchivedUserStore;
@@ -43,10 +45,8 @@ import org.oa4mp.server.loader.oauth2.storage.transactions.OA2SQLTransactionStor
 import org.oa4mp.server.loader.oauth2.storage.transactions.OA2ServiceTransaction;
 
 import javax.inject.Provider;
-import java.util.List;
 
 import static edu.uiuc.ncsa.security.core.configuration.Configurations.getFirstAttribute;
-import static edu.uiuc.ncsa.security.core.configuration.Configurations.getFirstNode;
 import static org.oa4mp.server.api.admin.transactions.OA4MPIdentifierProvider.TRANSACTION_ID;
 
 /**
@@ -274,7 +274,7 @@ public class CILOA2ConfigurationLoader<C extends OA2SE> extends OA2Configuration
     }
 
 
-    DBServiceConfig dbServiceConfig = null;
+    /*DBServiceConfig dbServiceConfig = null;
 
     protected DBServiceConfig getDBSerivceConfig() {
         if (dbServiceConfig == null) {
@@ -303,4 +303,4 @@ public class CILOA2ConfigurationLoader<C extends OA2SE> extends OA2Configuration
         }
         return dbServiceConfig;
     }
-}
+*/}

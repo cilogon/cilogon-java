@@ -1,6 +1,5 @@
 package org.cilogon.oauth2.servlet.util;
 
-import org.cilogon.oauth2.servlet.servlet.DBServiceConfig;
 import org.cilogon.oauth2.servlet.storage.archiveUser.ArchivedUserStore;
 import org.cilogon.oauth2.servlet.storage.idp.IdentityProviderStore;
 import org.cilogon.oauth2.servlet.storage.user.UserStore;
@@ -113,7 +112,7 @@ public class CILogonSEImpl implements CILogonSE {
         return false;
     }
 
-    @Override
+/*    @Override
     public DBServiceConfig getDBServiceConfig() {
         return serviceConfig;
     }
@@ -123,5 +122,5 @@ public class CILogonSEImpl implements CILogonSE {
     @Override
     public void setDBServiceConfig(DBServiceConfig dbServiceConfig) {
           serviceConfig = dbServiceConfig;
-    }
+    }*/
 }
