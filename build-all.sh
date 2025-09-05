@@ -60,3 +60,7 @@ end_time=$(date +%s)
 
 elapsed=$((end_time - start_time))
 echo "Total elapsed time: $elapsed seconds"
+
+current_time=$(date +%T)
+echo "build ended at: $current_time"
+

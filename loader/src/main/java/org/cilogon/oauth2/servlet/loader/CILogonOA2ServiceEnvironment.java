@@ -29,11 +29,11 @@ import org.oa4mp.server.api.admin.permissions.PermissionsStore;
 import org.oa4mp.server.api.storage.servlet.AuthorizationServletConfig;
 import org.oa4mp.server.loader.oauth2.OA2SE;
 import org.oa4mp.server.loader.oauth2.cm.CMConfigs;
-import org.oa4mp.server.loader.oauth2.servlet.DBServiceConfig;
 import org.oa4mp.server.loader.oauth2.servlet.RFC8628ServletConfig;
 import org.oa4mp.server.loader.oauth2.storage.tx.TXStore;
 import org.oa4mp.server.loader.oauth2.storage.vi.VIStore;
 import org.oa4mp.server.loader.qdl.scripting.OA2QDLEnvironment;
+import org.oa4mp.server.loader.oauth2.servlet.DIServiceConfig;
 
 import javax.inject.Provider;
 import java.time.LocalTime;
@@ -111,7 +111,7 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
                                         Collection<LocalTime> monitorAlarms,
                                         MetaDebugUtil debugger,
                                         boolean ccfEnabled,
-                                        DBServiceConfig dbServiceConfig,
+                                        DIServiceConfig diServiceConfig,
                                         boolean isAllowPromptNone
     ) {
         super(logger,
@@ -174,7 +174,7 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
                 ccfEnabled,
                 debugger,
                 isAllowPromptNone,
-                dbServiceConfig);
+                diServiceConfig);
         ciLogonSE = new CILogonSEImpl(usp, ausp, idpsp, incp, tfsp, isComputeFNAL);
 /*        ciLogonSE.setDBServiceConfig(dbServiceConfig);
         this.dbServiceConfig = dbServiceConfig;*/
