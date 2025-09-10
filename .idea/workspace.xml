@@ -10,7 +10,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="04234930-e14d-41d5-bfcd-bac41d340cf1" name="Changes" comment="6.2.1 website rebuild">
+    <list default="true" id="04234930-e14d-41d5-bfcd-bac41d340cf1" name="Changes" comment="Website rebuild with updated version numbers">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/apidocs/allclasses-index.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/apidocs/allclasses-index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/apidocs/allclasses.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/apidocs/allclasses.html" afterDir="false" />
@@ -424,9 +424,19 @@
       <change beforePath="$PROJECT_DIR$/docs/apidocs/package-search-index.zip" beforeDir="false" afterPath="$PROJECT_DIR$/docs/apidocs/package-search-index.zip" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/apidocs/serialized-form.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/apidocs/serialized-form.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/apidocs/type-search-index.zip" beforeDir="false" afterPath="$PROJECT_DIR$/docs/apidocs/type-search-index.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/dependencies.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/dependencies.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/dependency-info.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/dependency-info.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/distribution-management.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/distribution-management.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/pdf/CILogon-DB-service.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/docs/pdf/CILogon-DB-service.pdf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/pdf/cilogon-store.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/docs/pdf/cilogon-store.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/plugin-management.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/plugin-management.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/plugins.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/plugins.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/project-info.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/project-info.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/scm.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/scm.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/summary.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/summary.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/qdl/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/qdl/buildNumber.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/qdl/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/qdl/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/server/buildNumber.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/test/buildNumber.properties" afterDir="false" />
     </list>
@@ -954,7 +964,7 @@
       <workItem from="1754487459639" duration="5109000" />
       <workItem from="1754563186053" duration="35001000" />
       <workItem from="1755687607047" duration="2092000" />
-      <workItem from="1755958857554" duration="85932000" />
+      <workItem from="1755958857554" duration="88413000" />
     </task>
     <task id="LOCAL-00001" summary="Fallout from moving a bunch of static methods into classes.">
       <created>1675892224728</created>
@@ -1278,14 +1288,6 @@
       <option name="project" value="LOCAL" />
       <updated>1692998536215</updated>
     </task>
-    <task id="LOCAL-00102" summary="Website rebuild">
-      <option name="closed" value="true" />
-      <created>1757110889059</created>
-      <option name="number" value="00102" />
-      <option name="presentableId" value="LOCAL-00102" />
-      <option name="project" value="LOCAL" />
-      <updated>1757110889059</updated>
-    </task>
     <task id="LOCAL-00103" summary="6.2.1 checkin">
       <option name="closed" value="true" />
       <created>1757430067215</created>
@@ -1302,7 +1304,15 @@
       <option name="project" value="LOCAL" />
       <updated>1757431272596</updated>
     </task>
-    <option name="localTasksCounter" value="105" />
+    <task id="LOCAL-00105" summary="Website rebuild with updated version numbers">
+      <option name="closed" value="true" />
+      <created>1757453262565</created>
+      <option name="number" value="00105" />
+      <option name="presentableId" value="LOCAL-00105" />
+      <option name="project" value="LOCAL" />
+      <updated>1757453262565</updated>
+    </task>
+    <option name="localTasksCounter" value="106" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1355,7 +1365,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="CIL-2118, CIL-2120, migration v5.6 --&gt; v6.0" />
     <MESSAGE value="CIL-1916 fixes, including a complete set of unit tests." />
     <MESSAGE value="Client servlet not initializing correctly." />
     <MESSAGE value="https://github.com/cilogon/cilogon-java/issues/48" />
@@ -1380,7 +1389,8 @@
     <MESSAGE value="Website rebuild" />
     <MESSAGE value="6.2.1 checkin" />
     <MESSAGE value="6.2.1 website rebuild" />
-    <option name="LAST_COMMIT_MESSAGE" value="6.2.1 website rebuild" />
+    <MESSAGE value="Website rebuild with updated version numbers" />
+    <option name="LAST_COMMIT_MESSAGE" value="Website rebuild with updated version numbers" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
   </component>
   <component name="XDebuggerManager">
