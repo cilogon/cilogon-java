@@ -371,6 +371,36 @@ public class DNTests extends RemoteDBServiceTest {
     }
 
     @Test
+    public void testSubjectIDCaseInsensitive() throws Exception {
+        // Test https://jira.ncsa.illinois.edu/browse/CIL-2299
+
+        String r = getRandomString();
+        XMLMap userMap = new XMLMap();
+
+        userMap.put(userKeys.subjectId(), "https://idp.bigstate.edu/idp/shibboleth/" + userKeys.subjectId() + "/" + r);
+        userMap.put(userKeys.idp(), "https://idp.bigstate.edu/idp/shibboleth");
+        String firstName = "Mohammed";
+        String lastName = "Chang";
+
+        String eppn = firstName + r + "." + lastName + r + "@bigstate.edu";
+
+        userMap.put(userKeys.eppn(), eppn);
+        userMap.put(userKeys.email(), eppn);  // not true in general, ok for test.
+        userMap.put(userKeys.organizationalUnit(), "test:org/unit");  // not true in general, ok for test.
+        userMap.put(userKeys.idpDisplayName(), "Big State University");
+        userMap.put(userKeys.displayName(), firstName + r + " " + lastName);
+        // The test is to create a user
+        XMLMap rMap = getDBSClient().doGet(GET_USER, userMap);
+        assert getStatusKey(rMap) == StatusCodes.STATUS_NEW_USER;
+        // randomly change the CASE of the subject. Should work.
+        userMap.put(userKeys.subjectId(), "https://idp." + "bigstate.edu/idp/shi".toUpperCase() + "bboleth/" + userKeys.subjectId() + "/" + r);
+        rMap = getDBSClient().doGet(GET_USER, userMap);
+        assert getStatusKey(rMap) == StatusCodes.STATUS_OK : "case insensitive subject ID test failed.";
+    }
+
+
+
+        @Test
     public void testPairwiseIDMismatch() throws Exception {
         String r = getRandomString();
         XMLMap userMap = new XMLMap();
