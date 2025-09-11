@@ -10,15 +10,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="04234930-e14d-41d5-bfcd-bac41d340cf1" name="Changes" comment="Website rebuild">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/loader/CILOA2Bootstrapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/loader/CILOA2Bootstrapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/storage/user/SubjectID.java" beforeDir="false" afterPath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/storage/user/SubjectID.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qdl/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/qdl/buildNumber.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/server/buildNumber.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/test/buildNumber.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/src/test/java/test/cilogon/impl/DNTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/src/test/java/test/cilogon/impl/DNTests.java" afterDir="false" />
-    </list>
+    <list default="true" id="04234930-e14d-41d5-bfcd-bac41d340cf1" name="Changes" comment="https://jira.ncsa.illinois.edu/browse/CIL-2299 with a vengeance" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -545,7 +537,7 @@
       <workItem from="1755687607047" duration="2092000" />
       <workItem from="1755958857554" duration="78654000" />
       <workItem from="1757541201113" duration="213000" />
-      <workItem from="1757610401862" duration="3541000" />
+      <workItem from="1757610401862" duration="4160000" />
     </task>
     <task id="LOCAL-00001" summary="Fallout from moving a bunch of static methods into classes.">
       <created>1675892224728</created>
@@ -869,14 +861,6 @@
       <option name="project" value="LOCAL" />
       <updated>1692998536215</updated>
     </task>
-    <task id="LOCAL-00098" summary="Checkin before release">
-      <option name="closed" value="true" />
-      <created>1753361564032</created>
-      <option name="number" value="00098" />
-      <option name="presentableId" value="LOCAL-00098" />
-      <option name="project" value="LOCAL" />
-      <updated>1753361564032</updated>
-    </task>
     <task id="LOCAL-00099" summary="        // Fix https://jira.ncsa.illinois.edu/browse/CIL-2299&#10;Fix">
       <option name="closed" value="true" />
       <created>1755036374014</created>
@@ -893,7 +877,15 @@
       <option name="project" value="LOCAL" />
       <updated>1755958915587</updated>
     </task>
-    <option name="localTasksCounter" value="101" />
+    <task id="LOCAL-00101" summary="https://jira.ncsa.illinois.edu/browse/CIL-2299 with a vengeance">
+      <option name="closed" value="true" />
+      <created>1757614278906</created>
+      <option name="number" value="00101" />
+      <option name="presentableId" value="LOCAL-00101" />
+      <option name="project" value="LOCAL" />
+      <updated>1757614278906</updated>
+    </task>
+    <option name="localTasksCounter" value="102" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -946,7 +938,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Javadoc update. Script tweaks" />
     <MESSAGE value="Changes to QDL workspace initialization propagated." />
     <MESSAGE value="This will be the standard boot file on CILogon servers as of version 6.0" />
     <MESSAGE value="More package rename fallout from OA4MP." />
@@ -971,7 +962,8 @@
     <MESSAGE value="Checkin before release" />
     <MESSAGE value="        // Fix https://jira.ncsa.illinois.edu/browse/CIL-2299&#10;Fix" />
     <MESSAGE value="Updated constructor needed to be propagated. Removed unused check for users on DBService. CILogon manages access through restricting IPs, so does not need this." />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated constructor needed to be propagated. Removed unused check for users on DBService. CILogon manages access through restricting IPs, so does not need this." />
+    <MESSAGE value="https://jira.ncsa.illinois.edu/browse/CIL-2299 with a vengeance" />
+    <option name="LAST_COMMIT_MESSAGE" value="https://jira.ncsa.illinois.edu/browse/CIL-2299 with a vengeance" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
   </component>
   <component name="XDebuggerManager">
