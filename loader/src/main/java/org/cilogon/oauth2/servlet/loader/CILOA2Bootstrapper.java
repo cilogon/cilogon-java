@@ -1,6 +1,7 @@
 package org.cilogon.oauth2.servlet.loader;
 
 import edu.uiuc.ncsa.security.core.Identifiable;
+import edu.uiuc.ncsa.security.core.cf.CFNode;
 import edu.uiuc.ncsa.security.core.exceptions.MyConfigurationException;
 import edu.uiuc.ncsa.security.core.util.ConfigurationLoader;
 import edu.uiuc.ncsa.security.servlet.Initialization;
@@ -14,8 +15,8 @@ import org.oa4mp.server.api.admin.adminClient.AdminClientStoreProviders;
 import org.oa4mp.server.api.admin.things.SATFactory;
 import org.oa4mp.server.api.storage.servlet.AbstractBootstrapper;
 import org.oa4mp.server.loader.oauth2.OA2SE;
-import org.oa4mp.server.loader.oauth2.loader.OA2ServletInitializer;
 import org.oa4mp.server.loader.oauth2.cm.oidc_cm.OIDCCMServlet;
+import org.oa4mp.server.loader.oauth2.loader.OA2ServletInitializer;
 
 import javax.servlet.ServletException;
 
@@ -24,6 +25,10 @@ import javax.servlet.ServletException;
  * on 3/20/12 at  3:06 PM
  */
 public class CILOA2Bootstrapper extends AbstractBootstrapper {
+    public CILOA2Bootstrapper() {
+        setUseCF(false);
+    }
+
     public static final String CIL_CONFIG_FILE_KEY = "oa4mp:cil-oa2.server.config.file";
     public static final String CIL_CONFIG_NAME_KEY = "oa4mp:cil-oa2.server.config.name";
 
@@ -74,8 +79,14 @@ public class CILOA2Bootstrapper extends AbstractBootstrapper {
         }
     }
 
+
     @Override
     public Initialization getInitialization() {
         return new CILOA2ServletInitializer();
+    }
+
+    @Override
+    public ConfigurationLoader getConfigurationLoader(CFNode node) throws MyConfigurationException {
+        return null;
     }
 }
