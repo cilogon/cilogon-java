@@ -643,7 +643,6 @@ public class DBService2 extends AbstractDBService {
      * @throws Throwable
      */
     protected void doUserClaims(CILogonOA2ServiceEnvironment env, CILOA2ServiceTransaction t, HttpServletRequest request, MetaDebugUtil debugger) throws Throwable {
-        // try {
         debugger.trace(this, "Doing user claims");
         UserClaimSource userClaimSource = new UserClaimSource(getMyLogger());
         userClaimSource.setOa2SE((OA2SE) OA4MPServlet.getServiceEnvironment());
