@@ -13,7 +13,6 @@ cd "$CILOGON_QDL_DEPLOY" || exit
 # rm -Rf *
 "$CILOGON_QDL_ROOT"/src/main/scripts/create_dirs.sh
 
-echo "changing to $CILOGON_QDL_ROOT"
 cd "$CILOGON_QDL_ROOT" || exit
 mvn -P qdl package > qdl-maven.log
 if [[ $? -ne 0 ]] ; then
