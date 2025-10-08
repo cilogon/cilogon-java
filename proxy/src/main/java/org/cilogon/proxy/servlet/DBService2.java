@@ -64,7 +64,6 @@ import static org.cilogon.oauth2.servlet.StatusCodes.STATUS_CLIENT_NOT_FOUND;
 public class DBService2 extends AbstractDBService {
 
 
-
     public static final String CHECK_USER_CODE = "checkUserCode";
     public static final int CHECK_USER_CODE_CASE = 740;
     public static final String CHECK_CODE_APPROVED = "userCodeApproved";
@@ -89,13 +88,13 @@ public class DBService2 extends AbstractDBService {
 
     @Override
     protected void doAction(HttpServletRequest request, HttpServletResponse response, String action) throws IOException, ServletException {
-     //   printAllParameters(request);
+        //   printAllParameters(request);
         ServletDebugUtil.trace(this, "action = " + action);
         switch (lookupCase(action)) {
             case GET_CLIENT_CASE:
                 getClient(request, response);
                 return;
-                // Near as I can tell, neither of these can be used since they do not return any
+            // Near as I can tell, neither of these can be used since they do not return any
             // usable information -- just an ok
             case SET_TRANSACTION_STATE_CASE:
                 setTransactionState(request, response);
@@ -567,12 +566,15 @@ public class DBService2 extends AbstractDBService {
         if (debugger instanceof ClientDebugUtil) {
             ((ClientDebugUtil) debugger).setTransaction(t);
         }
-        if (myproxyUsername == null)
-        {
-// https://jira.ncsa.illinois.edu/browse/CIL-2274
-            t.setMyproxyUsername(user.getDN(t, true));
-            debugger.info(this, "Setting myproxy username to default user DN, since no cilogon_info sent.");
-
+        if (myproxyUsername == null) {
+            // https://jira.ncsa.illinois.edu/browse/CIL-2274
+            if (user.canGetCert()) {
+                try {
+                    t.setMyproxyUsername(user.getDN(t, true));
+                } catch (Throwable ttt) {
+                    debugger.info(this, "Setting myproxy username to default user DN, since no cilogon_info sent.");
+                }
+            }
         } else {
             t.setMyproxyUsername(URLDecoder.decode(myproxyUsername, "UTF-8"));
         }
@@ -586,9 +588,9 @@ public class DBService2 extends AbstractDBService {
         user.setLastAccessed(t.getAuthTime()); // make sure user accesses are tracked as well.
         t.setAuthGrantValid(true);
         t.setUsername(userUID.toString());
-       // Next block is critical since it puts the user claims from authorization in the transaction.
-       // If there are server-wide claims to be processed, they are done here aw well. This takes the
-       // place of the similar call in the OA4MP authorization leg, which CILogon replaces.
+        // Next block is critical since it puts the user claims from authorization in the transaction.
+        // If there are server-wide claims to be processed, they are done here aw well. This takes the
+        // place of the similar call in the OA4MP authorization leg, which CILogon replaces.
         try {
             debugger.trace(this, "Starting to process claims");
             doUserClaims((CILogonOA2ServiceEnvironment) OA4MPServlet.getServiceEnvironment(), t, req, debugger);
@@ -636,6 +638,7 @@ public class DBService2 extends AbstractDBService {
 
     /**
      * Runs the user claims to populate the transaction.
+     *
      * @param env
      * @param t
      * @param request
@@ -663,7 +666,7 @@ public class DBService2 extends AbstractDBService {
     // Fixes CIL-105.
     protected void getClient(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Identifier clientID = BasicIdentifier.newID(req.getParameter("client_id"));
-        if(clientID == null) {
+        if (clientID == null) {
             writeMessage(resp, new Err(STATUS_MISSING_CLIENT_ID, "missing_client_id", StatusCodes.getMessage(STATUS_MISSING_CLIENT_ID)));
         }
         OA2Client client = (OA2Client) OA4MPServlet.getServiceEnvironment().getClientStore().get(clientID);

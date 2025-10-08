@@ -49,28 +49,17 @@ public class CILogonOA2Commands extends OA2Commands {
 
             try {
                 InputLine inputLine = new InputLine(OA2Commands.class.getSimpleName(), args);
-                CILogonOA2Commands ciLogonCommands = new CILogonOA2Commands(null);
+                CLIDriver cli = new CLIDriver(); // actually run the driver that parses commands and passes them along
+                CILogonOA2Commands ciLogonCommands = new CILogonOA2Commands(cli);
 
-                CLIDriver cli = new CLIDriver(ciLogonCommands); // actually run the driver that parses commands and passes them along
                 inputLine = cli.bootstrap(inputLine);
+                cli.addCommands(ciLogonCommands);
+
                 ciLogonCommands.bootstrap(inputLine); // read the command line options and such to set the state
                 cli.start();
             } catch (Throwable t) {
                 t.printStackTrace();
             }
-
-/*
-            CILogonOA2Commands ciLogonCommands = new CILogonOA2Commands(null);
-            ciLogonCommands.startup(args);
-            if (ciLogonCommands.executeComponent()) {
-                return;
-            }
-            CLIDriver cli = new CLIDriver(ciLogonCommands);
-            cli.start();
-        } catch (Throwable t) {
-            t.printStackTrace();
-        }*/
-
         }
 
     protected CILogonOA2ServiceEnvironment getCILogonSE() throws Exception {
@@ -89,7 +78,10 @@ public class CILogonOA2Commands extends OA2Commands {
 
     protected UserStoreCommands getUserStoreCommands(String indent) throws Throwable {
         if (userStoreCommands == null) {
-            userStoreCommands = new UserStoreCommands(getDriver(), indent, getCILogonSE().getUserStore(), getCILogonSE().getArchivedUserStore());
+            userStoreCommands = new UserStoreCommands(new CLIDriver(), indent, getCILogonSE().getUserStore(), getCILogonSE().getArchivedUserStore());
+            configureCommands(getDriver(), userStoreCommands);
+            userStoreCommands.initHelp();
+
         }
         return userStoreCommands;
     }
@@ -98,7 +90,10 @@ public class CILogonOA2Commands extends OA2Commands {
 
     protected IDPCommands getIdpCommands(String indent) throws Throwable {
         if (idpCommands == null) {
-            idpCommands = new IDPCommands(getDriver(), indent, getCILogonSE().getIDPStore());
+            idpCommands = new IDPCommands(new CLIDriver(), indent, getCILogonSE().getIDPStore());
+            configureCommands(getDriver(), idpCommands);
+            idpCommands.initHelp();
+
         }
         return idpCommands;
     }
@@ -107,7 +102,9 @@ public class CILogonOA2Commands extends OA2Commands {
 
     protected CounterCommands getCounterCommands(String indent) throws Throwable {
         if (counterCommands == null) {
-            counterCommands = new CounterCommands(getDriver(), indent, getCILogonSE().getIncrementable(), getCILogonSE().getUserStore());
+            counterCommands = new CounterCommands(new CLIDriver(), indent, getCILogonSE().getIncrementable(), getCILogonSE().getUserStore());
+            configureCommands(getDriver(), counterCommands);
+            counterCommands.initHelp();
         }
         return counterCommands;
     }
@@ -116,7 +113,9 @@ public class CILogonOA2Commands extends OA2Commands {
 
     protected ArchivedUserStoreCommands getArchivedUserStoreCommands(String indent) throws Throwable {
         if (archivedUserStoreCommands == null) {
-            archivedUserStoreCommands = new ArchivedUserStoreCommands(getDriver(), indent, getCILogonSE().getArchivedUserStore(), getCILogonSE().getUserStore());
+            archivedUserStoreCommands = new ArchivedUserStoreCommands(new CLIDriver(), indent, getCILogonSE().getArchivedUserStore(), getCILogonSE().getUserStore());
+            configureCommands(getDriver(), archivedUserStoreCommands);
+            archivedUserStoreCommands.initHelp();
         }
         return archivedUserStoreCommands;
     }
@@ -125,7 +124,9 @@ public class CILogonOA2Commands extends OA2Commands {
 
     protected TwoFactorCommands getTwoFactorCommands(String indent) throws Throwable {
         if (twoFactorCommands == null) {
-            twoFactorCommands = new TwoFactorCommands(getDriver(), indent, getCILogonSE().getTwoFactorStore());
+            twoFactorCommands = new TwoFactorCommands(new CLIDriver(), indent, getCILogonSE().getTwoFactorStore());
+            configureCommands(getDriver(), twoFactorCommands);
+            twoFactorCommands.initHelp();
         }
         return twoFactorCommands;
 

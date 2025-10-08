@@ -41,7 +41,7 @@ public class IDPCommands extends OA4MPStoreCommands {
     }
 
     @Override
-    protected void initHelp() throws Throwable {
+    public void initHelp() throws Throwable {
         super.initHelp();
         getHelpUtil().load("/help/idp_help.xml");
     }

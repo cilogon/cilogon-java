@@ -166,6 +166,8 @@ public class DNUtil {
         String baseString = "/DC=org/DC=cilogon" + (user.isUseUSinDN() ? "/C=US" : "") + "/O=%s/CN=%s %s";
         // CIL-793 fix. it is possible that the OAuth 1 code (which is still working) might be used and inject cruft for the
         // user. Therefore, we check here and will reject the request no matter what if the name is trivial.
+     /*   String[] dnNames = user.getCertName();
+        if(dnNames == null || dnNames.length == 0) {}*/
         String name = encodeCertName(user.getCertName());
         if(StringUtils.isTrivial(name)){
             throw new NFWException("Error: user \"" + user.getIdentifierString() + "\" does not have a name. Cert request rejected.");

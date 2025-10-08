@@ -68,6 +68,10 @@ public abstract class CILogonExceptionHandler implements ExceptionHandler {
         ServletDebugUtil.trace(this, "Got an error of \"" + t.getMessage() + "\", returning generic error code.");
         dbServlet.writeMessage(response, StatusCodes.STATUS_INTERNAL_ERROR);
         // and log it too...
+        if(t.getMessage() == null) {
+            // really sub-optimal, but indicates an edge case where there is no real information otherwise.
+            t.printStackTrace();
+        }
         dbServlet.error("There was an internal error: " + t.getMessage());
     }
 }

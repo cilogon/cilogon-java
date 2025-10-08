@@ -28,7 +28,7 @@ public class CounterCommands extends CommonCommands2 {
     }
 
     @Override
-    protected void initHelp() throws Throwable {
+    public void initHelp() throws Throwable {
         super.initHelp();
         getHelpUtil().load("/help/counter_commands_help.xml");
     }

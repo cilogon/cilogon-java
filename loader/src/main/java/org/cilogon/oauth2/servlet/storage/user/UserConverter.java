@@ -88,7 +88,6 @@ public class UserConverter<T extends User> extends MonitoredConverter<T> {
         if(user.getState() != null) {
             map.put(uk().state(), user.getState().toString());
         }
-        System.err.println(getClass().getSimpleName() + ".toMap:\n" + map);
     }
 
     /**
