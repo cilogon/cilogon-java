@@ -55,7 +55,8 @@ public class DNState {
     public DNState() {
         bitSet = new BitSet();
     }
-    public DNState(BitSet bitSet){
+
+    public DNState(BitSet bitSet) {
         this.bitSet = bitSet;
     }
 
@@ -129,7 +130,7 @@ public class DNState {
     }
 
     public int getStateValue() {
-        if(bitSet.isEmpty()) return 0;
+        if (bitSet.isEmpty()) return 0;
         // vector of [M,I, D, F,L]
         return BitSetUtil.toInt(bitSet);
     }
@@ -150,27 +151,42 @@ public class DNState {
     public void setIDPName(boolean ok) {
         setIt(DN_STATE_IDP_NAME, ok);
     }
-    public boolean hasIDPName(){return bitSet.get(DN_STATE_IDP_NAME);}
+
+    public boolean hasIDPName() {
+        return bitSet.get(DN_STATE_IDP_NAME);
+    }
 
     public void setEmail(boolean ok) {
         setIt(DN_STATE_EMAIL_INDEX, ok);
     }
-    public boolean hasEmail(){return bitSet.get(DN_STATE_EMAIL_INDEX);}
+
+    public boolean hasEmail() {
+        return bitSet.get(DN_STATE_EMAIL_INDEX);
+    }
 
     public void setDisplayName(boolean ok) {
         setIt(DN_STATE_DISPLAY_NAME_INDEX, ok);
     }
-    public boolean hasDisplayName(){return bitSet.get(DN_STATE_DISPLAY_NAME_INDEX);}
+
+    public boolean hasDisplayName() {
+        return bitSet.get(DN_STATE_DISPLAY_NAME_INDEX);
+    }
 
     public void setFirstName(boolean ok) {
         setIt(DN_STATE_FIRST_NAME_INDEX, ok);
     }
-    public boolean hasFirstName(){return bitSet.get(DN_STATE_FIRST_NAME_INDEX);}
+
+    public boolean hasFirstName() {
+        return bitSet.get(DN_STATE_FIRST_NAME_INDEX);
+    }
 
     public void setLastName(boolean ok) {
         setIt(DN_STATE_LAST_NAME_INDEX, ok);
     }
-    public boolean hasLastName(){return bitSet.get(DN_STATE_LAST_NAME_INDEX);}
+
+    public boolean hasLastName() {
+        return bitSet.get(DN_STATE_LAST_NAME_INDEX);
+    }
 
     public String[] getDNNames(User user) {
         if (getStateValue() == valid_dName) {
@@ -179,22 +195,18 @@ public class DNState {
         if (getStateValue() == valid_flName) {
             return new String[]{user.getFirstName(), user.getLastName()};
         }
-    // Fix https://jira.ncsa.illinois.edu/browse/CIL-2274
-        //return new String[]{};
-        IllegalStateException is =  new IllegalStateException("Error: Could not determine which user names to return for user \"" + user.getIdentifierString() + "\"");
-        is.printStackTrace();
-        throw is;
+        throw new IllegalStateException("Error: Could not determine which user names to return for user \"" + user.getIdentifierString() + "\"");
     }
 
     public boolean canGetDN() {
         // correspond to [1,0,1,1] and [1,1,0,0] resp.
-        if(getStateValue() == valid_All){
+        if (getStateValue() == valid_All) {
             throw new IllegalStateException("Error: Cannot have all values set at once.");
         }
-        return getStateValue() == valid_flName || getStateValue() == valid_dName ;
+        return getStateValue() == valid_flName || getStateValue() == valid_dName;
     }
 
-    public BitSet getBitSet(){
+    public BitSet getBitSet() {
         return bitSet;
     }
 }

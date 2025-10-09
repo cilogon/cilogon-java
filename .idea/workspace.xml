@@ -10,12 +10,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="04234930-e14d-41d5-bfcd-bac41d340cf1" name="Changes" comment="6.2.2 checkin, includes website rebuild">
+    <list default="true" id="04234930-e14d-41d5-bfcd-bac41d340cf1" name="Changes" comment="https://jira.ncsa.illinois.edu/browse/CIL-2274 fix checks on DEV.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/CILogonOA2Commands.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/CILogonOA2Commands.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/CounterCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/CounterCommands.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/IDPCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/IDPCommands.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/UserStoreCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/UserStoreCommands.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/apidocs/allclasses-index.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/apidocs/allclasses-index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/apidocs/allclasses.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/apidocs/allclasses.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/apidocs/allpackages-index.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/apidocs/allpackages-index.html" afterDir="false" />
@@ -439,11 +435,7 @@
       <change beforePath="$PROJECT_DIR$/docs/project-info.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/project-info.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/scm.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/scm.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/summary.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/summary.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/servlet/CILogonExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/servlet/CILogonExceptionHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/storage/user/DNState.java" beforeDir="false" afterPath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/storage/user/DNState.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/storage/user/UserConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/storage/user/UserConverter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/util/DNUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/util/DNUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proxy/src/main/java/org/cilogon/proxy/servlet/DBService2.java" beforeDir="false" afterPath="$PROJECT_DIR$/proxy/src/main/java/org/cilogon/proxy/servlet/DBService2.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/qdl/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/qdl/buildNumber.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/server/buildNumber.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/test/buildNumber.properties" afterDir="false" />
@@ -585,7 +577,7 @@
       <recent name="$PROJECT_DIR$/skin/src/main/resources/css" />
     </key>
   </component>
-  <component name="RunManager" selected="Tomcat Server.CILogon">
+  <component name="RunManager" selected="JUnit.Test suite">
     <configuration default="true" type="Applet" factoryName="Applet">
       <option name="WIDTH" value="400" />
       <option name="HEIGHT" value="300" />
@@ -978,7 +970,7 @@
       <workItem from="1757768974734" duration="638000" />
       <workItem from="1757846062294" duration="1761000" />
       <workItem from="1758279544465" duration="2893000" />
-      <workItem from="1759145762974" duration="28727000" />
+      <workItem from="1759145762974" duration="31058000" />
     </task>
     <task id="LOCAL-00001" summary="Fallout from moving a bunch of static methods into classes.">
       <created>1675892224728</created>
@@ -1302,14 +1294,6 @@
       <option name="project" value="LOCAL" />
       <updated>1692998536215</updated>
     </task>
-    <task id="LOCAL-00100" summary="Updated constructor needed to be propagated. Removed unused check for users on DBService. CILogon manages access through restricting IPs, so does not need this.">
-      <option name="closed" value="true" />
-      <created>1755958915587</created>
-      <option name="number" value="00100" />
-      <option name="presentableId" value="LOCAL-00100" />
-      <option name="project" value="LOCAL" />
-      <updated>1755958915587</updated>
-    </task>
     <task id="LOCAL-00101" summary="https://jira.ncsa.illinois.edu/browse/CIL-2299 with a vengeance">
       <option name="closed" value="true" />
       <created>1757614278906</created>
@@ -1326,7 +1310,15 @@
       <option name="project" value="LOCAL" />
       <updated>1759756553368</updated>
     </task>
-    <option name="localTasksCounter" value="103" />
+    <task id="LOCAL-00103" summary="https://jira.ncsa.illinois.edu/browse/CIL-2274 fix checks on DEV.">
+      <option name="closed" value="true" />
+      <created>1759962298771</created>
+      <option name="number" value="00103" />
+      <option name="presentableId" value="LOCAL-00103" />
+      <option name="project" value="LOCAL" />
+      <updated>1759962298771</updated>
+    </task>
+    <option name="localTasksCounter" value="104" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1379,7 +1371,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="This will be the standard boot file on CILogon servers as of version 6.0" />
     <MESSAGE value="More package rename fallout from OA4MP." />
     <MESSAGE value="CIL-2118, CIL-2120, migration v5.6 --&gt; v6.0" />
     <MESSAGE value="CIL-1916 fixes, including a complete set of unit tests." />
@@ -1404,7 +1395,8 @@
     <MESSAGE value="Updated constructor needed to be propagated. Removed unused check for users on DBService. CILogon manages access through restricting IPs, so does not need this." />
     <MESSAGE value="https://jira.ncsa.illinois.edu/browse/CIL-2299 with a vengeance" />
     <MESSAGE value="6.2.2 checkin, includes website rebuild" />
-    <option name="LAST_COMMIT_MESSAGE" value="6.2.2 checkin, includes website rebuild" />
+    <MESSAGE value="https://jira.ncsa.illinois.edu/browse/CIL-2274 fix checks on DEV." />
+    <option name="LAST_COMMIT_MESSAGE" value="https://jira.ncsa.illinois.edu/browse/CIL-2274 fix checks on DEV." />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -1492,7 +1484,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>jar://$MAVEN_REPOSITORY$/edu/uiuc/ncsa/security/storage/6.x-SNAPSHOT/storage-6.x-SNAPSHOT-sources.jar!/edu/uiuc/ncsa/security/storage/cli/StoreCommands2.java</url>
-          <line>1668</line>
+          <line>1666</line>
           <option name="timeStamp" value="119" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -1520,7 +1512,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/storage/user/DNState.java</url>
-          <line>175</line>
+          <line>191</line>
           <option name="timeStamp" value="136" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
