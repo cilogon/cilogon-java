@@ -10,7 +10,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="04234930-e14d-41d5-bfcd-bac41d340cf1" name="Changes" comment="https://jira.ncsa.illinois.edu/browse/CIL-2274 fix checks on DEV.">
+    <list default="true" id="04234930-e14d-41d5-bfcd-bac41d340cf1" name="Changes" comment="website rebuild, PDF refreshes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/apidocs/allclasses-index.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/apidocs/allclasses-index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/apidocs/allclasses.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/apidocs/allclasses.html" afterDir="false" />
@@ -435,7 +435,6 @@
       <change beforePath="$PROJECT_DIR$/docs/project-info.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/project-info.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/scm.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/scm.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/summary.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/summary.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/storage/user/DNState.java" beforeDir="false" afterPath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/storage/user/DNState.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/qdl/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/qdl/buildNumber.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/server/buildNumber.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/test/buildNumber.properties" afterDir="false" />
@@ -548,7 +547,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Tomcat Server.CILogon.executor": "Debug",
+    "Tomcat Server.CILogon.executor": "Run",
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "master",
     "jdk.selected.JAVA_MODULE": "11 (2)",
@@ -970,7 +969,7 @@
       <workItem from="1757768974734" duration="638000" />
       <workItem from="1757846062294" duration="1761000" />
       <workItem from="1758279544465" duration="2893000" />
-      <workItem from="1759145762974" duration="31058000" />
+      <workItem from="1759145762974" duration="33064000" />
     </task>
     <task id="LOCAL-00001" summary="Fallout from moving a bunch of static methods into classes.">
       <created>1675892224728</created>
@@ -1294,14 +1293,6 @@
       <option name="project" value="LOCAL" />
       <updated>1692998536215</updated>
     </task>
-    <task id="LOCAL-00101" summary="https://jira.ncsa.illinois.edu/browse/CIL-2299 with a vengeance">
-      <option name="closed" value="true" />
-      <created>1757614278906</created>
-      <option name="number" value="00101" />
-      <option name="presentableId" value="LOCAL-00101" />
-      <option name="project" value="LOCAL" />
-      <updated>1757614278906</updated>
-    </task>
     <task id="LOCAL-00102" summary="6.2.2 checkin, includes website rebuild">
       <option name="closed" value="true" />
       <created>1759756553368</created>
@@ -1318,7 +1309,15 @@
       <option name="project" value="LOCAL" />
       <updated>1759962298771</updated>
     </task>
-    <option name="localTasksCounter" value="104" />
+    <task id="LOCAL-00104" summary="website rebuild, PDF refreshes">
+      <option name="closed" value="true" />
+      <created>1760041266402</created>
+      <option name="number" value="00104" />
+      <option name="presentableId" value="LOCAL-00104" />
+      <option name="project" value="LOCAL" />
+      <updated>1760041266402</updated>
+    </task>
+    <option name="localTasksCounter" value="105" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1371,7 +1370,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="More package rename fallout from OA4MP." />
     <MESSAGE value="CIL-2118, CIL-2120, migration v5.6 --&gt; v6.0" />
     <MESSAGE value="CIL-1916 fixes, including a complete set of unit tests." />
     <MESSAGE value="Client servlet not initializing correctly." />
@@ -1396,7 +1394,8 @@
     <MESSAGE value="https://jira.ncsa.illinois.edu/browse/CIL-2299 with a vengeance" />
     <MESSAGE value="6.2.2 checkin, includes website rebuild" />
     <MESSAGE value="https://jira.ncsa.illinois.edu/browse/CIL-2274 fix checks on DEV." />
-    <option name="LAST_COMMIT_MESSAGE" value="https://jira.ncsa.illinois.edu/browse/CIL-2274 fix checks on DEV." />
+    <MESSAGE value="website rebuild, PDF refreshes" />
+    <option name="LAST_COMMIT_MESSAGE" value="website rebuild, PDF refreshes" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -1509,11 +1508,6 @@
           <url>file://$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/storage/user/User.java</url>
           <line>197</line>
           <option name="timeStamp" value="134" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/storage/user/DNState.java</url>
-          <line>191</line>
-          <option name="timeStamp" value="136" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/proxy/src/main/java/org/cilogon/proxy/servlet/DBService2.java</url>
