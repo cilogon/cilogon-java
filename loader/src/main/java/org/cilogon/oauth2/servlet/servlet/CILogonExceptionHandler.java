@@ -65,10 +65,10 @@ public abstract class CILogonExceptionHandler implements ExceptionHandler {
         if (t instanceof PairwiseIDMismatchException) {
             dbServlet.writeMessage(response, StatusCodes.STATUS_PAIRWISE_ID_MISMATCH);
         }
-        ServletDebugUtil.trace(this, "Got an error of \"" + t.getMessage() + "\", returning generic error code.");
+        ServletDebugUtil.trace(this, "Got an error of \"" + t.getMessage() + "\", returning generic error code for " + t.getClass().getName());
         dbServlet.writeMessage(response, StatusCodes.STATUS_INTERNAL_ERROR);
         // and log it too...
-        if(t.getMessage() == null) {
+        if (t.getMessage() == null || ServletDebugUtil.isTraceEnabled()) {
             // really sub-optimal, but indicates an edge case where there is no real information otherwise.
             t.printStackTrace();
         }

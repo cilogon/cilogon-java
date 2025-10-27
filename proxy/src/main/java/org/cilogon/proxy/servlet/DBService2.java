@@ -158,11 +158,11 @@ public class DBService2 extends AbstractDBService {
         if (StringUtils.isTrivial(userCode)) {
             doError("No user code parameter was found.", StatusCodes.STATUS_MISSING_ARGUMENT, response);
         }
-        RFC8628ServletConfig rfc8628ServletConfig = ((OA2SE) OA4MPServlet.getServiceEnvironment()).getRfc8628ServletConfig();
+        RFC8628ServletConfig rfc8628ServletConfig = ((OA2SE) getServiceEnvironment()).getRfc8628ServletConfig();
 
         userCode = RFC8628Servlet.convertToCanonicalForm(userCode, rfc8628ServletConfig);
 
-        CILogonOA2ServiceEnvironment se = (CILogonOA2ServiceEnvironment) OA4MPServlet.getServiceEnvironment();
+        CILogonOA2ServiceEnvironment se = (CILogonOA2ServiceEnvironment) getServiceEnvironment();
         if (!se.isRfc8628Enabled()) {
             doError("Device flow is not available on this server.", STATUS_SERVICE_UNAVAILABLE, response);
             return;
@@ -274,10 +274,10 @@ public class DBService2 extends AbstractDBService {
             doError("No user code parameter was found.", StatusCodes.STATUS_MISSING_ARGUMENT, response);
             return;
         }
-        RFC8628ServletConfig rfc8628ServletConfig = ((OA2SE) OA4MPServlet.getServiceEnvironment()).getRfc8628ServletConfig();
+        RFC8628ServletConfig rfc8628ServletConfig = ((OA2SE) getServiceEnvironment()).getRfc8628ServletConfig();
         userCode = RFC8628Servlet.convertToCanonicalForm(userCode, rfc8628ServletConfig);
 
-        CILogonOA2ServiceEnvironment se = (CILogonOA2ServiceEnvironment) OA4MPServlet.getServiceEnvironment();
+        CILogonOA2ServiceEnvironment se = (CILogonOA2ServiceEnvironment) getServiceEnvironment();
         if (!se.isRfc8628Enabled()) {
             doError("Device flow is not available on this server.", STATUS_SERVICE_UNAVAILABLE, response);
             return;
@@ -428,12 +428,12 @@ public class DBService2 extends AbstractDBService {
             doError("Invalid client id syntax.", StatusCodes.STATUS_MALFORMED_INPUT, resp);
             return;
         }
-        if (!OA4MPServlet.getServiceEnvironment().getClientStore().containsKey(client_id)) {
+        if (!getServiceEnvironment().getClientStore().containsKey(client_id)) {
             // Unknown client.
             doError("Unknown client", STATUS_UNKNOWN_CLIENT, resp);
             return;
         }
-        if (!OA4MPServlet.getServiceEnvironment().getClientApprovalStore().isApproved(client_id)) {
+        if (!getServiceEnvironment().getClientApprovalStore().isApproved(client_id)) {
             // unapproved client
             doError("Unapproved client.", STATUS_UNAPPROVED_CLIENT, resp);
             return;
@@ -446,6 +446,7 @@ public class DBService2 extends AbstractDBService {
             CILOA2ServiceTransaction transaction = (CILOA2ServiceTransaction) initUtil.doDelegation(req,
                     resp,
                     true);
+            transaction.setOriginalURL(getServiceEnvironment().getAuthorizationServletConfig().getAuthorizationURI() + "?" + req.getQueryString());
             if (debugger instanceof ClientDebugUtil) {
                 ((ClientDebugUtil) debugger).setTransaction(transaction);
             }
@@ -593,7 +594,7 @@ public class DBService2 extends AbstractDBService {
         // place of the similar call in the OA4MP authorization leg, which CILogon replaces.
         try {
             debugger.trace(this, "Starting to process claims");
-            doUserClaims((CILogonOA2ServiceEnvironment) OA4MPServlet.getServiceEnvironment(), t, req, debugger);
+            doUserClaims((CILogonOA2ServiceEnvironment) getServiceEnvironment(), t, req, debugger);
         } catch (ScriptRuntimeException srx) {
             // The user threw one of these explicitly as part of the control flow, e.g. user was not in the right group.
             debugger.trace(this, "Explicit script runtime exception:" + srx.getMessage(), srx);
@@ -648,7 +649,7 @@ public class DBService2 extends AbstractDBService {
     protected void doUserClaims(CILogonOA2ServiceEnvironment env, CILOA2ServiceTransaction t, HttpServletRequest request, MetaDebugUtil debugger) throws Throwable {
         debugger.trace(this, "Doing user claims");
         UserClaimSource userClaimSource = new UserClaimSource(getMyLogger());
-        userClaimSource.setOa2SE((OA2SE) OA4MPServlet.getServiceEnvironment());
+        userClaimSource.setOa2SE((OA2SE) getServiceEnvironment());
         t.setUserMetaData(userClaimSource.process(t.getUserMetaData(), t));
         debugger.trace(this, "Done user claims" + t.getUserMetaData().toString(1));
         debugger.trace(this, "Starting  post_auth claims");
@@ -669,7 +670,7 @@ public class DBService2 extends AbstractDBService {
         if (clientID == null) {
             writeMessage(resp, new Err(STATUS_MISSING_CLIENT_ID, "missing_client_id", StatusCodes.getMessage(STATUS_MISSING_CLIENT_ID)));
         }
-        OA2Client client = (OA2Client) OA4MPServlet.getServiceEnvironment().getClientStore().get(clientID);
+        OA2Client client = (OA2Client) getServiceEnvironment().getClientStore().get(clientID);
         if (client == null) {
             // None of these have been archived. We *could* check if the user has a valid uid
             // in the store and return user not found if so and user not found error if not,

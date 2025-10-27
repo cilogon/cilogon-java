@@ -10,8 +10,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="04234930-e14d-41d5-bfcd-bac41d340cf1" name="Changes" comment="website rebuild, PDF refreshes">
+    <list default="true" id="04234930-e14d-41d5-bfcd-bac41d340cf1" name="Changes" comment="https://jira.ncsa.illinois.edu/browse/CIL-2346 Maven build now removes errant Java mail 1.4 jar.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/servlet/CILogonExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/servlet/CILogonExceptionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proxy/src/main/java/org/cilogon/proxy/servlet/DBService2.java" beforeDir="false" afterPath="$PROJECT_DIR$/proxy/src/main/java/org/cilogon/proxy/servlet/DBService2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/qdl/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/qdl/buildNumber.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/server/buildNumber.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/server/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/test/buildNumber.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,7 +101,7 @@
   &quot;associatedIndex&quot;: 5
 }</component>
   <component name="ProjectId" id="2LQ7uSN0lfq1YNIajb4GDgMMYoU" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+  <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectReloadState">
@@ -109,35 +115,37 @@
     <option name="showMembers" value="true" />
     <option name="showModules" value="false" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.CLI.executor&quot;: &quot;Run&quot;,
-    &quot;Application.QDL.executor&quot;: &quot;Debug&quot;,
-    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
-    &quot;JUnit.DBServiceUserTests.testCIL2201Basic.executor&quot;: &quot;Debug&quot;,
-    &quot;JUnit.DBServiceUserTests.testUpdateUser.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.Test suite.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;Tomcat Server.CILogon.executor&quot;: &quot;Run&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;11 (2)&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/ncsa/dev/ncsa-git/cilogon/admin/src/main/scripts&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.5883041&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.CLI.executor": "Run",
+    "Application.QDL.executor": "Debug",
+    "DefaultHtmlFileTemplate": "HTML File",
+    "JUnit.DBServiceUserTests.testCIL2201Basic.executor": "Debug",
+    "JUnit.DBServiceUserTests.testUpdateUser.executor": "Run",
+    "JUnit.Test suite.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "SHELLCHECK.PATH": "/home/ncsa/.local/share/JetBrains/IntelliJIdea2024.1/Shell Script/shellcheck",
+    "Tomcat Server.CILogon.executor": "Run",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "master",
+    "jdk.selected.JAVA_MODULE": "11 (2)",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/home/ncsa/dev/ncsa-git/cilogon/admin/src/main/scripts",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.5883041",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/admin/src/main/scripts" />
@@ -150,7 +158,7 @@
       <recent name="$PROJECT_DIR$/skin/src/main/resources/css" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.Test suite">
+  <component name="RunManager" selected="Tomcat Server.CILogon">
     <configuration default="true" type="Applet" factoryName="Applet">
       <option name="WIDTH" value="400" />
       <option name="HEIGHT" value="300" />
@@ -377,8 +385,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-125ca727e0f0-intellij.indexing.shared.core-IU-243.23654.189" />
-        <option value="bundled-js-predefined-d6986cc7102b-822845ee3bb5-JavaScript-IU-243.23654.189" />
+        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.26830.84" />
+        <option value="bundled-js-predefined-d6986cc7102b-3aa1da707db6-JavaScript-IU-252.26830.84" />
       </set>
     </attachedChunks>
   </component>
@@ -544,6 +552,7 @@
       <workItem from="1757846062294" duration="1761000" />
       <workItem from="1758279544465" duration="2893000" />
       <workItem from="1759145762974" duration="33064000" />
+      <workItem from="1760650283743" duration="25369000" />
     </task>
     <task id="LOCAL-00001" summary="Fallout from moving a bunch of static methods into classes.">
       <created>1675892224728</created>
@@ -867,14 +876,6 @@
       <option name="project" value="LOCAL" />
       <updated>1692998536215</updated>
     </task>
-    <task id="LOCAL-00102" summary="6.2.2 checkin, includes website rebuild">
-      <option name="closed" value="true" />
-      <created>1759756553368</created>
-      <option name="number" value="00102" />
-      <option name="presentableId" value="LOCAL-00102" />
-      <option name="project" value="LOCAL" />
-      <updated>1759756553368</updated>
-    </task>
     <task id="LOCAL-00103" summary="https://jira.ncsa.illinois.edu/browse/CIL-2274 fix checks on DEV.">
       <option name="closed" value="true" />
       <created>1759962298771</created>
@@ -891,7 +892,15 @@
       <option name="project" value="LOCAL" />
       <updated>1760041266402</updated>
     </task>
-    <option name="localTasksCounter" value="105" />
+    <task id="LOCAL-00105" summary="https://jira.ncsa.illinois.edu/browse/CIL-2346 Maven build now removes errant Java mail 1.4 jar.">
+      <option name="closed" value="true" />
+      <created>1760477846575</created>
+      <option name="number" value="00105" />
+      <option name="presentableId" value="LOCAL-00105" />
+      <option name="project" value="LOCAL" />
+      <updated>1760477846575</updated>
+    </task>
+    <option name="localTasksCounter" value="106" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -944,7 +953,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="CIL-2118, CIL-2120, migration v5.6 --&gt; v6.0" />
     <MESSAGE value="CIL-1916 fixes, including a complete set of unit tests." />
     <MESSAGE value="Client servlet not initializing correctly." />
     <MESSAGE value="https://github.com/cilogon/cilogon-java/issues/48" />
@@ -969,7 +977,8 @@
     <MESSAGE value="6.2.2 checkin, includes website rebuild" />
     <MESSAGE value="https://jira.ncsa.illinois.edu/browse/CIL-2274 fix checks on DEV." />
     <MESSAGE value="website rebuild, PDF refreshes" />
-    <option name="LAST_COMMIT_MESSAGE" value="website rebuild, PDF refreshes" />
+    <MESSAGE value="https://jira.ncsa.illinois.edu/browse/CIL-2346 Maven build now removes errant Java mail 1.4 jar." />
+    <option name="LAST_COMMIT_MESSAGE" value="https://jira.ncsa.illinois.edu/browse/CIL-2346 Maven build now removes errant Java mail 1.4 jar." />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -1032,12 +1041,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>jar://$MAVEN_REPOSITORY$/edu/uiuc/ncsa/security/storage/6.x-SNAPSHOT/storage-6.x-SNAPSHOT-sources.jar!/edu/uiuc/ncsa/security/storage/cli/StoreCommands.java</url>
-          <line>1844</line>
+          <line>1876</line>
           <option name="timeStamp" value="99" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>jar://$MAVEN_REPOSITORY$/edu/uiuc/ncsa/security/storage/6.x-SNAPSHOT/storage-6.x-SNAPSHOT-sources.jar!/edu/uiuc/ncsa/security/storage/cli/StoreCommands.java</url>
-          <line>1820</line>
+          <line>1852</line>
           <option name="timeStamp" value="100" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -1047,7 +1056,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>jar://$MAVEN_REPOSITORY$/edu/uiuc/ncsa/security/storage/6.x-SNAPSHOT/storage-6.x-SNAPSHOT-sources.jar!/edu/uiuc/ncsa/security/storage/cli/StoreCommands.java</url>
-          <line>1975</line>
+          <line>2007</line>
           <option name="timeStamp" value="110" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -1057,7 +1066,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>jar://$MAVEN_REPOSITORY$/edu/uiuc/ncsa/security/storage/6.x-SNAPSHOT/storage-6.x-SNAPSHOT-sources.jar!/edu/uiuc/ncsa/security/storage/cli/StoreCommands2.java</url>
-          <line>1666</line>
+          <line>1669</line>
           <option name="timeStamp" value="119" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
