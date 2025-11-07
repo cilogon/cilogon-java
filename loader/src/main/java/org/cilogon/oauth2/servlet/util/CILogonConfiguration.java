@@ -39,5 +39,5 @@ public interface CILogonConfiguration extends Version {
 
     public MultiTypeProvider<IdentityProviderStore> getMidp();
     // Fix https://github.com/cilogon/cilogon-java/issues/56
-    String CILOGON_VERSION_NUMBER = "6.1.1";
+    String CILOGON_VERSION_NUMBER = "6.x-SNAPSHOT";
 }
