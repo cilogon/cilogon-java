@@ -1,11 +1,11 @@
 package org.cilogon.oauth2.servlet.loader;
 
-import org.apache.commons.configuration.tree.ConfigurationNode;
+import edu.uiuc.ncsa.security.core.cf.CFNode;
 import org.cilogon.oauth2.servlet.storage.sequence.SerialStrings;
 import org.cilogon.oauth2.servlet.storage.user.User;
 import org.cilogon.oauth2.servlet.storage.user.UserIdentifierProvider;
 import org.cilogon.oauth2.servlet.storage.user.UserProvider;
-import org.cilogon.oauth2.servlet.util.CILogonStoreLoader;
+import org.cilogon.oauth2.servlet.util.CILogonCFStoreLoader;
 import org.oa4mp.server.api.ServiceEnvironmentImpl;
 
 import java.util.Date;
@@ -14,8 +14,8 @@ import java.util.Date;
  * <p>Created by Jeff Gaynor<br>
  * on 11/11/15 at  4:33 PM
  */
-public class OA2CILogonStoreLoader<T extends ServiceEnvironmentImpl> extends CILogonStoreLoader<T> {
-    public OA2CILogonStoreLoader(ConfigurationNode node) {
+public class OA2CILogonCFStoreLoader<T extends ServiceEnvironmentImpl> extends CILogonCFStoreLoader<T> {
+    public OA2CILogonCFStoreLoader(CFNode node) {
         super(node);
     }
 

@@ -1,8 +1,8 @@
 package org.cilogon.oauth2.client;
 
+import edu.uiuc.ncsa.security.core.cf.CFNode;
 import edu.uiuc.ncsa.security.core.exceptions.MyConfigurationException;
 import edu.uiuc.ncsa.security.core.util.ConfigurationLoader;
-import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.oa4mp.client.loader.OA2ClientBootstrapper;
 
 /**
@@ -24,8 +24,8 @@ public class CILOA2ClientBootstrapper extends OA2ClientBootstrapper {
     }
 
     @Override
-    public ConfigurationLoader getConfigurationLoader(ConfigurationNode node) throws MyConfigurationException {
+    public ConfigurationLoader getConfigurationLoader(CFNode node) throws MyConfigurationException {
         // so this prints out the CILogon client version mostly.
-        return new CILOA2ClientLoader(node);
+        return new CILOA2CFClientLoader(node);
     }
 }

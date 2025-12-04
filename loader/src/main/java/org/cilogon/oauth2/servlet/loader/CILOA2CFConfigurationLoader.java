@@ -2,7 +2,7 @@ package org.cilogon.oauth2.servlet.loader;
 
 import edu.uiuc.ncsa.security.core.IdentifiableProvider;
 import edu.uiuc.ncsa.security.core.Identifier;
-import edu.uiuc.ncsa.security.core.configuration.Configurations;
+import edu.uiuc.ncsa.security.core.cf.CFNode;
 import edu.uiuc.ncsa.security.core.configuration.provider.MultiTypeProvider;
 import edu.uiuc.ncsa.security.core.exceptions.GeneralException;
 import edu.uiuc.ncsa.security.core.util.DebugUtil;
@@ -12,12 +12,11 @@ import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
 import edu.uiuc.ncsa.security.storage.data.MapConverter;
 import edu.uiuc.ncsa.security.storage.sql.ConnectionPoolProvider;
 import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.cilogon.oauth2.servlet.storage.TokenPrefixProvider;
 import org.cilogon.oauth2.servlet.storage.archiveUser.ArchivedUser;
 import org.cilogon.oauth2.servlet.storage.archiveUser.ArchivedUserStore;
 import org.cilogon.oauth2.servlet.storage.idp.IdentityProviderStore;
-import org.cilogon.oauth2.servlet.storage.sequence.SerialStringProvider;
+import org.cilogon.oauth2.servlet.storage.sequence.SerialStringProviderInterface;
 import org.cilogon.oauth2.servlet.storage.transaction.CILOA2ServiceTransaction;
 import org.cilogon.oauth2.servlet.storage.transaction.CILOA2TransactionConverter;
 import org.cilogon.oauth2.servlet.storage.transaction.CILOA2TransactionKeys;
@@ -40,13 +39,12 @@ import org.oa4mp.server.api.admin.transactions.OA4MPIdentifierProvider;
 import org.oa4mp.server.api.storage.MultiDSClientStoreProvider;
 import org.oa4mp.server.loader.oauth2.OA2SE;
 import org.oa4mp.server.loader.oauth2.claims.BasicClaimsSourceImpl;
-import org.oa4mp.server.loader.oauth2.loader.OA2ConfigurationLoader;
+import org.oa4mp.server.loader.oauth2.loader.OA2CFConfigurationLoader;
 import org.oa4mp.server.loader.oauth2.storage.transactions.OA2SQLTransactionStoreProvider;
 import org.oa4mp.server.loader.oauth2.storage.transactions.OA2ServiceTransaction;
 
 import javax.inject.Provider;
 
-import static edu.uiuc.ncsa.security.core.configuration.Configurations.getFirstAttribute;
 import static org.oa4mp.server.api.admin.transactions.OA4MPIdentifierProvider.TRANSACTION_ID;
 
 /**
@@ -54,17 +52,18 @@ import static org.oa4mp.server.api.admin.transactions.OA4MPIdentifierProvider.TR
  * <p>Created by Jeff Gaynor<br>
  * on 3/26/15 at  1:52 PM
  */
-public class CILOA2ConfigurationLoader<C extends OA2SE> extends OA2ConfigurationLoader implements CILogonConfiguration {
+public class CILOA2CFConfigurationLoader<C extends OA2SE> extends OA2CFConfigurationLoader implements CILogonConfiguration {
 
     CILogonConfiguration ciLogonConfiguration;
 
-    public CILOA2ConfigurationLoader(ConfigurationNode node) {
+    public CILOA2CFConfigurationLoader(CFNode node) {
         this(node, null);
     }
 
-    public CILOA2ConfigurationLoader(ConfigurationNode node, MyLoggingFacade logger) {
+    public CILOA2CFConfigurationLoader(CFNode node, MyLoggingFacade logger) {
         super(node, logger);
-        ciLogonConfiguration = new OA2CILogonStoreLoader<>(node);
+        ciLogonConfiguration = new OA2CILogonCFStoreLoader<>(node);
+
     }
 
     @Override
@@ -73,7 +72,7 @@ public class CILOA2ConfigurationLoader<C extends OA2SE> extends OA2Configuration
     }
 
     @Override
-    public SerialStringProvider getSsp() {
+    public SerialStringProviderInterface getSsp() {
         return ciLogonConfiguration.getSsp();
     }
 
@@ -146,7 +145,7 @@ public class CILOA2ConfigurationLoader<C extends OA2SE> extends OA2Configuration
     }
 
     @Override
-    protected OA2SQLTransactionStoreProvider createSQLTSP(ConfigurationNode config, ConnectionPoolProvider cpp, String type, MultiDSClientStoreProvider clientStoreProvider, Provider tp, Provider tfp, MapConverter converter) {
+    protected OA2SQLTransactionStoreProvider createSQLTSP(CFNode config, ConnectionPoolProvider cpp, String type, MultiDSClientStoreProvider clientStoreProvider, Provider tp, Provider tfp, MapConverter converter) {
         return new CILOA2TransactionstoreProvider(config, cpp, type, clientStoreProvider, tp, tfp, converter);
     }
 
@@ -235,7 +234,7 @@ public class CILOA2ConfigurationLoader<C extends OA2SE> extends OA2Configuration
     public boolean isprintTSInDebug() {
         if (printTSInDebug == null) {
             try {
-                printTSInDebug = Boolean.parseBoolean(getFirstAttribute(cn, PRINT_TS_IN_DEBUG));
+                printTSInDebug = Boolean.parseBoolean(cn.getFirstAttribute(PRINT_TS_IN_DEBUG));
             } catch (Throwable t) {
                 // use default which is to doo safe garbage collection.
                 // We let this be null to trigger pulling the value, if any, out of the
@@ -261,7 +260,7 @@ public class CILOA2ConfigurationLoader<C extends OA2SE> extends OA2Configuration
 
 
     public boolean isComputeFNAL() {
-        String x = Configurations.getFirstAttribute(cn, CILogonConstants.COMPUTE_FNAL);
+        String x = cn.getFirstAttribute(CILogonConstants.COMPUTE_FNAL);
         boolean computeFNAL = false;
         if (x != null) {
             try {
@@ -272,35 +271,4 @@ public class CILOA2ConfigurationLoader<C extends OA2SE> extends OA2Configuration
         }
         return computeFNAL;
     }
-
-
-    /*DBServiceConfig dbServiceConfig = null;
-
-    protected DBServiceConfig getDBSerivceConfig() {
-        if (dbServiceConfig == null) {
-            List<ConfigurationNode> kids = cn.getChildren(DBServiceConfig.DB_SERVICE_CONFIG_TAG);
-            dbServiceConfig = new DBServiceConfig();
-            dbServiceConfig.setEnabled(false); //default
-            if (kids.isEmpty()) {
-                return dbServiceConfig;
-            }
-            ConfigurationNode topNode = kids.get(0);
-            String rawEnabled = getFirstAttribute(topNode, DBServiceConfig.DB_SERVICE_ENABLED_ATTRIBUTE);
-            if (!StringUtils.isTrivial(rawEnabled)) {
-                try {
-                    dbServiceConfig.setEnabled(Boolean.parseBoolean(rawEnabled));
-                } catch (Throwable t) {
-                    info("Could not determine if db service is enabled: got \"" + rawEnabled + "\" in tag");
-                }
-            }
-            ConfigurationNode usersNode = getFirstNode(topNode, DBServiceConfig.DB_SERVICE_USERS_TAG);
-            List<ConfigurationNode> userNodes = usersNode.getChildren(DBServiceConfig.DB_SERVICE_USER_TAG);
-            for (ConfigurationNode tempNode : userNodes) {
-                String rawUser = getFirstAttribute(tempNode, DBServiceConfig.DB_SERVICE_NAME_ATTRIBUTE);
-                String rawHash = getFirstAttribute(tempNode, DBServiceConfig.DB_SERVICE_HASH_ATTRIBUTE);
-                dbServiceConfig.addUser(rawUser, rawHash);
-            }
-        }
-        return dbServiceConfig;
-    }
-*/}
+ }

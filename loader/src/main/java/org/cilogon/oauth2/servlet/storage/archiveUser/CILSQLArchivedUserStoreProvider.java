@@ -1,11 +1,11 @@
 package org.cilogon.oauth2.servlet.storage.archiveUser;
 
+import edu.uiuc.ncsa.security.core.cf.CFNode;
 import edu.uiuc.ncsa.security.core.util.IdentifiableProviderImpl;
 import edu.uiuc.ncsa.security.storage.sql.ConnectionPool;
 import edu.uiuc.ncsa.security.storage.sql.ConnectionPoolProvider;
 import edu.uiuc.ncsa.security.storage.sql.SQLStoreProvider;
 import edu.uiuc.ncsa.security.storage.sql.internals.Table;
-import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.cilogon.oauth2.servlet.storage.user.UserKeys;
 import org.cilogon.oauth2.servlet.storage.user.UserTable;
 import org.oa4mp.server.api.OA4MPConfigTags;
@@ -15,7 +15,7 @@ import org.oa4mp.server.api.OA4MPConfigTags;
  * on 3/19/12 at  7:52 PM
  */
 public class CILSQLArchivedUserStoreProvider extends SQLStoreProvider<ArchivedUserStore> implements OA4MPConfigTags {
-    public CILSQLArchivedUserStoreProvider(ConfigurationNode config, ConnectionPoolProvider<? extends ConnectionPool> cpp,
+    public CILSQLArchivedUserStoreProvider(CFNode config, ConnectionPoolProvider<? extends ConnectionPool> cpp,
                                            String type,
                                            IdentifiableProviderImpl<ArchivedUser> archivedUserProvider,
                                            ArchivedUserConverter c, UserTable userTable

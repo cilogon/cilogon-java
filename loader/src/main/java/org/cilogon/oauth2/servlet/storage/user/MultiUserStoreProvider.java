@@ -1,9 +1,9 @@
 package org.cilogon.oauth2.servlet.storage.user;
 
+import edu.uiuc.ncsa.security.core.cf.CFNode;
 import edu.uiuc.ncsa.security.core.configuration.provider.MultiTypeProvider;
 import edu.uiuc.ncsa.security.core.util.IdentifiableProviderImpl;
 import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
-import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.cilogon.oauth2.servlet.util.Incrementable;
 
 /**
@@ -14,7 +14,7 @@ public class MultiUserStoreProvider extends MultiTypeProvider<UserStore> {
     Incrementable incrementable;
     IdentifiableProviderImpl<User> userProvider;
 
-    public MultiUserStoreProvider(ConfigurationNode cn,
+    public MultiUserStoreProvider(CFNode cn,
                                   boolean disableDefaultStore,
                                   MyLoggingFacade loggingFacade,
                                   IdentifiableProviderImpl<User> userProvider,

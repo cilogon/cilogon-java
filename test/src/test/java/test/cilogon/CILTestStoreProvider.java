@@ -1,18 +1,15 @@
 package test.cilogon;
 
 import edu.uiuc.ncsa.security.util.TestBase;
-import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.cilogon.oauth2.servlet.storage.archiveUser.ArchivedUserStore;
 import org.cilogon.oauth2.servlet.storage.idp.IdentityProvider;
 import org.cilogon.oauth2.servlet.storage.idp.IdentityProviderStore;
-import org.cilogon.oauth2.servlet.storage.sequence.SerialStrings;
 import org.cilogon.oauth2.servlet.storage.twofactor.TwoFactorStore;
 import org.cilogon.oauth2.servlet.storage.user.User;
 import org.cilogon.oauth2.servlet.storage.user.UserStore;
 import org.cilogon.oauth2.servlet.util.CILogonSE;
 import org.cilogon.oauth2.servlet.util.Incrementable;
 import org.oa4mp.delegation.common.token.TokenForge;
-import org.oa4mp.server.api.storage.servlet.AbstractConfigurationLoader;
 import org.oa4mp.server.test.TestStoreProvider;
 
 import static edu.uiuc.ncsa.security.core.util.BasicIdentifier.newID;
@@ -23,11 +20,6 @@ import static test.cilogon.RemoteDBServiceTest.createRU;
  * on 3/13/12 at  4:00 PM
  */
 public abstract class CILTestStoreProvider extends TestStoreProvider implements  CILTestStoreProviderI2 {
-
-    SerialStrings serialStrings;
-
-    protected ConfigurationNode node;
-    protected AbstractConfigurationLoader loader;
 
     public CILogonSE getCILSE()  {
         return (CILogonSE) getSE();

@@ -2,7 +2,7 @@ package org.cilogon.qdl.module;
 
 import edu.uiuc.ncsa.security.core.util.AbstractEnvironment;
 import edu.uiuc.ncsa.security.core.util.ConfigurationLoader;
-import org.cilogon.oauth2.servlet.loader.CILOA2ConfigurationLoader;
+import org.cilogon.oauth2.servlet.loader.CILOA2CFConfigurationLoader;
 import org.cilogon.oauth2.servlet.loader.CILogonOA2ServiceEnvironment;
 import org.cilogon.qdl.module.storage.CILOA2TransactionStemMC;
 import org.cilogon.qdl.module.storage.TwoFactorMC;
@@ -81,7 +81,7 @@ public class CILStoreFacade extends StoreFacade {
     }
 
     public ConfigurationLoader<? extends AbstractEnvironment> getLoader() {
-        return new CILOA2ConfigurationLoader<CILogonOA2ServiceEnvironment>(getConfigurationNode(), getLogger());
+        return new CILOA2CFConfigurationLoader<>(getCFNode(), getLogger());
     }
 
 }

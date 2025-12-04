@@ -1,18 +1,17 @@
 package org.cilogon.oauth2.servlet.util;
 
 
-import edu.uiuc.ncsa.security.core.configuration.Configurations;
+import edu.uiuc.ncsa.security.core.cf.CFNode;
+import edu.uiuc.ncsa.security.storage.CFDBConfigLoader;
 import edu.uiuc.ncsa.security.storage.sql.SQLStore;
 import edu.uiuc.ncsa.security.storage.sql.mysql.MySQLConnectionPoolProvider;
 import edu.uiuc.ncsa.security.storage.sql.postgres.PGConnectionPoolProvider;
-import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.cilogon.oauth2.servlet.storage.TokenPrefixProvider;
 import org.cilogon.oauth2.servlet.storage.archiveUser.*;
 import org.cilogon.oauth2.servlet.storage.idp.*;
 import org.cilogon.oauth2.servlet.storage.sequence.*;
 import org.cilogon.oauth2.servlet.storage.twofactor.*;
 import org.cilogon.oauth2.servlet.storage.user.*;
-import org.oa4mp.delegation.common.servlet.DBConfigLoader;
 import org.oa4mp.server.api.OA4MPConfigTags;
 import org.oa4mp.server.api.ServiceEnvironmentImpl;
 
@@ -25,7 +24,7 @@ import static edu.uiuc.ncsa.security.core.configuration.StorageConfigurationTags
  * <p>Created by Jeff Gaynor<br>
  * on 5/1/12 at  2:31 PM
  */
-public  class CILogonStoreLoader<T extends ServiceEnvironmentImpl> extends DBConfigLoader<T> implements CILogonConfiguration{
+public  class CILogonCFStoreLoader<T extends ServiceEnvironmentImpl> extends CFDBConfigLoader<T> implements CILogonConfiguration{
     MultiUserStoreProvider usp;
     MultiIncrementableProvider ip;
     MultiArchivedUserStoreProvider muasp;
@@ -34,13 +33,12 @@ public  class CILogonStoreLoader<T extends ServiceEnvironmentImpl> extends DBCon
     protected UserProvider userProvider;
     ArchivedUserProvider archivedUserProvider;
 
-    public CILogonStoreLoader(ConfigurationNode node) {
+    public CILogonCFStoreLoader(CFNode node) {
         super(node);
-        String x = Configurations.getFirstAttribute(cn, OA4MPConfigTags.DISABLE_DEFAULT_STORES);
+        String x = cn.getFirstAttribute(OA4MPConfigTags.DISABLE_DEFAULT_STORES);
         if (x != null) {
             isDefaultStoreDisabled(Boolean.parseBoolean(x));
         }
-
     }
 
     @Override
@@ -53,11 +51,11 @@ public  class CILogonStoreLoader<T extends ServiceEnvironmentImpl> extends DBCon
         return getPgConnectionPoolProvider("csd", "cilogon");
     }
 
-    SerialStringProvider ssp;
+    SerialStringProviderInterface ssp;
 
-    public SerialStringProvider getSsp() {
+    public SerialStringProviderInterface getSsp() {
         if (ssp == null) {
-            ssp = new SerialStringProvider(cn);
+            ssp = new CFSerialStringProvider(cn);
         }
         return ssp;
     }

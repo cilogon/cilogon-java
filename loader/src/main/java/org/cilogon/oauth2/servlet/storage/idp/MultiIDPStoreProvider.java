@@ -1,8 +1,8 @@
 package org.cilogon.oauth2.servlet.storage.idp;
 
+import edu.uiuc.ncsa.security.core.cf.CFNode;
 import edu.uiuc.ncsa.security.core.configuration.provider.MultiTypeProvider;
 import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
-import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.oa4mp.server.api.OA4MPConfigTags;
 
 /**
@@ -10,7 +10,7 @@ import org.oa4mp.server.api.OA4MPConfigTags;
  * on 3/19/12 at  6:42 PM
  */
 public class MultiIDPStoreProvider extends MultiTypeProvider<IdentityProviderStore> implements OA4MPConfigTags {
-    public MultiIDPStoreProvider(ConfigurationNode config,
+    public MultiIDPStoreProvider(CFNode config,
                                  boolean disableDefaultStore, MyLoggingFacade loggingFacade) {
         super(config, disableDefaultStore, loggingFacade, null, IDENTITY_PROVIDERS);
     }

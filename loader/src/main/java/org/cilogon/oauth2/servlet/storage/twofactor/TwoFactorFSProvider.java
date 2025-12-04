@@ -1,8 +1,8 @@
 package org.cilogon.oauth2.servlet.storage.twofactor;
 
+import edu.uiuc.ncsa.security.core.cf.CFNode;
 import edu.uiuc.ncsa.security.storage.FSProvider;
 import edu.uiuc.ncsa.security.storage.data.MapConverter;
-import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.oa4mp.server.api.OA4MPConfigTags;
 
 import java.io.File;
@@ -14,7 +14,7 @@ import java.io.File;
 public class TwoFactorFSProvider extends FSProvider<TwoFactorFS>  implements OA4MPConfigTags {
 
     TwoFactorInfoProvider twoFactorInfoProvider;
-    public TwoFactorFSProvider(ConfigurationNode config, TwoFactorInfoProvider twoFactorInfoProvider, MapConverter converter) {
+    public TwoFactorFSProvider(CFNode config, TwoFactorInfoProvider twoFactorInfoProvider, MapConverter converter) {
         super(config, FILE_STORE, TWO_FACTOR, converter);
         this.twoFactorInfoProvider = twoFactorInfoProvider;
     }

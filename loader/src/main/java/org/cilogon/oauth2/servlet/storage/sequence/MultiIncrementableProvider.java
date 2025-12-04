@@ -1,8 +1,8 @@
 package org.cilogon.oauth2.servlet.storage.sequence;
 
+import edu.uiuc.ncsa.security.core.cf.CFNode;
 import edu.uiuc.ncsa.security.core.configuration.provider.MultiTypeProvider;
 import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
-import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.cilogon.oauth2.servlet.util.Incrementable;
 
 /**
@@ -12,7 +12,7 @@ import org.cilogon.oauth2.servlet.util.Incrementable;
 public class MultiIncrementableProvider extends MultiTypeProvider<Incrementable> {
     long initialValue = 42L;
 
-    public MultiIncrementableProvider(ConfigurationNode cn ,
+    public MultiIncrementableProvider(CFNode cn ,
                                       boolean disableDefaultStore,
                                       MyLoggingFacade logger, long initialValue) {
         super(cn, disableDefaultStore, logger, null, null);

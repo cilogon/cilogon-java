@@ -5,7 +5,7 @@ import org.oa4mp.delegation.common.storage.clients.ClientConverter;
 import org.oa4mp.server.api.admin.adminClient.AdminClientStoreProviders;
 import org.oa4mp.server.api.admin.things.SATFactory;
 import org.oa4mp.server.api.storage.servlet.AbstractBootstrapper;
-import org.oa4mp.server.api.storage.servlet.AbstractConfigurationLoader;
+import org.oa4mp.server.api.storage.servlet.AbstractCFConfigurationLoader;
 import org.oa4mp.server.test.AbstractTestSuiteInitializer;
 import org.oa4mp.server.test.TestStoreProvider2;
 import test.cilogon.RemoteDBServiceTest;
@@ -27,8 +27,8 @@ public class CILTestSuiteInitializer2 extends AbstractTestSuiteInitializer {
         return new CILTestStoreProvider2(CILTestStoreProviderImpl) {
 
             @Override
-            public AbstractConfigurationLoader getConfigLoader() {
-               return (AbstractConfigurationLoader) getCilTSP().getConfigLoader();
+            public AbstractCFConfigurationLoader getConfigLoader() {
+               return (AbstractCFConfigurationLoader) getCilTSP().getConfigLoader();
             }
         };
     }

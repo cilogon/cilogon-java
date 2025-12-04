@@ -1,10 +1,10 @@
 package org.cilogon.oauth2.servlet.storage.sequence;
 
+import edu.uiuc.ncsa.security.core.cf.CFNode;
 import edu.uiuc.ncsa.security.core.configuration.provider.CfgEvent;
 import edu.uiuc.ncsa.security.core.configuration.provider.TypedProvider;
 import edu.uiuc.ncsa.security.storage.sql.ConnectionPool;
 import edu.uiuc.ncsa.security.storage.sql.ConnectionPoolProvider;
-import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.cilogon.oauth2.servlet.util.Incrementable;
 
 import static edu.uiuc.ncsa.security.storage.sql.SQLStoreProvider.*;
@@ -19,11 +19,11 @@ import static org.oa4mp.server.api.OA4MPConfigTags.SEQUENCE;
 public abstract class IncrementableProvider extends TypedProvider<Incrementable> {
     ConnectionPoolProvider<? extends ConnectionPool> connectionPoolProvider;
 
-    protected IncrementableProvider(ConfigurationNode config, String type) {
+    protected IncrementableProvider(CFNode config, String type) {
         super(config, type, SEQUENCE);
     }
 
-    public IncrementableProvider(ConfigurationNode config,
+    public IncrementableProvider(CFNode config,
                                   String type,
                                   ConnectionPoolProvider<? extends ConnectionPool> connectionPoolProvider) {
          this(config, type);
@@ -31,8 +31,8 @@ public abstract class IncrementableProvider extends TypedProvider<Incrementable>
      }
 
      protected ConnectionPool getConnectionPool() {
-         if (connectionPoolProvider.getConfig() == null) {
-             connectionPoolProvider.setConfig(getTypeConfig());
+         if (connectionPoolProvider.getCFNode() == null) {
+             connectionPoolProvider.setCFNode(getCFNode().getParent());
          }
          return connectionPoolProvider.get();
      }

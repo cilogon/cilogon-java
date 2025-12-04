@@ -1,8 +1,8 @@
 package org.cilogon.oauth2.servlet.storage.archiveUser;
 
+import edu.uiuc.ncsa.security.core.cf.CFNode;
 import edu.uiuc.ncsa.security.core.util.IdentifiableProviderImpl;
 import edu.uiuc.ncsa.security.storage.FSProvider;
-import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.cilogon.oauth2.servlet.storage.user.MultiUserStoreProvider;
 import org.oa4mp.server.api.OA4MPConfigTags;
 
@@ -16,7 +16,7 @@ public class CILFSArchivedUserStoreProvider extends FSProvider<CILFSArchivedUser
     MultiUserStoreProvider usp;
     IdentifiableProviderImpl<ArchivedUser> archivedUserProvider;
 
-    public CILFSArchivedUserStoreProvider(ConfigurationNode config,
+    public CILFSArchivedUserStoreProvider(CFNode config,
                                           MultiUserStoreProvider userStoreProvider,
                                           IdentifiableProviderImpl<ArchivedUser> archivedUserProvider,
                                           ArchivedUserConverter archivedUserConverter) {

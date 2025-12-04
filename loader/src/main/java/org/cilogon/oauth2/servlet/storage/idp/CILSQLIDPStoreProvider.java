@@ -1,10 +1,10 @@
 package org.cilogon.oauth2.servlet.storage.idp;
 
+import edu.uiuc.ncsa.security.core.cf.CFNode;
 import edu.uiuc.ncsa.security.storage.sql.ConnectionPool;
 import edu.uiuc.ncsa.security.storage.sql.ConnectionPoolProvider;
 import edu.uiuc.ncsa.security.storage.sql.SQLStoreProvider;
 import edu.uiuc.ncsa.security.storage.sql.internals.Table;
-import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.oa4mp.server.api.OA4MPConfigTags;
 
 import static org.cilogon.oauth2.servlet.storage.idp.CILSQLIdentityProviderStore.DEFAULT_TABLENAME;
@@ -14,7 +14,7 @@ import static org.cilogon.oauth2.servlet.storage.idp.CILSQLIdentityProviderStore
  * on 3/19/12 at  8:04 PM
  */
 public class CILSQLIDPStoreProvider extends SQLStoreProvider<IdentityProviderStore> implements OA4MPConfigTags {
-    public CILSQLIDPStoreProvider(ConfigurationNode config,
+    public CILSQLIDPStoreProvider(CFNode config,
                                   ConnectionPoolProvider<? extends ConnectionPool> cpp,
                                   String type,
                                   IDPConverter c) {

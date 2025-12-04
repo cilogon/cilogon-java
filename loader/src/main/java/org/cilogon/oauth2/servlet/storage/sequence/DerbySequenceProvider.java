@@ -1,8 +1,8 @@
 package org.cilogon.oauth2.servlet.storage.sequence;
 
+import edu.uiuc.ncsa.security.core.cf.CFNode;
 import edu.uiuc.ncsa.security.storage.sql.ConnectionPool;
 import edu.uiuc.ncsa.security.storage.sql.ConnectionPoolProvider;
-import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.cilogon.oauth2.servlet.util.Incrementable;
 import org.oa4mp.server.api.OA4MPConfigTags;
 
@@ -12,11 +12,11 @@ import org.oa4mp.server.api.OA4MPConfigTags;
  */
 public class DerbySequenceProvider extends IncrementableProvider implements OA4MPConfigTags {
 
-    public DerbySequenceProvider(ConfigurationNode config, ConnectionPoolProvider<? extends ConnectionPool> connectionPoolProvider) {
+    public DerbySequenceProvider(CFNode config, ConnectionPoolProvider<? extends ConnectionPool> connectionPoolProvider) {
            this(config, DERBY_STORE, connectionPoolProvider);
     }
 
-    public DerbySequenceProvider(ConfigurationNode config, String type, ConnectionPoolProvider<? extends ConnectionPool> connectionPoolProvider) {
+    public DerbySequenceProvider(CFNode config, String type, ConnectionPoolProvider<? extends ConnectionPool> connectionPoolProvider) {
         super(config, type, connectionPoolProvider);
     }
 

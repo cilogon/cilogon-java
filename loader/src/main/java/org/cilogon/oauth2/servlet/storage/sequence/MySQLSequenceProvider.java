@@ -1,8 +1,8 @@
 package org.cilogon.oauth2.servlet.storage.sequence;
 
+import edu.uiuc.ncsa.security.core.cf.CFNode;
 import edu.uiuc.ncsa.security.storage.sql.ConnectionPool;
 import edu.uiuc.ncsa.security.storage.sql.ConnectionPoolProvider;
-import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.oa4mp.server.api.OA4MPConfigTags;
 
 /**
@@ -11,11 +11,11 @@ import org.oa4mp.server.api.OA4MPConfigTags;
  */
 public class MySQLSequenceProvider extends IncrementableProvider implements OA4MPConfigTags {
 
-    public MySQLSequenceProvider(ConfigurationNode cn, ConnectionPoolProvider<? extends ConnectionPool> cpp) {
+    public MySQLSequenceProvider(CFNode cn, ConnectionPoolProvider<? extends ConnectionPool> cpp) {
         this(cn, MYSQL_STORE, cpp);
     }
 
-    public MySQLSequenceProvider(ConfigurationNode config,
+    public MySQLSequenceProvider(CFNode config,
                                  String type,
                                  ConnectionPoolProvider<? extends ConnectionPool> connectionPoolProvider) {
         super(config, type, connectionPoolProvider);

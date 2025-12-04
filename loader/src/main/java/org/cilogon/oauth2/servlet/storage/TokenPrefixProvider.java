@@ -1,9 +1,9 @@
 package org.cilogon.oauth2.servlet.storage;
 
+import edu.uiuc.ncsa.security.core.cf.CFNode;
 import edu.uiuc.ncsa.security.core.configuration.provider.CfgEvent;
 import edu.uiuc.ncsa.security.core.configuration.provider.HierarchicalConfigProvider;
 import edu.uiuc.ncsa.security.core.exceptions.MyConfigurationException;
-import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.oa4mp.server.api.OA4MPConfigTags;
 
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.List;
  * on 4/11/12 at  11:22 AM
  */
 public class TokenPrefixProvider extends HierarchicalConfigProvider<String> implements OA4MPConfigTags {
-    public TokenPrefixProvider(ConfigurationNode config) {
+    public TokenPrefixProvider(CFNode config) {
         super(config);
     }
 
@@ -45,10 +45,10 @@ public class TokenPrefixProvider extends HierarchicalConfigProvider<String> impl
     @Override
     public String get() {
         if (tokenPrefixString == null) {
-            List kids = getConfig().getChildren(TOKEN_PREFIX);
+            List<CFNode> kids = getCFNode().getChildren(TOKEN_PREFIX);
             String v = null;
             if (!kids.isEmpty()) {
-                ConfigurationNode sn = (ConfigurationNode) kids.get(0);
+                CFNode sn = kids.get(0);
                 tokenPrefixString = sn.getValue().toString();
             }
             if (tokenPrefixString == null) {

@@ -1,9 +1,9 @@
 package org.cilogon.oauth2.servlet.storage.archiveUser;
 
+import edu.uiuc.ncsa.security.core.cf.CFNode;
 import edu.uiuc.ncsa.security.core.configuration.provider.MultiTypeProvider;
 import edu.uiuc.ncsa.security.core.util.IdentifiableProviderImpl;
 import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
-import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.cilogon.oauth2.servlet.storage.user.MultiUserStoreProvider;
 
 /**
@@ -14,7 +14,7 @@ public class MultiArchivedUserStoreProvider extends MultiTypeProvider<ArchivedUs
     MultiUserStoreProvider userStore;
     IdentifiableProviderImpl<ArchivedUser> archivedUserProvider;
 
-    public MultiArchivedUserStoreProvider(ConfigurationNode cn,
+    public MultiArchivedUserStoreProvider(CFNode cn,
                                           boolean disableDefaultStore,
                                           MyLoggingFacade loggingFacade,
                                           MultiUserStoreProvider userStore,

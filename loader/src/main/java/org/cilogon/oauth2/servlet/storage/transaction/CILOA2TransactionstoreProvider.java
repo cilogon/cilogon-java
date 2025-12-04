@@ -1,10 +1,10 @@
 package org.cilogon.oauth2.servlet.storage.transaction;
 
+import edu.uiuc.ncsa.security.core.cf.CFNode;
 import edu.uiuc.ncsa.security.storage.data.MapConverter;
 import edu.uiuc.ncsa.security.storage.sql.ConnectionPool;
 import edu.uiuc.ncsa.security.storage.sql.ConnectionPoolProvider;
 import edu.uiuc.ncsa.security.storage.sql.internals.Table;
-import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.oa4mp.delegation.common.token.TokenForge;
 import org.oa4mp.server.api.storage.MultiDSClientStoreProvider;
 import org.oa4mp.server.loader.oauth2.storage.transactions.OA2SQLTStore;
@@ -18,7 +18,7 @@ import javax.inject.Provider;
  * on 10/13/15 at  10:03 AM
  */
 public class CILOA2TransactionstoreProvider<T extends OA2SQLTStore> extends OA2SQLTransactionStoreProvider<T> {
-    public CILOA2TransactionstoreProvider(ConfigurationNode config,
+    public CILOA2TransactionstoreProvider(CFNode config,
                                           ConnectionPoolProvider<? extends ConnectionPool> cpp,
                                           String type,
                                           MultiDSClientStoreProvider clientStoreProvider,

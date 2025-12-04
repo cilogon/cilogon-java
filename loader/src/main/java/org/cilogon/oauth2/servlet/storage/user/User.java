@@ -95,18 +95,6 @@ public class User extends Monitored {
         this.serialString = serialString;
     }
 
-  /* @Override
-    public Date getCreationTS() {
-        return creationTS;
-    }
-
-    public void setCreationTS(Date creationTS) {
-        this.creationTS = creationTS;
-    }
-
-    Date creationTS = new Date(); //default is now.*/
-
-
     public User(Identifier id, SerialStrings ss) {
         super(id);
         serialStrings = ss;

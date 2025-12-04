@@ -1,12 +1,12 @@
 package org.cilogon.oauth2.servlet.storage.user;
 
+import edu.uiuc.ncsa.security.core.cf.CFNode;
 import edu.uiuc.ncsa.security.core.util.IdentifiableProviderImpl;
 import edu.uiuc.ncsa.security.storage.data.MapConverter;
 import edu.uiuc.ncsa.security.storage.sql.ConnectionPool;
 import edu.uiuc.ncsa.security.storage.sql.ConnectionPoolProvider;
 import edu.uiuc.ncsa.security.storage.sql.SQLStoreProvider;
 import edu.uiuc.ncsa.security.storage.sql.internals.Table;
-import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.cilogon.oauth2.servlet.util.Incrementable;
 import org.oa4mp.server.api.OA4MPConfigTags;
 
@@ -16,7 +16,7 @@ import org.oa4mp.server.api.OA4MPConfigTags;
  */
 public class CILSQLUserStoreProvider extends SQLStoreProvider<CILSQLUserStore> implements OA4MPConfigTags {
     public CILSQLUserStoreProvider(
-            ConfigurationNode config,
+            CFNode config,
             ConnectionPoolProvider<? extends ConnectionPool> cpp,
             String type,
             IdentifiableProviderImpl<User> userProvider,

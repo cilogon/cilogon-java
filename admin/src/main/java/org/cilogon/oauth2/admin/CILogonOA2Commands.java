@@ -1,14 +1,14 @@
 package org.cilogon.oauth2.admin;
 
+import edu.uiuc.ncsa.security.core.cf.CFNode;
+import edu.uiuc.ncsa.security.core.cf.CFXMLConfigurations;
 import edu.uiuc.ncsa.security.core.util.AbstractEnvironment;
 import edu.uiuc.ncsa.security.core.util.ConfigurationLoader;
 import edu.uiuc.ncsa.security.core.util.StringUtils;
 import edu.uiuc.ncsa.security.util.cli.CLIDriver;
 import edu.uiuc.ncsa.security.util.cli.CommonCommands2;
 import edu.uiuc.ncsa.security.util.cli.InputLine;
-import edu.uiuc.ncsa.security.util.configuration.XMLConfigUtil;
-import org.apache.commons.configuration.tree.ConfigurationNode;
-import org.cilogon.oauth2.servlet.loader.CILOA2ConfigurationLoader;
+import org.cilogon.oauth2.servlet.loader.CILOA2CFConfigurationLoader;
 import org.cilogon.oauth2.servlet.loader.CILogonOA2ServiceEnvironment;
 import org.cilogon.oauth2.servlet.util.CILogonConfiguration;
 import org.oa4mp.server.admin.oauth2.base.CopyCommands;
@@ -36,9 +36,9 @@ public class CILogonOA2Commands extends OA2Commands {
     @Override
     public ConfigurationLoader<? extends AbstractEnvironment> getLoader() {
         if (loader == null) {
-            ConfigurationNode node =
-                    XMLConfigUtil.findConfiguration(getConfigFile(), getConfigName(), getComponentName());
-            loader = new CILOA2ConfigurationLoader<OA2SE>(node, getDriver().getLogger());
+            CFNode node =
+                    CFXMLConfigurations.findConfiguration(getConfigFile(),  getComponentName(), getConfigName());
+            loader = new CILOA2CFConfigurationLoader<OA2SE>(node, getDriver().getLogger());
         }
         return loader;
 
@@ -246,8 +246,8 @@ public class CILogonOA2Commands extends OA2Commands {
 
     @Override
     protected ConfigurationLoader<? extends AbstractEnvironment> figureOutLoader(String fileName, String configName) throws Throwable {
-        ConfigurationNode node = XMLConfigUtil.findConfiguration(fileName, configName, getComponentName());
-        CILOA2ConfigurationLoader serverLoader = new CILOA2ConfigurationLoader<>(node);
+        CFNode node = CFXMLConfigurations.findConfiguration(fileName, getComponentName(), configName);
+        CILOA2CFConfigurationLoader serverLoader = new CILOA2CFConfigurationLoader<>(node);
         return serverLoader;
     }
 }
