@@ -255,7 +255,9 @@ CREATE TABLE ciloa2.user (
   INDEX eppn (eppn(255)),
   INDEX eptid (eptid(255)),
   INDEX oidc (oidc(255)),
-  INDEX open_id (open_id(255))
+  INDEX open_id (open_id(255)),
+  INDEX pairwise_id (pairwise_id(255)),
+  INDEX subject_id (subject_id(255))
 );
 
 
