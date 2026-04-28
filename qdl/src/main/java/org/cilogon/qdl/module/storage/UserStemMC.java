@@ -1,7 +1,7 @@
 package org.cilogon.qdl.module.storage;
 
 import edu.uiuc.ncsa.security.storage.data.MapConverter;
-import net.sf.json.JSONObject;
+import org.kordamp.json.JSONObject;
 import org.cilogon.oauth2.servlet.storage.user.*;
 import org.oa4mp.server.qdl.storage.StemConverter;
 import org.qdl_lang.variables.QDLStem;

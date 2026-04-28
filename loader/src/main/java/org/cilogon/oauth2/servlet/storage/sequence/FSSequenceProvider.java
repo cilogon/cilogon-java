@@ -24,8 +24,14 @@ public class FSSequenceProvider extends IncrementableProvider  implements OA4MPC
         try {
             //ConfigurationNode configurationNode = getConfigurationAt(FILE_STORE);
             CFNode configurationNode = getCFNode();
-            String path;
-            return new FSSequence(configurationNode.getFirstAttribute(FS_PATH),
+            String path = configurationNode.getFirstAttribute(FS_PATH);
+            if(path == null) {
+               path = configurationNode.getParent().getFirstAttribute(FS_PATH);
+            }
+            if(path == null) {
+                throw new MyConfigurationException("Missing " + FS_PATH+ " attribute in configuration node");
+            }
+            return new FSSequence(path,
                     new PrintWriterLogger(new PrintWriter(System.out), "fileSequence", true));
         } catch (ResourceManagerException e) {
             throw new MyConfigurationException("Error: Could not create file sequence", e);

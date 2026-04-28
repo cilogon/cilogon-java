@@ -2,7 +2,7 @@ package test.cilogon;
 
 import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
 import edu.uiuc.ncsa.security.storage.XMLMap;
-import net.sf.json.JSONObject;
+import org.kordamp.json.JSONObject;
 import org.cilogon.oauth2.servlet.storage.user.EduPersonPrincipleName;
 import org.cilogon.oauth2.servlet.storage.user.RemoteUserName;
 import org.cilogon.oauth2.servlet.storage.user.User;

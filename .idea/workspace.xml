@@ -10,8 +10,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="04234930-e14d-41d5-bfcd-bac41d340cf1" name="Changes" comment="Remove Apache Configurations code.">
+    <list default="true" id="04234930-e14d-41d5-bfcd-bac41d340cf1" name="Changes" comment="Make sure this is in Git.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/loader/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/loader/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/loader/CILOA2CFConfigurationLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/loader/CILOA2CFConfigurationLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/loader/CILogonOA2ServiceEnvironment.java" beforeDir="false" afterPath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/loader/CILogonOA2ServiceEnvironment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/storage/sequence/FSSequenceProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/storage/sequence/FSSequenceProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/qdl/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/qdl/buildNumber.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/server/buildNumber.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/test/buildNumber.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,11 +92,17 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="jar://$MAVEN_REPOSITORY$/edu/uiuc/ncsa/security/core/6.x-SNAPSHOT/core-6.x-SNAPSHOT-sources.jar!/edu/uiuc/ncsa/security/core/configuration/provider/MultiTypeProvider.java" root0="SKIP_INSPECTION" />
     <setting file="jar://$MAVEN_REPOSITORY$/edu/uiuc/ncsa/security/core/6.x-SNAPSHOT/core-6.x-SNAPSHOT-sources.jar!/edu/uiuc/ncsa/security/core/exceptions/MyConfigurationException.java" root0="SKIP_INSPECTION" />
+    <setting file="jar://$MAVEN_REPOSITORY$/edu/uiuc/ncsa/security/servlet/6.x-SNAPSHOT/servlet-6.x-SNAPSHOT-sources.jar!/edu/uiuc/ncsa/security/servlet/Bootstrapper.java" root0="SKIP_INSPECTION" />
     <setting file="jar://$MAVEN_REPOSITORY$/edu/uiuc/ncsa/security/storage/6.x-SNAPSHOT/storage-6.x-SNAPSHOT-sources.jar!/edu/uiuc/ncsa/security/storage/CFDBConfigLoader.java" root0="SKIP_INSPECTION" />
     <setting file="jar://$MAVEN_REPOSITORY$/edu/uiuc/ncsa/security/storage/6.x-SNAPSHOT/storage-6.x-SNAPSHOT-sources.jar!/edu/uiuc/ncsa/security/storage/FSProvider.java" root0="SKIP_INSPECTION" />
+    <setting file="jar://$MAVEN_REPOSITORY$/edu/uiuc/ncsa/security/storage/6.x-SNAPSHOT/storage-6.x-SNAPSHOT-sources.jar!/edu/uiuc/ncsa/security/storage/cli/StoreCommands2.java" root0="SKIP_INSPECTION" />
     <setting file="jar://$MAVEN_REPOSITORY$/edu/uiuc/ncsa/security/storage/6.x-SNAPSHOT/storage-6.x-SNAPSHOT-sources.jar!/edu/uiuc/ncsa/security/storage/sql/ConnectionPoolProvider.java" root0="SKIP_INSPECTION" />
     <setting file="jar://$MAVEN_REPOSITORY$/edu/uiuc/ncsa/security/storage/6.x-SNAPSHOT/storage-6.x-SNAPSHOT-sources.jar!/edu/uiuc/ncsa/security/storage/sql/mysql/MySQLConnectionPoolProvider.java" root0="SKIP_INSPECTION" />
     <setting file="jar://$MAVEN_REPOSITORY$/org/oa4mp/oa4mp-server-test/6.x-SNAPSHOT/oa4mp-server-test-6.x-SNAPSHOT-tests.jar!/org/oa4mp/server/test/TestUtils.class" root0="SKIP_INSPECTION" />
+    <setting file="jar://$MAVEN_REPOSITORY$/org/oa4mp/proxy/6.x-SNAPSHOT/proxy-6.x-SNAPSHOT-sources.jar!/org/oa4mp/server/proxy/RFC8628Servlet.java" root0="SKIP_INSPECTION" />
+    <setting file="jar://$MAVEN_REPOSITORY$/org/oa4mp/server-loader/6.x-SNAPSHOT/server-loader-6.x-SNAPSHOT-sources.jar!/org/oa4mp/server/loader/oauth2/loader/OA2Bootstrapper.java" root0="SKIP_INSPECTION" />
+    <setting file="jar://$MAVEN_REPOSITORY$/org/oa4mp/server-loader/6.x-SNAPSHOT/server-loader-6.x-SNAPSHOT-sources.jar!/org/oa4mp/server/loader/oauth2/servlet/OA2AuthorizedServletUtil.java" root0="SKIP_INSPECTION" />
+    <setting file="jar://$MAVEN_REPOSITORY$/org/oa4mp/server-loader/6.x-SNAPSHOT/server-loader-6.x-SNAPSHOT-sources.jar!/org/oa4mp/server/loader/oauth2/storage/transactions/OA2ServiceTransaction.java" root0="SKIP_INSPECTION" />
   </component>
   <component name="LogFilters">
     <option name="FILTER_ERRORS" value="false" />
@@ -123,10 +136,12 @@
   "keyToString": {
     "Application.CLI.executor": "Run",
     "Application.QDL.executor": "Debug",
+    "Application.SAMLAttributeClaimSource.executor": "Run",
     "DefaultHtmlFileTemplate": "HTML File",
     "JUnit.DBServiceUserTests.testCIL2201Basic.executor": "Debug",
     "JUnit.DBServiceUserTests.testUpdateUser.executor": "Run",
-    "JUnit.Test suite.executor": "Run",
+    "JUnit.Test suite.executor": "Debug",
+    "Java Scratch.Scratch.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
@@ -171,7 +186,20 @@
       <recent name="org.cilogon.oauth2.servlet.util" />
     </key>
   </component>
-  <component name="RunManager" selected="Tomcat Server.CILogon">
+  <component name="RunDashboard">
+    <option name="configurationStatuses">
+      <map>
+        <entry key="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory">
+          <value>
+            <map>
+              <entry key="CILogon" value="STOPPED" />
+            </map>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="RunManager" selected="Java Scratch.Scratch">
     <configuration default="true" type="Applet" factoryName="Applet">
       <option name="WIDTH" value="400" />
       <option name="HEIGHT" value="300" />
@@ -204,6 +232,20 @@
       <option name="MAIN_CLASS_NAME" value="org.cilogon.qdl.workspace.CILogonQDLWorkspace" />
       <module name="qdl" />
       <option name="PROGRAM_PARAMETERS" value="-cfg $PROJECT_DIR$/../../csd/config/qdl-cfg.xml -name cil-dev -gui" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SAMLAttributeClaimSource" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.cilogon.oauth2.servlet.claims.SAMLAttributeClaimSource" />
+      <module name="loader" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.cilogon.oauth2.servlet.claims.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -280,6 +322,13 @@
       <option name="TEST_SEARCH_SCOPE">
         <value defaultName="moduleWithDependencies" />
       </option>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Scratch" type="Java Scratch" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Scratch" />
+      <option name="SCRATCH_FILE_URL" value="file://$APPLICATION_CONFIG_DIR$/scratches/scratch_2.java" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -383,6 +432,8 @@
     <list>
       <item itemvalue="Application.CLI" />
       <item itemvalue="Application.QDL" />
+      <item itemvalue="Application.SAMLAttributeClaimSource" />
+      <item itemvalue="Java Scratch.Scratch" />
       <item itemvalue="JUnit.Test suite" />
       <item itemvalue="JUnit.DBServiceUserTests.testCIL2201Basic" />
       <item itemvalue="JUnit.DBServiceUserTests.testUpdateUser" />
@@ -390,6 +441,8 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Java Scratch.Scratch" />
+        <item itemvalue="Application.SAMLAttributeClaimSource" />
         <item itemvalue="JUnit.DBServiceUserTests.testCIL2201Basic" />
         <item itemvalue="JUnit.DBServiceUserTests.testUpdateUser" />
       </list>
@@ -569,6 +622,14 @@
       <workItem from="1761688271050" duration="599000" />
       <workItem from="1762196575508" duration="42481000" />
       <workItem from="1765196489782" duration="1266000" />
+      <workItem from="1767617967162" duration="13558000" />
+      <workItem from="1768964481628" duration="599000" />
+      <workItem from="1769257146009" duration="599000" />
+      <workItem from="1770982329018" duration="599000" />
+      <workItem from="1771414223628" duration="598000" />
+      <workItem from="1772279942077" duration="3004000" />
+      <workItem from="1775581840804" duration="6829000" />
+      <workItem from="1776374375653" duration="13292000" />
     </task>
     <task id="LOCAL-00001" summary="Fallout from moving a bunch of static methods into classes.">
       <created>1675892224728</created>
@@ -892,14 +953,6 @@
       <option name="project" value="LOCAL" />
       <updated>1692998536215</updated>
     </task>
-    <task id="LOCAL-00108" summary="The wrong version of CILogon was hard-coded. It read 6.1.1 and should be 6.x-SNAPSHOT.">
-      <option name="closed" value="true" />
-      <created>1762551989292</created>
-      <option name="number" value="00108" />
-      <option name="presentableId" value="LOCAL-00108" />
-      <option name="project" value="LOCAL" />
-      <updated>1762551989292</updated>
-    </task>
     <task id="LOCAL-00109" summary="Website update">
       <option name="closed" value="true" />
       <created>1763161523221</created>
@@ -916,7 +969,15 @@
       <option name="project" value="LOCAL" />
       <updated>1764860653251</updated>
     </task>
-    <option name="localTasksCounter" value="111" />
+    <task id="LOCAL-00111" summary="Make sure this is in Git.">
+      <option name="closed" value="true" />
+      <created>1765369097592</created>
+      <option name="number" value="00111" />
+      <option name="presentableId" value="LOCAL-00111" />
+      <option name="project" value="LOCAL" />
+      <updated>1765369097592</updated>
+    </task>
+    <option name="localTasksCounter" value="112" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -969,7 +1030,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="https://github.com/cilogon/cilogon-java/issues/52 Rewrote the CILogon DB service manual (PDF) and made changes to the comments in the code.&#10;&#10;Made sure that on IDP change for a user, the correct success code (0xA) is returned." />
     <MESSAGE value="https://github.com/cilogon/cilogon-java/issues/52 Rewrote the CILogon DB service manual (PDF) and made changes to the comments in the code.&#10; More of that, including updating the website build scripts." />
     <MESSAGE value="website update" />
     <MESSAGE value="lagging file" />
@@ -994,7 +1054,8 @@
     <MESSAGE value="The wrong version of CILogon was hard-coded. It read 6.1.1 and should be 6.x-SNAPSHOT." />
     <MESSAGE value="Website update" />
     <MESSAGE value="Remove Apache Configurations code." />
-    <option name="LAST_COMMIT_MESSAGE" value="Remove Apache Configurations code." />
+    <MESSAGE value="Make sure this is in Git." />
+    <option name="LAST_COMMIT_MESSAGE" value="Make sure this is in Git." />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -1066,19 +1127,9 @@
           <option name="timeStamp" value="100" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/test/src/test/java/test/cilogon/impl/UserStoreTest.java</url>
-          <line>277</line>
-          <option name="timeStamp" value="106" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>jar://$MAVEN_REPOSITORY$/edu/uiuc/ncsa/security/storage/6.x-SNAPSHOT/storage-6.x-SNAPSHOT-sources.jar!/edu/uiuc/ncsa/security/storage/cli/StoreCommands.java</url>
           <line>2045</line>
           <option name="timeStamp" value="110" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/test/src/test/java/test/cilogon/DBServiceUserTests.java</url>
-          <line>95</line>
-          <option name="timeStamp" value="117" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>jar://$MAVEN_REPOSITORY$/edu/uiuc/ncsa/security/storage/6.x-SNAPSHOT/storage-6.x-SNAPSHOT-sources.jar!/edu/uiuc/ncsa/security/storage/cli/StoreCommands2.java</url>
@@ -1091,23 +1142,23 @@
           <option name="timeStamp" value="133" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/storage/sequence/IncrementableProvider.java</url>
-          <line>33</line>
-          <option name="timeStamp" value="141" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>jar://$MAVEN_REPOSITORY$/edu/uiuc/ncsa/security/storage/6.x-SNAPSHOT/storage-6.x-SNAPSHOT-sources.jar!/edu/uiuc/ncsa/security/storage/sql/ConnectionPoolProvider.java</url>
           <line>168</line>
           <option name="timeStamp" value="142" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/util/CILogonCFStoreLoader.java</url>
-          <line>45</line>
-          <option name="timeStamp" value="143" />
+          <url>jar://$MAVEN_REPOSITORY$/commons-transaction/commons-transaction/1.2/commons-transaction-1.2.jar!/org/apache/commons/transaction/file/FileSequence.class</url>
+          <line>52</line>
+          <option name="timeStamp" value="145" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/util/DBServiceClient.java</url>
+          <line>144</line>
+          <option name="timeStamp" value="147" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/loader/src/main/java/org/cilogon/oauth2/servlet/loader/CILogonOA2ServiceEnvironment.java</url>
-          <line>238</line>
+          <line>245</line>
           <properties class="org.cilogon.oauth2.servlet.loader.CILogonOA2ServiceEnvironment">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />

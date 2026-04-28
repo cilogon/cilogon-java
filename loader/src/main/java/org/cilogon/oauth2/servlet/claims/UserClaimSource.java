@@ -5,7 +5,7 @@ import edu.uiuc.ncsa.security.core.util.DebugUtil;
 import edu.uiuc.ncsa.security.core.util.MyLoggingFacade;
 import edu.uiuc.ncsa.security.servlet.ServletDebugUtil;
 import net.freeutils.charset.UTF7Charset;
-import net.sf.json.JSONObject;
+import org.kordamp.json.JSONObject;
 import org.cilogon.oauth2.servlet.loader.CILogonOA2ServiceEnvironment;
 import org.cilogon.oauth2.servlet.storage.transaction.AbstractCILServiceTransaction;
 import org.cilogon.oauth2.servlet.storage.transaction.CILOA2ServiceTransaction;

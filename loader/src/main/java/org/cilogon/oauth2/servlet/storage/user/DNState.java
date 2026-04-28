@@ -1,7 +1,7 @@
 package org.cilogon.oauth2.servlet.storage.user;
 
 import edu.uiuc.ncsa.security.core.util.BitSetUtil;
-import net.sf.json.JSONArray;
+import org.kordamp.json.JSONArray;
 
 import java.util.BitSet;
 

@@ -162,6 +162,7 @@ public class CILOA2CFConfigurationLoader<C extends OA2SE> extends OA2CFConfigura
                     getTXStoreProvider(),
                     getVOStoreProvider(),
                     getClientStoreProvider(),
+                    getKEStoreProvider(),
                     getMaxAllowedNewClientRequests(),
                     getAGLifetime(),
                     getMaxAGLifetime(),
@@ -223,7 +224,8 @@ public class CILOA2CFConfigurationLoader<C extends OA2SE> extends OA2CFConfigura
                     getDebugger(),
                     isCCFEnabled(),
                     getDISerivceConfig(),
-                    isAllowPromptNone());
+                    isAllowPromptNone(),
+                    getKEConfiguration());
             return se;
         } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
             throw new GeneralException("Error: Could not create the runtime environment", e);

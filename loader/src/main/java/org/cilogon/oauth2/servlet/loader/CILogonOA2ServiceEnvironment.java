@@ -29,11 +29,13 @@ import org.oa4mp.server.api.admin.permissions.PermissionsStore;
 import org.oa4mp.server.api.storage.servlet.AuthorizationServletConfig;
 import org.oa4mp.server.loader.oauth2.OA2SE;
 import org.oa4mp.server.loader.oauth2.cm.CMConfigs;
+import org.oa4mp.server.loader.oauth2.servlet.DIServiceConfig;
 import org.oa4mp.server.loader.oauth2.servlet.RFC8628ServletConfig;
+import org.oa4mp.server.loader.oauth2.storage.keys.KEConfiguration;
+import org.oa4mp.server.loader.oauth2.storage.keys.KEStore;
 import org.oa4mp.server.loader.oauth2.storage.tx.TXStore;
 import org.oa4mp.server.loader.oauth2.storage.vi.VIStore;
 import org.oa4mp.server.loader.qdl.scripting.OA2QDLEnvironment;
-import org.oa4mp.server.loader.oauth2.servlet.DIServiceConfig;
 
 import javax.inject.Provider;
 import java.time.LocalTime;
@@ -51,6 +53,7 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
                                         Provider<TXStore> txStoreProvider,
                                         Provider<VIStore> voStoreProvider,
                                         Provider<ClientStore> csp,
+                                        Provider<KEStore> keStoreProvider,
                                         int maxAllowedNewClientRequests,
                                         long agLifetime,
                                         long maxAGLifetime,
@@ -112,13 +115,16 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
                                         MetaDebugUtil debugger,
                                         boolean ccfEnabled,
                                         DIServiceConfig diServiceConfig,
-                                        boolean isAllowPromptNone
+                                        boolean isAllowPromptNone,
+                                        KEConfiguration keConfiguration
+
     ) {
         super(logger,
                 tsp,
                 txStoreProvider,
                 voStoreProvider,
                 csp,
+                keStoreProvider,
                 maxAllowedNewClientRequests,
                 agLifetime,
                 maxAGLifetime,
@@ -174,7 +180,8 @@ public class CILogonOA2ServiceEnvironment extends OA2SE implements CILogonSE {
                 ccfEnabled,
                 debugger,
                 isAllowPromptNone,
-                diServiceConfig);
+                diServiceConfig,
+                keConfiguration);
         ciLogonSE = new CILogonSEImpl(usp, ausp, idpsp, incp, tfsp, isComputeFNAL);
 /*        ciLogonSE.setDBServiceConfig(dbServiceConfig);
         this.dbServiceConfig = dbServiceConfig;*/
