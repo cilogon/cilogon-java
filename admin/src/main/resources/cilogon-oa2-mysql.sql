@@ -49,6 +49,7 @@ WITH GRANT OPTION;
 GRANT ALL PRIVILEGES ON ciloa2.two_factor TO 'cilogon'@'localhost' WITH GRANT OPTION;
 GRANT ALL PRIVILEGES ON ciloa2.tx_records TO 'cilogon'@'localhost' WITH GRANT OPTION;
 GRANT ALL PRIVILEGES ON ciloa2.virtual_organizations TO 'cilogon'@'localhost' WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON ciloa2.key_records TO 'cilogon'@'localhost' WITH GRANT OPTION; 
 
 COMMIT;
 
@@ -329,6 +330,27 @@ CREATE TABLE ciloa2.tx_records
     INDEX parents (parent_id(255))
 );
 
+CREATE TABLE `key_records` (
+    `alg` varchar(256) DEFAULT NULL,
+    `creation_ts` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `is_default` tinyint(1) DEFAULT NULL,
+    `exp` bigint DEFAULT NULL,
+    `iat` bigint DEFAULT NULL,
+    `description` text,
+    `key_id` varchar(256) NOT NULL,
+    `is_valid` tinyint(1) DEFAULT NULL,
+    `jwk` text,
+    `kid` varchar(256) DEFAULT NULL,
+    `kty` varchar(256) DEFAULT NULL,
+    `last_accessed` bigint DEFAULT NULL,
+    `last_modified_ts` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `nbf` bigint DEFAULT NULL,
+    `key_use` varchar(256) DEFAULT NULL,
+    `vi` varchar(2048) DEFAULT NULL,
+    PRIMARY KEY (`key_id`),
+    UNIQUE KEY `kid` (`kid`),
+    KEY `vi_uri` (`vi`(512))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3
 
 COMMIT;
 

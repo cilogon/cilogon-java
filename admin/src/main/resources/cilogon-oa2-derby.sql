@@ -291,6 +291,26 @@ CREATE TABLE ciloa2.uid_seq
     dummy int
 );
 
+CREATE TABLE ciloa2.key_records
+(
+    alg              VARCHAR(256),
+    creation_ts      timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    is_default       BOOLEAN,
+    exp              BIGINT,
+    iat              BIGINT,
+    description      CLOB,
+    key_id           VARCHAR(256) PRIMARY KEY,
+    is_valid         BOOLEAN,
+    jwk              CLOB,
+    kid              VARCHAR(256) UNIQUE,
+    kty              VARCHAR(256),
+    last_accessed    BIGINT,
+    last_modified_ts timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    nbf              BIGINT,
+    key_use          VARCHAR(256),
+    vi               VARCHAR(2048)
+);
+
 /*
  Useful commands
  ij - starts the command line tool (once installed)
