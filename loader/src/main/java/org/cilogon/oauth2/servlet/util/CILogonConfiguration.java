@@ -30,5 +30,5 @@ public interface CILogonConfiguration extends Version {
     MultiTypeProvider<ArchivedUserStore> getMUASP();
     MultiTypeProvider<IdentityProviderStore> getMidp();
     // Fix https://github.com/cilogon/cilogon-java/issues/56
-    String CILOGON_VERSION_NUMBER = "6.x-SNAPSHOT";
+    String CILOGON_VERSION_NUMBER = "6.3.0";
 }
