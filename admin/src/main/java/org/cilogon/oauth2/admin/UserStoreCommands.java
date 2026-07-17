@@ -20,6 +20,8 @@ import org.oa4mp.server.admin.oauth2.base.OA4MPStoreCommands;
 import java.io.IOException;
 import java.util.List;
 
+import static edu.uiuc.ncsa.security.core.util.StringUtils.pad2;
+
 /**
  * <p>Created by Jeff Gaynor<br>
  * on 5/23/13 at  9:47 AM
@@ -62,9 +64,17 @@ public class UserStoreCommands extends OA4MPStoreCommands {
         User user = (User) identifiable;
         String lastName = isEmpty(user.getLastName()) ? "-" : user.getLastName();
         String firstName = isEmpty(user.getFirstName()) ? "-" : user.getFirstName();
-        return lastName + ", " + firstName + ", id=" + user.getIdentifierString();
+        return pad2(lastName, 25) +
+                " " + pad2(firstName, 25) +
+                " "  + user.getIdentifierString();
     }
 
+    @Override
+    protected String columnHeader(int offset) {
+        return pad2("last name", 25) +
+                " " + pad2("first name", 25) +
+                " " + "ide\ntifier";
+    }
 
     @Override
     public String getName() {
