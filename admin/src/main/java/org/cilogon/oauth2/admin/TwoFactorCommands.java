@@ -3,6 +3,7 @@ package org.cilogon.oauth2.admin;
 import edu.uiuc.ncsa.security.core.Identifiable;
 import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.Store;
+import edu.uiuc.ncsa.security.core.util.StringUtils;
 import edu.uiuc.ncsa.security.util.cli.CLIDriver;
 import edu.uiuc.ncsa.security.util.cli.InputLine;
 import org.cilogon.oauth2.servlet.storage.twofactor.TwoFactorInfo;
@@ -12,6 +13,8 @@ import org.oa4mp.server.admin.oauth2.base.OA4MPStoreCommands;
 
 import java.io.IOException;
 
+import static edu.uiuc.ncsa.security.core.util.StringUtils.pad2;
+
 /**
  * <p>Created by Jeff Gaynor<br>
  * on 11/6/13 at  1:40 PM
@@ -19,7 +22,7 @@ import java.io.IOException;
 public class TwoFactorCommands extends OA4MPStoreCommands {
 
 
-    public TwoFactorCommands(CLIDriver driver, String defaultIndent, Store store) throws Throwable{
+    public TwoFactorCommands(CLIDriver driver, String defaultIndent, Store store) throws Throwable {
         super(driver, defaultIndent, store);
     }
 
@@ -30,7 +33,18 @@ public class TwoFactorCommands extends OA4MPStoreCommands {
     @Override
     protected String format(Identifiable identifiable) {
         TwoFactorInfo tfi = (TwoFactorInfo) identifiable;
-        return tfi.toString();
+        String x = tfi.getInfo();
+        if(50 < x.length()) {
+            x = x.substring(0,47) + "...";
+        }
+        return pad2(tfi.getIdentifierString(), 45) + " " + pad2(x,60);
+    }
+
+    @Override
+    protected String columnHeader(int offset) {
+        return StringUtils.getBlanks(offset + 2) +
+                " " + pad2("identifier", 45) +
+                " info";
     }
 
     @Override
@@ -44,7 +58,7 @@ public class TwoFactorCommands extends OA4MPStoreCommands {
         TwoFactorInfo tfi = (TwoFactorInfo) identifiable;
         TwoFactorSerializationKeys keys = (TwoFactorSerializationKeys) getSerializationKeys();
         String defaultInfo = tfi.getInfo();
-        if (!isEmpty(defaultInfo)){
+        if (!isEmpty(defaultInfo)) {
             int len = Math.min(25, defaultInfo.length());
             defaultInfo = defaultInfo.substring(0, len) + (defaultInfo.length() == len ? "" : "...");
         }

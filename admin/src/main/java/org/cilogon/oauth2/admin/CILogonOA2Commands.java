@@ -15,6 +15,7 @@ import org.oa4mp.server.admin.oauth2.base.CopyCommands;
 import org.oa4mp.server.admin.oauth2.tools.OA2Commands;
 import org.oa4mp.server.loader.oauth2.OA2SE;
 
+import static edu.uiuc.ncsa.security.core.util.StringUtils.RJustify;
 import static org.cilogon.oauth2.admin.Banners.*;
 import static org.cilogon.oauth2.admin.CommandConstants.*;
 
@@ -237,11 +238,11 @@ public class CILogonOA2Commands extends OA2Commands {
     public void useHelp() {
         super.useHelp();
         say("CILogon specific components:");
-        say("* " + USERS + " - user records");
-        say("* " + ARCHIVED_USER + " - archived user records");
-        say("* " + COUNTER + " - the current counter (allows to reset it to a new value).");
-        say("* " + TWO_FACTOR + " - two factor information");
-        say("* " + IDPS + " - identity provider records.\n");
+        say(RJustify(USERS,11) + " - user records");
+        say(RJustify(ARCHIVED_USER,11) + " - archived user records");
+        say(RJustify(COUNTER,11) + " - the current counter (allows to reset it to a new value).");
+        say(RJustify(TWO_FACTOR,11) + " - two factor information");
+        say(RJustify(IDPS,11) + " - identity provider records.\n");
     }
 
     @Override
