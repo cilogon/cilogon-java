@@ -8,7 +8,14 @@ CILOGON_QDL_DEPLOY=$NCSA_DEV_OUTPUT/cilogon-qdl
 DEFAULT_JAR_NAME="cilogon-qdl-installer.jar"
 
 JAR_NAME=${1:-$DEFAULT_JAR_NAME}
-cd "$CILOGON_QDL_DEPLOY" || exit
+if [ ! -d "$CILOGON_QDL_DEPLOY" ]
+  then
+    mkdir "$CILOGON_QDL_DEPLOY"
+   else
+    echo "   deploy directory exists, cleaning..."
+    cd $CILOGON_QDL_DEPLOY || exit
+    rm -Rf *
+fi
 
 # rm -Rf *
 "$CILOGON_QDL_ROOT"/src/main/scripts/create_dirs.sh
