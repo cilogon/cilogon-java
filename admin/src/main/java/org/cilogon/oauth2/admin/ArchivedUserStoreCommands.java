@@ -25,6 +25,10 @@ public class ArchivedUserStoreCommands extends OA4MPStoreCommands {
 
     public static final String USER_FLAG = "u";
 
+    @Override
+    public int[] fieldWidths(List<Identifiable> identifiables) {
+        return new int[0];
+    }
 
     public ArchivedUserStoreCommands(CLIDriver driver, String defaultIndent, ArchivedUserStore archivedUserStore, UserStore userStore) throws Throwable{
         super(driver, defaultIndent, archivedUserStore);

@@ -7,6 +7,8 @@ import edu.uiuc.ncsa.security.util.cli.CLIDriver;
 import org.cilogon.oauth2.servlet.storage.idp.IdentityProviderStore;
 import org.oa4mp.server.admin.oauth2.base.OA4MPStoreCommands;
 
+import java.util.List;
+
 /**
  * <p>Created by Jeff Gaynor<br>
  * on 11/4/13 at  3:54 PM
@@ -44,5 +46,10 @@ public class IDPCommands extends OA4MPStoreCommands {
     public void initHelp() throws Throwable {
         super.initHelp();
         getHelpUtil().load("/help/idp_help.xml");
+    }
+
+    @Override
+    public int[] fieldWidths(List<Identifiable> identifiables) {
+        return new int[0];
     }
 }

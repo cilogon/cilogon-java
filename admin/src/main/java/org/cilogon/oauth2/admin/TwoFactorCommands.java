@@ -3,7 +3,6 @@ package org.cilogon.oauth2.admin;
 import edu.uiuc.ncsa.security.core.Identifiable;
 import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.Store;
-import edu.uiuc.ncsa.security.core.util.StringUtils;
 import edu.uiuc.ncsa.security.util.cli.CLIDriver;
 import edu.uiuc.ncsa.security.util.cli.InputLine;
 import org.cilogon.oauth2.servlet.storage.twofactor.TwoFactorInfo;
@@ -12,6 +11,7 @@ import org.cilogon.oauth2.servlet.storage.twofactor.TwoFactorStore;
 import org.oa4mp.server.admin.oauth2.base.OA4MPStoreCommands;
 
 import java.io.IOException;
+import java.util.List;
 
 import static edu.uiuc.ncsa.security.core.util.StringUtils.pad2;
 
@@ -41,10 +41,8 @@ public class TwoFactorCommands extends OA4MPStoreCommands {
     }
 
     @Override
-    protected String columnHeader(int offset) {
-        return StringUtils.getBlanks(offset + 2) +
-                " " + pad2("identifier", 45) +
-                " info";
+    public int[] fieldWidths(List<Identifiable> identifiables) {
+        return new int[0];
     }
 
     @Override

@@ -4,6 +4,7 @@ import edu.uiuc.ncsa.security.core.Identifiable;
 import edu.uiuc.ncsa.security.core.Identifier;
 import edu.uiuc.ncsa.security.core.Store;
 import edu.uiuc.ncsa.security.core.util.BasicIdentifier;
+import edu.uiuc.ncsa.security.core.util.StringUtils;
 import edu.uiuc.ncsa.security.util.cli.BasicSorter;
 import edu.uiuc.ncsa.security.util.cli.CLIDriver;
 import edu.uiuc.ncsa.security.util.cli.InputLine;
@@ -20,6 +21,7 @@ import org.oa4mp.server.admin.oauth2.base.OA4MPStoreCommands;
 import java.io.IOException;
 import java.util.List;
 
+import static edu.uiuc.ncsa.security.core.util.StringUtils.LJustify;
 import static edu.uiuc.ncsa.security.core.util.StringUtils.pad2;
 
 /**
@@ -66,14 +68,44 @@ public class UserStoreCommands extends OA4MPStoreCommands {
         String firstName = isEmpty(user.getFirstName()) ? "-" : user.getFirstName();
         return pad2(lastName, 25) +
                 " " + pad2(firstName, 25) +
-                " "  + user.getIdentifierString();
+                " " + user.getIdentifierString();
     }
 
     @Override
-    protected String columnHeader(int offset) {
-        return pad2("last name", 25) +
-                " " + pad2("first name", 25) +
-                " " + "ide\ntifier";
+    public int[] fieldWidths(List<Identifiable> identifiables) {
+        if (100 < identifiables.size()) {
+            return new int[]{25, 25};
+        }
+        int out[] = new int[]{11, 11};
+        for (Identifiable identifiable : identifiables) {
+            User user = (User) identifiable;
+            String lastName = isEmpty(user.getLastName()) ? "-" : user.getLastName();
+            String firstName = isEmpty(user.getFirstName()) ? "-" : user.getFirstName();
+            out[0] = Math.max(out[0], lastName.length());
+            out[1] = Math.max(out[1], firstName.length());
+        }
+        return out;
+    }
+
+    @Override
+    protected String columnHeader(int offset, int[] fieldWidths) {
+        String out = StringUtils.getBlanks(offset + 2);
+        out = out + pad2("last name", fieldWidths[0]) +
+                STILE + pad2("first name", fieldWidths[1]) +
+                STILE + "identifier";
+
+        return out;
+    }
+
+    @Override
+    protected String format(Identifiable identifiable, int offset, int[] fieldWidths) {
+        User user = (User) identifiable;
+        String lastName = isEmpty(user.getLastName()) ? "-" : user.getLastName();
+        String firstName = isEmpty(user.getFirstName()) ? "-" : user.getFirstName();
+        String out = LJustify(lastName, fieldWidths[0]) +
+                STILE + LJustify(firstName, fieldWidths[1]) +
+                STILE + user.getIdentifierString();
+        return out;
     }
 
     @Override
@@ -242,7 +274,7 @@ public class UserStoreCommands extends OA4MPStoreCommands {
     @Override
     public void change_id(InputLine inputLine) throws Throwable {
         // Fix for https://github.com/ncsa/oa4mp/issues/243 make sure they understand the full ramifications!
-        if(!"y".equals(getInput("This will also update the user uid for all pending transactions. Proceed(y/n)?", "n"))){
+        if (!"y".equals(getInput("This will also update the user uid for all pending transactions. Proceed(y/n)?", "n"))) {
             return;
         }
         super.change_id(inputLine);
@@ -250,6 +282,7 @@ public class UserStoreCommands extends OA4MPStoreCommands {
 
     /**
      * This will update any current transactions to the new user id.
+     *
      * @param updatedUser
      * @param newID
      * @param updatePermissions
@@ -261,9 +294,9 @@ public class UserStoreCommands extends OA4MPStoreCommands {
         ChangeIDRecord changeIDRecord = super.doChangeID(updatedUser, newID, updatePermissions);
         CILOA2TransactionKeys keys = new CILOA2TransactionKeys();
         CILogonOA2ServiceEnvironment cilSE = (CILogonOA2ServiceEnvironment) getEnvironment();
-        List<ServiceTransaction> transactions = cilSE.getTransactionStore().search(keys.userUID(), changeIDRecord.oldID.toString(), false );
-        for(ServiceTransaction transaction : transactions) {
-            if(transaction instanceof CILOA2ServiceTransaction){
+        List<ServiceTransaction> transactions = cilSE.getTransactionStore().search(keys.userUID(), changeIDRecord.oldID.toString(), false);
+        for (ServiceTransaction transaction : transactions) {
+            if (transaction instanceof CILOA2ServiceTransaction) {
                 CILOA2ServiceTransaction stx = (CILOA2ServiceTransaction) transaction;
                 stx.setUserUID(newID);
                 getEnvironment().getTransactionStore().save(stx);
@@ -272,8 +305,8 @@ public class UserStoreCommands extends OA4MPStoreCommands {
         changeIDRecord.updateCount = changeIDRecord.updateCount + transactions.size();
         // Now for archived users.
         UserKeys userKeys = new UserKeys();
-        List<ArchivedUser> aUsers = cilSE.getArchivedUserStore().search(userKeys.userID(), changeIDRecord.oldID.toString(), false );
-        for(ArchivedUser archivedUser : aUsers) {
+        List<ArchivedUser> aUsers = cilSE.getArchivedUserStore().search(userKeys.userID(), changeIDRecord.oldID.toString(), false);
+        for (ArchivedUser archivedUser : aUsers) {
             archivedUser.setUser((User) updatedUser);
             cilSE.getArchivedUserStore().save(archivedUser);
         }
