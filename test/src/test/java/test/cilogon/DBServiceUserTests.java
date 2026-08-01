@@ -155,6 +155,7 @@ public class DBServiceUserTests extends RemoteDBServiceTest {
         // now check that the last archived user is the same as the very first user
         XMLMap map = getDBSClient().getLastArchivedUser(user.getIdentifier());
         checkUserAgainstMap(map, user);
+        getUserStore().remove(user.getIdentifier());
     }
 
     @Test

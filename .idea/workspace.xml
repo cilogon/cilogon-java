@@ -10,15 +10,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="04234930-e14d-41d5-bfcd-bac41d340cf1" name="Changes" comment="Fixed bug in install script.">
+    <list default="true" id="04234930-e14d-41d5-bfcd-bac41d340cf1" name="Changes" comment="Updated formatting in CLI for users.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/ArchivedUserStoreCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/ArchivedUserStoreCommands.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/IDPCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/IDPCommands.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/TwoFactorCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/TwoFactorCommands.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/UserStoreCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/org/cilogon/oauth2/admin/UserStoreCommands.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qdl/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/qdl/buildNumber.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/server/buildNumber.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/test/buildNumber.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -942,14 +935,6 @@
       <option name="project" value="LOCAL" />
       <updated>1692998536215</updated>
     </task>
-    <task id="LOCAL-00112" summary="First checking">
-      <option name="closed" value="true" />
-      <created>1777384023174</created>
-      <option name="number" value="00112" />
-      <option name="presentableId" value="LOCAL-00112" />
-      <option name="project" value="LOCAL" />
-      <updated>1777384023174</updated>
-    </task>
     <task id="LOCAL-00113" summary="https://github.com/ncsa/oa4mp/issues/306 side effect. User store quick format needed tweaked.">
       <option name="closed" value="true" />
       <created>1784324609391</created>
@@ -966,7 +951,15 @@
       <option name="project" value="LOCAL" />
       <updated>1784807851759</updated>
     </task>
-    <option name="localTasksCounter" value="115" />
+    <task id="LOCAL-00115" summary="Updated formatting in CLI for users.">
+      <option name="closed" value="true" />
+      <created>1785585472063</created>
+      <option name="number" value="00115" />
+      <option name="presentableId" value="LOCAL-00115" />
+      <option name="project" value="LOCAL" />
+      <updated>1785585472063</updated>
+    </task>
+    <option name="localTasksCounter" value="116" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1019,7 +1012,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Backed out of change." />
     <MESSAGE value="Mostly formatting updates in the CLI to support result set printing." />
     <MESSAGE value="Final fallout from CIL-2201. Tests for memory and file stores needed to be updated." />
     <MESSAGE value="CLI niggling fix. For OA4MP stores, issuing &#10;&#10;// component commands&#10;&#10;just fires that component and runs the command then returns. The CILogon components (specifically users, which gets used a lot for the client approval cycle) did not return automatically, which got to be annoying. Fixed." />
@@ -1044,7 +1036,8 @@
     <MESSAGE value="First checking" />
     <MESSAGE value="https://github.com/ncsa/oa4mp/issues/306 side effect. User store quick format needed tweaked." />
     <MESSAGE value="Fixed bug in install script." />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed bug in install script." />
+    <MESSAGE value="Updated formatting in CLI for users." />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated formatting in CLI for users." />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
   </component>
   <component name="XDebuggerManager">

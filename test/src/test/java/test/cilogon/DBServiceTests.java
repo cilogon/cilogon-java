@@ -65,6 +65,7 @@ public class DBServiceTests extends RemoteDBServiceTest {
                 assert map3.get(k).equals(userMap.get(k)) : "user and archived user failed to match for key \"" + k + "\"";
             }
         }
+        getUserStore().remove(user.getIdentifier());
     }
 
     /**
