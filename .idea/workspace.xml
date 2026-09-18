@@ -10,11 +10,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="04234930-e14d-41d5-bfcd-bac41d340cf1" name="Changes" comment="Fixed some user tests that were not cleaning up after themselves.">
+    <list default="true" id="04234930-e14d-41d5-bfcd-bac41d340cf1" name="Changes" comment="Checkin before release">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qdl/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/qdl/buildNumber.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/server/buildNumber.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/test/buildNumber.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -615,7 +612,7 @@
       <workItem from="1776374375653" duration="21289000" />
       <workItem from="1777489544722" duration="4588000" />
       <workItem from="1783850831577" duration="25583000" />
-      <workItem from="1788873756770" duration="1403000" />
+      <workItem from="1788873756770" duration="2006000" />
     </task>
     <task id="LOCAL-00001" summary="Fallout from moving a bunch of static methods into classes.">
       <created>1675892224728</created>
@@ -939,14 +936,6 @@
       <option name="project" value="LOCAL" />
       <updated>1692998536215</updated>
     </task>
-    <task id="LOCAL-00114" summary="Fixed bug in install script.">
-      <option name="closed" value="true" />
-      <created>1784807851758</created>
-      <option name="number" value="00114" />
-      <option name="presentableId" value="LOCAL-00114" />
-      <option name="project" value="LOCAL" />
-      <updated>1784807851759</updated>
-    </task>
     <task id="LOCAL-00115" summary="Updated formatting in CLI for users.">
       <option name="closed" value="true" />
       <created>1785585472063</created>
@@ -963,7 +952,15 @@
       <option name="project" value="LOCAL" />
       <updated>1785587278154</updated>
     </task>
-    <option name="localTasksCounter" value="117" />
+    <task id="LOCAL-00117" summary="Checkin before release">
+      <option name="closed" value="true" />
+      <created>1789734449553</created>
+      <option name="number" value="00117" />
+      <option name="presentableId" value="LOCAL-00117" />
+      <option name="project" value="LOCAL" />
+      <updated>1789734449553</updated>
+    </task>
+    <option name="localTasksCounter" value="118" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1022,7 +1019,6 @@
     <MESSAGE value="Fix https://github.com/cilogon/cilogon-java/issues/55" />
     <MESSAGE value="https://jira.ncsa.illinois.edu/browse/CIL-2249 Removing MyProxy code." />
     <MESSAGE value="https://github.com/cilogon/cilogon-java/issues/57 propagating bootstrap changes to CLIs" />
-    <MESSAGE value="Checkin before release" />
     <MESSAGE value="        // Fix https://jira.ncsa.illinois.edu/browse/CIL-2299&#10;Fix" />
     <MESSAGE value="Updated constructor needed to be propagated. Removed unused check for users on DBService. CILogon manages access through restricting IPs, so does not need this." />
     <MESSAGE value="https://jira.ncsa.illinois.edu/browse/CIL-2299 with a vengeance" />
@@ -1041,7 +1037,8 @@
     <MESSAGE value="Fixed bug in install script." />
     <MESSAGE value="Updated formatting in CLI for users." />
     <MESSAGE value="Fixed some user tests that were not cleaning up after themselves." />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed some user tests that were not cleaning up after themselves." />
+    <MESSAGE value="Checkin before release" />
+    <option name="LAST_COMMIT_MESSAGE" value="Checkin before release" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
   </component>
   <component name="XDebuggerManager">
