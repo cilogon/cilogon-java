@@ -10,10 +10,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="04234930-e14d-41d5-bfcd-bac41d340cf1" name="Changes" comment="Updated poms to reflect Java 17 compilation target.">
+    <list default="true" id="04234930-e14d-41d5-bfcd-bac41d340cf1" name="Changes" comment="https://github.com/cilogon/cilogon-java/issues/63">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/admin/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/loader/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/loader/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proxy/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/proxy/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/qdl/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/qdl/buildNumber.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/server/buildNumber.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/server/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/buildNumber.properties" beforeDir="false" afterPath="$PROJECT_DIR$/test/buildNumber.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/test/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webapp/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/webapp/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -950,14 +957,6 @@
       <option name="project" value="LOCAL" />
       <updated>1692998536215</updated>
     </task>
-    <task id="LOCAL-00115" summary="Updated formatting in CLI for users.">
-      <option name="closed" value="true" />
-      <created>1785585472063</created>
-      <option name="number" value="00115" />
-      <option name="presentableId" value="LOCAL-00115" />
-      <option name="project" value="LOCAL" />
-      <updated>1785585472063</updated>
-    </task>
     <task id="LOCAL-00116" summary="Fixed some user tests that were not cleaning up after themselves.">
       <option name="closed" value="true" />
       <created>1785587278154</created>
@@ -974,7 +973,15 @@
       <option name="project" value="LOCAL" />
       <updated>1791379081033</updated>
     </task>
-    <option name="localTasksCounter" value="118" />
+    <task id="LOCAL-00118" summary="https://github.com/cilogon/cilogon-java/issues/63">
+      <option name="closed" value="true" />
+      <created>1791549325377</created>
+      <option name="number" value="00118" />
+      <option name="presentableId" value="LOCAL-00118" />
+      <option name="project" value="LOCAL" />
+      <updated>1791549325377</updated>
+    </task>
+    <option name="localTasksCounter" value="119" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1027,7 +1034,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="CLI niggling fix. For OA4MP stores, issuing &#10;&#10;// component commands&#10;&#10;just fires that component and runs the command then returns. The CILogon components (specifically users, which gets used a lot for the client approval cycle) did not return automatically, which got to be annoying. Fixed." />
     <MESSAGE value="Getting website updates from 6.1.0" />
     <MESSAGE value="Fix https://github.com/cilogon/cilogon-java/issues/55" />
     <MESSAGE value="https://jira.ncsa.illinois.edu/browse/CIL-2249 Removing MyProxy code." />
@@ -1052,7 +1058,8 @@
     <MESSAGE value="Updated formatting in CLI for users." />
     <MESSAGE value="Fixed some user tests that were not cleaning up after themselves." />
     <MESSAGE value="Updated poms to reflect Java 17 compilation target." />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated poms to reflect Java 17 compilation target." />
+    <MESSAGE value="https://github.com/cilogon/cilogon-java/issues/63" />
+    <option name="LAST_COMMIT_MESSAGE" value="https://github.com/cilogon/cilogon-java/issues/63" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
   </component>
   <component name="XDebuggerManager">
