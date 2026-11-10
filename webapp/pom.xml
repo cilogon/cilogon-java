@@ -68,12 +68,12 @@
             <version>2.5</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
+   <!--     <dependency>
             <groupId>org.cilogon</groupId>
             <artifactId>proxy</artifactId>
             <version>6.3.3</version>
             <scope>compile</scope>
-        </dependency>
+        </dependency>-->
 
     </dependencies>
     <build>

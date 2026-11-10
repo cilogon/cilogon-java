@@ -79,12 +79,7 @@
             <groupId>org.oa4mp</groupId>
             <artifactId>server-admin</artifactId>
             <version>6.3.3</version>
-        </dependency>         <dependency>
-                    <groupId>org.cilogon</groupId>
-                    <artifactId>loader</artifactId>
-                    <version>6.3.3</version>
-                    <scope>compile</scope>
-                </dependency>
+        </dependency>
     </dependencies>
     <profiles>
         <profile>
